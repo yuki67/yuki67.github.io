@@ -4,6 +4,7 @@ twitter_username: yuki_eeee
 github_username: yuki67
 markdown: kramdown
 theme: minima
+google_analytics: UA-93675289-1
 exclude:
   - Gemfile
   - Gemfile.lock
