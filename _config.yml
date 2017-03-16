@@ -4,7 +4,14 @@ twitter_username: yuki_eeee
 github_username: yuki67
 markdown: kramdown
 theme: minima
+
 exclude:
   - Gemfile
   - Gemfile.lock
   - .vscode
+
+defaults:
+  - scope:
+      path: "_posts"
+    values:
+      layout: "post"
