@@ -8,7 +8,9 @@ theme: minima
 exclude:
   - Gemfile
   - Gemfile.lock
+  - .git
   - .vscode
+  - non-markdowns
 
 defaults:
   - scope:
