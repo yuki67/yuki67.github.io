@@ -2,15 +2,17 @@
     "version": "0.1.0",
     "command": "python",
     "isShellCommand": false,
-    "args": [
-        "-m",
-        "nbconvert",
-        "--to",
-        "markdown",
-        "--output-dir",
-        "${workspaceRoot}/_posts",
-        "${file}"
-    ],
     "showOutput": "silent",
-    "echoCommand": true
+    "echoCommand": true,
+    "suppressTaskName": true,
+    "tasks": [
+        {
+            "isBuildCommand": true,
+            "taskName": "notebook to markdown",
+            "args": [
+                ".vscode/nb_to_md.py",
+                "${file}"
+            ]
+        }
+    ]
 }
