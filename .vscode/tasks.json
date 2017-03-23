@@ -1,12 +1,15 @@
 {
     "version": "0.1.0",
-    "command": "pandoc",
+    "command": "python",
     "isShellCommand": false,
     "args": [
-        "${file}",
-        "--mathjax",
-        "-o",
-        "${workspaceRoot}/_posts/${fileBasenameNoExtension}.html"
+        "-m",
+        "nbconvert",
+        "--to",
+        "markdown",
+        "--output-dir",
+        "${workspaceRoot}/_posts",
+        "${file}"
     ],
     "showOutput": "silent",
     "echoCommand": true
