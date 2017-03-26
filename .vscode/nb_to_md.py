@@ -19,7 +19,7 @@ md_filename = "_posts/" + os.path.split(nb_filename)[-1][:-5] + "md"
 with open(md_filename, encoding="utf-8") as f:
     for line in f.readlines():
         line = re.sub(r"^\$\$", r"\$$\displaystyle ", line)
-        line = re.sub(r"\|", r"\|", line)
+        line = re.sub(r"\|", r"\middle| ", line)
         if ".png" in line:
             # 画像があったらURLを差し替える
             preserving_images.append(urllib.parse.unquote(line))
