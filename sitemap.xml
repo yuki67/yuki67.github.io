@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://yuki67.github.io/</loc>
-  <lastmod>2017-08-11T04:59:00Z</lastmod>
+  <lastmod>2017-08-13T11:26:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/2017/</loc>
@@ -15,7 +15,7 @@
  </url>
  <url>
   <loc>https://yuki67.github.io/archive.html</loc>
-  <lastmod>2017-08-11T08:34:00Z</lastmod>
+  <lastmod>2017-08-12T09:43:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/categories/</loc>
@@ -36,5 +36,9 @@
  <url>
   <loc>https://yuki67.github.io/posts/hazimemashita/</loc>
   <lastmod>2017-08-11T04:59:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://yuki67.github.io/posts/montekaruroji-fen/</loc>
+  <lastmod>2017-08-12T09:43:00Z</lastmod>
  </url>
 </urlset>
