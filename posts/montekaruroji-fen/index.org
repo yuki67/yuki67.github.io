@@ -224,4 +224,4 @@ fig
 
   Physically Based Rendering, Third Edition, Chapter13 "Monte Carlo Integration"
 
-Ray Tracing: The Rest Of Your Life (Ray Tracing Minibooks Book 3), Chapter2 "One Dimentional MC Integral"
+  Ray Tracing: The Rest Of Your Life (Ray Tracing Minibooks Book 3), Chapter2 "One Dimentional MC Integral"
