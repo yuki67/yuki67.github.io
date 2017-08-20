@@ -6,11 +6,11 @@
 <title>モンテカルロ積分 | iiyuki's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
-<link rel="canonical" href="https://yuki67.github.io/posts/montekaruroji-fen/">
+<link rel="canonical" href="https://yuki67.github.io/posts/montecarlo-integral/">
 <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="iiyuki">
 <meta property="og:site_name" content="iiyuki's blog">
 <meta property="og:title" content="モンテカルロ積分">
-<meta property="og:url" content="https://yuki67.github.io/posts/montekaruroji-fen/">
+<meta property="og:url" content="https://yuki67.github.io/posts/montecarlo-integral/">
 <meta property="og:description" content="積分
 
 
@@ -44,6 +44,8 @@ answer = 0.886227
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2017-08-12T17:58:01+09:00">
 <meta property="article:tag" content="mathjax">
+<meta property="article:tag" content="note">
+<meta property="article:tag" content="python">
 </head>
 <body>
     <section class="social"><ul>
@@ -76,6 +78,8 @@ answer = 0.886227
         <ul>
         タグ : 
            <li><a class="tag p-category" href="../../categories/mathjax/" rel="tag">mathjax</a></li>
+           <li><a class="tag p-category" href="../../categories/note/" rel="tag">note</a></li>
+           <li><a class="tag p-category" href="../../categories/python/" rel="tag">python</a></li>
         </ul>
 </div>
 
@@ -332,7 +336,8 @@ nと誤差の関係をグラフにプロットしてみる。
 </p>
 
 <p>
-このことを実現するには、ある分布が与えられたときにその分布に従うような乱数を(無数に)出力する手続きが必要となるが、これは別の記事で書くことにする。結論だけ書くと、「ある関数 \({\it pdf}(x)\)の不定積分とその逆関数が解析的に求まるならば、\(x\)が選ばれる確率が\({\it pdf}(x)\)に比例する乱数を一様乱数から作ることができる」となる。
+このことを実現するには、ある分布が与えられたときにその分布に従うような乱数を(無数に)出力する手続きが必要となるが、
+これは別の記事で書くことにする(<a href="https://yuki67.github.io/posts/inverse_method/">書きました</a>)。結論だけ書くと、「ある関数 \({\it pdf}(x)\)の不定積分とその逆関数が解析的に求まるならば、\(x\)が選ばれる確率が\({\it pdf}(x)\)に比例する乱数を一様乱数から作ることができる」となる。
 </p>
 
 <p>
@@ -391,7 +396,7 @@ Ray Tracing: The Rest Of Your Life (Ray Tracing Minibooks Book 3), Chapter2 "One
                 <a href="../hazimemashita/" rel="prev" title="はじめました">一つ前の文書</a>
             </li>
             <li class="next">
-                <a href="../ni-guan-shu-fa/" rel="next" title="逆関数法">次の文書</a>
+                <a href="../inverse-method/" rel="next" title="逆関数法">次の文書</a>
             </li>
         </ul>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha256-SDRP1VVYu+tgAGKhddBSl5+ezofHKZeI+OzxakbIe/Y=" crossorigin="anonymous"></script><script type="text/x-mathjax-config">

@@ -1,0 +1,69 @@
+#+BEGIN_COMMENT
+.. title: original noise
+.. slug: original-noise
+.. date: 2017-08-18 09:06:30 UTC+09:00
+.. tags: mathjax, draft, private
+.. category:
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+自分で作ったノイズなど。
+
+{{{TEASER_END}}}
+
+  #+BEGIN_SRC ipython :session
+  # モジュールのインポート
+  %matplotlib inline
+  import random
+  from math import sin, cos, exp, log
+  import numpy as np
+  import matplotlib.pyplot as plt
+  #+END_SRC
+
+  #+RESULTS:
+
+* 蛇の皮
+
+  #+BEGIN_SRC ipython :session :exports both :file ../images/snake.png
+  def interpolate(a, b , t):
+      # t=0でa, t=1でbだという。t=tのときいくつか?
+      return -2*(b - a)*t**3 + 3 * (b - a)*t**2 + a
+
+  def wavelet(x):
+      return 1 - (6 * abs(x**5) - 15 * x ** 4 + 10 * abs(x**3))
+
+  def rand_grads():
+      return 2 * np.random.random(256) - 1
+
+  def noise(x, y, grads):
+      u = x - int(x)
+      v = y - int(y)
+      ans = []
+      for i in [0, 1]:
+        for j in [0, 1]:
+          ans.append(wavelet(u) * wavelet(v) * \
+                    (grads[(int(x)+int(y)+i+j) % 255] * (u + v)))
+      return ans
+
+  def snake(x, y, grads):
+      lower_left, upper_left, lower_right, upper_right, = noise(x, y, grads)
+
+      y0 = interpolate(lower_left, lower_right, x - int(x))
+      y1 = interpolate(upper_left, upper_right, x - int(x))
+      return interpolate(y0, y1, y - int(y))
+
+  grads = rand_grads()
+  canvas = np.random.rand(200, 200)
+  for i in range(200):
+    for j in range(200):
+      canvas[i][j] = snake(i/10, j/10, grads)
+
+  fig, ax = plt.subplots(figsize=(10, 10))
+  ax.imshow(canvas, cmap=plt.cm.binary)
+  fig
+  #+END_SRC
+
+  #+RESULTS:
+  [[file:../images/snake.png]]

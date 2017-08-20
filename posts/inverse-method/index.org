@@ -1,6 +1,6 @@
 #+BEGIN_COMMENT
 .. title: 逆関数法
-.. slug: ni-guan-shu-fa
+.. slug: inverse-method
 .. date: 2017-08-15 10:01:48 UTC+09:00
 .. tags: mathjax, python, note
 .. category:

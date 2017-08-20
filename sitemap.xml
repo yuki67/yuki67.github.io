@@ -7,42 +7,58 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://yuki67.github.io/</loc>
-  <lastmod>2017-08-17T01:02:00Z</lastmod>
+  <lastmod>2017-08-19T05:35:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/2017/</loc>
-  <lastmod>2017-08-17T01:02:00Z</lastmod>
+  <lastmod>2017-08-19T05:35:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/archive.html</loc>
-  <lastmod>2017-08-17T01:02:00Z</lastmod>
+  <lastmod>2017-08-20T08:49:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/categories/</loc>
-  <lastmod>2017-08-17T01:02:00Z</lastmod>
+  <lastmod>2017-08-20T08:58:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://yuki67.github.io/categories/graphics/</loc>
+  <lastmod>2017-08-19T05:35:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/categories/mathjax/</loc>
-  <lastmod>2017-08-17T01:02:00Z</lastmod>
+  <lastmod>2017-08-19T05:35:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/categories/note/</loc>
-  <lastmod>2017-08-16T11:56:00Z</lastmod>
+  <lastmod>2017-08-16T04:31:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/categories/python/</loc>
-  <lastmod>2017-08-16T11:56:00Z</lastmod>
+  <lastmod>2017-08-16T04:31:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://yuki67.github.io/galleries/</loc>
+  <lastmod>2017-08-19T05:35:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://yuki67.github.io/listings/</loc>
+  <lastmod>2017-08-19T05:35:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/posts/hazimemashita/</loc>
-  <lastmod>2017-08-17T01:02:00Z</lastmod>
+  <lastmod>2017-08-19T05:35:00Z</lastmod>
  </url>
  <url>
-  <loc>https://yuki67.github.io/posts/montekaruroji-fen/</loc>
-  <lastmod>2017-08-17T01:02:00Z</lastmod>
+  <loc>https://yuki67.github.io/posts/inverse-method/</loc>
+  <lastmod>2017-08-20T08:14:00Z</lastmod>
  </url>
  <url>
-  <loc>https://yuki67.github.io/posts/ni-guan-shu-fa/</loc>
-  <lastmod>2017-08-16T11:56:00Z</lastmod>
+  <loc>https://yuki67.github.io/posts/montecarlo-integral/</loc>
+  <lastmod>2017-08-20T08:06:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://yuki67.github.io/posts/perlin-noise/</loc>
+  <lastmod>2017-08-19T05:35:00Z</lastmod>
  </url>
 </urlset>
