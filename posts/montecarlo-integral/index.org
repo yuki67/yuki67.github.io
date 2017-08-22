@@ -2,7 +2,7 @@
 .. title: モンテカルロ積分
 .. slug: montecarlo-integral
 .. date: 2017-08-12 17:58:01 UTC+09:00
-.. tags: mathjax, note, python
+.. tags: mathjax, python, math, ノート
 .. category:
 .. link:
 .. description:

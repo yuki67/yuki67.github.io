@@ -33,8 +33,8 @@ import matplotlib.pyplot as plt
 <meta property="article:published_time" content="2017-08-17T12:45:16+09:00">
 <meta property="article:tag" content="graphics">
 <meta property="article:tag" content="mathjax">
-<meta property="article:tag" content="note">
 <meta property="article:tag" content="python">
+<meta property="article:tag" content="ノート">
 </head>
 <body>
     <section class="social"><ul>
@@ -68,8 +68,8 @@ import matplotlib.pyplot as plt
         タグ : 
            <li><a class="tag p-category" href="../../categories/graphics/" rel="tag">graphics</a></li>
            <li><a class="tag p-category" href="../../categories/mathjax/" rel="tag">mathjax</a></li>
-           <li><a class="tag p-category" href="../../categories/note/" rel="tag">note</a></li>
            <li><a class="tag p-category" href="../../categories/python/" rel="tag">python</a></li>
+           <li><a class="tag p-category" href="../../categories/noto/" rel="tag">ノート</a></li>
         </ul>
 </div>
 
@@ -98,7 +98,7 @@ import matplotlib.pyplot as plt
 
 <p>
 パーリンノイズのコードが多少複雑になるので、このノイズのコードもクラスを使って書く。
-なおランダムな値を格子点に割り振るときには <a href="https:www.google.co.jp">この記事</a> で紹介したハッシュ法を使った。
+なおランダムな値を格子点に割り振るときには <a href="https://yuki67.github.io/posts/random_pick/">この記事</a> で紹介したハッシュ法を使った。
 </p>
 
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lerp</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
@@ -304,7 +304,13 @@ Ken Perlinの元論文を読むと勾配ベクトルを整数のみにして高�
 <div class="outline-text-2" id="text-3">
 <p>
 Physically Based Rendering, Third Edition, 10.6.1 "Perlin Noise"
+</p>
+
+<p>
 <a href="http://ai2-s2-pdfs.s3.amazonaws.com/e04d/7772b91a83a901408eb0876bbb7814b1d4b5.pdf">http://ai2-s2-pdfs.s3.amazonaws.com/e04d/7772b91a83a901408eb0876bbb7814b1d4b5.pdf</a>
+</p>
+
+<p>
 <a href="http://mrl.nyu.edu/~perlin/noise/">http://mrl.nyu.edu/~perlin/noise/</a>
 </p>
 </div>
@@ -314,6 +320,9 @@ Physically Based Rendering, Third Edition, 10.6.1 "Perlin Noise"
         <ul class="pager hidden-print">
 <li class="previous">
                 <a href="../inverse-method/" rel="prev" title="逆関数法">一つ前の文書</a>
+            </li>
+            <li class="next">
+                <a href="../random_pick/" rel="next" title="ランダムピック">次の文書</a>
             </li>
         </ul>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha256-SDRP1VVYu+tgAGKhddBSl5+ezofHKZeI+OzxakbIe/Y=" crossorigin="anonymous"></script><script type="text/x-mathjax-config">

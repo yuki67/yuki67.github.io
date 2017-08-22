@@ -2,7 +2,7 @@
 .. title: パーリンノイズ
 .. slug: perlin-noise
 .. date: 2017-08-17 12:45:16 UTC+09:00
-.. tags: mathjax, note, python, graphics
+.. tags: mathjax, python, graphics, ノート
 .. category:
 .. link:
 .. description:
@@ -29,7 +29,7 @@
   格子点ごとにランダムに値を割り振って、一般の座標における値を線形補間で求めるノイズを考える。
 
   パーリンノイズのコードが多少複雑になるので、このノイズのコードもクラスを使って書く。
-  なおランダムな値を格子点に割り振るときには [[https:www.google.co.jp][この記事]] で紹介したハッシュ法を使った。
+  なおランダムな値を格子点に割り振るときには [[https://yuki67.github.io/posts/random_pick/][この記事]] で紹介したハッシュ法を使った。
 
   #+BEGIN_SRC ipython :session :exports both :file ../images/simple_noise.png
   def lerp(a, b, t):
@@ -203,5 +203,7 @@
 
 * 参考文献
   Physically Based Rendering, Third Edition, 10.6.1 "Perlin Noise"
+
   http://ai2-s2-pdfs.s3.amazonaws.com/e04d/7772b91a83a901408eb0876bbb7814b1d4b5.pdf
+
   http://mrl.nyu.edu/~perlin/noise/

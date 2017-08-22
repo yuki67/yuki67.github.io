@@ -2,7 +2,7 @@
 .. title: 逆関数法
 .. slug: inverse-method
 .. date: 2017-08-15 10:01:48 UTC+09:00
-.. tags: mathjax, python, note
+.. tags: mathjax, python, math, ノート
 .. category:
 .. link:
 .. description:
