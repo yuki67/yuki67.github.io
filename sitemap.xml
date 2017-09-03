@@ -15,11 +15,23 @@
  </url>
  <url>
   <loc>https://yuki67.github.io/archive.html</loc>
-  <lastmod>2017-08-22T09:37:00Z</lastmod>
+  <lastmod>2017-09-03T04:43:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/categories/</loc>
-  <lastmod>2017-08-22T13:31:00Z</lastmod>
+  <lastmod>2017-09-03T05:57:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://yuki67.github.io/categories/ben/</loc>
+  <lastmod>2017-09-03T05:57:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://yuki67.github.io/categories/drafts/</loc>
+  <lastmod>2017-08-28T07:58:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://yuki67.github.io/categories/du-shu/</loc>
+  <lastmod>2017-08-28T07:28:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/categories/graphics/</loc>
@@ -36,10 +48,6 @@
  <url>
   <loc>https://yuki67.github.io/categories/mathjax/</loc>
   <lastmod>2017-08-19T05:35:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/categories/note/</loc>
-  <lastmod>2017-08-16T04:31:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/categories/noto/</loc>
@@ -76,5 +84,9 @@
  <url>
   <loc>https://yuki67.github.io/posts/random_pick/</loc>
   <lastmod>2017-08-22T09:37:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://yuki67.github.io/posts/textbooks/</loc>
+  <lastmod>2017-08-28T07:28:00Z</lastmod>
  </url>
 </urlset>
