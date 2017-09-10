@@ -67,12 +67,6 @@ label,
 legend,
 table,
 caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
 article,
 aside,
 canvas,
@@ -104,6 +98,16 @@ video {
   font-size: 100%;
   font-family: inherit;
 }
+
+tr,
+th,
+td,
+tbody,
+tfoot,
+thead {
+  border: 1;
+}
+
 article,
 aside,
 details,
