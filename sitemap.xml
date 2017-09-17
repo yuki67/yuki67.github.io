@@ -15,7 +15,7 @@
  </url>
  <url>
   <loc>https://yuki67.github.io/archive.html</loc>
-  <lastmod>2017-09-03T08:26:00Z</lastmod>
+  <lastmod>2017-09-17T12:03:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/categories/</loc>
@@ -60,6 +60,10 @@
  <url>
   <loc>https://yuki67.github.io/listings/</loc>
   <lastmod>2017-09-03T07:25:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://yuki67.github.io/posts/automaton_ocaml/</loc>
+  <lastmod>2017-09-17T12:03:00Z</lastmod>
  </url>
  <url>
   <loc>https://yuki67.github.io/posts/hazimemashita/</loc>

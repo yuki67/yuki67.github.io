@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>オートマトン in OCaml | iiyuki's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://yuki67.github.io/posts/automaton_ocaml/">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><meta name="author" content="iiyuki">
+<meta property="og:site_name" content="iiyuki's blog">
+<meta property="og:title" content="オートマトン in OCaml">
+<meta property="og:url" content="https://yuki67.github.io/posts/automaton_ocaml/">
+<meta property="og:description" content='前にpythonでやったことをOCamlでやったのでまとめた。
+
+
+
+
+
+このページの実行例はこのリポジトリのルートで jbuilder utop src で起動するutopで実行した。
+
+
+
+作成・実行
+
+
+作って…
+
+
+# let dfa =
+  DFA.cons
+    ["0"; "1"]    (* アルファベット *)
+    [(0, "0", 0); (* 遷移関数 *)
+    '>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-09-17T18:10:14+09:00">
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="../../index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="../../archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="../../categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="../../rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="https://google.com" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/yuki67" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+    <div class="post">
+    
+    <h1 class="p-name entry-title" itemprop="headline name">オートマトン in OCaml</h1>
+
+        <div class="meta">
+            <div class="authordate">
+                <time class="timeago" datetime="2017-09-17T18:10:14+09:00">2017-09-17 18:10</time>
+            
+
+            
+          |  
+        <a href="index.org" id="sourcelink">ソース</a>
+
+            </div>
+            
+
+        </div>
+        <div class="body">
+            <p>
+前にpythonでやったことをOCamlでやったのでまとめた。
+</p>
+
+<!-- TEASER_END -->
+
+<p>
+このページの実行例は<a href="https://github.com/yuki67/AutomatonOcaml">このリポジトリ</a>のルートで <code>jbuilder utop src</code> で起動するutopで実行した。
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">作成・実行</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+作って…
+</p>
+
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="k">let</span> <span class="n">dfa</span> <span class="o">=</span>
+  <span class="nn">DFA</span><span class="p">.</span><span class="n">cons</span>
+    <span class="o">[</span><span class="s2">"0"</span><span class="o">;</span> <span class="s2">"1"</span><span class="o">]</span>    <span class="c">(* アルファベット *)</span>
+    <span class="o">[(</span><span class="mi">0</span><span class="o">,</span> <span class="s2">"0"</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span> <span class="c">(* 遷移関数 *)</span>
+     <span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="s2">"1"</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span> <span class="c">(* (q, c, q') は「状態qでcを読むとq'に遷移する」を意味する *)</span>
+     <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s2">"0"</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+     <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s2">"1"</span><span class="o">,</span> <span class="mi">1</span><span class="o">)]</span>
+    <span class="mi">0</span>             <span class="c">(* 初期状態 *)</span>
+    <span class="o">[</span><span class="mi">1</span><span class="o">];;</span>         <span class="c">(* 受理状態 *)</span>
+<span class="k">val</span> <span class="n">dfa</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
+</pre></div>
+
+<p>
+走らせる。
+</p>
+
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">run</span> <span class="n">dfa</span> <span class="s2">"0001"</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">true</span>
+
+<span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">run</span> <span class="n">dfa</span> <span class="s2">"0110"</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span>
+
+<span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">run</span> <span class="n">dfa</span> <span class="s2">""</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span>
+</pre></div>
+
+<p>
+NFAでは空文字列Emptyと「その他全て」を意味するAnyOtherが使える
+</p>
+
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="k">let</span> <span class="n">nfa</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span> <span class="k">in</span>
+    <span class="nn">NFA</span><span class="p">.</span><span class="n">cons</span> <span class="o">[</span><span class="s2">"0"</span><span class="o">;</span> <span class="s2">"1"</span><span class="o">;</span> <span class="s2">"2"</span><span class="o">]</span>
+      <span class="o">[(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">"0"</span><span class="o">,</span> <span class="o">[</span><span class="n">a</span><span class="o">]);</span>         <span class="c">(* 遷移先は状態ではなく状態の集合になる *)</span>
+       <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="nc">AnyOther</span><span class="o">,</span> <span class="o">[</span><span class="n">b</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">"1"</span><span class="o">,</span> <span class="o">[</span><span class="n">b</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nc">AnyOther</span><span class="o">,</span> <span class="o">[</span><span class="n">c</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">"2"</span><span class="o">,</span> <span class="o">[</span><span class="n">c</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span>    <span class="o">[</span><span class="n">a</span><span class="o">;</span><span class="n">b</span><span class="o">])]</span>
+      <span class="o">[</span><span class="n">a</span><span class="o">]</span>                          <span class="c">(* 初期状態も状態の集合*)</span>
+      <span class="o">[</span><span class="n">c</span><span class="o">];;</span>
+<span class="k">val</span> <span class="n">nfa</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
+
+<span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">nfa</span> <span class="s2">""</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span>
+
+<span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">nfa</span> <span class="s2">"00"</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span>
+
+ <span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">nfa</span> <span class="s2">"10"</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">true</span>
+
+<span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">maton</span> <span class="s2">"21012"</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">true</span>
+
+<span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">nfa</span> <span class="s2">"011010001"</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">遷移図の出力</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Dot言語のソースコードを出力する関数がある。
+</p>
+
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">print_dfa</span> <span class="n">dfa</span> <span class="n">string_of_int</span><span class="o">;;</span>
+<span class="n">digraph</span> <span class="n">finite_state_machine</span> <span class="o">{</span>
+<span class="n">rankdir</span><span class="o">=</span><span class="nc">LR</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">point</span><span class="o">]</span> <span class="n">init</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="mi">2</span><span class="o">]</span>
+<span class="s2">"1"</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="mi">1</span><span class="o">]</span>
+<span class="n">init</span> <span class="o">-&gt;</span> <span class="s2">"0"</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="mi">1</span><span class="o">]</span>
+<span class="s2">"0"</span> <span class="o">-&gt;</span> <span class="s2">"0"</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">"0"</span><span class="o">]</span>
+<span class="s2">"0"</span> <span class="o">-&gt;</span> <span class="s2">"1"</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">"1"</span><span class="o">]</span>
+<span class="s2">"1"</span> <span class="o">-&gt;</span> <span class="s2">"0"</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">"0"</span><span class="o">]</span>
+<span class="s2">"1"</span> <span class="o">-&gt;</span> <span class="s2">"1"</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">"1"</span><span class="o">]</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>
+これをgraphvizでコンパイルすると、以下の画像が得られる。
+</p>
+
+<p>
+<img src="../../images/dfa.png" alt="nil"></p>
+
+<p>
+NFAでも同様。
+</p>
+
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="n">print_nfa</span> <span class="n">nfa</span> <span class="n">string_of_int</span><span class="o">;;</span>
+<span class="n">digraph</span> <span class="n">finite_state_machine</span> <span class="o">{</span>
+<span class="n">rankdir</span><span class="o">=</span><span class="nc">LR</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">point</span><span class="o">]</span> <span class="n">init</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="mi">2</span><span class="o">]</span>
+<span class="s2">"3"</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="mi">1</span><span class="o">];</span>
+<span class="n">init</span> <span class="o">-&gt;</span> <span class="s2">"1"</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="mi">1</span><span class="o">]</span>
+<span class="s2">"1"</span> <span class="o">-&gt;</span> <span class="s2">"1"</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">"0"</span><span class="o">]</span>
+<span class="s2">"1"</span> <span class="o">-&gt;</span> <span class="s2">"2"</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">"other"</span><span class="o">]</span>
+<span class="s2">"2"</span> <span class="o">-&gt;</span> <span class="s2">"2"</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">"1"</span><span class="o">]</span>
+<span class="s2">"2"</span> <span class="o">-&gt;</span> <span class="s2">"3"</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">"other"</span><span class="o">]</span>
+<span class="s2">"3"</span> <span class="o">-&gt;</span> <span class="s2">"3"</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">"2"</span><span class="o">]</span>
+<span class="s2">"3"</span> <span class="o">-&gt;</span> <span class="s2">"1"</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">"ε"</span><span class="o">]</span>
+<span class="s2">"3"</span> <span class="o">-&gt;</span> <span class="s2">"2"</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">"ε"</span><span class="o">]</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>
+<img src="../../images/nfa.png" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">NFAのDFAへの変換</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+与えられたNFAを、認識する言語が同じDFAに変換するアルゴリズムを実装した。
+</p>
+
+<p>
+これだけ読んで分かるかどうかは微妙だが、ソースコードを張る。
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">let</span> <span class="n">to_dfa</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">maton</span> <span class="o">-&gt;</span>
+  <span class="k">let</span> <span class="n">init</span> <span class="o">=</span> <span class="o">(</span><span class="n">saturate</span> <span class="n">maton</span> <span class="n">maton</span><span class="o">.</span><span class="n">initial</span><span class="o">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">finals</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="n">anything_in_common</span> <span class="n">init</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span>
+    <span class="k">then</span> <span class="n">ref</span> <span class="o">[</span><span class="n">init</span><span class="o">]</span>
+    <span class="k">else</span> <span class="n">ref</span> <span class="bp">[]</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">trans</span> <span class="o">=</span> <span class="n">ref</span> <span class="bp">[]</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">loop</span> <span class="n">searched</span> <span class="n">to_search</span> <span class="o">=</span>
+    <span class="k">match</span> <span class="n">to_search</span> <span class="k">with</span>
+    <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="bp">()</span>
+    <span class="o">|</span> <span class="n">state</span><span class="o">::</span><span class="n">tl</span> <span class="o">-&gt;</span>
+	<span class="k">let</span> <span class="n">nexts_triplet</span> <span class="o">=</span>
+	  <span class="n">image</span> <span class="o">(</span><span class="k">fun</span> <span class="n">c</span> <span class="o">-&gt;</span> <span class="n">state</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">transit</span> <span class="n">maton</span> <span class="n">state</span> <span class="n">c</span><span class="o">)</span> <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span> <span class="k">in</span>
+	<span class="k">let</span> <span class="n">nexts</span> <span class="o">=</span> <span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(_,</span> <span class="o">_,</span> <span class="n">x</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">)</span> <span class="n">nexts_triplet</span> <span class="k">in</span>
+	<span class="n">trans</span> <span class="o">:=</span> <span class="n">nexts_triplet</span> <span class="o">@</span> <span class="o">!</span><span class="n">trans</span><span class="o">;</span>
+	<span class="n">finals</span> <span class="o">:=</span> <span class="n">nexts</span>
+		   <span class="o">|&gt;</span> <span class="n">filter</span> <span class="o">(</span><span class="n">anything_in_common</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">)</span>
+		   <span class="o">|&gt;</span> <span class="n">union</span> <span class="o">!</span><span class="n">finals</span><span class="o">;</span>
+	<span class="n">loop</span> <span class="o">(</span><span class="n">set_add</span> <span class="n">searched</span> <span class="n">state</span><span class="o">)</span> <span class="o">(</span><span class="n">union</span> <span class="n">tl</span> <span class="o">(</span><span class="n">diff</span> <span class="n">nexts</span> <span class="o">(</span><span class="n">state</span><span class="o">::</span><span class="n">searched</span><span class="o">)))</span>
+  <span class="k">in</span>
+  <span class="k">let</span> <span class="o">_</span> <span class="o">=</span> <span class="n">loop</span> <span class="bp">[]</span> <span class="o">[</span><span class="n">init</span><span class="o">]</span> <span class="k">in</span>
+  <span class="nn">DFA</span><span class="p">.</span><span class="n">cons</span> <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span> <span class="o">!</span><span class="n">trans</span> <span class="n">init</span> <span class="o">!</span><span class="n">finals</span>
+</pre></div>
+
+<p>
+次のように使う。
+</p>
+
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="k">let</span> <span class="n">nfa</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span> <span class="k">in</span>
+    <span class="nn">NFA</span><span class="p">.</span><span class="n">cons</span> <span class="o">[</span><span class="s2">"0"</span><span class="o">;</span> <span class="s2">"1"</span><span class="o">;</span> <span class="s2">"2"</span><span class="o">]</span>
+      <span class="o">[(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">"0"</span><span class="o">,</span> <span class="o">[</span><span class="n">a</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span>    <span class="o">[</span><span class="n">b</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">"1"</span><span class="o">,</span> <span class="o">[</span><span class="n">b</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span>    <span class="o">[</span><span class="n">c</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">"2"</span><span class="o">,</span> <span class="o">[</span><span class="n">c</span><span class="o">])]</span>
+      <span class="o">[</span><span class="n">a</span><span class="o">]</span> <span class="o">[</span><span class="n">c</span><span class="o">]</span> <span class="o">;;</span>
+<span class="k">val</span> <span class="n">nfa</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
+
+<span class="o">#</span> <span class="k">let</span> <span class="n">dfa</span> <span class="o">=</span> <span class="o">(</span><span class="nn">NFA</span><span class="p">.</span><span class="n">to_dfa</span> <span class="n">nfa</span><span class="o">);;</span>
+<span class="k">val</span> <span class="n">dfa</span> <span class="o">:</span> <span class="kt">int</span> <span class="kt">list</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
+</pre></div>
+
+<p>
+変換されたDFAの状態は元のNFAの状態の集合なので、
+<code>int NFA.t</code> を変換した <code>dfa</code> の型が <code>int list DFA.t</code> になっている。
+</p>
+
+<p>
+この <code>nfa</code> , <code>dfa</code> を画像にすると、変換がどう行われたのかが分かる。
+</p>
+
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">print_nfa</span> <span class="n">nfa</span> <span class="n">string_of_int</span><span class="o">;;</span>
+<span class="c">(* 出力される文字列をgraphvizで画像にしたものを張った。以下同じ。 *)</span>
+</pre></div>
+
+<p>
+<img src="../../images/dfa_to_convert.png" alt="nil"></p>
+
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">print_dfa</span> <span class="n">dfa</span> <span class="o">(</span><span class="nn">ListExt</span><span class="p">.</span><span class="n">string_of_list</span> <span class="n">string_of_int</span><span class="o">)</span>
+</pre></div>
+
+<p>
+<img src="../../images/dfa_converted.png" alt="nil"></p>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">DFAの最小化</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Myhill–Nerodeの関係を使ったDFAの最小化アルゴリズムも実装した。
+</p>
+
+<p>
+コードはかなり長く、以下のようになる。
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">let</span> <span class="n">minimize</span> <span class="n">maton</span> <span class="o">=</span>
+  <span class="c">(* helper functions *)</span>
+  <span class="k">let</span> <span class="n">transitable_into</span> <span class="n">marked</span> <span class="o">(</span><span class="n">p</span><span class="o">,</span> <span class="n">q</span><span class="o">)</span> <span class="o">=</span>
+    <span class="n">exists</span>
+      <span class="o">(</span><span class="k">fun</span> <span class="n">c</span> <span class="o">-&gt;</span>
+	 <span class="k">let</span> <span class="n">p'</span><span class="o">,</span> <span class="n">q'</span> <span class="o">=</span> <span class="n">transit</span> <span class="n">maton</span> <span class="n">p</span> <span class="n">c</span><span class="o">,</span> <span class="n">transit</span> <span class="n">maton</span> <span class="n">q</span> <span class="n">c</span> <span class="k">in</span>
+	 <span class="n">mem</span> <span class="o">(</span><span class="n">p'</span><span class="o">,</span> <span class="n">q'</span><span class="o">)</span> <span class="n">marked</span> <span class="o">||</span> <span class="n">mem</span> <span class="o">(</span><span class="n">q'</span><span class="o">,</span> <span class="n">p'</span><span class="o">)</span> <span class="n">marked</span><span class="o">)</span>
+      <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">mark_initial_cond</span> <span class="o">(</span><span class="n">p</span><span class="o">,</span> <span class="n">q</span><span class="o">)</span> <span class="o">=</span>
+    <span class="o">(</span><span class="n">mem</span> <span class="n">p</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span> <span class="o">&amp;&amp;</span> <span class="n">not</span> <span class="o">(</span><span class="n">mem</span> <span class="n">q</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">))</span> <span class="o">||</span>
+    <span class="o">(</span><span class="n">not</span> <span class="o">(</span><span class="n">mem</span> <span class="n">p</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">mem</span> <span class="n">q</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">transitions_from</span> <span class="n">s</span> <span class="n">new_states</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">find</span> <span class="o">(</span><span class="n">mem</span> <span class="n">s</span><span class="o">)</span> <span class="n">new_states</span>
+    <span class="ow">and</span> <span class="n">next</span> <span class="n">c</span> <span class="o">=</span> <span class="n">find</span> <span class="o">(</span><span class="n">mem</span> <span class="o">(</span><span class="n">transit</span> <span class="n">maton</span> <span class="n">s</span> <span class="n">c</span><span class="o">))</span> <span class="n">new_states</span> <span class="k">in</span>
+    <span class="o">(</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">c</span> <span class="o">-&gt;</span> <span class="n">origin</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">next</span> <span class="n">c</span><span class="o">)</span> <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span><span class="o">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">states</span> <span class="o">=</span> <span class="n">collect_states</span> <span class="n">maton</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">loop</span> <span class="o">(</span><span class="n">marked</span><span class="o">,</span> <span class="n">unmarked</span><span class="o">)</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">to_add</span> <span class="o">=</span> <span class="n">filter</span> <span class="o">(</span><span class="n">transitable_into</span> <span class="n">marked</span><span class="o">)</span> <span class="n">unmarked</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="n">subset</span> <span class="n">to_add</span> <span class="n">marked</span> <span class="k">then</span> <span class="n">marked</span><span class="o">,</span> <span class="n">unmarked</span>
+    <span class="k">else</span> <span class="n">loop</span> <span class="o">((</span><span class="n">union</span> <span class="n">marked</span> <span class="n">to_add</span><span class="o">),</span> <span class="o">(</span><span class="n">diff</span> <span class="n">unmarked</span> <span class="n">to_add</span><span class="o">))</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">connected_component</span> <span class="n">udgraph</span> <span class="n">v</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="k">rec</span> <span class="n">loop</span> <span class="n">acc</span> <span class="o">=</span> <span class="k">function</span>
+      <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="n">acc</span>
+      <span class="o">|</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">::</span> <span class="n">tl</span> <span class="k">when</span> <span class="n">x</span> <span class="o">=</span> <span class="n">v</span> <span class="o">||</span> <span class="n">y</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">loop</span> <span class="o">(</span><span class="n">union</span> <span class="n">acc</span> <span class="o">[</span><span class="n">x</span><span class="o">;</span> <span class="n">y</span><span class="o">])</span> <span class="n">tl</span>
+      <span class="o">|</span> <span class="o">_</span> <span class="o">::</span> <span class="n">tl</span> <span class="o">-&gt;</span> <span class="n">loop</span> <span class="n">acc</span> <span class="n">tl</span> <span class="k">in</span>
+    <span class="n">loop</span> <span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="n">udgraph</span> <span class="k">in</span>
+  <span class="c">(* main procedure *)</span>
+  <span class="c">(* (p, q) ∈ marked &lt;-&gt; p and q are distinguishable *)</span>
+  <span class="k">let</span> <span class="n">init_marked</span><span class="o">,</span> <span class="n">init_unmarked</span> <span class="o">=</span>
+    <span class="n">partition</span> <span class="n">mark_initial_cond</span> <span class="o">(</span><span class="n">original_pairs</span> <span class="n">states</span><span class="o">)</span> <span class="k">in</span>
+  <span class="c">(* saturate marked and unmarked *)</span>
+  <span class="c">(* "marked ∩ unmarked = ∅" stays true after loop *)</span>
+  <span class="k">let</span> <span class="n">marked</span><span class="o">,</span> <span class="n">unmarked</span> <span class="o">=</span> <span class="n">loop</span> <span class="o">(</span><span class="n">init_marked</span><span class="o">,</span> <span class="n">init_unmarked</span><span class="o">)</span> <span class="k">in</span>
+  <span class="c">(* calculate new states from marked and unmarked *)</span>
+  <span class="k">let</span> <span class="n">new_states</span> <span class="o">=</span>
+    <span class="n">fold_left_ignore</span>
+      <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="n">set</span> <span class="o">-&gt;</span> <span class="n">mem</span> <span class="n">s</span> <span class="n">set</span><span class="o">)</span> <span class="n">acc</span><span class="o">)</span>
+      <span class="c">(* largest undistinguishable set which contains s *)</span>
+      <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">connected_component</span> <span class="n">unmarked</span> <span class="n">s</span><span class="o">)</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span>
+      <span class="bp">[]</span> <span class="n">states</span> <span class="k">in</span>
+  <span class="c">(* also calculate new transition from new_states *)</span>
+  <span class="k">let</span> <span class="n">new_trans</span> <span class="o">=</span>
+    <span class="n">fold_left_ignore</span>
+      <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">set</span><span class="o">,</span> <span class="o">_,</span> <span class="o">_)</span> <span class="o">-&gt;</span> <span class="n">mem</span> <span class="n">s</span> <span class="n">set</span><span class="o">)</span> <span class="n">acc</span><span class="o">)</span>
+      <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">transitions_from</span> <span class="n">s</span> <span class="n">new_states</span><span class="o">)</span> <span class="o">@</span> <span class="n">acc</span><span class="o">)</span>
+      <span class="bp">[]</span> <span class="n">states</span> <span class="k">in</span>
+  <span class="n">cons</span>
+    <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span>
+    <span class="n">new_trans</span>
+    <span class="c">(* note : exactly one element of new_states contains maton.inits *)</span>
+    <span class="o">(</span><span class="n">find</span> <span class="o">(</span><span class="n">mem</span> <span class="n">maton</span><span class="o">.</span><span class="n">inits</span><span class="o">)</span> <span class="n">new_states</span><span class="o">)</span>
+    <span class="o">(</span><span class="n">filter</span> <span class="o">(</span><span class="n">anything_in_common</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">)</span> <span class="n">new_states</span><span class="o">)</span>
+</pre></div>
+
+<p>
+使用例:
+</p>
+
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="k">let</span> <span class="n">maton</span> <span class="o">=</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">cons</span> <span class="o">[</span><span class="s2">"0"</span><span class="o">;</span> <span class="s2">"1"</span><span class="o">]</span>
+      <span class="o">[(</span><span class="mi">0</span><span class="o">,</span> <span class="s2">"0"</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+       <span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="s2">"1"</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+       <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s2">"0"</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+       <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s2">"1"</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+       <span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s2">"0"</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+       <span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s2">"1"</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+       <span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s2">"0"</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+       <span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s2">"1"</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+       <span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="s2">"0"</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+       <span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="s2">"1"</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+       <span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="s2">"0"</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+       <span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="s2">"1"</span><span class="o">,</span> <span class="mi">5</span><span class="o">)]</span>
+      <span class="mi">0</span> <span class="o">[</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">]</span> <span class="o">;;</span>
+<span class="k">val</span> <span class="n">maton</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
+
+<span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">print_dfa</span> <span class="n">maton</span> <span class="n">string_of_int</span><span class="o">;;</span>
+</pre></div>
+
+<p>
+<img src="../../images/dfa_to_minimize.png" alt="nil"></p>
+
+
+<p>
+これを最小化すると、
+</p>
+
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="k">let</span> <span class="n">minimized</span> <span class="o">=</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">minimize</span> <span class="n">maton</span><span class="o">;;</span>
+<span class="k">val</span> <span class="n">minimized</span> <span class="o">:</span> <span class="kt">int</span> <span class="kt">list</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
+
+<span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">print_dfa</span> <span class="n">minimized</span> <span class="o">(</span><span class="nn">MyExt</span><span class="p">.</span><span class="nn">ListExt</span><span class="p">.</span><span class="n">string_of_list</span> <span class="n">string_of_int</span><span class="o">);;</span>
+</pre></div>
+
+<p>
+<img src="../../images/dfa_minimized.png" alt="nil"></p>
+
+<p>
+となる。
+</p>
+
+<p>
+最小化されたDFAを見ると元のDFAのどの状態が同一視されているのかが分かる。
+</p>
+</div>
+</div>
+        </div>
+        
+        <ul class="pager hidden-print">
+<li class="previous">
+                <a href="../perl-oneliner/" rel="prev" title="perlのワンライナー">一つ前の文書</a>
+            </li>
+        </ul>
+</div>
+
+
+
+             
+        <footer id="footer"><p>Contents © 2017         <a href="mailto:123syokutaku@gmail.com">iiyuki</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section><script src="../../assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
+            $(function(){
+                $('.timeago').timeago();
+            });
+        </script>
+</body>
+</html>
