@@ -15,7 +15,7 @@
  </sitemap>
  <sitemap>
   <loc>https://yuki67.github.io/categories/kodozhi-kichang.xml</loc>
-  <lastmod>2017-09-10T11:06:00Z</lastmod>
+  <lastmod>2017-09-17T12:37:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://yuki67.github.io/categories/math.xml</loc>
@@ -30,8 +30,16 @@
   <lastmod>2017-09-03T07:25:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://yuki67.github.io/categories/ocaml-javascript.xml</loc>
+  <lastmod>2017-09-24T12:08:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://yuki67.github.io/categories/ocaml-kodozhi-kichang.xml</loc>
+  <lastmod>2017-09-24T12:08:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://yuki67.github.io/categories/perl.xml</loc>
-  <lastmod>2017-09-10T11:06:00Z</lastmod>
+  <lastmod>2017-09-17T12:37:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://yuki67.github.io/categories/python.xml</loc>
@@ -43,10 +51,10 @@
  </sitemap>
  <sitemap>
   <loc>https://yuki67.github.io/rss.xml</loc>
-  <lastmod>2017-09-17T12:03:00Z</lastmod>
+  <lastmod>2017-09-24T12:08:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://yuki67.github.io/sitemap.xml</loc>
-  <lastmod>2017-09-17T12:03:00Z</lastmod>
+  <lastmod>2017-09-24T12:08:00Z</lastmod>
  </sitemap>
 </sitemapindex>
