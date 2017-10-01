@@ -1,0 +1,14 @@
+#+BEGIN_COMMENT
+.. title: もっとbucklescriptをいじった
+.. slug: more_bucklesctipt
+.. date: 2017-10-01 22:44:21 UTC+09:00
+.. tags: ocaml, javascript, コード置き場
+.. category:
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+デモサイトは[[https://yuki67.github.io/ShapeOCaml/][ここ]]にある。
+
+もう遅いので説明なんかは後で。

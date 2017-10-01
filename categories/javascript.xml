@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>iiyuki's blog (javascriptについての文書)</title><link>https://yuki67.github.io/</link><description></description><atom:link href="https://yuki67.github.io/categories/javascript.xml" type="application/rss+xml" rel="self"></atom:link><language>ja</language><copyright>Contents © 2017 &lt;a href="mailto:123syokutaku@gmail.com"&gt;iiyuki&lt;/a&gt; </copyright><lastBuildDate>Sun, 01 Oct 2017 02:07:35 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>hello bucklescript</title><link>https://yuki67.github.io/posts/hello_buckle/</link><dc:creator>iiyuki</dc:creator><description>&lt;div&gt;&lt;p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>iiyuki's blog (javascriptについての文書)</title><link>https://yuki67.github.io/</link><description></description><atom:link type="application/rss+xml" rel="self" href="https://yuki67.github.io/categories/javascript.xml"></atom:link><language>ja</language><copyright>Contents © 2017 &lt;a href="mailto:123syokutaku@gmail.com"&gt;iiyuki&lt;/a&gt; </copyright><lastBuildDate>Sun, 01 Oct 2017 13:47:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>もっとbucklescriptをいじった</title><link>https://yuki67.github.io/posts/more_bucklesctipt/</link><dc:creator>iiyuki</dc:creator><description>&lt;p&gt;
+デモサイトは&lt;a href="https://yuki67.github.io/ShapeOCaml/"&gt;ここ&lt;/a&gt;にある。
+&lt;/p&gt;
+
+&lt;p&gt;
+もう遅いので説明なんかは後で。
+&lt;/p&gt;</description><category>javascript</category><category>ocaml</category><category>コード置き場</category><guid>https://yuki67.github.io/posts/more_bucklesctipt/</guid><pubDate>Sun, 01 Oct 2017 13:44:21 GMT</pubDate></item><item><title>hello bucklescript</title><link>https://yuki67.github.io/posts/hello_buckle/</link><dc:creator>iiyuki</dc:creator><description>&lt;div&gt;&lt;p&gt;
 bucklescriptを使うとOCamlを使ってjavascriptが書けると聞いたので試した。
 &lt;/p&gt;
 
