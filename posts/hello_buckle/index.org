@@ -2,7 +2,7 @@
 .. title: hello bucklescript
 .. slug: hello_buckle
 .. date: 2017-09-24 09:15:48 UTC+09:00
-.. tags: ocaml javascript
+.. tags: ocaml, javascript, コード置き場
 .. category:
 .. link:
 .. description:

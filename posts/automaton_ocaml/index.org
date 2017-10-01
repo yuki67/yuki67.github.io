@@ -2,7 +2,7 @@
 .. title: オートマトン in OCaml
 .. slug: automaton_ocaml
 .. date: 2017-09-17 18:10:14 UTC+09:00
-.. tags: ocaml コード置き場
+.. tags: ocaml, コード置き場
 .. category:
 .. link:
 .. description:
