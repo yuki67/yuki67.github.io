@@ -3,115 +3,115 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://www.example.com/post/more_bucklescript/</loc>
+    <loc>https://yuki67.github.io/post/more_bucklescript/</loc>
     <lastmod>2017-10-01T00:00:00+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.example.com/post/hello_buckle/</loc>
+    <loc>https://yuki67.github.io/post/hello_buckle/</loc>
     <lastmod>2017-09-24T00:00:00+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.example.com/post/automaton/</loc>
+    <loc>https://yuki67.github.io/post/automaton/</loc>
     <lastmod>2017-09-17T00:00:00+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.example.com/post/textbooks/</loc>
+    <loc>https://yuki67.github.io/post/textbooks/</loc>
     <lastmod>2017-09-03T00:00:00+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.example.com/post/random_pick/</loc>
+    <loc>https://yuki67.github.io/post/random_pick/</loc>
     <lastmod>2017-08-22T00:00:00+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.example.com/post/perlin_noise/</loc>
+    <loc>https://yuki67.github.io/post/perlin_noise/</loc>
     <lastmod>2017-08-17T00:00:00+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.example.com/post/inverse_method/</loc>
+    <loc>https://yuki67.github.io/post/inverse_method/</loc>
     <lastmod>2017-08-15T00:00:00+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.example.com/post/montecarlo_integral/</loc>
+    <loc>https://yuki67.github.io/post/montecarlo_integral/</loc>
     <lastmod>2017-08-12T00:00:00+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.example.com/post/hazimemasita/</loc>
+    <loc>https://yuki67.github.io/post/hazimemasita/</loc>
     <lastmod>2017-08-11T00:00:00+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.example.com/about/</loc>
+    <loc>https://yuki67.github.io/about/</loc>
   </url>
   
   <url>
-    <loc>https://www.example.com/tags/javascript/</loc>
+    <loc>https://yuki67.github.io/tags/javascript/</loc>
     <lastmod>2017-10-01T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.example.com/tags/math/</loc>
+    <loc>https://yuki67.github.io/tags/math/</loc>
     <lastmod>2017-08-22T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.example.com/tags/ocaml/</loc>
+    <loc>https://yuki67.github.io/tags/ocaml/</loc>
     <lastmod>2017-10-01T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.example.com/post/</loc>
+    <loc>https://yuki67.github.io/post/</loc>
     <lastmod>2017-10-01T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.example.com/tags/python/</loc>
+    <loc>https://yuki67.github.io/tags/python/</loc>
     <lastmod>2017-08-22T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.example.com/tags/</loc>
+    <loc>https://yuki67.github.io/tags/</loc>
     <lastmod>2017-10-01T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.example.com/topics/</loc>
+    <loc>https://yuki67.github.io/topics/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.example.com/</loc>
+    <loc>https://yuki67.github.io/</loc>
     <lastmod>2017-10-01T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.example.com/tags/%E3%81%9D%E3%81%AE%E4%BB%96/</loc>
+    <loc>https://yuki67.github.io/tags/%E3%81%9D%E3%81%AE%E4%BB%96/</loc>
     <lastmod>2017-08-11T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.example.com/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/</loc>
+    <loc>https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/</loc>
     <lastmod>2017-10-01T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.example.com/tags/%E6%9C%AC/</loc>
+    <loc>https://yuki67.github.io/tags/%E6%9C%AC/</loc>
     <lastmod>2017-09-03T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>

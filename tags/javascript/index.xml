@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Javascript on yuki&#39;s blog</title>
-    <link>https://www.example.com/tags/javascript/</link>
+    <link>https://yuki67.github.io/tags/javascript/</link>
     <description>Recent content in Javascript on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Sun, 01 Oct 2017 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://www.example.com/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki67.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>もっとbucklescriptをいじった</title>
-      <link>https://www.example.com/post/more_bucklescript/</link>
+      <link>https://yuki67.github.io/post/more_bucklescript/</link>
       <pubDate>Sun, 01 Oct 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://www.example.com/post/more_bucklescript/</guid>
+      <guid>https://yuki67.github.io/post/more_bucklescript/</guid>
       <description>&lt;p&gt;デモサイトは&lt;a href=&#34;https://yuki67.github.io/ShapeOCaml/&#34;&gt;ここ&lt;/a&gt;にある。&lt;/p&gt;
 
 &lt;p&gt;もう遅いので説明なんかは後で。&lt;/p&gt;
@@ -27,10 +27,10 @@
     
     <item>
       <title>hello bucklescript!</title>
-      <link>https://www.example.com/post/hello_buckle/</link>
+      <link>https://yuki67.github.io/post/hello_buckle/</link>
       <pubDate>Sun, 24 Sep 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://www.example.com/post/hello_buckle/</guid>
+      <guid>https://yuki67.github.io/post/hello_buckle/</guid>
       <description>&lt;p&gt;bucklescriptを使うとOCamlを使ってjavascriptが書けると聞いたので試した。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
