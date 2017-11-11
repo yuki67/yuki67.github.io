@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <title>逆関数法 &middot; yuki&#39;s blog</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://www.example.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://www.example.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://www.example.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/ocaml.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://www.example.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<body>
+<div id="layout">
+   
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://www.example.com/">yuki's blog</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://www.example.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://www.example.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://www.example.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/yfkutydt" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/yuki67" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>by yuki</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+<div id="main">
+
+
+<div class="header">
+  <h1>逆関数法</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017-08-15</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://www.example.com/tags/python">python</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://www.example.com/tags/math">math</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://www.example.com/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>ある分布が与えられたときにその分布に従う乱数を生成することを考える。</p>
+
+<p></p>
+
+<h2 id="理論">理論</h2>
+
+<h3 id="事実">事実</h3>
+
+<p>確率分布\(X\)が確率密度関数\({\it pdf }(x)\)で与えられたとする。</p>
+
+<p>つまり、\(X\)から変数をランダムにとったとき\(x\)が選ばれる確率は\({\it pdf} (x)\)に比例し、かつ
+\[
+\int_{-\infty}^{\infty} {\it pdf }(x) dx = 1
+\]
+が成り立つとする。</p>
+
+<p>この仮定のもとで、\({\it pdf}(x)\)の累積分布関数(commulative distribution function)を
+\[
+{\it cdf}(x) = \int_{-\infty}^{x} {\it pdf }(x) dx
+\]
+とする。</p>
+
+<p>このとき、\(x\)を\([0, 1]\)の一様分布からとった変数とすると、\({\it cdf}^{-1}(x)\)は\(P\)に従う。
+言い換えると、\(Y\)を\([0, 1]\)の一様分布としたとき、\(X \sim {\it cdf}^{-1}(Y)\)が成り立つ。</p>
+
+<h3 id="証明">証明</h3>
+
+<p>\(x\)を\([0, 1]\)の一様分布からとった変数とすると、任意の\(a \in [0, 1]\)に対して
+\[
+P(x \le a) = a
+\]
+である。</p>
+
+<p>よって、与えられた\({\it pdf}(x)\)から計算した\({\it cdf}(x)\)について、
+\[
+P({\it cdf}^{-1}(x) \le {\it cdf}^{-1}(a)) = a
+\]
+が成り立つ。</p>
+
+<p>\({\it cdf}^{-1}(a) = y\)とすると、\(a = {\it cdf}(y)\)でもあるから
+\[
+P({\it cdf}^{-1}(x) \le y) = {\it cdf}(y)
+\]
+となる。</p>
+
+<p>\(\therefore\) \({\it cdf}^{-1}(x)\)は累積分布関数が\({\it cdf}\)であるような分布、すなわち\(X\)に従う。 \(\Box\)</p>
+
+<p>(私は確率論をきちんと学んでいないので、この証明がどれぐらい正しいのか知らない。)</p>
+
+<p>Physically Based Rendering, Third Edition の 753-754ページには、離散分布を使った直感的でわかりやすい説明が載っていた。</p>
+
+<h2 id="実装">実装</h2>
+
+<p>pythonでは <code>random.random()</code> を使うと \([0,1]\) の一様分布が得られるので、上で示した方法を使えば様々な分布に従う乱数を生成できる。実際にやってみる。</p>
+
+<pre><code class="language-python"># モジュールのインポート
+%matplotlib inline
+import random
+from math import sin, cos, exp, log
+import numpy as np
+import matplotlib.pyplot as plt
+</code></pre>
+
+<h3 id="一様分布">一様分布</h3>
+
+<p>\([a, b]\)の一様分布では \({\it pdf}(x)\) は (\(x \in [a,b]\) で)一定となる。</p>
+
+<p>\({\it pdf}(x)\)の定義から\( \int_{a}^{b} {\it pdf}(x) dx = 1\)が成り立つので
+\[
+{\it pdf}(x) = \frac{1}{b-a}
+\]
+となる。(本当は\(x \notin [a, b]\)のときも考えなくてはいけないが、 \({\it pdf}(x)=0\)であり \({\it cdf}(x)\)の形も自明なので省略することにする。以降の例でも同様。)</p>
+
+<p>これから、
+\[
+{\it cdf}(x) = \int_{-\infty}^{x} {\it pdf}(x) dx = \frac{x-a}{b-a}
+\]
+\[
+\therefore {\it cdf}^{-1} (x) = (b-a)x + a
+\]
+となる。</p>
+
+<p>これをコードにすると、以下のようになる。</p>
+
+<pre><code class="language-python"># [0, 1]の一様乱数を入力すると[a, b]の一様乱数を出力する関数を返す
+def RNG_uniform(a, b):
+    def cdf_inv(x):
+        return (b - a) * x + a
+    return cdf_inv
+</code></pre>
+
+<p>グラフにプロットすれば、本当に関数の出力が一様乱数か確認できる。</p>
+
+<pre><code class="language-python">fig, ax = plt.subplots(figsize=(10, 10))
+bins = list(np.arange(0, 10, 0.05))
+# a, bの値を変えて3つ描画する
+ax.hist([RNG_uniform(0, 5)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;[0, 5]&quot;)
+ax.hist([RNG_uniform(4, 6)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;[4, 6]&quot;)
+ax.hist([RNG_uniform(3, 10)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;[3, 10]&quot;)
+ax.legend()
+fig
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/RNG_uniform.png" />
+    
+    
+</figure>
+
+
+<h3 id="it-pdf-x---が--x--に比例する分布">\({\it pdf}(x)\) が \(x\) に比例する分布</h3>
+
+<p>これはどのような分布かというと、変数 \(x\) を取ったとき\(x\) が \([0,1]\) に含まれる確率は \([1,2]\) に含まれる確率の半分となる分布である。</p>
+
+<p>このような分布で、変数の範囲が \([a, b]\)であるものを考える。</p>
+
+<p>\({\it pdf}(x) = cx\) とすると、\({\it pdf}(x)\) の条件
+\[\int_{-\infty}^{\infty} {\it pdf }(x) dx = 1\]
+から、
+\[\int_{a}^{b} cx dx = \frac{c}{2} (b^{2} - a^{2}) = 1\]
+\[\therefore c = \frac{2}{b^{2} - a^{2}}\]</p>
+
+<p>よって</p>
+
+<p>\begin{align}
+{\it cdf}(x) & = \int_{-\infty}^{x} {\it pdf}(x) dx \\
+             & = \int_{a}^{x} \frac{2x}{b^{2} - a^{2}} dx \\
+             & = \frac{x^{2} - a^{2}}{b^{2} - a^{2}}
+\end{align}
+</p>
+
+<p>これより
+\[
+{\it cdf}^{-1}(x) = \sqrt{(b^{2} - a^{2}) x + b^{2}}
+\]</p>
+
+<p>これをコードにすると以下のようになる。</p>
+
+<pre><code class="language-python"># [0, 1]の一様乱数を入力するとpdf(x)=cx (a &lt; x &lt; b) な乱数を返す関数を返す
+def RNG_linear(a, b):
+    def func(x):
+        return ((b**2 - a**2)*x + a**2)**0.5
+    return func
+</code></pre>
+
+<p>同様にグラフにする。</p>
+
+<pre><code class="language-python">fig, ax = plt.subplots(figsize=(10, 10))
+bins = list(np.arange(0, 10, 0.05))
+# a, bの値を変えて3つ描画する
+ax.hist([RNG_linear(0, 6)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;[0, 6]&quot;)
+ax.hist([RNG_linear(2, 8)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;[2, 8]&quot;)
+ax.hist([RNG_linear(7, 10)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;[7, 10]&quot;)
+ax.legend()
+fig
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/RNG_linear.png" />
+    
+    
+</figure>
+
+
+<p>ここまでの二つの例における \({\it cdf}^{-1}(x)\)の形を見比べればわかるとおり、これらの考え方は\({\it pdf}(x) = cx^{n}\) の場合に一般化することができる。</p>
+
+<h3 id="指数分布">指数分布</h3>
+
+<p>\({\it pdf}(x) = ce^{-kx}\) で、変数の範囲が \([a, b]\) とする。</p>
+
+<p>\({\it pdf}(x)\)の条件から
+\[\int_{a}^{b} ce^{-kx} dx = \frac{c}{k} (e^{-ka} - e^{-kb}) = 1\]
+\[\therefore c = \frac{k}{e^{-ka}-e^{-kb}}\]
+よって</p>
+
+<p>\begin{align}
+{\it cdf}(x) & = \int_{a}^{x} \frac{k}{(e^{-ka} - e^{-kb})}e^{-kx} dx \\
+             & = \frac{e^{-ka}-e^{-kx}}{e^{-ka} - e^{-kb}}
+\end{align}
+</p>
+
+<p>\[\therefore {\it cdf}^{-1}(x) = - \frac{\log(e^{-ka} - (e^{-ka} - e^{-kb})x)}{k}\]</p>
+
+<p>コードは</p>
+
+<pre><code class="language-python"># [0, 1]の一様乱数を入力するとpdf(x)=ce^(-kx) (a &lt; x &lt; b) な乱数を返す関数を返す
+def RNG_exp(k, a, b):
+    def func(x):
+        return -log(exp(-k*a) - x*(exp(-k*a) - exp(-k*b))) / k
+    return func
+</code></pre>
+
+<p>グラフは</p>
+
+<pre><code class="language-python">fig, ax = plt.subplots(figsize=(10, 10))
+bins = list(np.arange(1, 5, 0.025))
+# k, a, bの値を変えて3つ描画する
+ax.hist([RNG_exp(1, 1, 10)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;k=1, [1, 10]&quot;)
+ax.hist([RNG_exp(2, 1, 10)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;k=2, [1, 10]&quot;)
+ax.hist([RNG_exp(1, 1, 2)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;k=1, [1, 5]&quot;)
+ax.legend()
+fig
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/RNG_exp.png" />
+    
+    
+</figure>
+
+
+<p>なお前の式で\(k=1\), \(b = \infty\) とすると
+\[{\it cdf}^{-1}(x) = a \log(1-x)\]
+となってかなり簡単になる。</p>
+
+<h3 id="その他">その他</h3>
+
+<p>逆関数法を使って乱数が求められる分布は他にもあるが省略。</p>
+
+<p>逆関数法を使わないでも乱数が求められる分布もある。</p>
+
+<p>例えば、 \(X_{1}, \dots , X_{n}\) を \([a, b]\) の一様分布に従う変数としたとき
+\[ X = max(X_{1}, \dots, X_{n})\]
+とすると、 \(X\) は \({\it pdf(x) = cx^{n}}\) かつ \(X \in [a, b]\) な分布に従う。</p>
+
+<p>このことは</p>
+
+<p>\begin{align}
+P(X = x) & = P(x_{1} \leq x \land , \dots , \land x_{n} \leq x) \\
+         & = \prod_{i=1}^{n} P(x_{i} \leq x) & (\because x_{i} は独立) \\
+         & \sim \prod_{i=1}^{n} x & (\because x_{i}は一様分布に従う) \\
+         & = x^{n}
+\end{align}
+</p>
+
+<p>からわかる。</p>
+
+<p>逆関数法を使わないで乱数を求める他の方法として、ボックスミュラー法がある。</p>
+
+<h2 id="参考文献">参考文献</h2>
+
+<p>Physically Based Rendering, Third Edition, Chapter13 &ldquo;Monte Carlo Integration&rdquo;</p>
+
+<p>Ray Tracing: The Rest Of Your Life (Ray Tracing Minibooks Book 3), Chapter2 &ldquo;One Dimentional MC Integral&rdquo;</p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://www.example.com/post/montecarlo_integral/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://www.example.com/post/montecarlo_integral/">モンテカルロ積分</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://www.example.com/post/perlin_noise/">パーリンノイズ</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://www.example.com/post/perlin_noise/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'Your Disqus shortname';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://www.example.com/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-107335237-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

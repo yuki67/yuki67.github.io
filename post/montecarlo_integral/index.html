@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <title>モンテカルロ積分 &middot; yuki&#39;s blog</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://www.example.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://www.example.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://www.example.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/ocaml.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://www.example.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<body>
+<div id="layout">
+   
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://www.example.com/">yuki's blog</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://www.example.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://www.example.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://www.example.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/yfkutydt" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/yuki67" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>by yuki</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+<div id="main">
+
+
+<div class="header">
+  <h1>モンテカルロ積分</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017-08-12</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://www.example.com/tags/python">python</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://www.example.com/tags/math">math</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://www.example.com/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>積分</p>
+
+<p>\[
+\int_0^{10} e^{-x^2}dx = 0.886227&hellip;
+\]</p>
+
+<p>を、計算で求めることを考える。</p>
+
+<p></p>
+
+<p>(近似値は <a href="http://www.wolframalpha.com/input/?i%3Dint_0%255E10%2Be%255E-x**2">wolfram alpha</a> で計算した)</p>
+
+<p>まず被積分関数と答えを定義する。</p>
+
+<pre><code class="language-python">from math import exp
+# 被積分関数
+f = lambda x: exp(-x**2)
+# 答え
+answer = 0.886227
+</code></pre>
+
+<p>次にipython用の初期設定をする。</p>
+
+<pre><code class="language-python"># 記事の中で使うのモジュールのインポート
+%matplotlib inline
+import random
+from math import sin, cos, exp, log
+import numpy as np
+import matplotlib.pyplot as plt
+</code></pre>
+
+<h2 id="区間分割">区間分割</h2>
+
+<p>まず、</p>
+
+<p>\begin{align}
+& \int_a^b f(x) dx = \lim_{n \to \infty} \frac{b - a}{n} \sum_{i=0}^{n} f(a + (b - a)\frac{i}{n})
+\end{align}
+</p>
+
+<p>を使って値を求める。</p>
+
+<pre><code class="language-python">def section_split(f, a, b, n):
+  sum = 0
+  for i in np.linspace(a, b, n):
+    sum += f(i)
+  return (b - a) / n * sum
+
+# 誤差を求める
+section_split(f, 0, 10, 1000) - answer
+</code></pre>
+
+<pre><code class="language-text">0.004113698527303256
+</code></pre>
+
+<p>近い値が求められている。</p>
+
+<p>nと誤差の関係をグラフにプロットしてみる。</p>
+
+<pre><code class="language-python">fig, ax = plt.subplots(figsize=(10, 10))
+ax.hold(True)
+ax.grid(True)
+ax.set_xlabel(&quot;n&quot;)
+ax.set_ylabel(&quot;error&quot;)
+ax.set_ylim(-0.5, 0.5)
+n = 500
+ax.plot([section_split(f, 0, 10, n) - answer for n in range(1, n)], label=&quot;section split&quot;)
+ax.legend()
+fig
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/section_split.png" />
+    
+    
+</figure>
+
+
+<p>利点</p>
+
+<ul>
+<li>コーディングが簡単</li>
+<li>近似の精度が(\(n\)に対して)良い</li>
+</ul>
+
+<p>欠点</p>
+
+<ul>
+<li>計算を途中で打ち切ることができない</li>
+<li>変数の数が多い場合計算量が大きい
+
+<ul>
+<li>\(k\)個の変数について\(n\)個の区間に分割した場合、積分する関数の計算は\(n^k\)回必要になる</li>
+</ul></li>
+<li>同じ\(n\)に対して同じ値しか返さない
+
+<ul>
+<li>計算精度などの関係で\(n\)の上限が決まっているとき、精度の上限も決まってしまう。</li>
+</ul></li>
+</ul>
+
+<h2 id="モンテカルロ">モンテカルロ</h2>
+
+<p>関数に渡す値を順番に選ぶ代わりにランダムに取る方法。</p>
+
+<pre><code class="language-python">def montecarlo(f, a, b, n):
+    sum = 0
+    ans = []
+    for i in range(1, n):
+        sum += f(random.uniform(a, b))
+        ans.append(sum / i * (b - a) - answer)
+    return ans
+</code></pre>
+
+<p>誤差の変化をさっき書いたグラフに上書きする。乱数を用いているので、何回か近似を行ってそれぞれについての誤差の変化をプロットする。</p>
+
+<pre><code class="language-python">ax.plot(montecarlo(f, 0, 10, n), label=&quot;montecarlo&quot;, color=&quot;g&quot;, alpha=0.25)
+for i in range(14):
+    ax.plot(montecarlo(f, 0, 10, n), color=&quot;g&quot;, alpha=0.25)
+ax.legend()
+fig
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/montecarlo.png" />
+    
+    
+</figure>
+
+
+<p>モンテカルロ法で近い値が求まっているが、区間分割法ほど精度が高くないことが分かる。</p>
+
+<p>利点</p>
+
+<ul>
+<li>コーディングが(多変数の場合でも)簡単</li>
+<li>途中で計算を打ち切れる
+
+<ul>
+<li>制限時間は10分だと言われれば10分全て使いきれる</li>
+<li>粗い近似がすぐに求まる</li>
+</ul></li>
+</ul>
+
+<p>欠点</p>
+
+<ul>
+<li>近似の精度が悪い</li>
+<li>関数の形によっては\(n\)を大きくしても精度がほとんど向上しないことがある
+
+<ul>
+<li>関数の一部だけが大きな値を取るときなど
+
+<ul>
+<li>今回の関数も多少当てはまる。誤差が突然大きくなったり小さくなったりしている点がグラフにいくつかある。</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h2 id="重点サンプリング">重点サンプリング</h2>
+
+<p>今考えている被積分関数\(e^{-x^2}\)は\(x=0\)の近くで大きな値を取り、\(x \geq 3\) の部分ではごく小さな値しか取らない。</p>
+
+<pre><code class="language-python">fig2, ax2 = plt.subplots(figsize=(10, 10))
+ax2.plot(np.linspace(0, 10, 100), [f(x) for x in np.linspace(0, 10, 100)], label=&quot;integrad&quot;)
+ax2.legend()
+ax2.grid()
+fig2
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/func_e-x2.png" />
+    
+    
+</figure>
+
+
+<p>そのため\(x=0 \to 10\) の積分と \(x=0 \to 3\) の積分の値の差は小さい。つまり、モンテカルロ法で\(x=0 \to 10\)の積分を求めるとき、変数を\([0, 10]\)からとる代わりに\([0, 3]\) からとっても答えはあまり変わらない。</p>
+
+<p>それどころか、そうしたほうが\(n\)の値が相対的に大きくなって近似の精度が良くなることが予想できる。</p>
+
+<p>実際そうなることを確かめる。</p>
+
+<pre><code class="language-python">fig3, ax3 = plt.subplots(figsize=(10, 10))
+
+# [0, 10]から取る
+ax3.plot(montecarlo(f, 0, 10, n), label=&quot;[0, 10]&quot;, color=&quot;g&quot;, alpha=0.4)
+for i in range(14):
+    ax3.plot(montecarlo(f, 0, 10, n), color=&quot;g&quot;, alpha=0.4)
+
+# [0, 3]から取る
+ax3.plot(montecarlo(f, 0, 3, n), label=&quot;[0, 3]&quot;, color=&quot;r&quot;, alpha=0.4)
+for i in range(14):
+    ax3.plot(montecarlo(f, 0, 3, n), color=&quot;r&quot;, alpha=0.4)
+
+
+ax3.legend()
+ax3.grid()
+ax3.set_ylim(-0.5, 0.5)
+fig3
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/importance_sampling_diff.png" />
+    
+    
+</figure>
+
+
+<p>このことを一般化すると、「被積分関数が大きい値を取るところから変数を多くとったほうが精度が上がる」ことが分かる。つまり、完全に一様な分布ではなくて被積分関数と似た分布から変数\(x\)をとって\(f(x)\)を求める方が望ましい。</p>
+
+<p>このことを実現するには、ある分布が与えられたときにその分布に従うような乱数を(無数に)出力する手続きが必要となるが、
+これは別の記事で書くことにする(<a href="https://yuki67.github.io/posts/inverse_method/">書きました</a>)。結論だけ書くと、「ある関数 \({\it pdf}(x)\)の不定積分とその逆関数が解析的に求まるならば、\(x\)が選ばれる確率が\({\it pdf}(x)\)に比例する乱数を一様乱数から作ることができる」となる。</p>
+
+<p>以下の例では変数が \(x \in [0, 10]\) の値を取る確率が \( {\it pdf}(x) = e^{-x} \) に比例するようにしている。ここで \(e^{-x}\) を選んだのは、この関数が被積分関数に似ていて、かつ不定積分とその逆関数が簡単に求まるからだ。</p>
+
+<p>\( {\it pdf}(x) \) は被積分関数と似ている方が良くて、被積分関数と同じなのが理想だ。しかし、\( {\it pdf}(x) \) として被積分関数を取れるなら、それは積分を解析的に求められることを意味するので数値で近似する意味がない。</p>
+
+<pre><code class="language-python">pdf = lambda x: exp(-x) / (1 - exp(-10))        # pdf(x) : 自分で考える/正規化もする
+cdf = lambda x: (1 - exp(-x)) / (1 - exp(-10))  # cdf(x) : pdf(x)を[a, x]で積分したもの
+cdf_inv = lambda x: -log(1- (1 - exp(-10)) * x) # cdf_inv(x) : cdf(x) の逆関数
+
+def importance_sampling(f, a, b, n):
+    sum = 0
+    ans = []
+    for i in range(1, n):
+        x = cdf_inv(random.random())
+        sum += f(x) / pdf(x)
+        ans.append(sum / i - answer)
+    return ans
+
+ax.plot(importance_sampling(f, 0, 10, n), label=&quot;importance sampling&quot;, color=&quot;r&quot;, alpha=0.25)
+for _ in range(14):
+    ax.plot(importance_sampling(f, 0, 10, n), color=&quot;r&quot;, alpha=0.25)
+ax.legend()
+fig
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/importance_sampling.png" />
+    
+    
+</figure>
+
+
+<p>グラフより、一様分布を使ったモンテカルロ法と比べるとこの方法を用いた方が近似値のブレが少なく、近似値の精度も高まることが分かる。</p>
+
+<h2 id="参考文献">参考文献</h2>
+
+<p>Physically Based Rendering, Third Edition, Chapter13 &ldquo;Monte Carlo Integration&rdquo;</p>
+
+<p>Ray Tracing: The Rest Of Your Life (Ray Tracing Minibooks Book 3), Chapter2 &ldquo;One Dimentional MC Integral&rdquo;</p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://www.example.com/post/hazimemasita/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://www.example.com/post/hazimemasita/">nikolaでブログはじめました</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://www.example.com/post/inverse_method/">逆関数法</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://www.example.com/post/inverse_method/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'Your Disqus shortname';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://www.example.com/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-107335237-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

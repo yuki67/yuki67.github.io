@@ -1,108 +1,119 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-    xmlns:xhtml="http://www.w3.org/1999/xhtml"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
- <url>
-  <loc>https://yuki67.github.io/</loc>
-  <lastmod>2017-10-01T11:38:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/2017/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/archive.html</loc>
-  <lastmod>2017-10-01T13:47:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/categories/</loc>
-  <lastmod>2017-10-01T02:07:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/categories/ben/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/categories/graphics/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/categories/javascript/</loc>
-  <lastmod>2017-10-01T01:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/categories/kodozhi-kichang/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/categories/math/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/categories/mathjax/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/categories/noto/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/categories/ocaml/</loc>
-  <lastmod>2017-10-01T01:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/categories/perl/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/categories/python/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/pages/about/</loc>
-  <lastmod>2017-10-01T02:33:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/posts/automaton_ocaml/</loc>
-  <lastmod>2017-09-17T12:03:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/posts/hazimemashita/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/posts/hello_buckle/</loc>
-  <lastmod>2017-09-24T12:08:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/posts/inverse-method/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/posts/montecarlo-integral/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/posts/more_bucklesctipt/</loc>
-  <lastmod>2017-10-01T13:47:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/posts/perl-oneliner/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/posts/perlin-noise/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/posts/random_pick/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
- <url>
-  <loc>https://yuki67.github.io/posts/textbooks/</loc>
-  <lastmod>2017-09-03T07:25:00Z</lastmod>
- </url>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://www.example.com/post/more_bucklescript/</loc>
+    <lastmod>2017-10-01T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/post/hello_buckle/</loc>
+    <lastmod>2017-09-24T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/post/automaton/</loc>
+    <lastmod>2017-09-17T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/post/textbooks/</loc>
+    <lastmod>2017-09-03T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/post/random_pick/</loc>
+    <lastmod>2017-08-22T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/post/perlin_noise/</loc>
+    <lastmod>2017-08-17T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/post/inverse_method/</loc>
+    <lastmod>2017-08-15T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/post/montecarlo_integral/</loc>
+    <lastmod>2017-08-12T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/post/hazimemasita/</loc>
+    <lastmod>2017-08-11T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/about/</loc>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/tags/javascript/</loc>
+    <lastmod>2017-10-01T00:00:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/tags/math/</loc>
+    <lastmod>2017-08-22T00:00:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/tags/ocaml/</loc>
+    <lastmod>2017-10-01T00:00:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/post/</loc>
+    <lastmod>2017-10-01T00:00:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/tags/python/</loc>
+    <lastmod>2017-08-22T00:00:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/tags/</loc>
+    <lastmod>2017-10-01T00:00:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/topics/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/</loc>
+    <lastmod>2017-10-01T00:00:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/tags/%E3%81%9D%E3%81%AE%E4%BB%96/</loc>
+    <lastmod>2017-08-11T00:00:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/</loc>
+    <lastmod>2017-10-01T00:00:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.example.com/tags/%E6%9C%AC/</loc>
+    <lastmod>2017-09-03T00:00:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
 </urlset>

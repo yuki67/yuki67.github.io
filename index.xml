@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>yuki&#39;s blog</title>
+    <link>https://www.example.com/</link>
+    <description>Recent content on yuki&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <copyright>by yuki</copyright>
+    <lastBuildDate>Sun, 01 Oct 2017 00:00:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://www.example.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>もっとbucklescriptをいじった</title>
+      <link>https://www.example.com/post/more_bucklescript/</link>
+      <pubDate>Sun, 01 Oct 2017 00:00:00 +0900</pubDate>
+      
+      <guid>https://www.example.com/post/more_bucklescript/</guid>
+      <description>&lt;p&gt;デモサイトは&lt;a href=&#34;https://yuki67.github.io/ShapeOCaml/&#34;&gt;ここ&lt;/a&gt;にある。&lt;/p&gt;
+
+&lt;p&gt;もう遅いので説明なんかは後で。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>hello bucklescript!</title>
+      <link>https://www.example.com/post/hello_buckle/</link>
+      <pubDate>Sun, 24 Sep 2017 00:00:00 +0900</pubDate>
+      
+      <guid>https://www.example.com/post/hello_buckle/</guid>
+      <description>&lt;p&gt;bucklescriptを使うとOCamlを使ってjavascriptが書けると聞いたので試した。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>オートマトン in OCaml</title>
+      <link>https://www.example.com/post/automaton/</link>
+      <pubDate>Sun, 17 Sep 2017 00:00:00 +0900</pubDate>
+      
+      <guid>https://www.example.com/post/automaton/</guid>
+      <description>&lt;p&gt;前にpythonでやったことをOCamlでやったのでまとめた。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>教科書</title>
+      <link>https://www.example.com/post/textbooks/</link>
+      <pubDate>Sun, 03 Sep 2017 00:00:00 +0900</pubDate>
+      
+      <guid>https://www.example.com/post/textbooks/</guid>
+      <description>&lt;p&gt;講義で使った教科書のリスト。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ランダムピック</title>
+      <link>https://www.example.com/post/random_pick/</link>
+      <pubDate>Tue, 22 Aug 2017 00:00:00 +0900</pubDate>
+      
+      <guid>https://www.example.com/post/random_pick/</guid>
+      <description>&lt;p&gt;整数の組 \((i, j)\) に対してランダムな整数を割り振りたい。
+それも、全ての組について乱数を保存することなく割り振りたい。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>パーリンノイズ</title>
+      <link>https://www.example.com/post/perlin_noise/</link>
+      <pubDate>Thu, 17 Aug 2017 00:00:00 +0900</pubDate>
+      
+      <guid>https://www.example.com/post/perlin_noise/</guid>
+      <description>&lt;p&gt;書いたので。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>逆関数法</title>
+      <link>https://www.example.com/post/inverse_method/</link>
+      <pubDate>Tue, 15 Aug 2017 00:00:00 +0900</pubDate>
+      
+      <guid>https://www.example.com/post/inverse_method/</guid>
+      <description>&lt;p&gt;ある分布が与えられたときにその分布に従う乱数を生成することを考える。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>モンテカルロ積分</title>
+      <link>https://www.example.com/post/montecarlo_integral/</link>
+      <pubDate>Sat, 12 Aug 2017 00:00:00 +0900</pubDate>
+      
+      <guid>https://www.example.com/post/montecarlo_integral/</guid>
+      <description>&lt;p&gt;積分&lt;/p&gt;
+
+&lt;p&gt;\[
+\int_0^{10} e^{-x^2}dx = 0.886227&amp;hellip;
+\]&lt;/p&gt;
+
+&lt;p&gt;を、計算で求めることを考える。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>nikolaでブログはじめました</title>
+      <link>https://www.example.com/post/hazimemasita/</link>
+      <pubDate>Fri, 11 Aug 2017 00:00:00 +0900</pubDate>
+      
+      <guid>https://www.example.com/post/hazimemasita/</guid>
+      <description>&lt;p&gt;(今はnikolaを使っておらず、Hugoに移行した。)&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://www.example.com/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.example.com/about/</guid>
+      <description>あ</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <title>オートマトン in OCaml &middot; yuki&#39;s blog</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://www.example.com/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://www.example.com/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://www.example.com/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/ocaml.min.js"></script>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="https://www.example.com/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<body>
+<div id="layout">
+   
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://www.example.com/">yuki's blog</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://www.example.com/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://www.example.com/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://www.example.com/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/yfkutydt" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/yuki67" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>by yuki</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+<div id="main">
+
+
+<div class="header">
+  <h1>オートマトン in OCaml</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017-09-17</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://www.example.com/tags/ocaml">ocaml</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://www.example.com/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>前にpythonでやったことをOCamlでやったのでまとめた。</p>
+
+<p></p>
+
+<p>このページの実行例は<a href="https://github.com/yuki67/AutomatonOcaml">このリポジトリ</a>のルートで <code>jbuilder utop src</code> で起動するutopで実行した。</p>
+
+<h2 id="作成-実行">作成・実行</h2>
+
+<p>作って&hellip;</p>
+
+<pre><code class="language-ocaml"># let dfa =
+  DFA.cons
+    [&quot;0&quot;; &quot;1&quot;]    (* アルファベット *)
+    [(0, &quot;0&quot;, 0); (* 遷移関数 *)
+     (0, &quot;1&quot;, 1); (* (q, c, q') は「状態qでcを読むとq'に遷移する」を意味する *)
+     (1, &quot;0&quot;, 0);
+     (1, &quot;1&quot;, 1)]
+    0             (* 初期状態 *)
+    [1];;         (* 受理状態 *)
+val dfa : int DFA.t = &lt;abstr&gt;
+</code></pre>
+
+<p>走らせる。</p>
+
+<pre><code class="language-ocaml"># DFA.run dfa &quot;0001&quot;;;
+- : bool = true
+
+# DFA.run dfa &quot;0110&quot;;;
+- : bool = false
+
+# DFA.run dfa &quot;&quot;;;
+- : bool = false
+</code></pre>
+
+<p>NFAでは空文字列Emptyと「その他全て」を意味するAnyOtherが使える</p>
+
+<pre><code class="language-ocaml"># let nfa =
+    let a, b, c, d = 1, 2, 3, 4 in
+    NFA.cons [&quot;0&quot;; &quot;1&quot;; &quot;2&quot;]
+      [(a, Char &quot;0&quot;, [a]);         (* 遷移先は状態ではなく状態の集合になる *)
+       (a, AnyOther, [b]);
+       (b, Char &quot;1&quot;, [b]);
+       (b, AnyOther, [c]);
+       (c, Char &quot;2&quot;, [c]);
+       (c, Empty,    [a;b])]
+      [a]                          (* 初期状態も状態の集合*)
+      [c];;
+val nfa : int NFA.t = &lt;abstr&gt;
+
+# NFA.run nfa &quot;&quot;;;
+- : bool = false
+
+# NFA.run nfa &quot;00&quot;;;
+- : bool = false
+
+ # NFA.run nfa &quot;10&quot;;;
+- : bool = true
+
+# NFA.run maton &quot;21012&quot;;;
+- : bool = true
+
+# NFA.run nfa &quot;011010001&quot;;;
+- : bool = false
+</code></pre>
+
+<h2 id="遷移図の出力">遷移図の出力</h2>
+
+<p>Dot言語のソースコードを出力する関数がある。</p>
+
+<pre><code class="language-ocaml"># DFA.print_dfa dfa string_of_int;;
+digraph finite_state_machine {
+rankdir=LR
+node [shape = point] init
+node [shape = ellipse, peripheries=2]
+&quot;1&quot;
+node [shape = ellipse, peripheries=1]
+init -&gt; &quot;0&quot;
+node [shape = ellipse, peripheries=1]
+&quot;0&quot; -&gt; &quot;0&quot; [label = &quot;0&quot;]
+&quot;0&quot; -&gt; &quot;1&quot; [label = &quot;1&quot;]
+&quot;1&quot; -&gt; &quot;0&quot; [label = &quot;0&quot;]
+&quot;1&quot; -&gt; &quot;1&quot; [label = &quot;1&quot;]
+}
+</code></pre>
+
+<p>これをgraphvizでコンパイルすると、以下の画像が得られる。</p>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/dfa.png" />
+    
+    
+</figure>
+
+
+<p>NFAでも同様。</p>
+
+<pre><code class="language-ocaml"># print_nfa nfa string_of_int;;
+digraph finite_state_machine {
+rankdir=LR
+node [shape = point] init
+node [shape = ellipse, peripheries=2]
+&quot;3&quot;
+node [shape = ellipse, peripheries=1];
+init -&gt; &quot;1&quot;
+node [shape = ellipse, peripheries=1]
+&quot;1&quot; -&gt; &quot;1&quot; [label = &quot;0&quot;]
+&quot;1&quot; -&gt; &quot;2&quot; [label = &quot;other&quot;]
+&quot;2&quot; -&gt; &quot;2&quot; [label = &quot;1&quot;]
+&quot;2&quot; -&gt; &quot;3&quot; [label = &quot;other&quot;]
+&quot;3&quot; -&gt; &quot;3&quot; [label = &quot;2&quot;]
+&quot;3&quot; -&gt; &quot;1&quot; [label = &quot;ε&quot;]
+&quot;3&quot; -&gt; &quot;2&quot; [label = &quot;ε&quot;]
+}
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/nfa.png" />
+    
+    
+</figure>
+
+
+<h2 id="nfaのdfaへの変換">NFAのDFAへの変換</h2>
+
+<p>与えられたNFAを、認識する言語が同じDFAに変換するアルゴリズムを実装した。</p>
+
+<p>これだけ読んで分かるかどうかは微妙だが、ソースコードを張る。</p>
+
+<pre><code class="language-ocaml">let to_dfa = fun maton -&gt;
+  let init = (saturate maton maton.initial) in
+  let finals =
+    if anything_in_common init maton.finals
+    then ref [init]
+    else ref [] in
+  let trans = ref [] in
+  let rec loop searched to_search =
+    match to_search with
+    | [] -&gt; ()
+    | state::tl -&gt;
+        let nexts_triplet =
+          image (fun c -&gt; state, c, transit maton state c) maton.alphabet in
+        let nexts = map (fun (_, _, x) -&gt; x) nexts_triplet in
+        trans := nexts_triplet @ !trans;
+        finals := nexts
+                   |&gt; filter (anything_in_common maton.finals)
+                   |&gt; union !finals;
+        loop (set_add searched state) (union tl (diff nexts (state::searched)))
+  in
+  let _ = loop [] [init] in
+  DFA.cons maton.alphabet !trans init !finals
+</code></pre>
+
+<p>次のように使う。</p>
+
+<pre><code class="language-ocaml"># let nfa =
+    let a, b, c = 0, 1, 2 in
+    NFA.cons [&quot;0&quot;; &quot;1&quot;; &quot;2&quot;]
+      [(a, Char &quot;0&quot;, [a]);
+       (a, Empty,    [b]);
+       (b, Char &quot;1&quot;, [b]);
+       (b, Empty,    [c]);
+       (c, Char &quot;2&quot;, [c])]
+      [a] [c] ;;
+val nfa : int NFA.t = &lt;abstr&gt;
+
+# let dfa = (NFA.to_dfa nfa);;
+val dfa : int list DFA.t = &lt;abstr&gt;
+</code></pre>
+
+<p>変換されたDFAの状態は元のNFAの状態の集合なので、
+<code>int NFA.t</code> を変換した <code>dfa</code> の型が <code>int list DFA.t</code> になっている。</p>
+
+<p>この <code>nfa</code> , <code>dfa</code> を画像にすると、変換がどう行われたのかが分かる。</p>
+
+<pre><code class="language-ocaml"># NFA.print_nfa nfa string_of_int;;
+(* 出力される文字列をgraphvizで画像にしたものを張った。以下同じ。 *)
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/dfa_to_convert.png" />
+    
+    
+</figure>
+
+
+<pre><code class="language-ocaml"># DFA.print_dfa dfa (ListExt.string_of_list string_of_int)
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/dfa_converted.png" />
+    
+    
+</figure>
+
+
+<h2 id="dfaの最小化">DFAの最小化</h2>
+
+<p>Myhill–Nerodeの関係を使ったDFAの最小化アルゴリズムも実装した。</p>
+
+<p>コードはかなり長く、以下のようになる。</p>
+
+<pre><code class="language-ocaml">let minimize maton =
+  (* helper functions *)
+  let transitable_into marked (p, q) =
+    exists
+      (fun c -&gt;
+         let p', q' = transit maton p c, transit maton q c in
+         mem (p', q') marked || mem (q', p') marked)
+      maton.alphabet in
+  let mark_initial_cond (p, q) =
+    (mem p maton.finals &amp;&amp; not (mem q maton.finals)) ||
+    (not (mem p maton.finals) &amp;&amp; mem q maton.finals) in
+  let transitions_from s new_states =
+    let origin = find (mem s) new_states
+    and next c = find (mem (transit maton s c)) new_states in
+    (map (fun c -&gt; origin, c, next c) maton.alphabet) in
+  let states = collect_states maton in
+  let rec loop (marked, unmarked) =
+    let to_add = filter (transitable_into marked) unmarked in
+    if subset to_add marked then marked, unmarked
+    else loop ((union marked to_add), (diff unmarked to_add)) in
+  let connected_component udgraph v =
+    let rec loop acc = function
+      | [] -&gt; acc
+      | (x, y) :: tl when x = v || y = v -&gt; loop (union acc [x; y]) tl
+      | _ :: tl -&gt; loop acc tl in
+    loop [v] udgraph in
+  (* main procedure *)
+  (* (p, q) ∈ marked &lt;-&gt; p and q are distinguishable *)
+  let init_marked, init_unmarked =
+    partition mark_initial_cond (original_pairs states) in
+  (* saturate marked and unmarked *)
+  (* &quot;marked ∩ unmarked = ∅&quot; stays true after loop *)
+  let marked, unmarked = loop (init_marked, init_unmarked) in
+  (* calculate new states from marked and unmarked *)
+  let new_states =
+    fold_left_ignore
+      (fun acc s -&gt; exists (fun set -&gt; mem s set) acc)
+      (* largest undistinguishable set which contains s *)
+      (fun acc s -&gt; (connected_component unmarked s) :: acc)
+      [] states in
+  (* also calculate new transition from new_states *)
+  let new_trans =
+    fold_left_ignore
+      (fun acc s -&gt; exists (fun (set, _, _) -&gt; mem s set) acc)
+      (fun acc s -&gt; (transitions_from s new_states) @ acc)
+      [] states in
+  cons
+    maton.alphabet
+    new_trans
+    (* note : exactly one element of new_states contains maton.inits *)
+    (find (mem maton.inits) new_states)
+    (filter (anything_in_common maton.finals) new_states)
+</code></pre>
+
+<p>使用例:</p>
+
+<pre><code class="language-ocaml"># let maton = DFA.cons [&quot;0&quot;; &quot;1&quot;]
+      [(0, &quot;0&quot;, 1);
+       (0, &quot;1&quot;, 2);
+       (1, &quot;0&quot;, 0);
+       (1, &quot;1&quot;, 3);
+       (2, &quot;0&quot;, 4);
+       (2, &quot;1&quot;, 5);
+       (3, &quot;0&quot;, 4);
+       (3, &quot;1&quot;, 5);
+       (4, &quot;0&quot;, 4);
+       (4, &quot;1&quot;, 5);
+       (5, &quot;0&quot;, 5);
+       (5, &quot;1&quot;, 5)]
+      0 [2;3;4] ;;
+val maton : int DFA.t = &lt;abstr&gt;
+
+# DFA.print_dfa maton string_of_int;;
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/dfa_to_minimize.png" />
+    
+    
+</figure>
+
+
+<p>これを最小化すると、</p>
+
+<pre><code class="language-ocaml"># let minimized = DFA.minimize maton;;
+val minimized : int list DFA.t = &lt;abstr&gt;
+
+# DFA.print_dfa minimized (MyExt.ListExt.string_of_list string_of_int);;
+</code></pre>
+
+
+<figure >
+    
+        <img src="https://www.example.com/ox-hugo/dfa_minimized.png" />
+    
+    
+</figure>
+
+
+<p>となる。</p>
+
+<p>最小化されたDFAを見ると元のDFAのどの状態が同一視されているのかが分かる。</p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://www.example.com/post/textbooks/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://www.example.com/post/textbooks/">教科書</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://www.example.com/post/hello_buckle/">hello bucklescript!</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://www.example.com/post/hello_buckle/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'Your Disqus shortname';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="https://www.example.com/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-107335237-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

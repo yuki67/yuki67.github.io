@@ -1,4 +1,0 @@
-Sitemap: https://yuki67.github.io/sitemapindex.xml
-
-User-Agent: *
-Host: yuki67.github.io
