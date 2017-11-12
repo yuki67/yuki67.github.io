@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.30.2" />
 
-  <title>もっとbucklescriptをいじった &middot; yuki&#39;s blog</title>
+  <title>hugoに移行した &middot; yuki&#39;s blog</title>
 
   
   
@@ -199,7 +199,7 @@
 
 
 <div class="header">
-  <h1>もっとbucklescriptをいじった</h1>
+  <h1>hugoに移行した</h1>
   <h2></h2>
 </div>
 <div class="content">
@@ -208,7 +208,7 @@
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017-10-01</time>
+    <time>2017-11-09</time>
   </div>
 
   
@@ -221,11 +221,7 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ocaml">ocaml</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/javascript">javascript</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%81%9D%E3%81%AE%E4%BB%96">その他</a>
     
   </div>
   
@@ -233,23 +229,36 @@
 
 </div>
 
-  <p>デモサイトは<a href="https://yuki67.github.io/ShapeOCaml/">ここ</a>にある。</p>
+  <p>前からhugoというスタティックサイトジェネレータが気になっていて試してみたりもしたのが、
+org-modeで記事が書けると公式で言われている割にほとんど使い物にならず、移行はしていなかった。</p>
 
-<p>もう遅いので説明なんかは後で。</p>
+<p>今回もう一度トライした結果ox-hugoという拡張機能がほぼ自分の思っていた通りのことをしてくれることが分かったので、
+思い切って移行した。ox-hugoがとても気が利いているので、移行はほぼコピペだけですんだ。</p>
+
+<p>記事を最近書いていないのに移項だけするのは気が引けたが、見栄えもよくなったし記事を書くのも
+かなり楽になったのでよしとしよう。</p>
 
 <p></p>
+
+<p>一つ不満点としてHugoがMarkdownファイル内の改行をまともに取り扱わないというのがある。
+上の文章では「記事を書くのも」と「かなり楽に」の間に半角スペースがあるが、これは
+私が意図したものではない。HugoがMarkdownをHTMLに変換するときに改行を単語の切れ目だと判断したために
+誤って挿入されたものだ。(この文章にもいくつか変な場所にスペースがある。)</p>
+
+<p>org-modeで改行を使わずに書けば問題は回避できるが、文章が書きづらくなるのでそのままにしている。
+極端に見栄えが悪くなるわけでもないし、そのうちHugoにも修正が入るだろう。</p>
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="https://yuki67.github.io/post/hello_buckle/"><i class="fa fa-chevron-left"></i></a>
+    <a href="https://yuki67.github.io/post/more_bucklescript/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="https://yuki67.github.io/post/hello_buckle/">hello bucklescript!</a>
+      <a href="https://yuki67.github.io/post/more_bucklescript/">もっとbucklescriptをいじった</a>
     </nav>
     
   </div>
@@ -258,14 +267,8 @@
   </div>
   <div class="pure-u-10-24">
     
-    <nav class="next">
-      <a href="https://yuki67.github.io/post/to_hugo/">hugoに移行した</a>
-    </nav>
-    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="https://yuki67.github.io/post/to_hugo/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

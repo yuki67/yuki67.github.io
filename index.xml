@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Sun, 01 Oct 2017 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 09 Nov 2017 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>hugoに移行した</title>
+      <link>https://yuki67.github.io/post/to_hugo/</link>
+      <pubDate>Thu, 09 Nov 2017 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/to_hugo/</guid>
+      <description>&lt;p&gt;前からhugoというスタティックサイトジェネレータが気になっていて試してみたりもしたのが、
+org-modeで記事が書けると公式で言われている割にほとんど使い物にならず、移行はしていなかった。&lt;/p&gt;
+
+&lt;p&gt;今回もう一度トライした結果ox-hugoという拡張機能がほぼ自分の思っていた通りのことをしてくれることが分かったので、
+思い切って移行した。ox-hugoがとても気が利いているので、移行はほぼコピペだけですんだ。&lt;/p&gt;
+
+&lt;p&gt;記事を最近書いていないのに移項だけするのは気が引けたが、見栄えもよくなったし記事を書くのも
+かなり楽になったのでよしとしよう。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>もっとbucklescriptをいじった</title>

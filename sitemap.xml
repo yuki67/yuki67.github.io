@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://yuki67.github.io/post/to_hugo/</loc>
+    <lastmod>2017-11-09T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://yuki67.github.io/post/more_bucklescript/</loc>
     <lastmod>2017-10-01T00:00:00+09:00</lastmod>
   </url>
@@ -71,7 +76,7 @@
   
   <url>
     <loc>https://yuki67.github.io/post/</loc>
-    <lastmod>2017-10-01T00:00:00+09:00</lastmod>
+    <lastmod>2017-11-09T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -94,13 +99,13 @@
   
   <url>
     <loc>https://yuki67.github.io/</loc>
-    <lastmod>2017-10-01T00:00:00+09:00</lastmod>
+    <lastmod>2017-11-09T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://yuki67.github.io/tags/%E3%81%9D%E3%81%AE%E4%BB%96/</loc>
-    <lastmod>2017-08-11T00:00:00+09:00</lastmod>
+    <lastmod>2017-11-09T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
