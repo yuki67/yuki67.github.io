@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+    <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -38,15 +38,6 @@
   
 
   
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
-  
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/ocaml.min.js"></script>
-  
-  <script>hljs.initHighlightingOnLoad();</script>
-  
 
   <link rel="shortcut icon" href="https://yuki67.github.io/img/favicon.ico" type="image/x-icon" />
 
@@ -55,11 +46,14 @@
 
 </head>
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<body>
-<div id="layout">
-   
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+
+    <body>
+        <div id="layout">
+            
 <a href="#menu" id="menuLink" class="menu-link">
   
   <span></span>
@@ -195,7 +189,7 @@
 
 </div>
 
-<div id="main">
+            <div id="main">
 
 
 <div class="header">
@@ -234,63 +228,69 @@
   <p>書いたので。</p>
 
 <p></p>
-
-<pre><code class="language-python"># モジュールのインポート
-%matplotlib inline
-from math import floor
-from itertools import product
-import numpy as np
-import matplotlib.pyplot as plt
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># モジュールのインポート</span>
+<span style="color:#666">%</span>matplotlib inline
+<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">math</span> <span style="color:#a2f;font-weight:bold">import</span> floor
+<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">itertools</span> <span style="color:#a2f;font-weight:bold">import</span> product
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">numpy</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">np</span>
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">matplotlib.pyplot</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">plt</span></code></pre></td></tr></table>
+</div>
+</div>
 <h2 id="シンプルなノイズ">シンプルなノイズ</h2>
 
 <p>格子点ごとにランダムに値を割り振って、一般の座標における値を線形補間で求めるノイズを考える。</p>
 
 <p>パーリンノイズのコードが多少複雑になるので、このノイズのコードもクラスを使って書く。
 なおランダムな値を格子点に割り振るときには <a href="https://yuki67.github.io/posts/random_pick/">この記事</a> で紹介したハッシュ法を使った。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">22</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">23</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">24</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">25</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">26</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">27</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">28</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">29</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">30</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">31</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">32</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">33</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">34</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">35</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">36</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">37</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">38</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">39</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">lerp</span>(a, b, t):
+    <span style="color:#a2f;font-weight:bold">return</span> a <span style="color:#666">+</span> (b <span style="color:#666">-</span> a) <span style="color:#666">*</span> t
 
-<pre><code class="language-python">def lerp(a, b, t):
-    return a + (b - a) * t
+<span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">Simple</span>():
+    weights <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>random(<span style="color:#666">256</span>)
+    rand_index <span style="color:#666">=</span> np<span style="color:#666">.</span>zeros(<span style="color:#666">512</span>, dtype<span style="color:#666">=</span>np<span style="color:#666">.</span>int8)
+    <span style="color:#a2f;font-weight:bold">for</span> i, rand <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">enumerate</span>(np<span style="color:#666">.</span>random<span style="color:#666">.</span>permutation(<span style="color:#666">256</span>)):
+      rand_index[i] <span style="color:#666">=</span> rand
+      rand_index[i <span style="color:#666">+</span> <span style="color:#666">256</span>] <span style="color:#666">=</span> rand
 
-class Simple():
-    weights = np.random.random(256)
-    rand_index = np.zeros(512, dtype=np.int8)
-    for i, rand in enumerate(np.random.permutation(256)):
-      rand_index[i] = rand
-      rand_index[i + 256] = rand
+    <span style="color:#a2f">@staticmethod</span>
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">hash</span>(i, j):
+        <span style="color:#a2f;font-weight:bold">return</span> Simple<span style="color:#666">.</span>rand_index[Simple<span style="color:#666">.</span>rand_index[i] <span style="color:#666">+</span> j]
 
-    @staticmethod
-    def hash(i, j):
-        return Simple.rand_index[Simple.rand_index[i] + j]
+    <span style="color:#080;font-style:italic"># 点の周りの格子点の線形補間を求める</span>
+    <span style="color:#a2f">@staticmethod</span>
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">noise</span>(x, y):
+        ix <span style="color:#666">=</span> floor(x) <span style="color:#666">%</span> <span style="color:#666">256</span>
+        iy <span style="color:#666">=</span> floor(y) <span style="color:#666">%</span> <span style="color:#666">256</span>
+        dx <span style="color:#666">=</span> x <span style="color:#666">-</span> floor(x)
+        dy <span style="color:#666">=</span> y <span style="color:#666">-</span> floor(y)
+        y0 <span style="color:#666">=</span> lerp(Simple<span style="color:#666">.</span>weights[Simple<span style="color:#666">.</span><span style="color:#a2f">hash</span>(ix,         iy)],
+                  Simple<span style="color:#666">.</span>weights[Simple<span style="color:#666">.</span><span style="color:#a2f">hash</span>(ix <span style="color:#666">+</span> <span style="color:#666">1</span>,     iy)], dx)
+        y1 <span style="color:#666">=</span> lerp(Simple<span style="color:#666">.</span>weights[Simple<span style="color:#666">.</span><span style="color:#a2f">hash</span>(ix,     iy <span style="color:#666">+</span> <span style="color:#666">1</span>)],
+                  Simple<span style="color:#666">.</span>weights[Simple<span style="color:#666">.</span><span style="color:#a2f">hash</span>(ix <span style="color:#666">+</span> <span style="color:#666">1</span>, iy <span style="color:#666">+</span> <span style="color:#666">1</span>)], dx)
+        <span style="color:#a2f;font-weight:bold">return</span> lerp(y0, y1, dy)
 
-    # 点の周りの格子点の線形補間を求める
-    @staticmethod
-    def noise(x, y):
-        ix = floor(x) % 256
-        iy = floor(y) % 256
-        dx = x - floor(x)
-        dy = y - floor(y)
-        y0 = lerp(Simple.weights[Simple.hash(ix,         iy)],
-                  Simple.weights[Simple.hash(ix + 1,     iy)], dx)
-        y1 = lerp(Simple.weights[Simple.hash(ix,     iy + 1)],
-                  Simple.weights[Simple.hash(ix + 1, iy + 1)], dx)
-        return lerp(y0, y1, dy)
+<span style="color:#080;font-style:italic"># 画像の大きさは(512, 512)</span>
+width, height <span style="color:#666">=</span> <span style="color:#666">512</span>, <span style="color:#666">512</span>
+canvas <span style="color:#666">=</span> np<span style="color:#666">.</span>zeros((width, height))
+<span style="color:#080;font-style:italic"># 格子点を16個配置する</span>
+w <span style="color:#666">=</span> <span style="color:#666">16</span>
+canvas <span style="color:#666">=</span> np<span style="color:#666">.</span>array([[Simple<span style="color:#666">.</span>noise(x, y)
+                    <span style="color:#a2f;font-weight:bold">for</span> x <span style="color:#a2f;font-weight:bold">in</span> np<span style="color:#666">.</span>linspace(<span style="color:#666">0</span>, w, width)]
+                   <span style="color:#a2f;font-weight:bold">for</span> y <span style="color:#a2f;font-weight:bold">in</span> np<span style="color:#666">.</span>linspace(<span style="color:#666">0</span>, w, height)])
 
-# 画像の大きさは(512, 512)
-width, height = 512, 512
-canvas = np.zeros((width, height))
-# 格子点を16個配置する
-w = 16
-canvas = np.array([[Simple.noise(x, y)
-                    for x in np.linspace(0, w, width)]
-                   for y in np.linspace(0, w, height)])
-
-# matplotlibを使って表示
-fig, ax = plt.subplots(figsize=(10, 10))
-ax.imshow(canvas, cmap=plt.cm.binary)
-</code></pre>
-
+<span style="color:#080;font-style:italic"># matplotlibを使って表示</span>
+fig, ax <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(figsize<span style="color:#666">=</span>(<span style="color:#666">10</span>, <span style="color:#666">10</span>))
+ax<span style="color:#666">.</span>imshow(canvas, cmap<span style="color:#666">=</span>plt<span style="color:#666">.</span>cm<span style="color:#666">.</span>binary)</code></pre></td></tr></table>
+</div>
+</div>
 
 <figure >
     
@@ -319,68 +319,71 @@ ax.imshow(canvas, cmap=plt.cm.binary)
 </ul>
 
 <p>がある。勾配ベクトルとの内積使って重みを求めることで格子点の周りでも値が散らばるようになり、ノイズが自然になる。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">22</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">23</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">24</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">25</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">26</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">27</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">28</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">29</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">30</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">31</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">32</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">33</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">34</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">35</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">36</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">37</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">38</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">39</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">40</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">41</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">42</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">43</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">44</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">45</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">46</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">47</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">48</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">49</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">50</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">51</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">52</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">53</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">54</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">55</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">56</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">57</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">58</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">59</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">Perlin</span>():
+    slopes <span style="color:#666">=</span> <span style="color:#666">2</span> <span style="color:#666">*</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>random((<span style="color:#666">256</span>, <span style="color:#666">2</span>)) <span style="color:#666">-</span> <span style="color:#666">1</span>
+    rand_index <span style="color:#666">=</span> np<span style="color:#666">.</span>zeros(<span style="color:#666">512</span>, dtype<span style="color:#666">=</span>np<span style="color:#666">.</span>int8)
+    <span style="color:#a2f;font-weight:bold">for</span> i, rand <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">enumerate</span>(np<span style="color:#666">.</span>random<span style="color:#666">.</span>permutation(<span style="color:#666">256</span>)):
+      rand_index[i] <span style="color:#666">=</span> rand
+      rand_index[i <span style="color:#666">+</span> <span style="color:#666">256</span>] <span style="color:#666">=</span> rand
 
-<pre><code class="language-python">class Perlin():
-    slopes = 2 * np.random.random((256, 2)) - 1
-    rand_index = np.zeros(512, dtype=np.int8)
-    for i, rand in enumerate(np.random.permutation(256)):
-      rand_index[i] = rand
-      rand_index[i + 256] = rand
+    <span style="color:#a2f">@staticmethod</span>
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">hash</span>(i, j):
+        <span style="color:#080;font-style:italic"># 前提条件: 0 &lt;= i, j &lt;= 256</span>
+        <span style="color:#a2f;font-weight:bold">return</span> Perlin<span style="color:#666">.</span>rand_index[Perlin<span style="color:#666">.</span>rand_index[i] <span style="color:#666">+</span> j]
 
-    @staticmethod
-    def hash(i, j):
-        # 前提条件: 0 &lt;= i, j &lt;= 256
-        return Perlin.rand_index[Perlin.rand_index[i] + j]
+    <span style="color:#a2f">@staticmethod</span>
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">fade</span>(x):
+        <span style="color:#a2f;font-weight:bold">return</span> <span style="color:#666">6</span> <span style="color:#666">*</span> x<span style="color:#666">**</span><span style="color:#666">5</span> <span style="color:#666">-</span> <span style="color:#666">15</span> <span style="color:#666">*</span> x <span style="color:#666">**</span> <span style="color:#666">4</span> <span style="color:#666">+</span> <span style="color:#666">10</span> <span style="color:#666">*</span> x<span style="color:#666">**</span><span style="color:#666">3</span>
 
-    @staticmethod
-    def fade(x):
-        return 6 * x**5 - 15 * x ** 4 + 10 * x**3
+    <span style="color:#a2f">@staticmethod</span>
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">weight</span>(ix, iy, dx, dy):
+        <span style="color:#080;font-style:italic"># 格子点(ix, iy)に対する(ix + dx, iy + dy)の重みを求める</span>
+        ix <span style="color:#666">%=</span> <span style="color:#666">256</span>
+        iy <span style="color:#666">%=</span> <span style="color:#666">256</span>
+        ax, ay <span style="color:#666">=</span> Perlin<span style="color:#666">.</span>slopes[Perlin<span style="color:#666">.</span><span style="color:#a2f">hash</span>(ix, iy)]
+        <span style="color:#a2f;font-weight:bold">return</span> ax <span style="color:#666">*</span> dx <span style="color:#666">+</span> ay <span style="color:#666">*</span> dy
 
-    @staticmethod
-    def weight(ix, iy, dx, dy):
-        # 格子点(ix, iy)に対する(ix + dx, iy + dy)の重みを求める
-        ix %= 256
-        iy %= 256
-        ax, ay = Perlin.slopes[Perlin.hash(ix, iy)]
-        return ax * dx + ay * dy
+    <span style="color:#a2f">@staticmethod</span>
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">noise</span>(x, y):
+        ix <span style="color:#666">=</span> floor(x)
+        iy <span style="color:#666">=</span> floor(y)
+        dx <span style="color:#666">=</span> x <span style="color:#666">-</span> floor(x)
+        dy <span style="color:#666">=</span> y <span style="color:#666">-</span> floor(y)
 
-    @staticmethod
-    def noise(x, y):
-        ix = floor(x)
-        iy = floor(y)
-        dx = x - floor(x)
-        dy = y - floor(y)
+        <span style="color:#080;font-style:italic"># 重みを求める</span>
+        w00 <span style="color:#666">=</span> Perlin<span style="color:#666">.</span>weight(ix,     iy,   dx  , dy)
+        w10 <span style="color:#666">=</span> Perlin<span style="color:#666">.</span>weight(ix<span style="color:#666">+</span><span style="color:#666">1</span>,   iy, dx<span style="color:#666">-</span><span style="color:#666">1</span>,   dy)
+        w01 <span style="color:#666">=</span> Perlin<span style="color:#666">.</span>weight(ix,   iy<span style="color:#666">+</span><span style="color:#666">1</span>,   dx, dy<span style="color:#666">-</span><span style="color:#666">1</span>)
+        w11 <span style="color:#666">=</span> Perlin<span style="color:#666">.</span>weight(ix<span style="color:#666">+</span><span style="color:#666">1</span>, iy<span style="color:#666">+</span><span style="color:#666">1</span>, dx<span style="color:#666">-</span><span style="color:#666">1</span>, dy<span style="color:#666">-</span><span style="color:#666">1</span>)
 
-        # 重みを求める
-        w00 = Perlin.weight(ix,     iy,   dx  , dy)
-        w10 = Perlin.weight(ix+1,   iy, dx-1,   dy)
-        w01 = Perlin.weight(ix,   iy+1,   dx, dy-1)
-        w11 = Perlin.weight(ix+1, iy+1, dx-1, dy-1)
+        <span style="color:#080;font-style:italic"># 小数部分を変換する</span>
+        wx <span style="color:#666">=</span> Perlin<span style="color:#666">.</span>fade(dx)
+        wy <span style="color:#666">=</span> Perlin<span style="color:#666">.</span>fade(dy)
 
-        # 小数部分を変換する
-        wx = Perlin.fade(dx)
-        wy = Perlin.fade(dy)
-
-        # 線形補間して返す
-        y0 = lerp(w00, w10, wx)
-        y1 = lerp(w01, w11, wx)
-        return (lerp(y0, y1, wy) - 1) / 2 # 値域を[0, 1]に戻す
+        <span style="color:#080;font-style:italic"># 線形補間して返す</span>
+        y0 <span style="color:#666">=</span> lerp(w00, w10, wx)
+        y1 <span style="color:#666">=</span> lerp(w01, w11, wx)
+        <span style="color:#a2f;font-weight:bold">return</span> (lerp(y0, y1, wy) <span style="color:#666">-</span> <span style="color:#666">1</span>) <span style="color:#666">/</span> <span style="color:#666">2</span> <span style="color:#080;font-style:italic"># 値域を[0, 1]に戻す</span>
 
 
-# 画像の大きさは512x512
-width, height = 512, 512
-canvas = np.zeros((width, height))
-# 格子点を16個配置する
-w = 16
-canvas = np.array([[Perlin.noise(x, y)
-                    for x in np.linspace(0, w, width)]
-                   for y in np.linspace(0, w, height)])
+<span style="color:#080;font-style:italic"># 画像の大きさは512x512</span>
+width, height <span style="color:#666">=</span> <span style="color:#666">512</span>, <span style="color:#666">512</span>
+canvas <span style="color:#666">=</span> np<span style="color:#666">.</span>zeros((width, height))
+<span style="color:#080;font-style:italic"># 格子点を16個配置する</span>
+w <span style="color:#666">=</span> <span style="color:#666">16</span>
+canvas <span style="color:#666">=</span> np<span style="color:#666">.</span>array([[Perlin<span style="color:#666">.</span>noise(x, y)
+                    <span style="color:#a2f;font-weight:bold">for</span> x <span style="color:#a2f;font-weight:bold">in</span> np<span style="color:#666">.</span>linspace(<span style="color:#666">0</span>, w, width)]
+                   <span style="color:#a2f;font-weight:bold">for</span> y <span style="color:#a2f;font-weight:bold">in</span> np<span style="color:#666">.</span>linspace(<span style="color:#666">0</span>, w, height)])
 
-# matplotlibを使って表示
-fig, ax = plt.subplots(figsize=(10, 10))
-ax.imshow(canvas, cmap=plt.cm.binary)
-</code></pre>
-
+<span style="color:#080;font-style:italic"># matplotlibを使って表示</span>
+fig, ax <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(figsize<span style="color:#666">=</span>(<span style="color:#666">10</span>, <span style="color:#666">10</span>))
+ax<span style="color:#666">.</span>imshow(canvas, cmap<span style="color:#666">=</span>plt<span style="color:#666">.</span>cm<span style="color:#666">.</span>binary)</code></pre></td></tr></table>
+</div>
+</div>
 
 <figure >
     
@@ -393,14 +396,17 @@ ax.imshow(canvas, cmap=plt.cm.binary)
 <p>計算に用いた格子がどこにあるのか分からなくなって、ノイズらしいノイズになる。</p>
 
 <p><code>fade</code> 関数もプロットしておく。</p>
-
-<pre><code class="language-python">fig, ax = plt.subplots(figsize=(5, 5))
-ax.plot(np.linspace(0, 1, 100), fade(np.linspace(0, 1, 100)), label=&quot;fade(x)&quot;)
-ax.grid()
-ax.legend()
-fig
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, ax <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(figsize<span style="color:#666">=</span>(<span style="color:#666">5</span>, <span style="color:#666">5</span>))
+ax<span style="color:#666">.</span>plot(np<span style="color:#666">.</span>linspace(<span style="color:#666">0</span>, <span style="color:#666">1</span>, <span style="color:#666">100</span>), fade(np<span style="color:#666">.</span>linspace(<span style="color:#666">0</span>, <span style="color:#666">1</span>, <span style="color:#666">100</span>)), label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;fade(x)&#34;</span>)
+ax<span style="color:#666">.</span>grid()
+ax<span style="color:#666">.</span>legend()
+fig</code></pre></td></tr></table>
+</div>
+</div>
 
 <figure >
     
@@ -414,22 +420,25 @@ fig
 そのため、値を隣の格子と滑らかにつなげることができる。</p>
 
 <p>画像を作るときの <code>w</code> の値を変化させればノイズの粗さを変えることができる。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, axes <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(nrows<span style="color:#666">=</span><span style="color:#666">3</span>, ncols<span style="color:#666">=</span><span style="color:#666">2</span>, figsize<span style="color:#666">=</span>(<span style="color:#666">20</span>, <span style="color:#666">30</span>))
 
-<pre><code class="language-python">fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(20, 30))
-
-width, height = 512, 512
-canvas = np.zeros((width, height))
-for i, j in product([0, 1, 2], [0, 1]):
-  # wの値を2のべきにする
-  w = 2**(i*2 + j)
-  canvas = np.array([[Perlin.noise(x, y)
-                      for x in np.linspace(0, w, width)]
-                     for y in np.linspace(0, w, height)])
-  axes[i, j].set_title(&quot;w = &quot; + str(w))
-  axes[i, j].imshow(canvas, cmap=plt.cm.binary)
-fig
-</code></pre>
-
+width, height <span style="color:#666">=</span> <span style="color:#666">512</span>, <span style="color:#666">512</span>
+canvas <span style="color:#666">=</span> np<span style="color:#666">.</span>zeros((width, height))
+<span style="color:#a2f;font-weight:bold">for</span> i, j <span style="color:#a2f;font-weight:bold">in</span> product([<span style="color:#666">0</span>, <span style="color:#666">1</span>, <span style="color:#666">2</span>], [<span style="color:#666">0</span>, <span style="color:#666">1</span>]):
+  <span style="color:#080;font-style:italic"># wの値を2のべきにする</span>
+  w <span style="color:#666">=</span> <span style="color:#666">2</span><span style="color:#666">**</span>(i<span style="color:#666">*</span><span style="color:#666">2</span> <span style="color:#666">+</span> j)
+  canvas <span style="color:#666">=</span> np<span style="color:#666">.</span>array([[Perlin<span style="color:#666">.</span>noise(x, y)
+                      <span style="color:#a2f;font-weight:bold">for</span> x <span style="color:#a2f;font-weight:bold">in</span> np<span style="color:#666">.</span>linspace(<span style="color:#666">0</span>, w, width)]
+                     <span style="color:#a2f;font-weight:bold">for</span> y <span style="color:#a2f;font-weight:bold">in</span> np<span style="color:#666">.</span>linspace(<span style="color:#666">0</span>, w, height)])
+  axes[i, j]<span style="color:#666">.</span>set_title(<span style="color:#b44"></span><span style="color:#b44">&#34;w = &#34;</span> <span style="color:#666">+</span> <span style="color:#a2f">str</span>(w))
+  axes[i, j]<span style="color:#666">.</span>imshow(canvas, cmap<span style="color:#666">=</span>plt<span style="color:#666">.</span>cm<span style="color:#666">.</span>binary)
+fig</code></pre></td></tr></table>
+</div>
+</div>
 
 <figure >
     
@@ -486,24 +495,6 @@ fig
 
 
   
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-
-(function() {
-    
-    
-    if (window.location.hostname == "localhost")
-        return;
-
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    var disqus_shortname = 'Your Disqus shortname';
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
 
 </div>
 

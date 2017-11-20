@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+    <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -38,15 +38,6 @@
   
 
   
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
-  
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/ocaml.min.js"></script>
-  
-  <script>hljs.initHighlightingOnLoad();</script>
-  
 
   <link rel="shortcut icon" href="https://yuki67.github.io/img/favicon.ico" type="image/x-icon" />
 
@@ -55,11 +46,14 @@
 
 </head>
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<body>
-<div id="layout">
-   
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+
+    <body>
+        <div id="layout">
+            
 <a href="#menu" id="menuLink" class="menu-link">
   
   <span></span>
@@ -195,7 +189,7 @@
 
 </div>
 
-<div id="main">
+            <div id="main">
 
 
 <div class="header">
@@ -246,24 +240,30 @@
 <p>(近似値は <a href="http://www.wolframalpha.com/input/?i%3Dint_0%255E10%2Be%255E-x**2">wolfram alpha</a> で計算した)</p>
 
 <p>まず被積分関数と答えを定義する。</p>
-
-<pre><code class="language-python">from math import exp
-# 被積分関数
-f = lambda x: exp(-x**2)
-# 答え
-answer = 0.886227
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">math</span> <span style="color:#a2f;font-weight:bold">import</span> exp
+<span style="color:#080;font-style:italic"># 被積分関数</span>
+f <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">lambda</span> x: exp(<span style="color:#666">-</span>x<span style="color:#666">**</span><span style="color:#666">2</span>)
+<span style="color:#080;font-style:italic"># 答え</span>
+answer <span style="color:#666">=</span> <span style="color:#666">0.886227</span></code></pre></td></tr></table>
+</div>
+</div>
 <p>次にipython用の初期設定をする。</p>
-
-<pre><code class="language-python"># 記事の中で使うのモジュールのインポート
-%matplotlib inline
-import random
-from math import sin, cos, exp, log
-import numpy as np
-import matplotlib.pyplot as plt
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># 記事の中で使うのモジュールのインポート</span>
+<span style="color:#666">%</span>matplotlib inline
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">random</span>
+<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">math</span> <span style="color:#a2f;font-weight:bold">import</span> sin, cos, exp, log
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">numpy</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">np</span>
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">matplotlib.pyplot</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">plt</span></code></pre></td></tr></table>
+</div>
+</div>
 <h2 id="区間分割">区間分割</h2>
 
 <p>まず、</p>
@@ -274,36 +274,45 @@ import matplotlib.pyplot as plt
 </p>
 
 <p>を使って値を求める。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">8</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">section_split</span>(f, a, b, n):
+  <span style="color:#a2f">sum</span> <span style="color:#666">=</span> <span style="color:#666">0</span>
+  <span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> np<span style="color:#666">.</span>linspace(a, b, n):
+    <span style="color:#a2f">sum</span> <span style="color:#666">+=</span> f(i)
+  <span style="color:#a2f;font-weight:bold">return</span> (b <span style="color:#666">-</span> a) <span style="color:#666">/</span> n <span style="color:#666">*</span> <span style="color:#a2f">sum</span>
 
-<pre><code class="language-python">def section_split(f, a, b, n):
-  sum = 0
-  for i in np.linspace(a, b, n):
-    sum += f(i)
-  return (b - a) / n * sum
-
-# 誤差を求める
-section_split(f, 0, 10, 1000) - answer
-</code></pre>
-
-<pre><code class="language-text">0.004113698527303256
-</code></pre>
-
+<span style="color:#080;font-style:italic"># 誤差を求める</span>
+section_split(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, <span style="color:#666">1000</span>) <span style="color:#666">-</span> answer</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">0.004113698527303256</code></pre></td></tr></table>
+</div>
+</div>
 <p>近い値が求められている。</p>
 
 <p>nと誤差の関係をグラフにプロットしてみる。</p>
-
-<pre><code class="language-python">fig, ax = plt.subplots(figsize=(10, 10))
-ax.hold(True)
-ax.grid(True)
-ax.set_xlabel(&quot;n&quot;)
-ax.set_ylabel(&quot;error&quot;)
-ax.set_ylim(-0.5, 0.5)
-n = 500
-ax.plot([section_split(f, 0, 10, n) - answer for n in range(1, n)], label=&quot;section split&quot;)
-ax.legend()
-fig
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, ax <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(figsize<span style="color:#666">=</span>(<span style="color:#666">10</span>, <span style="color:#666">10</span>))
+ax<span style="color:#666">.</span>hold(True)
+ax<span style="color:#666">.</span>grid(True)
+ax<span style="color:#666">.</span>set_xlabel(<span style="color:#b44"></span><span style="color:#b44">&#34;n&#34;</span>)
+ax<span style="color:#666">.</span>set_ylabel(<span style="color:#b44"></span><span style="color:#b44">&#34;error&#34;</span>)
+ax<span style="color:#666">.</span>set_ylim(<span style="color:#666">-</span><span style="color:#666">0.5</span>, <span style="color:#666">0.5</span>)
+n <span style="color:#666">=</span> <span style="color:#666">500</span>
+ax<span style="color:#666">.</span>plot([section_split(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n) <span style="color:#666">-</span> answer <span style="color:#a2f;font-weight:bold">for</span> n <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">1</span>, n)], label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;section split&#34;</span>)
+ax<span style="color:#666">.</span>legend()
+fig</code></pre></td></tr></table>
+</div>
+</div>
 
 <figure >
     
@@ -339,25 +348,31 @@ fig
 <h2 id="モンテカルロ">モンテカルロ</h2>
 
 <p>関数に渡す値を順番に選ぶ代わりにランダムに取る方法。</p>
-
-<pre><code class="language-python">def montecarlo(f, a, b, n):
-    sum = 0
-    ans = []
-    for i in range(1, n):
-        sum += f(random.uniform(a, b))
-        ans.append(sum / i * (b - a) - answer)
-    return ans
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">7</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">montecarlo</span>(f, a, b, n):
+    <span style="color:#a2f">sum</span> <span style="color:#666">=</span> <span style="color:#666">0</span>
+    ans <span style="color:#666">=</span> []
+    <span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">1</span>, n):
+        <span style="color:#a2f">sum</span> <span style="color:#666">+=</span> f(random<span style="color:#666">.</span>uniform(a, b))
+        ans<span style="color:#666">.</span>append(<span style="color:#a2f">sum</span> <span style="color:#666">/</span> i <span style="color:#666">*</span> (b <span style="color:#666">-</span> a) <span style="color:#666">-</span> answer)
+    <span style="color:#a2f;font-weight:bold">return</span> ans</code></pre></td></tr></table>
+</div>
+</div>
 <p>誤差の変化をさっき書いたグラフに上書きする。乱数を用いているので、何回か近似を行ってそれぞれについての誤差の変化をプロットする。</p>
-
-<pre><code class="language-python">ax.plot(montecarlo(f, 0, 10, n), label=&quot;montecarlo&quot;, color=&quot;g&quot;, alpha=0.25)
-for i in range(14):
-    ax.plot(montecarlo(f, 0, 10, n), color=&quot;g&quot;, alpha=0.25)
-ax.legend()
-fig
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ax<span style="color:#666">.</span>plot(montecarlo(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n), label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;montecarlo&#34;</span>, color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;g&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.25</span>)
+<span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">14</span>):
+    ax<span style="color:#666">.</span>plot(montecarlo(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n), color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;g&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.25</span>)
+ax<span style="color:#666">.</span>legend()
+fig</code></pre></td></tr></table>
+</div>
+</div>
 
 <figure >
     
@@ -399,14 +414,17 @@ fig
 <h2 id="重点サンプリング">重点サンプリング</h2>
 
 <p>今考えている被積分関数\(e^{-x^2}\)は\(x=0\)の近くで大きな値を取り、\(x \geq 3\) の部分ではごく小さな値しか取らない。</p>
-
-<pre><code class="language-python">fig2, ax2 = plt.subplots(figsize=(10, 10))
-ax2.plot(np.linspace(0, 10, 100), [f(x) for x in np.linspace(0, 10, 100)], label=&quot;integrad&quot;)
-ax2.legend()
-ax2.grid()
-fig2
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig2, ax2 <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(figsize<span style="color:#666">=</span>(<span style="color:#666">10</span>, <span style="color:#666">10</span>))
+ax2<span style="color:#666">.</span>plot(np<span style="color:#666">.</span>linspace(<span style="color:#666">0</span>, <span style="color:#666">10</span>, <span style="color:#666">100</span>), [f(x) <span style="color:#a2f;font-weight:bold">for</span> x <span style="color:#a2f;font-weight:bold">in</span> np<span style="color:#666">.</span>linspace(<span style="color:#666">0</span>, <span style="color:#666">10</span>, <span style="color:#666">100</span>)], label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;integrad&#34;</span>)
+ax2<span style="color:#666">.</span>legend()
+ax2<span style="color:#666">.</span>grid()
+fig2</code></pre></td></tr></table>
+</div>
+</div>
 
 <figure >
     
@@ -421,26 +439,29 @@ fig2
 <p>それどころか、そうしたほうが\(n\)の値が相対的に大きくなって近似の精度が良くなることが予想できる。</p>
 
 <p>実際そうなることを確かめる。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig3, ax3 <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(figsize<span style="color:#666">=</span>(<span style="color:#666">10</span>, <span style="color:#666">10</span>))
 
-<pre><code class="language-python">fig3, ax3 = plt.subplots(figsize=(10, 10))
+<span style="color:#080;font-style:italic"># [0, 10]から取る</span>
+ax3<span style="color:#666">.</span>plot(montecarlo(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n), label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;[0, 10]&#34;</span>, color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;g&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.4</span>)
+<span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">14</span>):
+    ax3<span style="color:#666">.</span>plot(montecarlo(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n), color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;g&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.4</span>)
 
-# [0, 10]から取る
-ax3.plot(montecarlo(f, 0, 10, n), label=&quot;[0, 10]&quot;, color=&quot;g&quot;, alpha=0.4)
-for i in range(14):
-    ax3.plot(montecarlo(f, 0, 10, n), color=&quot;g&quot;, alpha=0.4)
-
-# [0, 3]から取る
-ax3.plot(montecarlo(f, 0, 3, n), label=&quot;[0, 3]&quot;, color=&quot;r&quot;, alpha=0.4)
-for i in range(14):
-    ax3.plot(montecarlo(f, 0, 3, n), color=&quot;r&quot;, alpha=0.4)
+<span style="color:#080;font-style:italic"># [0, 3]から取る</span>
+ax3<span style="color:#666">.</span>plot(montecarlo(f, <span style="color:#666">0</span>, <span style="color:#666">3</span>, n), label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;[0, 3]&#34;</span>, color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;r&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.4</span>)
+<span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">14</span>):
+    ax3<span style="color:#666">.</span>plot(montecarlo(f, <span style="color:#666">0</span>, <span style="color:#666">3</span>, n), color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;r&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.4</span>)
 
 
-ax3.legend()
-ax3.grid()
-ax3.set_ylim(-0.5, 0.5)
-fig3
-</code></pre>
-
+ax3<span style="color:#666">.</span>legend()
+ax3<span style="color:#666">.</span>grid()
+ax3<span style="color:#666">.</span>set_ylim(<span style="color:#666">-</span><span style="color:#666">0.5</span>, <span style="color:#666">0.5</span>)
+fig3</code></pre></td></tr></table>
+</div>
+</div>
 
 <figure >
     
@@ -458,27 +479,30 @@ fig3
 <p>以下の例では変数が \(x \in [0, 10]\) の値を取る確率が \( {\it pdf}(x) = e^{-x} \) に比例するようにしている。ここで \(e^{-x}\) を選んだのは、この関数が被積分関数に似ていて、かつ不定積分とその逆関数が簡単に求まるからだ。</p>
 
 <p>\( {\it pdf}(x) \) は被積分関数と似ている方が良くて、被積分関数と同じなのが理想だ。しかし、\( {\it pdf}(x) \) として被積分関数を取れるなら、それは積分を解析的に求められることを意味するので数値で近似する意味がない。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">pdf <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">lambda</span> x: exp(<span style="color:#666">-</span>x) <span style="color:#666">/</span> (<span style="color:#666">1</span> <span style="color:#666">-</span> exp(<span style="color:#666">-</span><span style="color:#666">10</span>))        <span style="color:#080;font-style:italic"># pdf(x) : 自分で考える/正規化もする</span>
+cdf <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">lambda</span> x: (<span style="color:#666">1</span> <span style="color:#666">-</span> exp(<span style="color:#666">-</span>x)) <span style="color:#666">/</span> (<span style="color:#666">1</span> <span style="color:#666">-</span> exp(<span style="color:#666">-</span><span style="color:#666">10</span>))  <span style="color:#080;font-style:italic"># cdf(x) : pdf(x)を[a, x]で積分したもの</span>
+cdf_inv <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">lambda</span> x: <span style="color:#666">-</span>log(<span style="color:#666">1</span><span style="color:#666">-</span> (<span style="color:#666">1</span> <span style="color:#666">-</span> exp(<span style="color:#666">-</span><span style="color:#666">10</span>)) <span style="color:#666">*</span> x) <span style="color:#080;font-style:italic"># cdf_inv(x) : cdf(x) の逆関数</span>
 
-<pre><code class="language-python">pdf = lambda x: exp(-x) / (1 - exp(-10))        # pdf(x) : 自分で考える/正規化もする
-cdf = lambda x: (1 - exp(-x)) / (1 - exp(-10))  # cdf(x) : pdf(x)を[a, x]で積分したもの
-cdf_inv = lambda x: -log(1- (1 - exp(-10)) * x) # cdf_inv(x) : cdf(x) の逆関数
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">importance_sampling</span>(f, a, b, n):
+    <span style="color:#a2f">sum</span> <span style="color:#666">=</span> <span style="color:#666">0</span>
+    ans <span style="color:#666">=</span> []
+    <span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">1</span>, n):
+        x <span style="color:#666">=</span> cdf_inv(random<span style="color:#666">.</span>random())
+        <span style="color:#a2f">sum</span> <span style="color:#666">+=</span> f(x) <span style="color:#666">/</span> pdf(x)
+        ans<span style="color:#666">.</span>append(<span style="color:#a2f">sum</span> <span style="color:#666">/</span> i <span style="color:#666">-</span> answer)
+    <span style="color:#a2f;font-weight:bold">return</span> ans
 
-def importance_sampling(f, a, b, n):
-    sum = 0
-    ans = []
-    for i in range(1, n):
-        x = cdf_inv(random.random())
-        sum += f(x) / pdf(x)
-        ans.append(sum / i - answer)
-    return ans
-
-ax.plot(importance_sampling(f, 0, 10, n), label=&quot;importance sampling&quot;, color=&quot;r&quot;, alpha=0.25)
-for _ in range(14):
-    ax.plot(importance_sampling(f, 0, 10, n), color=&quot;r&quot;, alpha=0.25)
-ax.legend()
-fig
-</code></pre>
-
+ax<span style="color:#666">.</span>plot(importance_sampling(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n), label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;importance sampling&#34;</span>, color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;r&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.25</span>)
+<span style="color:#a2f;font-weight:bold">for</span> _ <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">14</span>):
+    ax<span style="color:#666">.</span>plot(importance_sampling(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n), color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;r&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.25</span>)
+ax<span style="color:#666">.</span>legend()
+fig</code></pre></td></tr></table>
+</div>
+</div>
 
 <figure >
     
@@ -530,24 +554,6 @@ fig
 
 
   
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-
-(function() {
-    
-    
-    if (window.location.hostname == "localhost")
-        return;
-
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    var disqus_shortname = 'Your Disqus shortname';
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
 
 </div>
 

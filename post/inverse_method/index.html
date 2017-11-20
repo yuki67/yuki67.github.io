@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+    <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -38,15 +38,6 @@
   
 
   
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
-  
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/ocaml.min.js"></script>
-  
-  <script>hljs.initHighlightingOnLoad();</script>
-  
 
   <link rel="shortcut icon" href="https://yuki67.github.io/img/favicon.ico" type="image/x-icon" />
 
@@ -55,11 +46,14 @@
 
 </head>
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<body>
-<div id="layout">
-   
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+
+    <body>
+        <div id="layout">
+            
 <a href="#menu" id="menuLink" class="menu-link">
   
   <span></span>
@@ -195,7 +189,7 @@
 
 </div>
 
-<div id="main">
+            <div id="main">
 
 
 <div class="header">
@@ -287,15 +281,18 @@ P({\it cdf}^{-1}(x) \le y) = {\it cdf}(y)
 <h2 id="実装">実装</h2>
 
 <p>pythonでは <code>random.random()</code> を使うと \([0,1]\) の一様分布が得られるので、上で示した方法を使えば様々な分布に従う乱数を生成できる。実際にやってみる。</p>
-
-<pre><code class="language-python"># モジュールのインポート
-%matplotlib inline
-import random
-from math import sin, cos, exp, log
-import numpy as np
-import matplotlib.pyplot as plt
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># モジュールのインポート</span>
+<span style="color:#666">%</span>matplotlib inline
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">random</span>
+<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">math</span> <span style="color:#a2f;font-weight:bold">import</span> sin, cos, exp, log
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">numpy</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">np</span>
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">matplotlib.pyplot</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">plt</span></code></pre></td></tr></table>
+</div>
+</div>
 <h3 id="一様分布">一様分布</h3>
 
 <p>\([a, b]\)の一様分布では \({\it pdf}(x)\) は (\(x \in [a,b]\) で)一定となる。</p>
@@ -316,26 +313,32 @@ import matplotlib.pyplot as plt
 となる。</p>
 
 <p>これをコードにすると、以下のようになる。</p>
-
-<pre><code class="language-python"># [0, 1]の一様乱数を入力すると[a, b]の一様乱数を出力する関数を返す
-def RNG_uniform(a, b):
-    def cdf_inv(x):
-        return (b - a) * x + a
-    return cdf_inv
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># [0, 1]の一様乱数を入力すると[a, b]の一様乱数を出力する関数を返す</span>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">RNG_uniform</span>(a, b):
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">cdf_inv</span>(x):
+        <span style="color:#a2f;font-weight:bold">return</span> (b <span style="color:#666">-</span> a) <span style="color:#666">*</span> x <span style="color:#666">+</span> a
+    <span style="color:#a2f;font-weight:bold">return</span> cdf_inv</code></pre></td></tr></table>
+</div>
+</div>
 <p>グラフにプロットすれば、本当に関数の出力が一様乱数か確認できる。</p>
-
-<pre><code class="language-python">fig, ax = plt.subplots(figsize=(10, 10))
-bins = list(np.arange(0, 10, 0.05))
-# a, bの値を変えて3つ描画する
-ax.hist([RNG_uniform(0, 5)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;[0, 5]&quot;)
-ax.hist([RNG_uniform(4, 6)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;[4, 6]&quot;)
-ax.hist([RNG_uniform(3, 10)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;[3, 10]&quot;)
-ax.legend()
-fig
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">8</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, ax <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(figsize<span style="color:#666">=</span>(<span style="color:#666">10</span>, <span style="color:#666">10</span>))
+bins <span style="color:#666">=</span> <span style="color:#a2f">list</span>(np<span style="color:#666">.</span>arange(<span style="color:#666">0</span>, <span style="color:#666">10</span>, <span style="color:#666">0.05</span>))
+<span style="color:#080;font-style:italic"># a, bの値を変えて3つ描画する</span>
+ax<span style="color:#666">.</span>hist([RNG_uniform(<span style="color:#666">0</span>, <span style="color:#666">5</span>)(random<span style="color:#666">.</span>random()) <span style="color:#a2f;font-weight:bold">for</span> _ <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">30000</span>)], bins<span style="color:#666">=</span>bins, alpha<span style="color:#666">=</span><span style="color:#666">0.35</span>, label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;[0, 5]&#34;</span>)
+ax<span style="color:#666">.</span>hist([RNG_uniform(<span style="color:#666">4</span>, <span style="color:#666">6</span>)(random<span style="color:#666">.</span>random()) <span style="color:#a2f;font-weight:bold">for</span> _ <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">30000</span>)], bins<span style="color:#666">=</span>bins, alpha<span style="color:#666">=</span><span style="color:#666">0.35</span>, label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;[4, 6]&#34;</span>)
+ax<span style="color:#666">.</span>hist([RNG_uniform(<span style="color:#666">3</span>, <span style="color:#666">10</span>)(random<span style="color:#666">.</span>random()) <span style="color:#a2f;font-weight:bold">for</span> _ <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">30000</span>)], bins<span style="color:#666">=</span>bins, alpha<span style="color:#666">=</span><span style="color:#666">0.35</span>, label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;[3, 10]&#34;</span>)
+ax<span style="color:#666">.</span>legend()
+fig</code></pre></td></tr></table>
+</div>
+</div>
 
 <figure >
     
@@ -372,26 +375,32 @@ fig
 \]</p>
 
 <p>これをコードにすると以下のようになる。</p>
-
-<pre><code class="language-python"># [0, 1]の一様乱数を入力するとpdf(x)=cx (a &lt; x &lt; b) な乱数を返す関数を返す
-def RNG_linear(a, b):
-    def func(x):
-        return ((b**2 - a**2)*x + a**2)**0.5
-    return func
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># [0, 1]の一様乱数を入力するとpdf(x)=cx (a &lt; x &lt; b) な乱数を返す関数を返す</span>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">RNG_linear</span>(a, b):
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">func</span>(x):
+        <span style="color:#a2f;font-weight:bold">return</span> ((b<span style="color:#666">**</span><span style="color:#666">2</span> <span style="color:#666">-</span> a<span style="color:#666">**</span><span style="color:#666">2</span>)<span style="color:#666">*</span>x <span style="color:#666">+</span> a<span style="color:#666">**</span><span style="color:#666">2</span>)<span style="color:#666">**</span><span style="color:#666">0.5</span>
+    <span style="color:#a2f;font-weight:bold">return</span> func</code></pre></td></tr></table>
+</div>
+</div>
 <p>同様にグラフにする。</p>
-
-<pre><code class="language-python">fig, ax = plt.subplots(figsize=(10, 10))
-bins = list(np.arange(0, 10, 0.05))
-# a, bの値を変えて3つ描画する
-ax.hist([RNG_linear(0, 6)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;[0, 6]&quot;)
-ax.hist([RNG_linear(2, 8)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;[2, 8]&quot;)
-ax.hist([RNG_linear(7, 10)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;[7, 10]&quot;)
-ax.legend()
-fig
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">8</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, ax <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(figsize<span style="color:#666">=</span>(<span style="color:#666">10</span>, <span style="color:#666">10</span>))
+bins <span style="color:#666">=</span> <span style="color:#a2f">list</span>(np<span style="color:#666">.</span>arange(<span style="color:#666">0</span>, <span style="color:#666">10</span>, <span style="color:#666">0.05</span>))
+<span style="color:#080;font-style:italic"># a, bの値を変えて3つ描画する</span>
+ax<span style="color:#666">.</span>hist([RNG_linear(<span style="color:#666">0</span>, <span style="color:#666">6</span>)(random<span style="color:#666">.</span>random()) <span style="color:#a2f;font-weight:bold">for</span> _ <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">30000</span>)], bins<span style="color:#666">=</span>bins, alpha<span style="color:#666">=</span><span style="color:#666">0.35</span>, label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;[0, 6]&#34;</span>)
+ax<span style="color:#666">.</span>hist([RNG_linear(<span style="color:#666">2</span>, <span style="color:#666">8</span>)(random<span style="color:#666">.</span>random()) <span style="color:#a2f;font-weight:bold">for</span> _ <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">30000</span>)], bins<span style="color:#666">=</span>bins, alpha<span style="color:#666">=</span><span style="color:#666">0.35</span>, label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;[2, 8]&#34;</span>)
+ax<span style="color:#666">.</span>hist([RNG_linear(<span style="color:#666">7</span>, <span style="color:#666">10</span>)(random<span style="color:#666">.</span>random()) <span style="color:#a2f;font-weight:bold">for</span> _ <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">30000</span>)], bins<span style="color:#666">=</span>bins, alpha<span style="color:#666">=</span><span style="color:#666">0.35</span>, label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;[7, 10]&#34;</span>)
+ax<span style="color:#666">.</span>legend()
+fig</code></pre></td></tr></table>
+</div>
+</div>
 
 <figure >
     
@@ -421,26 +430,32 @@ fig
 <p>\[\therefore {\it cdf}^{-1}(x) = - \frac{\log(e^{-ka} - (e^{-ka} - e^{-kb})x)}{k}\]</p>
 
 <p>コードは</p>
-
-<pre><code class="language-python"># [0, 1]の一様乱数を入力するとpdf(x)=ce^(-kx) (a &lt; x &lt; b) な乱数を返す関数を返す
-def RNG_exp(k, a, b):
-    def func(x):
-        return -log(exp(-k*a) - x*(exp(-k*a) - exp(-k*b))) / k
-    return func
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># [0, 1]の一様乱数を入力するとpdf(x)=ce^(-kx) (a &lt; x &lt; b) な乱数を返す関数を返す</span>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">RNG_exp</span>(k, a, b):
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">func</span>(x):
+        <span style="color:#a2f;font-weight:bold">return</span> <span style="color:#666">-</span>log(exp(<span style="color:#666">-</span>k<span style="color:#666">*</span>a) <span style="color:#666">-</span> x<span style="color:#666">*</span>(exp(<span style="color:#666">-</span>k<span style="color:#666">*</span>a) <span style="color:#666">-</span> exp(<span style="color:#666">-</span>k<span style="color:#666">*</span>b))) <span style="color:#666">/</span> k
+    <span style="color:#a2f;font-weight:bold">return</span> func</code></pre></td></tr></table>
+</div>
+</div>
 <p>グラフは</p>
-
-<pre><code class="language-python">fig, ax = plt.subplots(figsize=(10, 10))
-bins = list(np.arange(1, 5, 0.025))
-# k, a, bの値を変えて3つ描画する
-ax.hist([RNG_exp(1, 1, 10)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;k=1, [1, 10]&quot;)
-ax.hist([RNG_exp(2, 1, 10)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;k=2, [1, 10]&quot;)
-ax.hist([RNG_exp(1, 1, 2)(random.random()) for _ in range(30000)], bins=bins, alpha=0.35, label=&quot;k=1, [1, 5]&quot;)
-ax.legend()
-fig
-</code></pre>
-
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">8</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, ax <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(figsize<span style="color:#666">=</span>(<span style="color:#666">10</span>, <span style="color:#666">10</span>))
+bins <span style="color:#666">=</span> <span style="color:#a2f">list</span>(np<span style="color:#666">.</span>arange(<span style="color:#666">1</span>, <span style="color:#666">5</span>, <span style="color:#666">0.025</span>))
+<span style="color:#080;font-style:italic"># k, a, bの値を変えて3つ描画する</span>
+ax<span style="color:#666">.</span>hist([RNG_exp(<span style="color:#666">1</span>, <span style="color:#666">1</span>, <span style="color:#666">10</span>)(random<span style="color:#666">.</span>random()) <span style="color:#a2f;font-weight:bold">for</span> _ <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">30000</span>)], bins<span style="color:#666">=</span>bins, alpha<span style="color:#666">=</span><span style="color:#666">0.35</span>, label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;k=1, [1, 10]&#34;</span>)
+ax<span style="color:#666">.</span>hist([RNG_exp(<span style="color:#666">2</span>, <span style="color:#666">1</span>, <span style="color:#666">10</span>)(random<span style="color:#666">.</span>random()) <span style="color:#a2f;font-weight:bold">for</span> _ <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">30000</span>)], bins<span style="color:#666">=</span>bins, alpha<span style="color:#666">=</span><span style="color:#666">0.35</span>, label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;k=2, [1, 10]&#34;</span>)
+ax<span style="color:#666">.</span>hist([RNG_exp(<span style="color:#666">1</span>, <span style="color:#666">1</span>, <span style="color:#666">2</span>)(random<span style="color:#666">.</span>random()) <span style="color:#a2f;font-weight:bold">for</span> _ <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">30000</span>)], bins<span style="color:#666">=</span>bins, alpha<span style="color:#666">=</span><span style="color:#666">0.35</span>, label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;k=1, [1, 5]&#34;</span>)
+ax<span style="color:#666">.</span>legend()
+fig</code></pre></td></tr></table>
+</div>
+</div>
 
 <figure >
     
@@ -518,24 +533,6 @@ P(X = x) & = P(x_{1} \leq x \land , \dots , \land x_{n} \leq x) \\
 
 
   
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-
-(function() {
-    
-    
-    if (window.location.hostname == "localhost")
-        return;
-
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    var disqus_shortname = 'Your Disqus shortname';
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
 
 </div>
 
