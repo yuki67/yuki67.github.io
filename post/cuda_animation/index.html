@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <title>CudaとOpenGLを連携させてアニメーションを描画する &middot; yuki&#39;s blog</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://yuki67.github.io/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://yuki67.github.io/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://yuki67.github.io/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+
+  <link rel="shortcut icon" href="https://yuki67.github.io/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+
+    <body>
+        <div id="layout">
+            
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://yuki67.github.io/">yuki's blog</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/yfkutydt" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/yuki67" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>by yuki</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+            <div id="main">
+
+
+<div class="header">
+  <h1>CudaとOpenGLを連携させてアニメーションを描画する</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017-12-03</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cuda">cuda</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>CUDAを使って毎フレーム画像を更新したいが、いちいち画像をCPUにお繰り返している暇がないときに。</p>
+
+<p></p>
+
+<p><a href="https://yuki67.github.io/post/cuda_bitmap/">この前</a>に書いたのはCUDAカーネルでビットマップを作成し、それをOpenGLを使って表示させる方法だった。</p>
+
+<p>このときはGPUで作成したデータを <code>CudaMemcpy</code> でホストへ送り返し、更にこれを <code>glDrawPixels</code> を使ってGPUへ送り返すという二度手間を行っていた。</p>
+
+<p>CUDAとOpenGLを連携させる関数を使うと、データのやり取りをGPU内で完結させたまま同じことができる。以下のようにすれば良い。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 22</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 23</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 24</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 25</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 26</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 27</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 28</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 29</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 30</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 31</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 32</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 33</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 34</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 35</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 36</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 37</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 38</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 39</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 40</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 41</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 42</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 43</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 44</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 45</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 46</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 47</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 48</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 49</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 50</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 51</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 52</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 53</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 54</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 55</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 56</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 57</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 58</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 59</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 60</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 61</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 62</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 63</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 64</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 65</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 66</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 67</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 68</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 69</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 70</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 71</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 72</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 73</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 74</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 75</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 76</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 77</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 78</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 79</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 80</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 81</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 82</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 83</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 84</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 85</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 86</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 87</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 88</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 89</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 90</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 91</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 92</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 93</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 94</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 95</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 96</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 97</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 98</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 99</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">100</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">101</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">102</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">103</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">104</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">105</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">106</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">107</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">108</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">109</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">110</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">111</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">112</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">113</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">114</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">115</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">116</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">117</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">118</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">119</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">120</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#080">#define GL_GLEXT_PROTOTYPES
+</span><span style="color:#080">#include</span> <span style="color:#080">&lt;GL/freeglut.h&gt;</span><span style="color:#080">
+</span><span style="color:#080">#include</span> <span style="color:#080">&lt;GL/freeglut_ext.h&gt;</span><span style="color:#080">
+</span><span style="color:#080">#include</span> <span style="color:#080">&lt;GL/gl.h&gt;</span><span style="color:#080">
+</span><span style="color:#080">#include</span> <span style="color:#080">&lt;cmath&gt;</span><span style="color:#080">
+</span><span style="color:#080">#include</span> <span style="color:#080">&lt;cuda_gl_interop.h&gt;</span><span style="color:#080">
+</span><span style="color:#080">#include</span> <span style="color:#080">&lt;cuda_runtime.h&gt;</span><span style="color:#080">
+</span><span style="color:#080">#include</span> <span style="color:#080">&lt;iostream&gt;</span><span style="color:#080">
+</span><span style="color:#080"></span>
+<span style="color:#080;font-style:italic">// cudaのエラー検出用マクロ
+</span><span style="color:#080;font-style:italic"></span><span style="color:#080">#define EXIT_IF_FAIL(call)                                                     \
+</span><span style="color:#080"></span>  <span style="color:#a2f;font-weight:bold">do</span> {                                                                         \
+    (call);                                                                    \
+    cudaError_t err <span style="color:#666">=</span> cudaGetLastError();                                      \
+    <span style="color:#a2f;font-weight:bold">if</span> (err <span style="color:#666">!=</span> cudaSuccess) {                                                  \
+      std<span style="color:#666">::</span>cout <span style="color:#666">&lt;&lt;</span> <span style="color:#b44"></span><span style="color:#b44">&#34;error in file &#34;</span> <span style="color:#666">&lt;&lt;</span> __FILE__ <span style="color:#666">&lt;&lt;</span> <span style="color:#b44"></span><span style="color:#b44">&#34; line at &#34;</span> <span style="color:#666">&lt;&lt;</span> __LINE__     \
+                <span style="color:#666">&lt;&lt;</span> <span style="color:#b44"></span><span style="color:#b44">&#34;: &#34;</span> <span style="color:#666">&lt;&lt;</span> cudaGetErrorString(err) <span style="color:#666">&lt;&lt;</span> std<span style="color:#666">::</span>endl;               \
+      exit(<span style="color:#666">1</span>);                                                                 \
+    }                                                                          \
+  } <span style="color:#a2f;font-weight:bold">while</span> (<span style="color:#666">0</span>)
+
+<span style="color:#080;font-style:italic">// 画面の解像度
+</span><span style="color:#080;font-style:italic"></span><span style="color:#080">#define WIDTH 1024
+</span><span style="color:#080">#define HEIGHT 1024
+</span><span style="color:#080"></span>
+<span style="color:#080;font-style:italic">// pixel buffer object
+</span><span style="color:#080;font-style:italic"></span>GLuint pbo;
+
+<span style="color:#080;font-style:italic">// フレームバッファの取得に使用
+</span><span style="color:#080;font-style:italic"></span>cudaGraphicsResource <span style="color:#666">*</span>dev_resource;
+
+<span style="color:#080;font-style:italic">// 画面更新の間隔 (ms)
+</span><span style="color:#080;font-style:italic"></span><span style="color:#0b0;font-weight:bold">int</span> interval <span style="color:#666">=</span> <span style="color:#666">16</span>;
+
+<span style="color:#080;font-style:italic">// カーネル関数: bitmapに適当に色を塗る
+</span><span style="color:#080;font-style:italic"></span>__global__ <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">kernel</span>(uchar4 <span style="color:#666">*</span>bitmap, <span style="color:#0b0;font-weight:bold">int</span> tick) {
+  <span style="color:#0b0;font-weight:bold">int</span> x <span style="color:#666">=</span> threadIdx.x <span style="color:#666">+</span> blockIdx.x <span style="color:#666">*</span> blockDim.x;
+  <span style="color:#0b0;font-weight:bold">int</span> y <span style="color:#666">=</span> threadIdx.y <span style="color:#666">+</span> blockIdx.y <span style="color:#666">*</span> blockDim.y;
+  <span style="color:#0b0;font-weight:bold">int</span> offset <span style="color:#666">=</span> x <span style="color:#666">+</span> y <span style="color:#666">*</span> blockDim.x <span style="color:#666">*</span> gridDim.x;
+
+  <span style="color:#080;font-style:italic">// 連続的になるように...
+</span><span style="color:#080;font-style:italic"></span>  <span style="color:#0b0;font-weight:bold">float</span> theta <span style="color:#666">=</span> tick <span style="color:#666">/</span> <span style="color:#666">60.0f</span> <span style="color:#666">*</span> <span style="color:#666">2.0f</span> <span style="color:#666">*</span> M_PI;
+  <span style="color:#0b0;font-weight:bold">float</span> theta_x <span style="color:#666">=</span> x <span style="color:#666">/</span> <span style="color:#666">60.0f</span> <span style="color:#666">*</span> <span style="color:#666">2.0f</span> <span style="color:#666">*</span> M_PI;
+  <span style="color:#0b0;font-weight:bold">float</span> theta_y <span style="color:#666">=</span> y <span style="color:#666">/</span> <span style="color:#666">60.0f</span> <span style="color:#666">*</span> <span style="color:#666">2.0f</span> <span style="color:#666">*</span> M_PI;
+  <span style="color:#0b0;font-weight:bold">float</span> r <span style="color:#666">=</span> fabs(sin(theta <span style="color:#666">+</span> theta_x));
+  <span style="color:#0b0;font-weight:bold">float</span> g <span style="color:#666">=</span> fabs(cos(theta <span style="color:#666">+</span> theta_y));
+  <span style="color:#0b0;font-weight:bold">float</span> b <span style="color:#666">=</span> fabs(sin(theta <span style="color:#666">+</span> theta_x) <span style="color:#666">*</span> cos(theta <span style="color:#666">+</span> theta_y));
+
+  bitmap[offset].x <span style="color:#666">=</span> (<span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span>)(r <span style="color:#666">*</span> <span style="color:#666">255</span>);
+  bitmap[offset].y <span style="color:#666">=</span> (<span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span>)(g <span style="color:#666">*</span> <span style="color:#666">255</span>);
+  bitmap[offset].z <span style="color:#666">=</span> (<span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span>)(b <span style="color:#666">*</span> <span style="color:#666">255</span>);
+  bitmap[offset].w <span style="color:#666">=</span> <span style="color:#666">255</span>;
+}
+
+<span style="color:#080;font-style:italic">// 描画用コールバック
+</span><span style="color:#080;font-style:italic"></span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">draw</span>() {
+  <span style="color:#080;font-style:italic">// ピクセルバッファオブジェクトがバインドされているので、サイズを指定するだけで良い
+</span><span style="color:#080;font-style:italic"></span>  glDrawPixels(WIDTH, HEIGHT, GL_RGBA, GL_UNSIGNED_BYTE, <span style="color:#666">0</span>);
+  glutSwapBuffers();
+}
+
+<span style="color:#080;font-style:italic">// 画面を更新するコールバック
+</span><span style="color:#080;font-style:italic"></span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">update</span>(<span style="color:#0b0;font-weight:bold">int</span> key) {
+  <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">int</span> tick <span style="color:#666">=</span> <span style="color:#666">0</span>; <span style="color:#080;font-style:italic">// 今何フレーム目?
+</span><span style="color:#080;font-style:italic"></span>  uchar4 <span style="color:#666">*</span>dev_bitmap;
+  size_t size;
+
+  <span style="color:#080;font-style:italic">// フレームバッファをマップしてアドレスを取得
+</span><span style="color:#080;font-style:italic"></span>  EXIT_IF_FAIL(cudaGraphicsMapResources(<span style="color:#666">1</span>, <span style="color:#666">&amp;</span>dev_resource, <span style="color:#a2f">NULL</span>));
+  EXIT_IF_FAIL(cudaGraphicsResourceGetMappedPointer((<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#666">**</span>)<span style="color:#666">&amp;</span>dev_bitmap, <span style="color:#666">&amp;</span>size,
+                                                    dev_resource));
+
+  <span style="color:#080;font-style:italic">// カーネル関数を呼ぶ
+</span><span style="color:#080;font-style:italic"></span>  dim3 threads(<span style="color:#666">8</span>, <span style="color:#666">8</span>);                <span style="color:#080;font-style:italic">// 64スレッド/1グリッド
+</span><span style="color:#080;font-style:italic"></span>  dim3 grids(WIDTH <span style="color:#666">/</span> <span style="color:#666">8</span>, HEIGHT <span style="color:#666">/</span> <span style="color:#666">8</span>); <span style="color:#080;font-style:italic">// 各ピクセルに1スレッドが割り振られる
+</span><span style="color:#080;font-style:italic"></span>  kernel<span style="color:#666">&lt;&lt;&lt;</span>grids, threads<span style="color:#666">&gt;&gt;&gt;</span>(dev_bitmap, tick);
+
+  <span style="color:#080;font-style:italic">// カーネル関数の終了を待つ
+</span><span style="color:#080;font-style:italic"></span>  EXIT_IF_FAIL(cudaDeviceSynchronize());
+
+  <span style="color:#080;font-style:italic">// リソースの開放
+</span><span style="color:#080;font-style:italic"></span>  EXIT_IF_FAIL(cudaGraphicsUnmapResources(<span style="color:#666">1</span>, <span style="color:#666">&amp;</span>dev_resource, <span style="color:#a2f">NULL</span>));
+
+  <span style="color:#080;font-style:italic">// ウィンドウの再描画を要求
+</span><span style="color:#080;font-style:italic"></span>  glutPostRedisplay();
+
+  <span style="color:#080;font-style:italic">// interval msec後にまた呼び出す
+</span><span style="color:#080;font-style:italic"></span>  glutTimerFunc(interval, update, <span style="color:#666">0</span>);
+  tick<span style="color:#666">++</span>;
+}
+
+<span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">main</span>(<span style="color:#0b0;font-weight:bold">int</span> argc, <span style="color:#0b0;font-weight:bold">char</span> <span style="color:#666">*</span>argv[]) {
+  <span style="color:#080;font-style:italic">// OpenGLの初期化
+</span><span style="color:#080;font-style:italic"></span>  glutInit(<span style="color:#666">&amp;</span>argc, argv);
+  glutInitDisplayMode(GLUT_DOUBLE <span style="color:#666">|</span> GLUT_RGBA);
+  glutInitWindowSize(WIDTH, HEIGHT);
+  glutCreateWindow(<span style="color:#b44"></span><span style="color:#b44">&#34;animation&#34;</span>);
+
+  <span style="color:#080;font-style:italic">// コールバックを指定
+</span><span style="color:#080;font-style:italic"></span>  glutDisplayFunc(draw);
+  glutTimerFunc(interval, update, <span style="color:#666">0</span>);
+
+  <span style="color:#080;font-style:italic">// バッファを作成
+</span><span style="color:#080;font-style:italic"></span>  glGenBuffers(<span style="color:#666">1</span>, <span style="color:#666">&amp;</span>pbo);
+  glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pbo);
+  glBufferData(GL_PIXEL_UNPACK_BUFFER, <span style="color:#a2f;font-weight:bold">sizeof</span>(char4) <span style="color:#666">*</span> WIDTH <span style="color:#666">*</span> HEIGHT, <span style="color:#a2f">NULL</span>,
+               GL_DYNAMIC_DRAW);
+
+  <span style="color:#080;font-style:italic">// OpenGLのバッファをCudaと共有する設定
+</span><span style="color:#080;font-style:italic"></span>  EXIT_IF_FAIL(cudaGraphicsGLRegisterBuffer(<span style="color:#666">&amp;</span>dev_resource, pbo,
+                                            cudaGraphicsMapFlagsNone));
+
+  glutMainLoop();
+
+  <span style="color:#080;font-style:italic">// リソースの開放(glutMainLoop()は返らないので、実際は呼ばれない)
+</span><span style="color:#080;font-style:italic"></span>  glBindBuffer(GL_PIXEL_UNPACK_BUFFER, <span style="color:#666">0</span>);
+  glDeleteBuffers(<span style="color:#666">1</span>, <span style="color:#666">&amp;</span>pbo);
+  EXIT_IF_FAIL(cudaGLUnregisterBufferObject(m_pbo));
+  EXIT_IF_FAIL(cudaGraphicsUnregisterResource(m_resource));
+}</code></pre></td></tr></table>
+</div>
+</div>
+<p><code>nvcc anim.cu -run -lGL -lglut</code> で実行すると以下のようなアニメーションが表示される。</p>
+
+<div class="embed video-player">
+    <iframe class="youtube-player" type="text/html" width="640" height="385" src="http://www.youtube.com/embed/OtsbkUfnCHA" allowfullscreen frameborder="0">
+    </iframe>
+</div>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://yuki67.github.io/post/cuda_time/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/cuda_time/">Cudaプログラムの実行時間測定</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+
+</div>
+</div>
+<script src="https://yuki67.github.io/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-107335237-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

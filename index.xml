@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Fri, 24 Nov 2017 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 03 Dec 2017 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>CudaとOpenGLを連携させてアニメーションを描画する</title>
+      <link>https://yuki67.github.io/post/cuda_animation/</link>
+      <pubDate>Sun, 03 Dec 2017 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/cuda_animation/</guid>
+      <description>&lt;p&gt;CUDAを使って毎フレーム画像を更新したいが、いちいち画像をCPUにお繰り返している暇がないときに。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Cudaプログラムの実行時間測定</title>
