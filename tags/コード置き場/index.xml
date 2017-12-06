@@ -18,7 +18,7 @@
       <pubDate>Sun, 03 Dec 2017 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/post/cuda_animation/</guid>
-      <description>&lt;p&gt;CUDAを使って毎フレーム画像を更新したいが、いちいち画像をCPUにお繰り返している暇がないときに。&lt;/p&gt;
+      <description>&lt;p&gt;CUDAを使って毎フレーム画像を更新したいが、いちいち画像をCPUに送り返している暇がないときに。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
