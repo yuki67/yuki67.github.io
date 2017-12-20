@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <title>MinCamlをjbuilderでビルドする &middot; yuki&#39;s blog</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://yuki67.github.io/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://yuki67.github.io/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://yuki67.github.io/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+
+  <link rel="shortcut icon" href="https://yuki67.github.io/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+
+    <body>
+        <div id="layout">
+            
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://yuki67.github.io/">yuki's blog</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/yfkutydt" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/yuki67" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>by yuki</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+            <div id="main">
+
+
+<div class="header">
+  <h1>MinCamlをjbuilderでビルドする</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2017-12-13</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ocaml">ocaml</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>org-modeで書いて<a href="http://e-yuki67.hatenablog.com/entry/2017/12/13/215123">はてな</a>に公開したものを貼る。</p>
+
+<p>文章さえ書けばはてなに移すのは楽だろうと思ったが、画像をアップロードしたりリンクを張り替えたりするのは結構な手間だったので次からはやめよう。</p>
+
+<p></p>
+
+<p>(以下は元記事)</p>
+
+<p>この記事は<a href="https://adventar.org/calendars/2583">IS17er Advent Calendar 2017</a>の13日目の記事です。</p>
+
+<p><a href="https://github.com/janestreet/jbuilder">jbuilder</a>はOCaml用のビルドツールで、<a href="https://github.com/ocaml/ocamlbuild">OCamlbuild</a>や<a href="https://github.com/ocaml-omake/omake">OMake</a>, <a href="https://github.com/ocaml/oasis">OASIS</a>の親戚です。jbuilderを使うとOCamlを使って書いたプログラムのビルドが楽にできます。</p>
+
+<p>MinCamlをjbuilderでビルドするのを試したところうまく設定できたので、この記事ではその方法を書きます。</p>
+
+<p>フォークレポジトリは<a href="https://github.com/yuki67/min-caml">これ</a>です。</p>
+
+<h2 id="下準備">下準備</h2>
+
+<p>MinCamlのソースコードをダウンロードし、 <code>./to_x86</code> というスクリプトを実行しておきます。</p>
+
+<p>このコマンドがないとそもそもビルドができません。</p>
+
+<h2 id="jbuilderのインストール">jbuilderのインストール</h2>
+
+<p>opamから行えます。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">opam install jbuilder</code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="jbuildの記述">jbuildの記述</h2>
+
+<p>OCamlMakefileを使うのに <code>Makefile</code> が必要なように、jbuilderを使うには <code>jbuild</code> が必要です。</p>
+
+<p>MinCamlと同じディレクトリに <code>jbuild</code> というファイルを作り、以下を記述します。
+このファイルの書き方はかなり特殊だと思うので、<a href="https://jbuilder.readthedocs.io/en/latest/">ドキュメント</a>を参照してください(自分でもこれであってるのかイマイチ自信がありません&hellip;)。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">22</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">23</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">24</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">25</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp">(<span style="color:#b8860b">jbuild_version</span> <span style="color:#666">1</span>)
+
+<span style="color:#080;font-style:italic">;lexer, parser はモジュール名</span>
+(<span style="color:#b8860b">ocamllex</span> (<span style="color:#b8860b">lexer</span>))
+(<span style="color:#b8860b">ocamlyacc</span> (<span style="color:#b8860b">parser</span>))
+
+(<span style="color:#b8860b">library</span> <span style="color:#080;font-style:italic">; 実行形式以外のモジュールを詰めたライブラリを作る</span>
+ (<span style="color:#080;font-style:italic">; トップモジュールの名前はMinCaml</span>
+  (<span style="color:#b8860b">name</span>           <span style="color:#b8860b">MinCaml</span>)
+  <span style="color:#080;font-style:italic">; MinCamlモジュールに詰めるモジュールを書く</span>
+  <span style="color:#080;font-style:italic">; 読み込むと入力を受け付け始めるMain, Anchor以外すべて</span>
+  <span style="color:#080;font-style:italic">; &#34;:standard&#34;でこのフォルダにあるモジュールを表し、 &#34;\&#34;以降で除外するモジュールを選択している</span>
+  (<span style="color:#b8860b">modules</span>        (<span style="color:#b8860b">:standard</span> <span style="color:#b8860b">\ main</span> <span style="color:#b8860b">anchor</span>))
+  <span style="color:#080;font-style:italic">; 依存している外部ライブラリ</span>
+  (<span style="color:#b8860b">libraries</span>      (<span style="color:#b8860b">str</span>))
+  <span style="color:#080;font-style:italic">; cのスタブの名前(float.c)</span>
+  (<span style="color:#b8860b">c_names</span>         (<span style="color:#b8860b">float</span>))))
+
+(<span style="color:#b8860b">executable</span> <span style="color:#080;font-style:italic">; 実行形式</span>
+ (<span style="color:#080;font-style:italic">; 実行形式の名前</span>
+  (<span style="color:#b8860b">name</span>           <span style="color:#b8860b">main</span>)
+  <span style="color:#080;font-style:italic">; Mainモジュールのみをコンパイルする</span>
+  (<span style="color:#b8860b">modules</span>        <span style="color:#b8860b">Main</span>)
+  <span style="color:#080;font-style:italic">; 依存ライブラリ: 上で定義したMinCamlモジュール</span>
+  (<span style="color:#b8860b">libraries</span>      (<span style="color:#b8860b">MinCaml</span>))))</code></pre></td></tr></table>
+</div>
+</div>
+<p>各モジュール間の依存関係を書く必要はなく勝手に推論してくれます。もし依存関係にループがあった場合はどのようにループしているかを示してくれます。そのため新しいファイルを後から追加しても設定の変更は必要ありません。</p>
+
+<p>なお後述する <code>jbuilder utop</code> という機能を利用するために、「 <code>main.ml</code> と <code>anchor.ml</code> 以外のファイルをコンパイルしてライブラリ <code>MinCaml</code> を作り、そのライブラリを使って <code>main.ml</code> をコンパイルする」という、多少遠回りな方法を取りました。</p>
+
+<h2 id="main-dot-mlの編集">main.mlの編集</h2>
+
+<p><code>main.ml</code> が (同じディレクトリにある\*.mlファイルで定義されるモジュールではなく) <code>MinCaml</code> モジュール内のモジュールを使うように、 冒頭に <code>open MinCaml</code> を追加します。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#a2f;font-weight:bold">open</span> <span style="color:#00f">MinCaml</span> <span style="color:#080;font-style:italic">(* 追加 *)</span>
+
+<span style="color:#080;font-style:italic">(* 以下は同じ *)</span>
+<span style="color:#a2f;font-weight:bold">let</span> limit <span style="color:#666">=</span> ref 1000
+
+<span style="color:#666">...</span></code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="ビルド">ビルド</h2>
+
+<p>以上の設定でビルドができるようになります。次のコマンドでビルドします。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jbuilder build main.exe</code></pre></td></tr></table>
+</div>
+</div>
+<p>これで <code>main.ml</code> をコンパイルしたファイル <code>./_build/default/main.exe</code> が作られます。</p>
+
+<h2 id="jubuilder-utop-コマンド"><code>jubuilder utop</code> コマンド</h2>
+
+<p><code>jubuilder utop</code> コマンドを実行すると、そのフォルダの =jbuild=ファイルで定義されたライブラリのビルドが行われ、そのライブラリをロードしたutopが起動します。</p>
+
+<p>上のように `jbuild` を記述した上で `jbuilder utop` を実行すると以下のようになります。</p>
+
+
+<figure >
+    
+        <img src="https://yuki67.github.io/ox-hugo/utop.png" />
+    
+    
+</figure>
+
+
+<p>ライブラリのロードが行われるので、 モジュール名 (画像では`MinCaml`)  を打つと補完が効きます。ソースコードの修正とデバッグを繰り返すときに便利です。</p>
+
+<p><code>main.ml</code> をコンパイルするのに <code>MinCaml</code> モジュールををわざわざ作った理由は、 <code>Main</code> モジュールがutopから読み込まれると標準入力を読み込み始めてしまうので除外する必要があったためです。</p>
+
+<h2 id="makfileと組み合わせる">Makfileと組み合わせる</h2>
+
+<p>もともとのMinCamlはMakefileを使ってテストをするようになっているので、jbuilderと結合させます。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">22</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile"><span style="color:#b8860b">RESULT</span> <span style="color:#666">=</span> min-caml
+<span style="color:#b8860b">SRC</span>   <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">$(</span>shell ls *.ml *.mli<span style="color:#a2f;font-weight:bold">)</span>
+<span style="color:#b8860b">TESTS</span> <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">$(</span>shell ls test/*.ml | grep -v toomanyargs<span style="color:#a2f;font-weight:bold">)</span>
+<span style="color:#b8860b">JBUILD_BUILD_PATH</span><span style="color:#666">=</span>./_build/default
+
+<span style="color:#00a000">default</span><span style="color:#666">:</span> <span style="color:#a2f;font-weight:bold">$(</span><span style="color:#b8860b">RESULT</span><span style="color:#a2f;font-weight:bold">)</span>
+
+<span style="color:#080;font-style:italic"># jbuilderを使ったビルド
+</span><span style="color:#080;font-style:italic"></span><span style="color:#00a000">$(RESULT)</span><span style="color:#666">:</span> <span style="color:#a2f;font-weight:bold">$(</span><span style="color:#b8860b">JBUILD_BUILD_PATH</span><span style="color:#a2f;font-weight:bold">)</span>/main.exe <span style="color:#a2f;font-weight:bold">$(</span><span style="color:#b8860b">SRC</span><span style="color:#a2f;font-weight:bold">)</span>
+        cp <span style="color:#a2f;font-weight:bold">$(</span>JBUILD_BUILD_PATH<span style="color:#a2f;font-weight:bold">)</span>/main.exe <span style="color:#a2f;font-weight:bold">$(</span>RESULT<span style="color:#a2f;font-weight:bold">)</span>
+
+<span style="color:#00a000">$(JBUILD_BUILD_PATH)/main.exe</span><span style="color:#666">:</span> <span style="color:#a2f;font-weight:bold">$(</span><span style="color:#b8860b">SRC</span><span style="color:#a2f;font-weight:bold">)</span>
+        jbuilder build main.exe
+
+<span style="color:#080;font-style:italic"># モジュールをすべてロードしたutopを起動する
+</span><span style="color:#080;font-style:italic"></span><span style="color:#00a000">utop</span><span style="color:#666">:</span>
+        jbuilder utop
+
+<span style="color:#080;font-style:italic"># 以下同じ
+</span><span style="color:#080;font-style:italic"></span><span style="color:#00a000">do_test</span><span style="color:#666">:</span> <span style="color:#a2f;font-weight:bold">$(</span><span style="color:#b8860b">TESTS</span>:%.<span style="color:#b8860b">ml</span>=%.<span style="color:#b8860b">cmp</span><span style="color:#a2f;font-weight:bold">)</span>
+<span style="">...</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>これで `make`, `make do_test` が元のMinCamlと同じ意味で使えるようになり、  `make utop` でライブラリをロードしたutopが起動するようになります。</p>
+
+<p>jbuilderの紹介はここまでです。</p>
+
+<h2 id="その他ocaml小ネタ">その他OCaml小ネタ</h2>
+
+<p>思いついたものを書きます。</p>
+
+<h3 id="install-printer">install_printer</h3>
+
+<p>ocamlのREPLで <code>#install_printer hoge</code> とするとそれ以降プリント関数として使うことができます。</p>
+
+<p>具体的には</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># type foo = A | B;;
+# let print_foo fmt = function ;; 型fooのプリント関数
+  | A -&gt; Format.fprintf fmt &#34;this is value A&#34;
+  | B -&gt; Format.fprintf fmt &#34;this is value B&#34;;;
+val print_foo : Format.formatter -&gt; foo -&gt; unit = &lt;fun&gt;
+# A;;  ; print_installする前
+- : foo = A
+# B;;
+ - : foo = B
+# #install_printer print_foo;;
+# A;;  ;; print_installした後
+- : foo = this is value A
+# B;;
+- : foo = this is value B
+# (A, B);;  ;; 組み合わさっていてもOK
+- : foo * foo = (this is value A, this is value B)</code></pre></td></tr></table>
+</div>
+</div>
+<p>とします。</p>
+
+<p>なおプリント関数の型が <code>t -&gt; unit</code> であっても動きますが、これは deprecated だそうです。(<a href="https://caml.inria.fr/pub/docs/manual-ocaml/toplevel.html">ソース</a>)</p>
+
+<h3 id="バックトレースの有効化">バックトレースの有効化</h3>
+
+<p>REPLで <code>Printexc.record_backtrace true</code> とすると例外が出たときにどこから出たのか教えてくれます。</p>
+
+<p>これがあればコンパイラをいじった結果 `Exception: Assert_failure` が全く予期しないところから生じても大丈夫です。</p>
+
+<h3 id="dot-ocamlinit"><code>.ocamlinit</code></h3>
+
+<p>ocamlのREPLは立ち上がるときに同じディレクトリにある =.ocamlinit=を読むので、ここに毎回実行する処理を書いておくと楽です。</p>
+
+<p>上のMinCamlでは</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">8</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#a2f;font-weight:bold">open</span> <span style="color:#00f">MinCaml</span><span style="color:#666">;;</span>
+<span style="color:#080;font-style:italic">(* エラーが出たときのバックトレースの有効化 *)</span>
+<span style="color:#00f;font-weight:bold">Printexc</span>.record_backtrace true<span style="color:#666">;;</span>
+<span style="color:#080;font-style:italic">(* プリント関数の有効化*)</span>
+<span style="color:#666">#</span>install_printer <span style="color:#00f;font-weight:bold">Syntax</span>.print
+<span style="color:#666">#</span>install_printer <span style="color:#00f;font-weight:bold">KNormal</span>.print
+<span style="color:#666">#</span>install_printer <span style="color:#00f;font-weight:bold">Closure</span>.print
+<span style="color:#666">#</span>install_printer <span style="color:#00f;font-weight:bold">Asm</span>.print</code></pre></td></tr></table>
+</div>
+</div>
+<p>と書いています。</p>
+
+<h3 id="flambdaの有効化">flambdaの有効化</h3>
+
+<p>flambdaとはOCamlのネイティブコンパイラが持つ最適化機能の総称です。デフォルトの状態では(多分)有効化されないので、以下のコマンドで有効化されたコンパイラをビルドする必要があります。</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">opam switch <span style="color:#666">4</span>.05.0+flambda</code></pre></td></tr></table>
+</div>
+</div>
+<p>これで <code>-O3</code> オプションを付けてコンパイルすれば最適化が有効になります。</p>
+
+<p>自分が書いたシミュレーターでは40%程度高速化しました。</p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://yuki67.github.io/post/cuda_animation/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/cuda_animation/">CudaとOpenGLを連携させてアニメーションを描画する</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+
+</div>
+</div>
+<script src="https://yuki67.github.io/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-107335237-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+</body>
+</html>
+
