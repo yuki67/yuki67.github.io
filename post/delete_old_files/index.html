@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.30.2" />
 
-  <title>Posts &middot; yuki&#39;s blog</title>
+  <title>古いファイルを削除してファイルの数を一定にする &middot; yuki&#39;s blog</title>
 
   
   
@@ -35,8 +35,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-  <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki67.github.io/post/index.xml" />
   
 
   
@@ -93,10 +91,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://yuki67.github.io/post/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -199,65 +193,85 @@
 
 
 <div class="header">
-  <h1>Posts</h1>
+  <h1>古いファイルを削除してファイルの数を一定にする</h1>
+  <h2></h2>
 </div>
 <div class="content">
-  
-  <h2>2018</h2>
-  <ul>
-  
-    <li><time>2018-01-09</time> - <a href="https://yuki67.github.io/post/delete_old_files/">古いファイルを削除してファイルの数を一定にする</a></li>
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-01-09</time>
+  </div>
 
   
-  </ul>
-  
-  <h2>2017</h2>
-  <ul>
-  
-    <li><time>2017-12-13</time> - <a href="https://yuki67.github.io/post/mincaml_jbuilder/">MinCamlをjbuilderでビルドする</a></li>
 
   
-    <li><time>2017-12-03</time> - <a href="https://yuki67.github.io/post/cuda_animation/">CudaとOpenGLを連携させてアニメーションを描画する</a></li>
 
   
-    <li><time>2017-11-24</time> - <a href="https://yuki67.github.io/post/cuda_time/">Cudaプログラムの実行時間測定</a></li>
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/shell">shell</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  <p>ログの整理で使った。</p>
+
+<p></p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">7</span></code></pre></td>
+<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#080;font-style:italic"># 古いファイルを削除してファイルの数を一定にする
+</span><span style="color:#080;font-style:italic"></span><span style="color:#b8860b">n</span><span style="color:#666">=</span><span style="color:#b44">`</span>ls -l | wc -l<span style="color:#b44">`</span>
+<span style="color:#b8860b">m</span><span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">$((</span>n-100<span style="color:#a2f;font-weight:bold">))</span> <span style="color:#080;font-style:italic"># 100個残す
+</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">[</span> <span style="color:#b8860b">$m</span> -gt <span style="color:#666">0</span> <span style="color:#666">]</span> ;
+    <span style="color:#a2f;font-weight:bold">then</span> ls -rt | head -n <span style="color:#b8860b">$m</span> | xargs rm; <span style="color:#080;font-style:italic"># 古い方から消す
+</span><span style="color:#080;font-style:italic"></span>    <span style="color:#a2f;font-weight:bold">else</span> true; <span style="color:#080;font-style:italic"># 何もしない
+</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">fi</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>ワンライナーでは無理かな?</p>
 
   
-    <li><time>2017-11-20</time> - <a href="https://yuki67.github.io/post/cuda_bitmap/">ビットマップをOpenGLで描画する</a></li>
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://yuki67.github.io/post/mincaml_jbuilder/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/mincaml_jbuilder/">MinCamlをjbuilderでビルドする</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
 
   
-    <li><time>2017-11-09</time> - <a href="https://yuki67.github.io/post/to_hugo/">hugoに移行した</a></li>
 
-  
-    <li><time>2017-10-01</time> - <a href="https://yuki67.github.io/post/more_bucklescript/">もっとbucklescriptをいじった</a></li>
-
-  
-    <li><time>2017-09-24</time> - <a href="https://yuki67.github.io/post/hello_buckle/">hello bucklescript!</a></li>
-
-  
-    <li><time>2017-09-17</time> - <a href="https://yuki67.github.io/post/automaton/">オートマトン in OCaml</a></li>
-
-  
-    <li><time>2017-09-03</time> - <a href="https://yuki67.github.io/post/textbooks/">教科書</a></li>
-
-  
-    <li><time>2017-08-22</time> - <a href="https://yuki67.github.io/post/random_pick/">ランダムピック</a></li>
-
-  
-    <li><time>2017-08-17</time> - <a href="https://yuki67.github.io/post/perlin_noise/">パーリンノイズ</a></li>
-
-  
-    <li><time>2017-08-15</time> - <a href="https://yuki67.github.io/post/inverse_method/">逆関数法</a></li>
-
-  
-    <li><time>2017-08-12</time> - <a href="https://yuki67.github.io/post/montecarlo_integral/">モンテカルロ積分</a></li>
-
-  
-    <li><time>2017-08-11</time> - <a href="https://yuki67.github.io/post/hazimemasita/">nikolaでブログはじめました</a></li>
-
-  
-  </ul>
-  
 </div>
 
 </div>
