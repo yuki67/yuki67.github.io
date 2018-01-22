@@ -7,10 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Tue, 09 Jan 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 22 Jan 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ubuntu 17.10で最大化/最小化ボタンを左へ移動する</title>
+      <link>https://yuki67.github.io/post/customize_desktop/</link>
+      <pubDate>Mon, 22 Jan 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/customize_desktop/</guid>
+      <description>&lt;p&gt;これ↓&lt;/p&gt;
+
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;https://yuki67.github.io/ox-hugo/buttons.png&#34; /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>古いファイルを削除してファイルの数を一定にする</title>
