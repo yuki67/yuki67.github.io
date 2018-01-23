@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="generator" content="Hugo 0.34" />
 
   <title>モンテカルロ積分 &middot; yuki&#39;s blog</title>
 
@@ -50,6 +50,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+    <link rel="stylesheet" href="https://yuki67.github.io/css/pygments.css">
 
     <body>
         <div id="layout">
@@ -240,30 +241,18 @@
 <p>(近似値は <a href="http://www.wolframalpha.com/input/?i%3Dint_0%255E10%2Be%255E-x**2">wolfram alpha</a> で計算した)</p>
 
 <p>まず被積分関数と答えを定義する。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">math</span> <span style="color:#a2f;font-weight:bold">import</span> exp
-<span style="color:#080;font-style:italic"># 被積分関数</span>
-f <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">lambda</span> x: exp(<span style="color:#666">-</span>x<span style="color:#666">**</span><span style="color:#666">2</span>)
-<span style="color:#080;font-style:italic"># 答え</span>
-answer <span style="color:#666">=</span> <span style="color:#666">0.886227</span></code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">exp</span>
+<span class="c1"># 被積分関数</span>
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># 答え</span>
+<span class="n">answer</span> <span class="o">=</span> <span class="mf">0.886227</span></code></pre></div>
 <p>次にipython用の初期設定をする。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># 記事の中で使うのモジュールのインポート</span>
-<span style="color:#666">%</span>matplotlib inline
-<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">random</span>
-<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">math</span> <span style="color:#a2f;font-weight:bold">import</span> sin, cos, exp, log
-<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">numpy</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">np</span>
-<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">matplotlib.pyplot</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">plt</span></code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 記事の中で使うのモジュールのインポート</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">log</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span></code></pre></div>
 <h2 id="区間分割">区間分割</h2>
 
 <p>まず、</p>
@@ -274,45 +263,27 @@ answer <span style="color:#666">=</span> <span style="color:#666">0.886227</span
 </p>
 
 <p>を使って値を求める。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">8</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">section_split</span>(f, a, b, n):
-  <span style="color:#a2f">sum</span> <span style="color:#666">=</span> <span style="color:#666">0</span>
-  <span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> np<span style="color:#666">.</span>linspace(a, b, n):
-    <span style="color:#a2f">sum</span> <span style="color:#666">+=</span> f(i)
-  <span style="color:#a2f;font-weight:bold">return</span> (b <span style="color:#666">-</span> a) <span style="color:#666">/</span> n <span style="color:#666">*</span> <span style="color:#a2f">sum</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">section_split</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+  <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="nb">sum</span> <span class="o">+=</span> <span class="n">f</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span> <span class="o">*</span> <span class="nb">sum</span>
 
-<span style="color:#080;font-style:italic"># 誤差を求める</span>
-section_split(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, <span style="color:#666">1000</span>) <span style="color:#666">-</span> answer</code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">0.004113698527303256</code></pre></td></tr></table>
-</div>
-</div>
+<span class="c1"># 誤差を求める</span>
+<span class="n">section_split</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-</span> <span class="n">answer</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">0.004113698527303256</code></pre></div>
 <p>近い値が求められている。</p>
 
 <p>nと誤差の関係をグラフにプロットしてみる。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig, ax <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(figsize<span style="color:#666">=</span>(<span style="color:#666">10</span>, <span style="color:#666">10</span>))
-ax<span style="color:#666">.</span>hold(True)
-ax<span style="color:#666">.</span>grid(True)
-ax<span style="color:#666">.</span>set_xlabel(<span style="color:#b44"></span><span style="color:#b44">&#34;n&#34;</span>)
-ax<span style="color:#666">.</span>set_ylabel(<span style="color:#b44"></span><span style="color:#b44">&#34;error&#34;</span>)
-ax<span style="color:#666">.</span>set_ylim(<span style="color:#666">-</span><span style="color:#666">0.5</span>, <span style="color:#666">0.5</span>)
-n <span style="color:#666">=</span> <span style="color:#666">500</span>
-ax<span style="color:#666">.</span>plot([section_split(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n) <span style="color:#666">-</span> answer <span style="color:#a2f;font-weight:bold">for</span> n <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">1</span>, n)], label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;section split&#34;</span>)
-ax<span style="color:#666">.</span>legend()
-fig</code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;n&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;error&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">section_split</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="n">answer</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)],</span> <span class="n">label</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;section split&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span></code></pre></div>
 
 <figure >
     
@@ -348,31 +319,19 @@ fig</code></pre></td></tr></table>
 <h2 id="モンテカルロ">モンテカルロ</h2>
 
 <p>関数に渡す値を順番に選ぶ代わりにランダムに取る方法。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">7</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">montecarlo</span>(f, a, b, n):
-    <span style="color:#a2f">sum</span> <span style="color:#666">=</span> <span style="color:#666">0</span>
-    ans <span style="color:#666">=</span> []
-    <span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">1</span>, n):
-        <span style="color:#a2f">sum</span> <span style="color:#666">+=</span> f(random<span style="color:#666">.</span>uniform(a, b))
-        ans<span style="color:#666">.</span>append(<span style="color:#a2f">sum</span> <span style="color:#666">/</span> i <span style="color:#666">*</span> (b <span style="color:#666">-</span> a) <span style="color:#666">-</span> answer)
-    <span style="color:#a2f;font-weight:bold">return</span> ans</code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">montecarlo</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="nb">sum</span> <span class="o">+=</span> <span class="n">f</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+        <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">sum</span> <span class="o">/</span> <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">-</span> <span class="n">answer</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ans</span></code></pre></div>
 <p>誤差の変化をさっき書いたグラフに上書きする。乱数を用いているので、何回か近似を行ってそれぞれについての誤差の変化をプロットする。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ax<span style="color:#666">.</span>plot(montecarlo(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n), label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;montecarlo&#34;</span>, color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;g&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.25</span>)
-<span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">14</span>):
-    ax<span style="color:#666">.</span>plot(montecarlo(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n), color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;g&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.25</span>)
-ax<span style="color:#666">.</span>legend()
-fig</code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">montecarlo</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;montecarlo&#34;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;g&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">14</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">montecarlo</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;g&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span></code></pre></div>
 
 <figure >
     
@@ -414,17 +373,11 @@ fig</code></pre></td></tr></table>
 <h2 id="重点サンプリング">重点サンプリング</h2>
 
 <p>今考えている被積分関数\(e^{-x^2}\)は\(x=0\)の近くで大きな値を取り、\(x \geq 3\) の部分ではごく小さな値しか取らない。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig2, ax2 <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(figsize<span style="color:#666">=</span>(<span style="color:#666">10</span>, <span style="color:#666">10</span>))
-ax2<span style="color:#666">.</span>plot(np<span style="color:#666">.</span>linspace(<span style="color:#666">0</span>, <span style="color:#666">10</span>, <span style="color:#666">100</span>), [f(x) <span style="color:#a2f;font-weight:bold">for</span> x <span style="color:#a2f;font-weight:bold">in</span> np<span style="color:#666">.</span>linspace(<span style="color:#666">0</span>, <span style="color:#666">10</span>, <span style="color:#666">100</span>)], label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;integrad&#34;</span>)
-ax2<span style="color:#666">.</span>legend()
-ax2<span style="color:#666">.</span>grid()
-fig2</code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig2</span><span class="p">,</span> <span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">[</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)],</span> <span class="n">label</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;integrad&#34;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">fig2</span></code></pre></div>
 
 <figure >
     
@@ -439,29 +392,23 @@ fig2</code></pre></td></tr></table>
 <p>それどころか、そうしたほうが\(n\)の値が相対的に大きくなって近似の精度が良くなることが予想できる。</p>
 
 <p>実際そうなることを確かめる。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">fig3, ax3 <span style="color:#666">=</span> plt<span style="color:#666">.</span>subplots(figsize<span style="color:#666">=</span>(<span style="color:#666">10</span>, <span style="color:#666">10</span>))
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig3</span><span class="p">,</span> <span class="n">ax3</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 
-<span style="color:#080;font-style:italic"># [0, 10]から取る</span>
-ax3<span style="color:#666">.</span>plot(montecarlo(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n), label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;[0, 10]&#34;</span>, color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;g&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.4</span>)
-<span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">14</span>):
-    ax3<span style="color:#666">.</span>plot(montecarlo(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n), color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;g&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.4</span>)
+<span class="c1"># [0, 10]から取る</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">montecarlo</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;[0, 10]&#34;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;g&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">14</span><span class="p">):</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">montecarlo</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;g&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 
-<span style="color:#080;font-style:italic"># [0, 3]から取る</span>
-ax3<span style="color:#666">.</span>plot(montecarlo(f, <span style="color:#666">0</span>, <span style="color:#666">3</span>, n), label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;[0, 3]&#34;</span>, color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;r&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.4</span>)
-<span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">14</span>):
-    ax3<span style="color:#666">.</span>plot(montecarlo(f, <span style="color:#666">0</span>, <span style="color:#666">3</span>, n), color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;r&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.4</span>)
+<span class="c1"># [0, 3]から取る</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">montecarlo</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;[0, 3]&#34;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;r&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">14</span><span class="p">):</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">montecarlo</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;r&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 
 
-ax3<span style="color:#666">.</span>legend()
-ax3<span style="color:#666">.</span>grid()
-ax3<span style="color:#666">.</span>set_ylim(<span style="color:#666">-</span><span style="color:#666">0.5</span>, <span style="color:#666">0.5</span>)
-fig3</code></pre></td></tr></table>
-</div>
-</div>
+<span class="n">ax3</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">fig3</span></code></pre></div>
 
 <figure >
     
@@ -479,30 +426,24 @@ fig3</code></pre></td></tr></table>
 <p>以下の例では変数が \(x \in [0, 10]\) の値を取る確率が \( {\it pdf}(x) = e^{-x} \) に比例するようにしている。ここで \(e^{-x}\) を選んだのは、この関数が被積分関数に似ていて、かつ不定積分とその逆関数が簡単に求まるからだ。</p>
 
 <p>\( {\it pdf}(x) \) は被積分関数と似ている方が良くて、被積分関数と同じなのが理想だ。しかし、\( {\it pdf}(x) \) として被積分関数を取れるなら、それは積分を解析的に求められることを意味するので数値で近似する意味がない。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">pdf <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">lambda</span> x: exp(<span style="color:#666">-</span>x) <span style="color:#666">/</span> (<span style="color:#666">1</span> <span style="color:#666">-</span> exp(<span style="color:#666">-</span><span style="color:#666">10</span>))        <span style="color:#080;font-style:italic"># pdf(x) : 自分で考える/正規化もする</span>
-cdf <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">lambda</span> x: (<span style="color:#666">1</span> <span style="color:#666">-</span> exp(<span style="color:#666">-</span>x)) <span style="color:#666">/</span> (<span style="color:#666">1</span> <span style="color:#666">-</span> exp(<span style="color:#666">-</span><span style="color:#666">10</span>))  <span style="color:#080;font-style:italic"># cdf(x) : pdf(x)を[a, x]で積分したもの</span>
-cdf_inv <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">lambda</span> x: <span style="color:#666">-</span>log(<span style="color:#666">1</span><span style="color:#666">-</span> (<span style="color:#666">1</span> <span style="color:#666">-</span> exp(<span style="color:#666">-</span><span style="color:#666">10</span>)) <span style="color:#666">*</span> x) <span style="color:#080;font-style:italic"># cdf_inv(x) : cdf(x) の逆関数</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">pdf</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">))</span>        <span class="c1"># pdf(x) : 自分で考える/正規化もする</span>
+<span class="n">cdf</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">))</span>  <span class="c1"># cdf(x) : pdf(x)を[a, x]で積分したもの</span>
+<span class="n">cdf_inv</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">))</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="c1"># cdf_inv(x) : cdf(x) の逆関数</span>
 
-<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">importance_sampling</span>(f, a, b, n):
-    <span style="color:#a2f">sum</span> <span style="color:#666">=</span> <span style="color:#666">0</span>
-    ans <span style="color:#666">=</span> []
-    <span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">1</span>, n):
-        x <span style="color:#666">=</span> cdf_inv(random<span style="color:#666">.</span>random())
-        <span style="color:#a2f">sum</span> <span style="color:#666">+=</span> f(x) <span style="color:#666">/</span> pdf(x)
-        ans<span style="color:#666">.</span>append(<span style="color:#a2f">sum</span> <span style="color:#666">/</span> i <span style="color:#666">-</span> answer)
-    <span style="color:#a2f;font-weight:bold">return</span> ans
+<span class="k">def</span> <span class="nf">importance_sampling</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">cdf_inv</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
+        <span class="nb">sum</span> <span class="o">+=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">sum</span> <span class="o">/</span> <span class="n">i</span> <span class="o">-</span> <span class="n">answer</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ans</span>
 
-ax<span style="color:#666">.</span>plot(importance_sampling(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n), label<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;importance sampling&#34;</span>, color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;r&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.25</span>)
-<span style="color:#a2f;font-weight:bold">for</span> _ <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">14</span>):
-    ax<span style="color:#666">.</span>plot(importance_sampling(f, <span style="color:#666">0</span>, <span style="color:#666">10</span>, n), color<span style="color:#666">=</span><span style="color:#b44"></span><span style="color:#b44">&#34;r&#34;</span>, alpha<span style="color:#666">=</span><span style="color:#666">0.25</span>)
-ax<span style="color:#666">.</span>legend()
-fig</code></pre></td></tr></table>
-</div>
-</div>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">importance_sampling</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;importance sampling&#34;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;r&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">14</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">importance_sampling</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="sa"></span><span class="s2">&#34;r&#34;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span></code></pre></div>
 
 <figure >
     

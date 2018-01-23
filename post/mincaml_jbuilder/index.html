@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="generator" content="Hugo 0.34" />
 
   <title>MinCamlをjbuilderでビルドする &middot; yuki&#39;s blog</title>
 
@@ -50,6 +50,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+    <link rel="stylesheet" href="https://yuki67.github.io/css/pygments.css">
 
     <body>
         <div id="layout">
@@ -248,50 +249,38 @@
 <h2 id="jbuilderのインストール">jbuilderのインストール</h2>
 
 <p>opamから行えます。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">opam install jbuilder</code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">opam install jbuilder</code></pre></div>
 <h2 id="jbuildの記述">jbuildの記述</h2>
 
 <p>OCamlMakefileを使うのに <code>Makefile</code> が必要なように、jbuilderを使うには <code>jbuild</code> が必要です。</p>
 
 <p>MinCamlと同じディレクトリに <code>jbuild</code> というファイルを作り、以下を記述します。
 このファイルの書き方はかなり特殊だと思うので、<a href="https://jbuilder.readthedocs.io/en/latest/">ドキュメント</a>を参照してください(自分でもこれであってるのかイマイチ自信がありません&hellip;)。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">22</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">23</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">24</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">25</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lisp" data-lang="lisp">(<span style="color:#b8860b">jbuild_version</span> <span style="color:#666">1</span>)
+<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="nv">jbuild_version</span> <span class="mi">1</span><span class="p">)</span>
 
-<span style="color:#080;font-style:italic">;lexer, parser はモジュール名</span>
-(<span style="color:#b8860b">ocamllex</span> (<span style="color:#b8860b">lexer</span>))
-(<span style="color:#b8860b">ocamlyacc</span> (<span style="color:#b8860b">parser</span>))
+<span class="c1">;lexer, parser はモジュール名</span>
+<span class="p">(</span><span class="nv">ocamllex</span> <span class="p">(</span><span class="nv">lexer</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">ocamlyacc</span> <span class="p">(</span><span class="nv">parser</span><span class="p">))</span>
 
-(<span style="color:#b8860b">library</span> <span style="color:#080;font-style:italic">; 実行形式以外のモジュールを詰めたライブラリを作る</span>
- (<span style="color:#080;font-style:italic">; トップモジュールの名前はMinCaml</span>
-  (<span style="color:#b8860b">name</span>           <span style="color:#b8860b">MinCaml</span>)
-  <span style="color:#080;font-style:italic">; MinCamlモジュールに詰めるモジュールを書く</span>
-  <span style="color:#080;font-style:italic">; 読み込むと入力を受け付け始めるMain, Anchor以外すべて</span>
-  <span style="color:#080;font-style:italic">; &#34;:standard&#34;でこのフォルダにあるモジュールを表し、 &#34;\&#34;以降で除外するモジュールを選択している</span>
-  (<span style="color:#b8860b">modules</span>        (<span style="color:#b8860b">:standard</span> <span style="color:#b8860b">\ main</span> <span style="color:#b8860b">anchor</span>))
-  <span style="color:#080;font-style:italic">; 依存している外部ライブラリ</span>
-  (<span style="color:#b8860b">libraries</span>      (<span style="color:#b8860b">str</span>))
-  <span style="color:#080;font-style:italic">; cのスタブの名前(float.c)</span>
-  (<span style="color:#b8860b">c_names</span>         (<span style="color:#b8860b">float</span>))))
+<span class="p">(</span><span class="nv">library</span> <span class="c1">; 実行形式以外のモジュールを詰めたライブラリを作る</span>
+ <span class="p">(</span><span class="c1">; トップモジュールの名前はMinCaml</span>
+  <span class="p">(</span><span class="nv">name</span>           <span class="nv">MinCaml</span><span class="p">)</span>
+  <span class="c1">; MinCamlモジュールに詰めるモジュールを書く</span>
+  <span class="c1">; 読み込むと入力を受け付け始めるMain, Anchor以外すべて</span>
+  <span class="c1">; &#34;:standard&#34;でこのフォルダにあるモジュールを表し、 &#34;\&#34;以降で除外するモジュールを選択している</span>
+  <span class="p">(</span><span class="nv">modules</span>        <span class="p">(</span><span class="ss">:standard</span> <span class="nv">\ main</span> <span class="nv">anchor</span><span class="p">))</span>
+  <span class="c1">; 依存している外部ライブラリ</span>
+  <span class="p">(</span><span class="nv">libraries</span>      <span class="p">(</span><span class="nv">str</span><span class="p">))</span>
+  <span class="c1">; cのスタブの名前(float.c)</span>
+  <span class="p">(</span><span class="nv">c_names</span>         <span class="p">(</span><span class="nv">float</span><span class="p">))))</span>
 
-(<span style="color:#b8860b">executable</span> <span style="color:#080;font-style:italic">; 実行形式</span>
- (<span style="color:#080;font-style:italic">; 実行形式の名前</span>
-  (<span style="color:#b8860b">name</span>           <span style="color:#b8860b">main</span>)
-  <span style="color:#080;font-style:italic">; Mainモジュールのみをコンパイルする</span>
-  (<span style="color:#b8860b">modules</span>        <span style="color:#b8860b">Main</span>)
-  <span style="color:#080;font-style:italic">; 依存ライブラリ: 上で定義したMinCamlモジュール</span>
-  (<span style="color:#b8860b">libraries</span>      (<span style="color:#b8860b">MinCaml</span>))))</code></pre></td></tr></table>
-</div>
-</div>
+<span class="p">(</span><span class="nv">executable</span> <span class="c1">; 実行形式</span>
+ <span class="p">(</span><span class="c1">; 実行形式の名前</span>
+  <span class="p">(</span><span class="nv">name</span>           <span class="nv">main</span><span class="p">)</span>
+  <span class="c1">; Mainモジュールのみをコンパイルする</span>
+  <span class="p">(</span><span class="nv">modules</span>        <span class="nv">Main</span><span class="p">)</span>
+  <span class="c1">; 依存ライブラリ: 上で定義したMinCamlモジュール</span>
+  <span class="p">(</span><span class="nv">libraries</span>      <span class="p">(</span><span class="nv">MinCaml</span><span class="p">))))</span></code></pre></div>
 <p>各モジュール間の依存関係を書く必要はなく勝手に推論してくれます。もし依存関係にループがあった場合はどのようにループしているかを示してくれます。そのため新しいファイルを後から追加しても設定の変更は必要ありません。</p>
 
 <p>なお後述する <code>jbuilder utop</code> という機能を利用するために、「 <code>main.ml</code> と <code>anchor.ml</code> 以外のファイルをコンパイルしてライブラリ <code>MinCaml</code> を作り、そのライブラリを使って <code>main.ml</code> をコンパイルする」という、多少遠回りな方法を取りました。</p>
@@ -299,28 +288,16 @@
 <h2 id="main-dot-mlの編集">main.mlの編集</h2>
 
 <p><code>main.ml</code> が (同じディレクトリにある\*.mlファイルで定義されるモジュールではなく) <code>MinCaml</code> モジュール内のモジュールを使うように、 冒頭に <code>open MinCaml</code> を追加します。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#a2f;font-weight:bold">open</span> <span style="color:#00f">MinCaml</span> <span style="color:#080;font-style:italic">(* 追加 *)</span>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">open</span> <span class="nc">MinCaml</span> <span class="c">(* 追加 *)</span>
 
-<span style="color:#080;font-style:italic">(* 以下は同じ *)</span>
-<span style="color:#a2f;font-weight:bold">let</span> limit <span style="color:#666">=</span> ref 1000
+<span class="c">(* 以下は同じ *)</span>
+<span class="k">let</span> <span class="n">limit</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">1000</span>
 
-<span style="color:#666">...</span></code></pre></td></tr></table>
-</div>
-</div>
+<span class="o">...</span></code></pre></div>
 <h2 id="ビルド">ビルド</h2>
 
 <p>以上の設定でビルドができるようになります。次のコマンドでビルドします。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jbuilder build main.exe</code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">jbuilder build main.exe</code></pre></div>
 <p>これで <code>main.ml</code> をコンパイルしたファイル <code>./_build/default/main.exe</code> が作られます。</p>
 
 <h2 id="jubuilder-utop-コマンド"><code>jubuilder utop</code> コマンド</h2>
@@ -345,34 +322,28 @@
 <h2 id="makfileと組み合わせる">Makfileと組み合わせる</h2>
 
 <p>もともとのMinCamlはMakefileを使ってテストをするようになっているので、jbuilderと結合させます。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">22</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile"><span style="color:#b8860b">RESULT</span> <span style="color:#666">=</span> min-caml
-<span style="color:#b8860b">SRC</span>   <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">$(</span>shell ls *.ml *.mli<span style="color:#a2f;font-weight:bold">)</span>
-<span style="color:#b8860b">TESTS</span> <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">$(</span>shell ls test/*.ml | grep -v toomanyargs<span style="color:#a2f;font-weight:bold">)</span>
-<span style="color:#b8860b">JBUILD_BUILD_PATH</span><span style="color:#666">=</span>./_build/default
+<div class="highlight"><pre class="chroma"><code class="language-makefile" data-lang="makefile"><span class="nv">RESULT</span> <span class="o">=</span> min-caml
+<span class="nv">SRC</span>   <span class="o">=</span> <span class="k">$(</span>shell ls *.ml *.mli<span class="k">)</span>
+<span class="nv">TESTS</span> <span class="o">=</span> <span class="k">$(</span>shell ls test/*.ml <span class="p">|</span> grep -v toomanyargs<span class="k">)</span>
+<span class="nv">JBUILD_BUILD_PATH</span><span class="o">=</span>./_build/default
 
-<span style="color:#00a000">default</span><span style="color:#666">:</span> <span style="color:#a2f;font-weight:bold">$(</span><span style="color:#b8860b">RESULT</span><span style="color:#a2f;font-weight:bold">)</span>
+<span class="nf">default</span><span class="o">:</span> <span class="k">$(</span><span class="nv">RESULT</span><span class="k">)</span>
 
-<span style="color:#080;font-style:italic"># jbuilderを使ったビルド
-</span><span style="color:#080;font-style:italic"></span><span style="color:#00a000">$(RESULT)</span><span style="color:#666">:</span> <span style="color:#a2f;font-weight:bold">$(</span><span style="color:#b8860b">JBUILD_BUILD_PATH</span><span style="color:#a2f;font-weight:bold">)</span>/main.exe <span style="color:#a2f;font-weight:bold">$(</span><span style="color:#b8860b">SRC</span><span style="color:#a2f;font-weight:bold">)</span>
-        cp <span style="color:#a2f;font-weight:bold">$(</span>JBUILD_BUILD_PATH<span style="color:#a2f;font-weight:bold">)</span>/main.exe <span style="color:#a2f;font-weight:bold">$(</span>RESULT<span style="color:#a2f;font-weight:bold">)</span>
+<span class="c"># jbuilderを使ったビルド
+</span><span class="c"></span><span class="nf">$(RESULT)</span><span class="o">:</span> <span class="k">$(</span><span class="nv">JBUILD_BUILD_PATH</span><span class="k">)</span>/<span class="n">main</span>.<span class="n">exe</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>
+        cp <span class="k">$(</span>JBUILD_BUILD_PATH<span class="k">)</span>/main.exe <span class="k">$(</span>RESULT<span class="k">)</span>
 
-<span style="color:#00a000">$(JBUILD_BUILD_PATH)/main.exe</span><span style="color:#666">:</span> <span style="color:#a2f;font-weight:bold">$(</span><span style="color:#b8860b">SRC</span><span style="color:#a2f;font-weight:bold">)</span>
+<span class="nf">$(JBUILD_BUILD_PATH)/main.exe</span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>
         jbuilder build main.exe
 
-<span style="color:#080;font-style:italic"># モジュールをすべてロードしたutopを起動する
-</span><span style="color:#080;font-style:italic"></span><span style="color:#00a000">utop</span><span style="color:#666">:</span>
+<span class="c"># モジュールをすべてロードしたutopを起動する
+</span><span class="c"></span><span class="nf">utop</span><span class="o">:</span>
         jbuilder utop
 
-<span style="color:#080;font-style:italic"># 以下同じ
-</span><span style="color:#080;font-style:italic"></span><span style="color:#00a000">do_test</span><span style="color:#666">:</span> <span style="color:#a2f;font-weight:bold">$(</span><span style="color:#b8860b">TESTS</span>:%.<span style="color:#b8860b">ml</span>=%.<span style="color:#b8860b">cmp</span><span style="color:#a2f;font-weight:bold">)</span>
-<span style="">...</span>
-</code></pre></td></tr></table>
-</div>
-</div>
+<span class="c"># 以下同じ
+</span><span class="c"></span><span class="nf">do_test</span><span class="o">:</span> <span class="k">$(</span><span class="nv">TESTS</span>:%.<span class="nv">ml</span>=%.<span class="nv">cmp</span><span class="k">)</span>
+<span class="err">...</span>
+</code></pre></div>
 <p>これで `make`, `make do_test` が元のMinCamlと同じ意味で使えるようになり、  `make utop` でライブラリをロードしたutopが起動するようになります。</p>
 
 <p>jbuilderの紹介はここまでです。</p>
@@ -386,11 +357,7 @@
 <p>ocamlのREPLで <code>#install_printer hoge</code> とするとそれ以降プリント関数として使うことができます。</p>
 
 <p>具体的には</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># type foo = A | B;;
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"># type foo = A | B;;
 # let print_foo fmt = function ;; 型fooのプリント関数
   | A -&gt; Format.fprintf fmt &#34;this is value A&#34;
   | B -&gt; Format.fprintf fmt &#34;this is value B&#34;;;
@@ -405,9 +372,7 @@ val print_foo : Format.formatter -&gt; foo -&gt; unit = &lt;fun&gt;
 # B;;
 - : foo = this is value B
 # (A, B);;  ;; 組み合わさっていてもOK
-- : foo * foo = (this is value A, this is value B)</code></pre></td></tr></table>
-</div>
-</div>
+- : foo * foo = (this is value A, this is value B)</code></pre></div>
 <p>とします。</p>
 
 <p>なおプリント関数の型が <code>t -&gt; unit</code> であっても動きますが、これは deprecated だそうです。(<a href="https://caml.inria.fr/pub/docs/manual-ocaml/toplevel.html">ソース</a>)</p>
@@ -423,32 +388,20 @@ val print_foo : Format.formatter -&gt; foo -&gt; unit = &lt;fun&gt;
 <p>ocamlのREPLは立ち上がるときに同じディレクトリにある =.ocamlinit=を読むので、ここに毎回実行する処理を書いておくと楽です。</p>
 
 <p>上のMinCamlでは</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">8</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#a2f;font-weight:bold">open</span> <span style="color:#00f">MinCaml</span><span style="color:#666">;;</span>
-<span style="color:#080;font-style:italic">(* エラーが出たときのバックトレースの有効化 *)</span>
-<span style="color:#00f;font-weight:bold">Printexc</span>.record_backtrace true<span style="color:#666">;;</span>
-<span style="color:#080;font-style:italic">(* プリント関数の有効化*)</span>
-<span style="color:#666">#</span>install_printer <span style="color:#00f;font-weight:bold">Syntax</span>.print
-<span style="color:#666">#</span>install_printer <span style="color:#00f;font-weight:bold">KNormal</span>.print
-<span style="color:#666">#</span>install_printer <span style="color:#00f;font-weight:bold">Closure</span>.print
-<span style="color:#666">#</span>install_printer <span style="color:#00f;font-weight:bold">Asm</span>.print</code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">open</span> <span class="nc">MinCaml</span><span class="o">;;</span>
+<span class="c">(* エラーが出たときのバックトレースの有効化 *)</span>
+<span class="nn">Printexc</span><span class="p">.</span><span class="n">record_backtrace</span> <span class="bp">true</span><span class="o">;;</span>
+<span class="c">(* プリント関数の有効化*)</span>
+<span class="o">#</span><span class="n">install_printer</span> <span class="nn">Syntax</span><span class="p">.</span><span class="n">print</span>
+<span class="o">#</span><span class="n">install_printer</span> <span class="nn">KNormal</span><span class="p">.</span><span class="n">print</span>
+<span class="o">#</span><span class="n">install_printer</span> <span class="nn">Closure</span><span class="p">.</span><span class="n">print</span>
+<span class="o">#</span><span class="n">install_printer</span> <span class="nn">Asm</span><span class="p">.</span><span class="n">print</span></code></pre></div>
 <p>と書いています。</p>
 
 <h3 id="flambdaの有効化">flambdaの有効化</h3>
 
 <p>flambdaとはOCamlのネイティブコンパイラが持つ最適化機能の総称です。デフォルトの状態では(多分)有効化されないので、以下のコマンドで有効化されたコンパイラをビルドする必要があります。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">opam switch <span style="color:#666">4</span>.05.0+flambda</code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">opam switch <span class="m">4</span>.05.0+flambda</code></pre></div>
 <p>これで <code>-O3</code> オプションを付けてコンパイルすれば最適化が有効になります。</p>
 
 <p>自分が書いたシミュレーターでは40%程度高速化しました。</p>

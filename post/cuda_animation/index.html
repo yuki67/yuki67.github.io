@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="generator" content="Hugo 0.34" />
 
   <title>CudaとOpenGLを連携させてアニメーションを描画する &middot; yuki&#39;s blog</title>
 
@@ -50,6 +50,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+    <link rel="stylesheet" href="https://yuki67.github.io/css/pygments.css">
 
     <body>
         <div id="layout">
@@ -232,132 +233,126 @@
 <p><a href="https://yuki67.github.io/post/cuda_bitmap/">この前</a>に書いたのはCUDAカーネルでビットマップを作成し、それをOpenGLを使って表示させる方法だった。このときはGPUで作成したデータを <code>CudaMemcpy</code> でホストへ送り返し、更にこれを <code>glDrawPixels</code> を使ってGPUへ送り返すという二度手間を行っていた。</p>
 
 <p>CUDAとOpenGLを連携させる関数を使うと、データのやり取りをGPU内で完結させたまま同じことができる。データを送り返す必要がない分高速にできるので、アニメーションも可能になる。以下のようにすれば良い。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">  9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 22</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 23</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 24</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 25</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 26</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 27</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 28</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 29</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 30</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 31</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 32</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 33</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 34</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 35</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 36</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 37</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 38</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 39</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 40</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 41</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 42</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 43</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 44</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 45</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 46</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 47</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 48</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 49</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 50</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 51</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 52</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 53</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 54</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 55</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 56</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 57</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 58</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 59</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 60</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 61</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 62</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 63</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 64</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 65</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 66</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 67</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 68</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 69</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 70</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 71</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 72</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 73</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 74</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 75</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 76</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 77</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 78</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 79</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 80</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 81</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 82</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 83</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 84</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 85</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 86</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 87</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 88</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 89</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 90</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 91</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 92</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 93</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 94</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 95</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 96</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 97</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 98</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 99</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">100</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">101</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">102</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">103</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">104</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">105</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">106</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">107</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">108</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">109</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">110</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">111</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">112</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">113</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">114</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">115</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">116</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">117</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">118</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">119</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">120</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#080">#define GL_GLEXT_PROTOTYPES
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;GL/freeglut.h&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;GL/freeglut_ext.h&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;GL/gl.h&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;cmath&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;cuda_gl_interop.h&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;cuda_runtime.h&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;iostream&gt;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#080;font-style:italic">// cudaのエラー検出用マクロ
-</span><span style="color:#080;font-style:italic"></span><span style="color:#080">#define EXIT_IF_FAIL(call)                                                     \
-</span><span style="color:#080"></span>  <span style="color:#a2f;font-weight:bold">do</span> {                                                                         \
-    (call);                                                                    \
-    cudaError_t err <span style="color:#666">=</span> cudaGetLastError();                                      \
-    <span style="color:#a2f;font-weight:bold">if</span> (err <span style="color:#666">!=</span> cudaSuccess) {                                                  \
-      std<span style="color:#666">::</span>cout <span style="color:#666">&lt;&lt;</span> <span style="color:#b44"></span><span style="color:#b44">&#34;error in file &#34;</span> <span style="color:#666">&lt;&lt;</span> __FILE__ <span style="color:#666">&lt;&lt;</span> <span style="color:#b44"></span><span style="color:#b44">&#34; line at &#34;</span> <span style="color:#666">&lt;&lt;</span> __LINE__     \
-                <span style="color:#666">&lt;&lt;</span> <span style="color:#b44"></span><span style="color:#b44">&#34;: &#34;</span> <span style="color:#666">&lt;&lt;</span> cudaGetErrorString(err) <span style="color:#666">&lt;&lt;</span> std<span style="color:#666">::</span>endl;               \
-      exit(<span style="color:#666">1</span>);                                                                 \
-    }                                                                          \
-  } <span style="color:#a2f;font-weight:bold">while</span> (<span style="color:#666">0</span>)
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#define GL_GLEXT_PROTOTYPES
+</span><span class="cp">#include</span> <span class="cpf">&lt;GL/freeglut.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;GL/freeglut_ext.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;GL/gl.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cuda_gl_interop.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cuda_runtime.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="c1">// cudaのエラー検出用マクロ
+</span><span class="c1"></span><span class="cp">#define EXIT_IF_FAIL(call)                                                     \
+</span><span class="cp"></span>  <span class="k">do</span> <span class="p">{</span>                                                                         \
+    <span class="p">(</span><span class="n">call</span><span class="p">);</span>                                                                    \
+    <span class="n">cudaError_t</span> <span class="n">err</span> <span class="o">=</span> <span class="n">cudaGetLastError</span><span class="p">();</span>                                      \
+    <span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">!=</span> <span class="n">cudaSuccess</span><span class="p">)</span> <span class="p">{</span>                                                  \
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;error in file &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">__FILE__</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34; line at &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">__LINE__</span>     \
+                <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">cudaGetErrorString</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>               \
+      <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>                                                                 \
+    <span class="p">}</span>                                                                          \
+  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<span style="color:#080;font-style:italic">// 画面の解像度
-</span><span style="color:#080;font-style:italic"></span><span style="color:#080">#define WIDTH 1024
-</span><span style="color:#080">#define HEIGHT 1024
-</span><span style="color:#080"></span>
-<span style="color:#080;font-style:italic">// pixel buffer object
-</span><span style="color:#080;font-style:italic"></span>GLuint pbo;
+<span class="c1">// 画面の解像度
+</span><span class="c1"></span><span class="cp">#define WIDTH 1024
+</span><span class="cp">#define HEIGHT 1024
+</span><span class="cp"></span>
+<span class="c1">// pixel buffer object
+</span><span class="c1"></span><span class="n">GLuint</span> <span class="n">pbo</span><span class="p">;</span>
 
-<span style="color:#080;font-style:italic">// フレームバッファの取得に使用
-</span><span style="color:#080;font-style:italic"></span>cudaGraphicsResource <span style="color:#666">*</span>dev_resource;
+<span class="c1">// フレームバッファの取得に使用
+</span><span class="c1"></span><span class="n">cudaGraphicsResource</span> <span class="o">*</span><span class="n">dev_resource</span><span class="p">;</span>
 
-<span style="color:#080;font-style:italic">// 画面更新の間隔 (ms)
-</span><span style="color:#080;font-style:italic"></span><span style="color:#0b0;font-weight:bold">int</span> interval <span style="color:#666">=</span> <span style="color:#666">16</span>;
+<span class="c1">// 画面更新の間隔 (ms)
+</span><span class="c1"></span><span class="kt">int</span> <span class="n">interval</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
 
-<span style="color:#080;font-style:italic">// カーネル関数: bitmapに適当に色を塗る
-</span><span style="color:#080;font-style:italic"></span>__global__ <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">kernel</span>(uchar4 <span style="color:#666">*</span>bitmap, <span style="color:#0b0;font-weight:bold">int</span> tick) {
-  <span style="color:#0b0;font-weight:bold">int</span> x <span style="color:#666">=</span> threadIdx.x <span style="color:#666">+</span> blockIdx.x <span style="color:#666">*</span> blockDim.x;
-  <span style="color:#0b0;font-weight:bold">int</span> y <span style="color:#666">=</span> threadIdx.y <span style="color:#666">+</span> blockIdx.y <span style="color:#666">*</span> blockDim.y;
-  <span style="color:#0b0;font-weight:bold">int</span> offset <span style="color:#666">=</span> x <span style="color:#666">+</span> y <span style="color:#666">*</span> blockDim.x <span style="color:#666">*</span> gridDim.x;
+<span class="c1">// カーネル関数: bitmapに適当に色を塗る
+</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">kernel</span><span class="p">(</span><span class="n">uchar4</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tick</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">gridDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
 
-  <span style="color:#080;font-style:italic">// 連続的になるように...
-</span><span style="color:#080;font-style:italic"></span>  <span style="color:#0b0;font-weight:bold">float</span> theta <span style="color:#666">=</span> tick <span style="color:#666">/</span> <span style="color:#666">60.0f</span> <span style="color:#666">*</span> <span style="color:#666">2.0f</span> <span style="color:#666">*</span> M_PI;
-  <span style="color:#0b0;font-weight:bold">float</span> theta_x <span style="color:#666">=</span> x <span style="color:#666">/</span> <span style="color:#666">60.0f</span> <span style="color:#666">*</span> <span style="color:#666">2.0f</span> <span style="color:#666">*</span> M_PI;
-  <span style="color:#0b0;font-weight:bold">float</span> theta_y <span style="color:#666">=</span> y <span style="color:#666">/</span> <span style="color:#666">60.0f</span> <span style="color:#666">*</span> <span style="color:#666">2.0f</span> <span style="color:#666">*</span> M_PI;
-  <span style="color:#0b0;font-weight:bold">float</span> r <span style="color:#666">=</span> fabs(sin(theta <span style="color:#666">+</span> theta_x));
-  <span style="color:#0b0;font-weight:bold">float</span> g <span style="color:#666">=</span> fabs(cos(theta <span style="color:#666">+</span> theta_y));
-  <span style="color:#0b0;font-weight:bold">float</span> b <span style="color:#666">=</span> fabs(sin(theta <span style="color:#666">+</span> theta_x) <span style="color:#666">*</span> cos(theta <span style="color:#666">+</span> theta_y));
+  <span class="c1">// 連続的になるように...
+</span><span class="c1"></span>  <span class="kt">float</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">tick</span> <span class="o">/</span> <span class="mf">60.0f</span> <span class="o">*</span> <span class="mf">2.0f</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">theta_x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mf">60.0f</span> <span class="o">*</span> <span class="mf">2.0f</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">theta_y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">/</span> <span class="mf">60.0f</span> <span class="o">*</span> <span class="mf">2.0f</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">r</span> <span class="o">=</span> <span class="n">fabs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">theta_x</span><span class="p">));</span>
+  <span class="kt">float</span> <span class="n">g</span> <span class="o">=</span> <span class="n">fabs</span><span class="p">(</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">theta_y</span><span class="p">));</span>
+  <span class="kt">float</span> <span class="n">b</span> <span class="o">=</span> <span class="n">fabs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">theta_x</span><span class="p">)</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">theta_y</span><span class="p">));</span>
 
-  bitmap[offset].x <span style="color:#666">=</span> (<span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span>)(r <span style="color:#666">*</span> <span style="color:#666">255</span>);
-  bitmap[offset].y <span style="color:#666">=</span> (<span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span>)(g <span style="color:#666">*</span> <span style="color:#666">255</span>);
-  bitmap[offset].z <span style="color:#666">=</span> (<span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span>)(b <span style="color:#666">*</span> <span style="color:#666">255</span>);
-  bitmap[offset].w <span style="color:#666">=</span> <span style="color:#666">255</span>;
-}
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span><span class="p">].</span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="n">r</span> <span class="o">*</span> <span class="mi">255</span><span class="p">);</span>
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span><span class="p">].</span><span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="n">g</span> <span class="o">*</span> <span class="mi">255</span><span class="p">);</span>
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span><span class="p">].</span><span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="n">b</span> <span class="o">*</span> <span class="mi">255</span><span class="p">);</span>
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span><span class="p">].</span><span class="n">w</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
+<span class="p">}</span>
 
-<span style="color:#080;font-style:italic">// 描画用コールバック
-</span><span style="color:#080;font-style:italic"></span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">draw</span>() {
-  <span style="color:#080;font-style:italic">// ピクセルバッファオブジェクトがバインドされているので、サイズを指定するだけで良い
-</span><span style="color:#080;font-style:italic"></span>  glDrawPixels(WIDTH, HEIGHT, GL_RGBA, GL_UNSIGNED_BYTE, <span style="color:#666">0</span>);
-  glutSwapBuffers();
-}
+<span class="c1">// 描画用コールバック
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">draw</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// ピクセルバッファオブジェクトがバインドされているので、サイズを指定するだけで良い
+</span><span class="c1"></span>  <span class="n">glDrawPixels</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">,</span> <span class="n">GL_RGBA</span><span class="p">,</span> <span class="n">GL_UNSIGNED_BYTE</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">glutSwapBuffers</span><span class="p">();</span>
+<span class="p">}</span>
 
-<span style="color:#080;font-style:italic">// 画面を更新するコールバック
-</span><span style="color:#080;font-style:italic"></span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">update</span>(<span style="color:#0b0;font-weight:bold">int</span> key) {
-  <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">int</span> tick <span style="color:#666">=</span> <span style="color:#666">0</span>; <span style="color:#080;font-style:italic">// 今何フレーム目?
-</span><span style="color:#080;font-style:italic"></span>  uchar4 <span style="color:#666">*</span>dev_bitmap;
-  size_t size;
+<span class="c1">// 画面を更新するコールバック
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">update</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">static</span> <span class="kt">int</span> <span class="n">tick</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 今何フレーム目?
+</span><span class="c1"></span>  <span class="n">uchar4</span> <span class="o">*</span><span class="n">dev_bitmap</span><span class="p">;</span>
+  <span class="n">size_t</span> <span class="n">size</span><span class="p">;</span>
 
-  <span style="color:#080;font-style:italic">// フレームバッファをマップしてアドレスを取得
-</span><span style="color:#080;font-style:italic"></span>  EXIT_IF_FAIL(cudaGraphicsMapResources(<span style="color:#666">1</span>, <span style="color:#666">&amp;</span>dev_resource, <span style="color:#a2f">NULL</span>));
-  EXIT_IF_FAIL(cudaGraphicsResourceGetMappedPointer((<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#666">**</span>)<span style="color:#666">&amp;</span>dev_bitmap, <span style="color:#666">&amp;</span>size,
-                                                    dev_resource));
+  <span class="c1">// フレームバッファをマップしてアドレスを取得
+</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsMapResources</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dev_resource</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">));</span>
+  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsResourceGetMappedPointer</span><span class="p">((</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span><span class="o">&amp;</span><span class="n">dev_bitmap</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">,</span>
+                                                    <span class="n">dev_resource</span><span class="p">));</span>
 
-  <span style="color:#080;font-style:italic">// カーネル関数を呼ぶ
-</span><span style="color:#080;font-style:italic"></span>  dim3 threads(<span style="color:#666">8</span>, <span style="color:#666">8</span>);                <span style="color:#080;font-style:italic">// 64スレッド/1グリッド
-</span><span style="color:#080;font-style:italic"></span>  dim3 grids(WIDTH <span style="color:#666">/</span> <span style="color:#666">8</span>, HEIGHT <span style="color:#666">/</span> <span style="color:#666">8</span>); <span style="color:#080;font-style:italic">// 各ピクセルに1スレッドが割り振られる
-</span><span style="color:#080;font-style:italic"></span>  kernel<span style="color:#666">&lt;&lt;&lt;</span>grids, threads<span style="color:#666">&gt;&gt;&gt;</span>(dev_bitmap, tick);
+  <span class="c1">// カーネル関数を呼ぶ
+</span><span class="c1"></span>  <span class="n">dim3</span> <span class="n">threads</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>                <span class="c1">// 64スレッド/1グリッド
+</span><span class="c1"></span>  <span class="n">dim3</span> <span class="n">grids</span><span class="p">(</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mi">8</span><span class="p">,</span> <span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">8</span><span class="p">);</span> <span class="c1">// 各ピクセルに1スレッドが割り振られる
+</span><span class="c1"></span>  <span class="n">kernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">grids</span><span class="p">,</span> <span class="n">threads</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">dev_bitmap</span><span class="p">,</span> <span class="n">tick</span><span class="p">);</span>
 
-  <span style="color:#080;font-style:italic">// カーネル関数の終了を待つ
-</span><span style="color:#080;font-style:italic"></span>  EXIT_IF_FAIL(cudaDeviceSynchronize());
+  <span class="c1">// カーネル関数の終了を待つ
+</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaDeviceSynchronize</span><span class="p">());</span>
 
-  <span style="color:#080;font-style:italic">// リソースの開放
-</span><span style="color:#080;font-style:italic"></span>  EXIT_IF_FAIL(cudaGraphicsUnmapResources(<span style="color:#666">1</span>, <span style="color:#666">&amp;</span>dev_resource, <span style="color:#a2f">NULL</span>));
+  <span class="c1">// リソースの開放
+</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsUnmapResources</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dev_resource</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">));</span>
 
-  <span style="color:#080;font-style:italic">// ウィンドウの再描画を要求
-</span><span style="color:#080;font-style:italic"></span>  glutPostRedisplay();
+  <span class="c1">// ウィンドウの再描画を要求
+</span><span class="c1"></span>  <span class="n">glutPostRedisplay</span><span class="p">();</span>
 
-  <span style="color:#080;font-style:italic">// interval msec後にまた呼び出す
-</span><span style="color:#080;font-style:italic"></span>  glutTimerFunc(interval, update, <span style="color:#666">0</span>);
-  tick<span style="color:#666">++</span>;
-}
+  <span class="c1">// interval msec後にまた呼び出す
+</span><span class="c1"></span>  <span class="n">glutTimerFunc</span><span class="p">(</span><span class="n">interval</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">tick</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
 
-<span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">main</span>(<span style="color:#0b0;font-weight:bold">int</span> argc, <span style="color:#0b0;font-weight:bold">char</span> <span style="color:#666">*</span>argv[]) {
-  <span style="color:#080;font-style:italic">// OpenGLの初期化
-</span><span style="color:#080;font-style:italic"></span>  glutInit(<span style="color:#666">&amp;</span>argc, argv);
-  glutInitDisplayMode(GLUT_DOUBLE <span style="color:#666">|</span> GLUT_RGBA);
-  glutInitWindowSize(WIDTH, HEIGHT);
-  glutCreateWindow(<span style="color:#b44"></span><span style="color:#b44">&#34;animation&#34;</span>);
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="c1">// OpenGLの初期化
+</span><span class="c1"></span>  <span class="n">glutInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+  <span class="n">glutInitDisplayMode</span><span class="p">(</span><span class="n">GLUT_DOUBLE</span> <span class="o">|</span> <span class="n">GLUT_RGBA</span><span class="p">);</span>
+  <span class="n">glutInitWindowSize</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">);</span>
+  <span class="n">glutCreateWindow</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;animation&#34;</span><span class="p">);</span>
 
-  <span style="color:#080;font-style:italic">// コールバックを指定
-</span><span style="color:#080;font-style:italic"></span>  glutDisplayFunc(draw);
-  glutTimerFunc(interval, update, <span style="color:#666">0</span>);
+  <span class="c1">// コールバックを指定
+</span><span class="c1"></span>  <span class="n">glutDisplayFunc</span><span class="p">(</span><span class="n">draw</span><span class="p">);</span>
+  <span class="n">glutTimerFunc</span><span class="p">(</span><span class="n">interval</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 
-  <span style="color:#080;font-style:italic">// バッファを作成
-</span><span style="color:#080;font-style:italic"></span>  glGenBuffers(<span style="color:#666">1</span>, <span style="color:#666">&amp;</span>pbo);
-  glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pbo);
-  glBufferData(GL_PIXEL_UNPACK_BUFFER, <span style="color:#a2f;font-weight:bold">sizeof</span>(char4) <span style="color:#666">*</span> WIDTH <span style="color:#666">*</span> HEIGHT, <span style="color:#a2f">NULL</span>,
-               GL_DYNAMIC_DRAW);
+  <span class="c1">// バッファを作成
+</span><span class="c1"></span>  <span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pbo</span><span class="p">);</span>
+  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_PIXEL_UNPACK_BUFFER</span><span class="p">,</span> <span class="n">pbo</span><span class="p">);</span>
+  <span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_PIXEL_UNPACK_BUFFER</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">char4</span><span class="p">)</span> <span class="o">*</span> <span class="n">WIDTH</span> <span class="o">*</span> <span class="n">HEIGHT</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span>
+               <span class="n">GL_DYNAMIC_DRAW</span><span class="p">);</span>
 
-  <span style="color:#080;font-style:italic">// OpenGLのバッファをCudaと共有する設定
-</span><span style="color:#080;font-style:italic"></span>  EXIT_IF_FAIL(cudaGraphicsGLRegisterBuffer(<span style="color:#666">&amp;</span>dev_resource, pbo,
-                                            cudaGraphicsMapFlagsNone));
+  <span class="c1">// OpenGLのバッファをCudaと共有する設定
+</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsGLRegisterBuffer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dev_resource</span><span class="p">,</span> <span class="n">pbo</span><span class="p">,</span>
+                                            <span class="n">cudaGraphicsMapFlagsNone</span><span class="p">));</span>
 
-  glutMainLoop();
+  <span class="n">glutMainLoop</span><span class="p">();</span>
 
-  <span style="color:#080;font-style:italic">// リソースの開放(glutMainLoop()は返らないので、実際は呼ばれない)
-</span><span style="color:#080;font-style:italic"></span>  glBindBuffer(GL_PIXEL_UNPACK_BUFFER, <span style="color:#666">0</span>);
-  glDeleteBuffers(<span style="color:#666">1</span>, <span style="color:#666">&amp;</span>pbo);
-  EXIT_IF_FAIL(cudaGLUnregisterBufferObject(m_pbo));
-  EXIT_IF_FAIL(cudaGraphicsUnregisterResource(m_resource));
-}</code></pre></td></tr></table>
-</div>
-</div>
+  <span class="c1">// リソースの開放(glutMainLoop()は返らないので、実際は呼ばれない)
+</span><span class="c1"></span>  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_PIXEL_UNPACK_BUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">glDeleteBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pbo</span><span class="p">);</span>
+  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGLUnregisterBufferObject</span><span class="p">(</span><span class="n">m_pbo</span><span class="p">));</span>
+  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsUnregisterResource</span><span class="p">(</span><span class="n">m_resource</span><span class="p">));</span>
+<span class="p">}</span></code></pre></div>
 <p><code>nvcc anim.cu -run -lGL -lglut</code> で実行すると以下のようなアニメーションが表示される。</p>
 
 <div class="embed video-player">

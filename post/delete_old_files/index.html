@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="generator" content="Hugo 0.34" />
 
   <title>古いファイルを削除してファイルの数を一定にする &middot; yuki&#39;s blog</title>
 
@@ -50,6 +50,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+    <link rel="stylesheet" href="https://yuki67.github.io/css/pygments.css">
 
     <body>
         <div id="layout">
@@ -228,19 +229,13 @@
   <p>ログの整理で使った。</p>
 
 <p></p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">7</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#080;font-style:italic"># 古いファイルを削除してファイルの数を一定にする
-</span><span style="color:#080;font-style:italic"></span><span style="color:#b8860b">n</span><span style="color:#666">=</span><span style="color:#b44">`</span>ls -l | wc -l<span style="color:#b44">`</span>
-<span style="color:#b8860b">m</span><span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">$((</span>n-100<span style="color:#a2f;font-weight:bold">))</span> <span style="color:#080;font-style:italic"># 100個残す
-</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">[</span> <span style="color:#b8860b">$m</span> -gt <span style="color:#666">0</span> <span style="color:#666">]</span> ;
-    <span style="color:#a2f;font-weight:bold">then</span> ls -rt | head -n <span style="color:#b8860b">$m</span> | xargs rm; <span style="color:#080;font-style:italic"># 古い方から消す
-</span><span style="color:#080;font-style:italic"></span>    <span style="color:#a2f;font-weight:bold">else</span> true; <span style="color:#080;font-style:italic"># 何もしない
-</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">fi</span></code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 古いファイルを削除してファイルの数を一定にする
+</span><span class="c1"></span><span class="nv">n</span><span class="o">=</span><span class="sb">`</span>ls -l <span class="p">|</span> wc -l<span class="sb">`</span>
+<span class="nv">m</span><span class="o">=</span><span class="k">$((</span>n-100<span class="k">))</span> <span class="c1"># 100個残す
+</span><span class="c1"></span><span class="k">if</span> <span class="o">[</span> <span class="nv">$m</span> -gt <span class="m">0</span> <span class="o">]</span> <span class="p">;</span>
+    <span class="k">then</span> ls -rt <span class="p">|</span> head -n <span class="nv">$m</span> <span class="p">|</span> xargs rm<span class="p">;</span> <span class="c1"># 古い方から消す
+</span><span class="c1"></span>    <span class="k">else</span> true<span class="p">;</span> <span class="c1"># 何もしない
+</span><span class="c1"></span><span class="k">fi</span></code></pre></div>
 <p>ワンライナーでは無理かな?</p>
 
   

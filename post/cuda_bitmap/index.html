@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="generator" content="Hugo 0.34" />
 
   <title>ビットマップをOpenGLで描画する &middot; yuki&#39;s blog</title>
 
@@ -50,6 +50,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+    <link rel="stylesheet" href="https://yuki67.github.io/css/pygments.css">
 
     <body>
         <div id="layout">
@@ -236,94 +237,88 @@
 <p>openGLにはビットマップを描画するglDrawPixels()関数がある。これを使えば、cudaでビットマップを作成 -&gt; OpenGLで描画、という流れが同じプログラム内で行える。</p>
 
 <p>次のプログラムは簡単なビットマップを作ってそれをOpenGLで表示する。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">22</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">23</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">24</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">25</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">26</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">27</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">28</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">29</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">30</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">31</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">32</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">33</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">34</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">35</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">36</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">37</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">38</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">39</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">40</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">41</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">42</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">43</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">44</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">45</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">46</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">47</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">48</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">49</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">50</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">51</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">52</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">53</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">54</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">55</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">56</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">57</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">58</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">59</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">60</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">61</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">62</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">63</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">64</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">65</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">66</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">67</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">68</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">69</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">70</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">71</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">72</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">73</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">74</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">75</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">76</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">77</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">78</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">79</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">80</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">81</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">82</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#080">#include</span> <span style="color:#080">&lt;GL/gl.h&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;GL/glut.h&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;cuda_runtime.h&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;stdio.h&gt;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#080">#define WIDTH 512
-</span><span style="color:#080">#define HEIGHT 512
-</span><span style="color:#080">#define IMAGE_SIZE_IN_BYTE (4 * WIDTH * HEIGHT)
-</span><span style="color:#080"></span>
-<span style="color:#080;font-style:italic">// エラー用マクロ
-</span><span style="color:#080;font-style:italic"></span><span style="color:#080">#define EXIT_IF_FAIL(call)                                                     \
-</span><span style="color:#080"></span>  <span style="color:#a2f;font-weight:bold">do</span> {                                                                         \
-    cudaError_t retval <span style="color:#666">=</span> call;                                                 \
-    <span style="color:#a2f;font-weight:bold">if</span> (retval <span style="color:#666">!=</span> cudaSuccess) {                                               \
-      printf(<span style="color:#b44"></span><span style="color:#b44">&#34;error in file %s line at %d: %s</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#b44">&#34;</span>, __FILE__, __LINE__,          \
-             cudaGetErrorString(retval));                                      \
-      exit(<span style="color:#666">1</span>);                                                                 \
-    }                                                                          \
-  } <span style="color:#a2f;font-weight:bold">while</span> (<span style="color:#666">0</span>)
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;GL/gl.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;GL/glut.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cuda_runtime.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="cp">#define WIDTH 512
+</span><span class="cp">#define HEIGHT 512
+</span><span class="cp">#define IMAGE_SIZE_IN_BYTE (4 * WIDTH * HEIGHT)
+</span><span class="cp"></span>
+<span class="c1">// エラー用マクロ
+</span><span class="c1"></span><span class="cp">#define EXIT_IF_FAIL(call)                                                     \
+</span><span class="cp"></span>  <span class="k">do</span> <span class="p">{</span>                                                                         \
+    <span class="n">cudaError_t</span> <span class="n">retval</span> <span class="o">=</span> <span class="n">call</span><span class="p">;</span>                                                 \
+    <span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">!=</span> <span class="n">cudaSuccess</span><span class="p">)</span> <span class="p">{</span>                                               \
+      <span class="n">printf</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;error in file %s line at %d: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">__FILE__</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span>          \
+             <span class="n">cudaGetErrorString</span><span class="p">(</span><span class="n">retval</span><span class="p">));</span>                                      \
+      <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>                                                                 \
+    <span class="p">}</span>                                                                          \
+  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<span style="color:#080;font-style:italic">// グローバルのデータ(へのポインタ)をまとめたもの
-</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">struct</span> DataBlock {
-  <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> <span style="color:#666">*</span>bitmap;
-  <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> <span style="color:#666">*</span>dev_bitmap;
-  <span style="color:#a2f;font-weight:bold">static</span> DataBlock <span style="color:#666">*</span><span style="color:#00a000">get_data</span>() {
-    <span style="color:#a2f;font-weight:bold">static</span> DataBlock g_data;
-    <span style="color:#a2f;font-weight:bold">return</span> <span style="color:#666">&amp;</span>g_data;
-  }
-};
+<span class="c1">// グローバルのデータ(へのポインタ)をまとめたもの
+</span><span class="c1"></span><span class="k">struct</span> <span class="n">DataBlock</span> <span class="p">{</span>
+  <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">;</span>
+  <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">dev_bitmap</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">DataBlock</span> <span class="o">*</span><span class="nf">get_data</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="n">DataBlock</span> <span class="n">g_data</span><span class="p">;</span>
+    <span class="k">return</span> <span class="o">&amp;</span><span class="n">g_data</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
 
-<span style="color:#080;font-style:italic">// カーネル関数: bitmapに適当に色を塗る
-</span><span style="color:#080;font-style:italic"></span>__global__ <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">kernel</span>(<span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> <span style="color:#666">*</span>bitmap) {
-  <span style="color:#0b0;font-weight:bold">int</span> x <span style="color:#666">=</span> threadIdx.x <span style="color:#666">+</span> blockIdx.x <span style="color:#666">*</span> blockDim.x;
-  <span style="color:#0b0;font-weight:bold">int</span> y <span style="color:#666">=</span> threadIdx.y <span style="color:#666">+</span> blockIdx.y <span style="color:#666">*</span> blockDim.y;
-  <span style="color:#0b0;font-weight:bold">int</span> offset <span style="color:#666">=</span> x <span style="color:#666">+</span> y <span style="color:#666">*</span> blockDim.x <span style="color:#666">*</span> gridDim.x;
+<span class="c1">// カーネル関数: bitmapに適当に色を塗る
+</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">kernel</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">gridDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
 
-  bitmap[offset <span style="color:#666">*</span> <span style="color:#666">4</span> <span style="color:#666">+</span> <span style="color:#666">0</span>] <span style="color:#666">=</span> (x <span style="color:#666">/</span> (WIDTH <span style="color:#666">/</span> <span style="color:#666">255</span>));
-  bitmap[offset <span style="color:#666">*</span> <span style="color:#666">4</span> <span style="color:#666">+</span> <span style="color:#666">1</span>] <span style="color:#666">=</span> (y <span style="color:#666">/</span> (HEIGHT <span style="color:#666">/</span> <span style="color:#666">255</span>));
-  bitmap[offset <span style="color:#666">*</span> <span style="color:#666">4</span> <span style="color:#666">+</span> <span style="color:#666">2</span>] <span style="color:#666">=</span> ((x <span style="color:#666">+</span> y) <span style="color:#666">/</span> (WIDTH <span style="color:#666">+</span> HEIGHT) <span style="color:#666">/</span> <span style="color:#666">255</span>);
-  bitmap[offset <span style="color:#666">*</span> <span style="color:#666">4</span> <span style="color:#666">+</span> <span style="color:#666">3</span>] <span style="color:#666">=</span> <span style="color:#666">255</span>;
-}
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mi">255</span><span class="p">));</span>
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="p">(</span><span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">255</span><span class="p">));</span>
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">WIDTH</span> <span class="o">+</span> <span class="n">HEIGHT</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span><span class="p">);</span>
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
+<span class="p">}</span>
 
-<span style="color:#080;font-style:italic">// 描画用コールバック
-</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">draw</span>() {
-  DataBlock <span style="color:#666">*</span>data <span style="color:#666">=</span> DataBlock<span style="color:#666">::</span>get_data();
-  glClearColor(<span style="color:#666">0.0</span>, <span style="color:#666">0.0</span>, <span style="color:#666">0.0</span>, <span style="color:#666">1.0</span>);
-  glClear(GL_COLOR_BUFFER_BIT);
-  glDrawPixels(WIDTH, HEIGHT, GL_RGBA, GL_UNSIGNED_BYTE, data<span style="color:#666">-&gt;</span>bitmap);
-  glFlush();
-}
+<span class="c1">// 描画用コールバック
+</span><span class="c1"></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">draw</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">DataBlock</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="o">::</span><span class="n">get_data</span><span class="p">();</span>
+  <span class="n">glClearColor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">);</span>
+  <span class="n">glDrawPixels</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">,</span> <span class="n">GL_RGBA</span><span class="p">,</span> <span class="n">GL_UNSIGNED_BYTE</span><span class="p">,</span> <span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">);</span>
+  <span class="n">glFlush</span><span class="p">();</span>
+<span class="p">}</span>
 
-<span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">main</span>(<span style="color:#0b0;font-weight:bold">int</span> argc, <span style="color:#0b0;font-weight:bold">char</span> <span style="color:#666">*</span>argv[]) {
-  DataBlock <span style="color:#666">*</span>data <span style="color:#666">=</span> DataBlock<span style="color:#666">::</span>get_data();
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="n">DataBlock</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="o">::</span><span class="n">get_data</span><span class="p">();</span>
 
-  <span style="color:#080;font-style:italic">// ビットマップをデバイス/ホストに確保
-</span><span style="color:#080;font-style:italic"></span>  data<span style="color:#666">-&gt;</span>bitmap <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span>[IMAGE_SIZE_IN_BYTE];
-  EXIT_IF_FAIL(cudaMalloc(<span style="color:#666">&amp;</span>data<span style="color:#666">-&gt;</span>dev_bitmap, IMAGE_SIZE_IN_BYTE));
+  <span class="c1">// ビットマップをデバイス/ホストに確保
+</span><span class="c1"></span>  <span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">unsigned</span> <span class="kt">char</span><span class="p">[</span><span class="n">IMAGE_SIZE_IN_BYTE</span><span class="p">];</span>
+  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">dev_bitmap</span><span class="p">,</span> <span class="n">IMAGE_SIZE_IN_BYTE</span><span class="p">));</span>
 
-  dim3 threads(<span style="color:#666">16</span>, <span style="color:#666">16</span>);                <span style="color:#080;font-style:italic">// 16x16 スレッド per グリッド
-</span><span style="color:#080;font-style:italic"></span>  dim3 grids(WIDTH <span style="color:#666">/</span> <span style="color:#666">16</span>, HEIGHT <span style="color:#666">/</span> <span style="color:#666">16</span>); <span style="color:#080;font-style:italic">// グリッドの数はthreadsとDIMから求まる
-</span><span style="color:#080;font-style:italic"></span>
-  <span style="color:#080;font-style:italic">// カーネル呼び出し
-</span><span style="color:#080;font-style:italic"></span>  kernel<span style="color:#666">&lt;&lt;&lt;</span>grids, threads<span style="color:#666">&gt;&gt;&gt;</span>(data<span style="color:#666">-&gt;</span>dev_bitmap);
-  <span style="color:#080;font-style:italic">// 出来上がったビットマップをホストへコピー
-</span><span style="color:#080;font-style:italic"></span>  EXIT_IF_FAIL(cudaMemcpy(data<span style="color:#666">-&gt;</span>bitmap, data<span style="color:#666">-&gt;</span>dev_bitmap, IMAGE_SIZE_IN_BYTE,
-                          cudaMemcpyDeviceToHost));
-  <span style="color:#080;font-style:italic">// メモリの開放
-</span><span style="color:#080;font-style:italic"></span>  EXIT_IF_FAIL(cudaFree(data<span style="color:#666">-&gt;</span>dev_bitmap));
+  <span class="n">dim3</span> <span class="n">threads</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>                <span class="c1">// 16x16 スレッド per グリッド
+</span><span class="c1"></span>  <span class="n">dim3</span> <span class="n">grids</span><span class="p">(</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mi">16</span><span class="p">,</span> <span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">16</span><span class="p">);</span> <span class="c1">// グリッドの数はthreadsとDIMから求まる
+</span><span class="c1"></span>
+  <span class="c1">// カーネル呼び出し
+</span><span class="c1"></span>  <span class="n">kernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">grids</span><span class="p">,</span> <span class="n">threads</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">dev_bitmap</span><span class="p">);</span>
+  <span class="c1">// 出来上がったビットマップをホストへコピー
+</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">,</span> <span class="n">data</span><span class="o">-&gt;</span><span class="n">dev_bitmap</span><span class="p">,</span> <span class="n">IMAGE_SIZE_IN_BYTE</span><span class="p">,</span>
+                          <span class="n">cudaMemcpyDeviceToHost</span><span class="p">));</span>
+  <span class="c1">// メモリの開放
+</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaFree</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">dev_bitmap</span><span class="p">));</span>
 
-  <span style="color:#080;font-style:italic">// 画像の描画
-</span><span style="color:#080;font-style:italic"></span>  glutInit(<span style="color:#666">&amp;</span>argc, argv);
-  glutInitDisplayMode(GLUT_SINGLE <span style="color:#666">|</span> GLUT_RGBA);
-  glutInitWindowSize(WIDTH, HEIGHT);
-  glutCreateWindow(<span style="color:#b44"></span><span style="color:#b44">&#34;bitmap&#34;</span>);
-  glutDisplayFunc(draw);
-  glutMainLoop();
+  <span class="c1">// 画像の描画
+</span><span class="c1"></span>  <span class="n">glutInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+  <span class="n">glutInitDisplayMode</span><span class="p">(</span><span class="n">GLUT_SINGLE</span> <span class="o">|</span> <span class="n">GLUT_RGBA</span><span class="p">);</span>
+  <span class="n">glutInitWindowSize</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">);</span>
+  <span class="n">glutCreateWindow</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;bitmap&#34;</span><span class="p">);</span>
+  <span class="n">glutDisplayFunc</span><span class="p">(</span><span class="n">draw</span><span class="p">);</span>
+  <span class="n">glutMainLoop</span><span class="p">();</span>
 
-  <span style="color:#080;font-style:italic">// メモリの開放
-</span><span style="color:#080;font-style:italic"></span>  free(data<span style="color:#666">-&gt;</span>bitmap);
+  <span class="c1">// メモリの開放
+</span><span class="c1"></span>  <span class="n">free</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">);</span>
 
-  <span style="color:#a2f;font-weight:bold">return</span> <span style="color:#666">0</span>;
-}</code></pre></td></tr></table>
-</div>
-</div>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
 <p><code>nvcc --run main.cu -lGL -lglut</code> とすれば以下のウィンドウが出力される。</p>
 
 

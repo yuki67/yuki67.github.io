@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="generator" content="Hugo 0.34" />
 
   <title>オートマトン in OCaml &middot; yuki&#39;s blog</title>
 
@@ -50,6 +50,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+    <link rel="stylesheet" href="https://yuki67.github.io/css/pygments.css">
 
     <body>
         <div id="layout">
@@ -234,94 +235,70 @@
 <h2 id="作成-実行">作成・実行</h2>
 
 <p>作って&hellip;</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#666">#</span> <span style="color:#a2f;font-weight:bold">let</span> dfa <span style="color:#666">=</span>
-  <span style="color:#00f;font-weight:bold">DFA</span>.cons
-    <span style="color:#666">[</span><span style="color:#b44">&#34;0&#34;</span><span style="color:#666">;</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">]</span>    <span style="color:#080;font-style:italic">(* アルファベット *)</span>
-    <span style="color:#666">[(</span>0<span style="color:#666">,</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">,</span> 0<span style="color:#666">);</span> <span style="color:#080;font-style:italic">(* 遷移関数 *)</span>
-     <span style="color:#666">(</span>0<span style="color:#666">,</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">,</span> 1<span style="color:#666">);</span> <span style="color:#080;font-style:italic">(* (q, c, q&#39;) は「状態qでcを読むとq&#39;に遷移する」を意味する *)</span>
-     <span style="color:#666">(</span>1<span style="color:#666">,</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">,</span> 0<span style="color:#666">);</span>
-     <span style="color:#666">(</span>1<span style="color:#666">,</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">,</span> 1<span style="color:#666">)]</span>
-    0             <span style="color:#080;font-style:italic">(* 初期状態 *)</span>
-    <span style="color:#666">[</span>1<span style="color:#666">];;</span>         <span style="color:#080;font-style:italic">(* 受理状態 *)</span>
-<span style="color:#a2f;font-weight:bold">val</span> dfa <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00f;font-weight:bold">DFA</span>.t <span style="color:#666">=</span> <span style="color:#666">&lt;</span>abstr<span style="color:#666">&gt;</span></code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="k">let</span> <span class="n">dfa</span> <span class="o">=</span>
+  <span class="nn">DFA</span><span class="p">.</span><span class="n">cons</span>
+    <span class="o">[</span><span class="s2">&#34;0&#34;</span><span class="o">;</span> <span class="s2">&#34;1&#34;</span><span class="o">]</span>    <span class="c">(* アルファベット *)</span>
+    <span class="o">[(</span><span class="n">0</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span> <span class="c">(* 遷移関数 *)</span>
+     <span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span> <span class="c">(* (q, c, q&#39;) は「状態qでcを読むとq&#39;に遷移する」を意味する *)</span>
+     <span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
+     <span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">)]</span>
+    <span class="n">0</span>             <span class="c">(* 初期状態 *)</span>
+    <span class="o">[</span><span class="n">1</span><span class="o">];;</span>         <span class="c">(* 受理状態 *)</span>
+<span class="k">val</span> <span class="n">dfa</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span></code></pre></div>
 <p>走らせる。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">8</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">DFA</span>.run dfa <span style="color:#b44">&#34;0001&#34;</span><span style="color:#666">;;</span>
-<span style="color:#666">-</span> <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">bool</span> <span style="color:#666">=</span> true
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">run</span> <span class="n">dfa</span> <span class="s2">&#34;0001&#34;</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">true</span>
 
-<span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">DFA</span>.run dfa <span style="color:#b44">&#34;0110&#34;</span><span style="color:#666">;;</span>
-<span style="color:#666">-</span> <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">bool</span> <span style="color:#666">=</span> false
+<span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">run</span> <span class="n">dfa</span> <span class="s2">&#34;0110&#34;</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span>
 
-<span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">DFA</span>.run dfa <span style="color:#b44">&#34;&#34;</span><span style="color:#666">;;</span>
-<span style="color:#666">-</span> <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">bool</span> <span style="color:#666">=</span> false</code></pre></td></tr></table>
-</div>
-</div>
+<span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">run</span> <span class="n">dfa</span> <span class="s2">&#34;&#34;</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span></code></pre></div>
 <p>NFAでは空文字列Emptyと「その他全て」を意味するAnyOtherが使える</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">22</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">23</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">24</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">25</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">26</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">27</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#666">#</span> <span style="color:#a2f;font-weight:bold">let</span> nfa <span style="color:#666">=</span>
-    <span style="color:#a2f;font-weight:bold">let</span> a<span style="color:#666">,</span> b<span style="color:#666">,</span> c<span style="color:#666">,</span> d <span style="color:#666">=</span> 1<span style="color:#666">,</span> 2<span style="color:#666">,</span> 3<span style="color:#666">,</span> 4 <span style="color:#a2f;font-weight:bold">in</span>
-    <span style="color:#00f;font-weight:bold">NFA</span>.cons <span style="color:#666">[</span><span style="color:#b44">&#34;0&#34;</span><span style="color:#666">;</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">;</span> <span style="color:#b44">&#34;2&#34;</span><span style="color:#666">]</span>
-      <span style="color:#666">[(</span>a<span style="color:#666">,</span> <span style="color:#00f">Char</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">,</span> <span style="color:#666">[</span>a<span style="color:#666">]);</span>         <span style="color:#080;font-style:italic">(* 遷移先は状態ではなく状態の集合になる *)</span>
-       <span style="color:#666">(</span>a<span style="color:#666">,</span> <span style="color:#00f">AnyOther</span><span style="color:#666">,</span> <span style="color:#666">[</span>b<span style="color:#666">]);</span>
-       <span style="color:#666">(</span>b<span style="color:#666">,</span> <span style="color:#00f">Char</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">,</span> <span style="color:#666">[</span>b<span style="color:#666">]);</span>
-       <span style="color:#666">(</span>b<span style="color:#666">,</span> <span style="color:#00f">AnyOther</span><span style="color:#666">,</span> <span style="color:#666">[</span>c<span style="color:#666">]);</span>
-       <span style="color:#666">(</span>c<span style="color:#666">,</span> <span style="color:#00f">Char</span> <span style="color:#b44">&#34;2&#34;</span><span style="color:#666">,</span> <span style="color:#666">[</span>c<span style="color:#666">]);</span>
-       <span style="color:#666">(</span>c<span style="color:#666">,</span> <span style="color:#00f">Empty</span><span style="color:#666">,</span>    <span style="color:#666">[</span>a<span style="color:#666">;</span>b<span style="color:#666">])]</span>
-      <span style="color:#666">[</span>a<span style="color:#666">]</span>                          <span style="color:#080;font-style:italic">(* 初期状態も状態の集合*)</span>
-      <span style="color:#666">[</span>c<span style="color:#666">];;</span>
-<span style="color:#a2f;font-weight:bold">val</span> nfa <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00f;font-weight:bold">NFA</span>.t <span style="color:#666">=</span> <span style="color:#666">&lt;</span>abstr<span style="color:#666">&gt;</span>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="k">let</span> <span class="n">nfa</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">,</span> <span class="n">4</span> <span class="k">in</span>
+    <span class="nn">NFA</span><span class="p">.</span><span class="n">cons</span> <span class="o">[</span><span class="s2">&#34;0&#34;</span><span class="o">;</span> <span class="s2">&#34;1&#34;</span><span class="o">;</span> <span class="s2">&#34;2&#34;</span><span class="o">]</span>
+      <span class="o">[(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="o">[</span><span class="n">a</span><span class="o">]);</span>         <span class="c">(* 遷移先は状態ではなく状態の集合になる *)</span>
+       <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="nc">AnyOther</span><span class="o">,</span> <span class="o">[</span><span class="n">b</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="o">[</span><span class="n">b</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nc">AnyOther</span><span class="o">,</span> <span class="o">[</span><span class="n">c</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">&#34;2&#34;</span><span class="o">,</span> <span class="o">[</span><span class="n">c</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span>    <span class="o">[</span><span class="n">a</span><span class="o">;</span><span class="n">b</span><span class="o">])]</span>
+      <span class="o">[</span><span class="n">a</span><span class="o">]</span>                          <span class="c">(* 初期状態も状態の集合*)</span>
+      <span class="o">[</span><span class="n">c</span><span class="o">];;</span>
+<span class="k">val</span> <span class="n">nfa</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
 
-<span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">NFA</span>.run nfa <span style="color:#b44">&#34;&#34;</span><span style="color:#666">;;</span>
-<span style="color:#666">-</span> <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">bool</span> <span style="color:#666">=</span> false
+<span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">nfa</span> <span class="s2">&#34;&#34;</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span>
 
-<span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">NFA</span>.run nfa <span style="color:#b44">&#34;00&#34;</span><span style="color:#666">;;</span>
-<span style="color:#666">-</span> <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">bool</span> <span style="color:#666">=</span> false
+<span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">nfa</span> <span class="s2">&#34;00&#34;</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span>
 
- <span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">NFA</span>.run nfa <span style="color:#b44">&#34;10&#34;</span><span style="color:#666">;;</span>
-<span style="color:#666">-</span> <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">bool</span> <span style="color:#666">=</span> true
+ <span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">nfa</span> <span class="s2">&#34;10&#34;</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">true</span>
 
-<span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">NFA</span>.run maton <span style="color:#b44">&#34;21012&#34;</span><span style="color:#666">;;</span>
-<span style="color:#666">-</span> <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">bool</span> <span style="color:#666">=</span> true
+<span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">maton</span> <span class="s2">&#34;21012&#34;</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">true</span>
 
-<span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">NFA</span>.run nfa <span style="color:#b44">&#34;011010001&#34;</span><span style="color:#666">;;</span>
-<span style="color:#666">-</span> <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">bool</span> <span style="color:#666">=</span> false</code></pre></td></tr></table>
-</div>
-</div>
+<span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">nfa</span> <span class="s2">&#34;011010001&#34;</span><span class="o">;;</span>
+<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span></code></pre></div>
 <h2 id="遷移図の出力">遷移図の出力</h2>
 
 <p>Dot言語のソースコードを出力する関数がある。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">DFA</span>.print_dfa dfa string_of_int<span style="color:#666">;;</span>
-digraph finite_state_machine <span style="color:#666">{</span>
-rankdir<span style="color:#666">=</span><span style="color:#00f">LR</span>
-node <span style="color:#666">[</span>shape <span style="color:#666">=</span> point<span style="color:#666">]</span> init
-node <span style="color:#666">[</span>shape <span style="color:#666">=</span> ellipse<span style="color:#666">,</span> peripheries<span style="color:#666">=</span>2<span style="color:#666">]</span>
-<span style="color:#b44">&#34;1&#34;</span>
-node <span style="color:#666">[</span>shape <span style="color:#666">=</span> ellipse<span style="color:#666">,</span> peripheries<span style="color:#666">=</span>1<span style="color:#666">]</span>
-init <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;0&#34;</span>
-node <span style="color:#666">[</span>shape <span style="color:#666">=</span> ellipse<span style="color:#666">,</span> peripheries<span style="color:#666">=</span>1<span style="color:#666">]</span>
-<span style="color:#b44">&#34;0&#34;</span> <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;0&#34;</span> <span style="color:#666">[</span>label <span style="color:#666">=</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">]</span>
-<span style="color:#b44">&#34;0&#34;</span> <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;1&#34;</span> <span style="color:#666">[</span>label <span style="color:#666">=</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">]</span>
-<span style="color:#b44">&#34;1&#34;</span> <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;0&#34;</span> <span style="color:#666">[</span>label <span style="color:#666">=</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">]</span>
-<span style="color:#b44">&#34;1&#34;</span> <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;1&#34;</span> <span style="color:#666">[</span>label <span style="color:#666">=</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">]</span>
-<span style="color:#666">}</span></code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">print_dfa</span> <span class="n">dfa</span> <span class="n">string_of_int</span><span class="o">;;</span>
+<span class="n">digraph</span> <span class="n">finite_state_machine</span> <span class="o">{</span>
+<span class="n">rankdir</span><span class="o">=</span><span class="nc">LR</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">point</span><span class="o">]</span> <span class="n">init</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="n">2</span><span class="o">]</span>
+<span class="s2">&#34;1&#34;</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="n">1</span><span class="o">]</span>
+<span class="n">init</span> <span class="o">-&gt;</span> <span class="s2">&#34;0&#34;</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="n">1</span><span class="o">]</span>
+<span class="s2">&#34;0&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;0&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;0&#34;</span><span class="o">]</span>
+<span class="s2">&#34;0&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;1&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;1&#34;</span><span class="o">]</span>
+<span class="s2">&#34;1&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;0&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;0&#34;</span><span class="o">]</span>
+<span class="s2">&#34;1&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;1&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;1&#34;</span><span class="o">]</span>
+<span class="o">}</span></code></pre></div>
 <p>これをgraphvizでコンパイルすると、以下の画像が得られる。</p>
 
 
@@ -334,29 +311,23 @@ node <span style="color:#666">[</span>shape <span style="color:#666">=</span> el
 
 
 <p>NFAでも同様。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#666">#</span> print_nfa nfa string_of_int<span style="color:#666">;;</span>
-digraph finite_state_machine <span style="color:#666">{</span>
-rankdir<span style="color:#666">=</span><span style="color:#00f">LR</span>
-node <span style="color:#666">[</span>shape <span style="color:#666">=</span> point<span style="color:#666">]</span> init
-node <span style="color:#666">[</span>shape <span style="color:#666">=</span> ellipse<span style="color:#666">,</span> peripheries<span style="color:#666">=</span>2<span style="color:#666">]</span>
-<span style="color:#b44">&#34;3&#34;</span>
-node <span style="color:#666">[</span>shape <span style="color:#666">=</span> ellipse<span style="color:#666">,</span> peripheries<span style="color:#666">=</span>1<span style="color:#666">];</span>
-init <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;1&#34;</span>
-node <span style="color:#666">[</span>shape <span style="color:#666">=</span> ellipse<span style="color:#666">,</span> peripheries<span style="color:#666">=</span>1<span style="color:#666">]</span>
-<span style="color:#b44">&#34;1&#34;</span> <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;1&#34;</span> <span style="color:#666">[</span>label <span style="color:#666">=</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">]</span>
-<span style="color:#b44">&#34;1&#34;</span> <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;2&#34;</span> <span style="color:#666">[</span>label <span style="color:#666">=</span> <span style="color:#b44">&#34;other&#34;</span><span style="color:#666">]</span>
-<span style="color:#b44">&#34;2&#34;</span> <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;2&#34;</span> <span style="color:#666">[</span>label <span style="color:#666">=</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">]</span>
-<span style="color:#b44">&#34;2&#34;</span> <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;3&#34;</span> <span style="color:#666">[</span>label <span style="color:#666">=</span> <span style="color:#b44">&#34;other&#34;</span><span style="color:#666">]</span>
-<span style="color:#b44">&#34;3&#34;</span> <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;3&#34;</span> <span style="color:#666">[</span>label <span style="color:#666">=</span> <span style="color:#b44">&#34;2&#34;</span><span style="color:#666">]</span>
-<span style="color:#b44">&#34;3&#34;</span> <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;1&#34;</span> <span style="color:#666">[</span>label <span style="color:#666">=</span> <span style="color:#b44">&#34;ε&#34;</span><span style="color:#666">]</span>
-<span style="color:#b44">&#34;3&#34;</span> <span style="color:#666">-&gt;</span> <span style="color:#b44">&#34;2&#34;</span> <span style="color:#666">[</span>label <span style="color:#666">=</span> <span style="color:#b44">&#34;ε&#34;</span><span style="color:#666">]</span>
-<span style="color:#666">}</span></code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="n">print_nfa</span> <span class="n">nfa</span> <span class="n">string_of_int</span><span class="o">;;</span>
+<span class="n">digraph</span> <span class="n">finite_state_machine</span> <span class="o">{</span>
+<span class="n">rankdir</span><span class="o">=</span><span class="nc">LR</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">point</span><span class="o">]</span> <span class="n">init</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="n">2</span><span class="o">]</span>
+<span class="s2">&#34;3&#34;</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="n">1</span><span class="o">];</span>
+<span class="n">init</span> <span class="o">-&gt;</span> <span class="s2">&#34;1&#34;</span>
+<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="n">1</span><span class="o">]</span>
+<span class="s2">&#34;1&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;1&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;0&#34;</span><span class="o">]</span>
+<span class="s2">&#34;1&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;2&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;other&#34;</span><span class="o">]</span>
+<span class="s2">&#34;2&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;2&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;1&#34;</span><span class="o">]</span>
+<span class="s2">&#34;2&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;3&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;other&#34;</span><span class="o">]</span>
+<span class="s2">&#34;3&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;3&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;2&#34;</span><span class="o">]</span>
+<span class="s2">&#34;3&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;1&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;ε&#34;</span><span class="o">]</span>
+<span class="s2">&#34;3&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;2&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;ε&#34;</span><span class="o">]</span>
+<span class="o">}</span></code></pre></div>
 
 <figure >
     
@@ -371,66 +342,48 @@ node <span style="color:#666">[</span>shape <span style="color:#666">=</span> el
 <p>与えられたNFAを、認識する言語が同じDFAに変換するアルゴリズムを実装した。</p>
 
 <p>これだけ読んで分かるかどうかは微妙だが、ソースコードを張る。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">22</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#a2f;font-weight:bold">let</span> to_dfa <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">fun</span> maton <span style="color:#666">-&gt;</span>
-  <span style="color:#a2f;font-weight:bold">let</span> init <span style="color:#666">=</span> <span style="color:#666">(</span>saturate maton maton<span style="color:#666">.</span>initial<span style="color:#666">)</span> <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#a2f;font-weight:bold">let</span> finals <span style="color:#666">=</span>
-    <span style="color:#a2f;font-weight:bold">if</span> anything_in_common init maton<span style="color:#666">.</span>finals
-    <span style="color:#a2f;font-weight:bold">then</span> ref <span style="color:#666">[</span>init<span style="color:#666">]</span>
-    <span style="color:#a2f;font-weight:bold">else</span> ref [] <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#a2f;font-weight:bold">let</span> trans <span style="color:#666">=</span> ref [] <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#a2f;font-weight:bold">let</span> <span style="color:#a2f;font-weight:bold">rec</span> loop searched to_search <span style="color:#666">=</span>
-    <span style="color:#a2f;font-weight:bold">match</span> to_search <span style="color:#a2f;font-weight:bold">with</span>
-    <span style="color:#666">|</span> [] <span style="color:#666">-&gt;</span> ()
-    <span style="color:#666">|</span> state<span style="color:#666">::</span>tl <span style="color:#666">-&gt;</span>
-        <span style="color:#a2f;font-weight:bold">let</span> nexts_triplet <span style="color:#666">=</span>
-          image <span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">fun</span> c <span style="color:#666">-&gt;</span> state<span style="color:#666">,</span> c<span style="color:#666">,</span> transit maton state c<span style="color:#666">)</span> maton<span style="color:#666">.</span>alphabet <span style="color:#a2f;font-weight:bold">in</span>
-        <span style="color:#a2f;font-weight:bold">let</span> nexts <span style="color:#666">=</span> map <span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">fun</span> <span style="color:#666">(_,</span> <span style="color:#666">_,</span> x<span style="color:#666">)</span> <span style="color:#666">-&gt;</span> x<span style="color:#666">)</span> nexts_triplet <span style="color:#a2f;font-weight:bold">in</span>
-        trans <span style="color:#666">:=</span> nexts_triplet <span style="color:#666">@</span> <span style="color:#666">!</span>trans<span style="color:#666">;</span>
-        finals <span style="color:#666">:=</span> nexts
-                   <span style="color:#666">|&gt;</span> filter <span style="color:#666">(</span>anything_in_common maton<span style="color:#666">.</span>finals<span style="color:#666">)</span>
-                   <span style="color:#666">|&gt;</span> union <span style="color:#666">!</span>finals<span style="color:#666">;</span>
-        loop <span style="color:#666">(</span>set_add searched state<span style="color:#666">)</span> <span style="color:#666">(</span>union tl <span style="color:#666">(</span>diff nexts <span style="color:#666">(</span>state<span style="color:#666">::</span>searched<span style="color:#666">)))</span>
-  <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#a2f;font-weight:bold">let</span> <span style="color:#666">_</span> <span style="color:#666">=</span> loop [] <span style="color:#666">[</span>init<span style="color:#666">]</span> <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#00f;font-weight:bold">DFA</span>.cons maton<span style="color:#666">.</span>alphabet <span style="color:#666">!</span>trans init <span style="color:#666">!</span>finals</code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">to_dfa</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">maton</span> <span class="o">-&gt;</span>
+  <span class="k">let</span> <span class="n">init</span> <span class="o">=</span> <span class="o">(</span><span class="n">saturate</span> <span class="n">maton</span> <span class="n">maton</span><span class="o">.</span><span class="n">initial</span><span class="o">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">finals</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="n">anything_in_common</span> <span class="n">init</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span>
+    <span class="k">then</span> <span class="n">ref</span> <span class="o">[</span><span class="n">init</span><span class="o">]</span>
+    <span class="k">else</span> <span class="n">ref</span> <span class="bp">[]</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">trans</span> <span class="o">=</span> <span class="n">ref</span> <span class="bp">[]</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">loop</span> <span class="n">searched</span> <span class="n">to_search</span> <span class="o">=</span>
+    <span class="k">match</span> <span class="n">to_search</span> <span class="k">with</span>
+    <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="bp">()</span>
+    <span class="o">|</span> <span class="n">state</span><span class="o">::</span><span class="n">tl</span> <span class="o">-&gt;</span>
+        <span class="k">let</span> <span class="n">nexts_triplet</span> <span class="o">=</span>
+          <span class="n">image</span> <span class="o">(</span><span class="k">fun</span> <span class="n">c</span> <span class="o">-&gt;</span> <span class="n">state</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">transit</span> <span class="n">maton</span> <span class="n">state</span> <span class="n">c</span><span class="o">)</span> <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span> <span class="k">in</span>
+        <span class="k">let</span> <span class="n">nexts</span> <span class="o">=</span> <span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(_,</span> <span class="o">_,</span> <span class="n">x</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">)</span> <span class="n">nexts_triplet</span> <span class="k">in</span>
+        <span class="n">trans</span> <span class="o">:=</span> <span class="n">nexts_triplet</span> <span class="o">@</span> <span class="o">!</span><span class="n">trans</span><span class="o">;</span>
+        <span class="n">finals</span> <span class="o">:=</span> <span class="n">nexts</span>
+                   <span class="o">|&gt;</span> <span class="n">filter</span> <span class="o">(</span><span class="n">anything_in_common</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">)</span>
+                   <span class="o">|&gt;</span> <span class="n">union</span> <span class="o">!</span><span class="n">finals</span><span class="o">;</span>
+        <span class="n">loop</span> <span class="o">(</span><span class="n">set_add</span> <span class="n">searched</span> <span class="n">state</span><span class="o">)</span> <span class="o">(</span><span class="n">union</span> <span class="n">tl</span> <span class="o">(</span><span class="n">diff</span> <span class="n">nexts</span> <span class="o">(</span><span class="n">state</span><span class="o">::</span><span class="n">searched</span><span class="o">)))</span>
+  <span class="k">in</span>
+  <span class="k">let</span> <span class="o">_</span> <span class="o">=</span> <span class="n">loop</span> <span class="bp">[]</span> <span class="o">[</span><span class="n">init</span><span class="o">]</span> <span class="k">in</span>
+  <span class="nn">DFA</span><span class="p">.</span><span class="n">cons</span> <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span> <span class="o">!</span><span class="n">trans</span> <span class="n">init</span> <span class="o">!</span><span class="n">finals</span></code></pre></div>
 <p>次のように使う。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#666">#</span> <span style="color:#a2f;font-weight:bold">let</span> nfa <span style="color:#666">=</span>
-    <span style="color:#a2f;font-weight:bold">let</span> a<span style="color:#666">,</span> b<span style="color:#666">,</span> c <span style="color:#666">=</span> 0<span style="color:#666">,</span> 1<span style="color:#666">,</span> 2 <span style="color:#a2f;font-weight:bold">in</span>
-    <span style="color:#00f;font-weight:bold">NFA</span>.cons <span style="color:#666">[</span><span style="color:#b44">&#34;0&#34;</span><span style="color:#666">;</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">;</span> <span style="color:#b44">&#34;2&#34;</span><span style="color:#666">]</span>
-      <span style="color:#666">[(</span>a<span style="color:#666">,</span> <span style="color:#00f">Char</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">,</span> <span style="color:#666">[</span>a<span style="color:#666">]);</span>
-       <span style="color:#666">(</span>a<span style="color:#666">,</span> <span style="color:#00f">Empty</span><span style="color:#666">,</span>    <span style="color:#666">[</span>b<span style="color:#666">]);</span>
-       <span style="color:#666">(</span>b<span style="color:#666">,</span> <span style="color:#00f">Char</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">,</span> <span style="color:#666">[</span>b<span style="color:#666">]);</span>
-       <span style="color:#666">(</span>b<span style="color:#666">,</span> <span style="color:#00f">Empty</span><span style="color:#666">,</span>    <span style="color:#666">[</span>c<span style="color:#666">]);</span>
-       <span style="color:#666">(</span>c<span style="color:#666">,</span> <span style="color:#00f">Char</span> <span style="color:#b44">&#34;2&#34;</span><span style="color:#666">,</span> <span style="color:#666">[</span>c<span style="color:#666">])]</span>
-      <span style="color:#666">[</span>a<span style="color:#666">]</span> <span style="color:#666">[</span>c<span style="color:#666">]</span> <span style="color:#666">;;</span>
-<span style="color:#a2f;font-weight:bold">val</span> nfa <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00f;font-weight:bold">NFA</span>.t <span style="color:#666">=</span> <span style="color:#666">&lt;</span>abstr<span style="color:#666">&gt;</span>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="k">let</span> <span class="n">nfa</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">0</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">2</span> <span class="k">in</span>
+    <span class="nn">NFA</span><span class="p">.</span><span class="n">cons</span> <span class="o">[</span><span class="s2">&#34;0&#34;</span><span class="o">;</span> <span class="s2">&#34;1&#34;</span><span class="o">;</span> <span class="s2">&#34;2&#34;</span><span class="o">]</span>
+      <span class="o">[(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="o">[</span><span class="n">a</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span>    <span class="o">[</span><span class="n">b</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="o">[</span><span class="n">b</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span>    <span class="o">[</span><span class="n">c</span><span class="o">]);</span>
+       <span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">&#34;2&#34;</span><span class="o">,</span> <span class="o">[</span><span class="n">c</span><span class="o">])]</span>
+      <span class="o">[</span><span class="n">a</span><span class="o">]</span> <span class="o">[</span><span class="n">c</span><span class="o">]</span> <span class="o">;;</span>
+<span class="k">val</span> <span class="n">nfa</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
 
-<span style="color:#666">#</span> <span style="color:#a2f;font-weight:bold">let</span> dfa <span style="color:#666">=</span> <span style="color:#666">(</span><span style="color:#00f;font-weight:bold">NFA</span>.to_dfa nfa<span style="color:#666">);;</span>
-<span style="color:#a2f;font-weight:bold">val</span> dfa <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#0b0;font-weight:bold">list</span> <span style="color:#00f;font-weight:bold">DFA</span>.t <span style="color:#666">=</span> <span style="color:#666">&lt;</span>abstr<span style="color:#666">&gt;</span></code></pre></td></tr></table>
-</div>
-</div>
+<span class="o">#</span> <span class="k">let</span> <span class="n">dfa</span> <span class="o">=</span> <span class="o">(</span><span class="nn">NFA</span><span class="p">.</span><span class="n">to_dfa</span> <span class="n">nfa</span><span class="o">);;</span>
+<span class="k">val</span> <span class="n">dfa</span> <span class="o">:</span> <span class="kt">int</span> <span class="kt">list</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span></code></pre></div>
 <p>変換されたDFAの状態は元のNFAの状態の集合なので、
 <code>int NFA.t</code> を変換した <code>dfa</code> の型が <code>int list DFA.t</code> になっている。</p>
 
 <p>この <code>nfa</code> , <code>dfa</code> を画像にすると、変換がどう行われたのかが分かる。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">NFA</span>.print_nfa nfa string_of_int<span style="color:#666">;;</span>
-<span style="color:#080;font-style:italic">(* 出力される文字列をgraphvizで画像にしたものを張った。以下同じ。 *)</span></code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">print_nfa</span> <span class="n">nfa</span> <span class="n">string_of_int</span><span class="o">;;</span>
+<span class="c">(* 出力される文字列をgraphvizで画像にしたものを張った。以下同じ。 *)</span></code></pre></div>
 
 <figure >
     
@@ -439,13 +392,7 @@ node <span style="color:#666">[</span>shape <span style="color:#666">=</span> el
     
 </figure>
 
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">DFA</span>.print_dfa dfa <span style="color:#666">(</span><span style="color:#00f;font-weight:bold">ListExt</span>.string_of_list string_of_int<span style="color:#666">)</span></code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">print_dfa</span> <span class="n">dfa</span> <span class="o">(</span><span class="nn">ListExt</span><span class="p">.</span><span class="n">string_of_list</span> <span class="n">string_of_int</span><span class="o">)</span></code></pre></div>
 
 <figure >
     
@@ -460,88 +407,76 @@ node <span style="color:#666">[</span>shape <span style="color:#666">=</span> el
 <p>Myhill–Nerodeの関係を使ったDFAの最小化アルゴリズムも実装した。</p>
 
 <p>コードはかなり長く、以下のようになる。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">22</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">23</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">24</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">25</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">26</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">27</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">28</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">29</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">30</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">31</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">32</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">33</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">34</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">35</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">36</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">37</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">38</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">39</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">40</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">41</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">42</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">43</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">44</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">45</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">46</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">47</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">48</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">49</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">50</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">51</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">52</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#a2f;font-weight:bold">let</span> minimize maton <span style="color:#666">=</span>
-  <span style="color:#080;font-style:italic">(* helper functions *)</span>
-  <span style="color:#a2f;font-weight:bold">let</span> transitable_into marked <span style="color:#666">(</span>p<span style="color:#666">,</span> q<span style="color:#666">)</span> <span style="color:#666">=</span>
-    exists
-      <span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">fun</span> c <span style="color:#666">-&gt;</span>
-         <span style="color:#a2f;font-weight:bold">let</span> p&#39;<span style="color:#666">,</span> q&#39; <span style="color:#666">=</span> transit maton p c<span style="color:#666">,</span> transit maton q c <span style="color:#a2f;font-weight:bold">in</span>
-         mem <span style="color:#666">(</span>p&#39;<span style="color:#666">,</span> q&#39;<span style="color:#666">)</span> marked <span style="color:#666">||</span> mem <span style="color:#666">(</span>q&#39;<span style="color:#666">,</span> p&#39;<span style="color:#666">)</span> marked<span style="color:#666">)</span>
-      maton<span style="color:#666">.</span>alphabet <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#a2f;font-weight:bold">let</span> mark_initial_cond <span style="color:#666">(</span>p<span style="color:#666">,</span> q<span style="color:#666">)</span> <span style="color:#666">=</span>
-    <span style="color:#666">(</span>mem p maton<span style="color:#666">.</span>finals <span style="color:#666">&amp;&amp;</span> not <span style="color:#666">(</span>mem q maton<span style="color:#666">.</span>finals<span style="color:#666">))</span> <span style="color:#666">||</span>
-    <span style="color:#666">(</span>not <span style="color:#666">(</span>mem p maton<span style="color:#666">.</span>finals<span style="color:#666">)</span> <span style="color:#666">&amp;&amp;</span> mem q maton<span style="color:#666">.</span>finals<span style="color:#666">)</span> <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#a2f;font-weight:bold">let</span> transitions_from s new_states <span style="color:#666">=</span>
-    <span style="color:#a2f;font-weight:bold">let</span> origin <span style="color:#666">=</span> find <span style="color:#666">(</span>mem s<span style="color:#666">)</span> new_states
-    <span style="color:#a2f;font-weight:bold">and</span> next c <span style="color:#666">=</span> find <span style="color:#666">(</span>mem <span style="color:#666">(</span>transit maton s c<span style="color:#666">))</span> new_states <span style="color:#a2f;font-weight:bold">in</span>
-    <span style="color:#666">(</span>map <span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">fun</span> c <span style="color:#666">-&gt;</span> origin<span style="color:#666">,</span> c<span style="color:#666">,</span> next c<span style="color:#666">)</span> maton<span style="color:#666">.</span>alphabet<span style="color:#666">)</span> <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#a2f;font-weight:bold">let</span> states <span style="color:#666">=</span> collect_states maton <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#a2f;font-weight:bold">let</span> <span style="color:#a2f;font-weight:bold">rec</span> loop <span style="color:#666">(</span>marked<span style="color:#666">,</span> unmarked<span style="color:#666">)</span> <span style="color:#666">=</span>
-    <span style="color:#a2f;font-weight:bold">let</span> to_add <span style="color:#666">=</span> filter <span style="color:#666">(</span>transitable_into marked<span style="color:#666">)</span> unmarked <span style="color:#a2f;font-weight:bold">in</span>
-    <span style="color:#a2f;font-weight:bold">if</span> subset to_add marked <span style="color:#a2f;font-weight:bold">then</span> marked<span style="color:#666">,</span> unmarked
-    <span style="color:#a2f;font-weight:bold">else</span> loop <span style="color:#666">((</span>union marked to_add<span style="color:#666">),</span> <span style="color:#666">(</span>diff unmarked to_add<span style="color:#666">))</span> <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#a2f;font-weight:bold">let</span> connected_component udgraph v <span style="color:#666">=</span>
-    <span style="color:#a2f;font-weight:bold">let</span> <span style="color:#a2f;font-weight:bold">rec</span> loop acc <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">function</span>
-      <span style="color:#666">|</span> [] <span style="color:#666">-&gt;</span> acc
-      <span style="color:#666">|</span> <span style="color:#666">(</span>x<span style="color:#666">,</span> y<span style="color:#666">)</span> <span style="color:#666">::</span> tl <span style="color:#a2f;font-weight:bold">when</span> x <span style="color:#666">=</span> v <span style="color:#666">||</span> y <span style="color:#666">=</span> v <span style="color:#666">-&gt;</span> loop <span style="color:#666">(</span>union acc <span style="color:#666">[</span>x<span style="color:#666">;</span> y<span style="color:#666">])</span> tl
-      <span style="color:#666">|</span> <span style="color:#666">_</span> <span style="color:#666">::</span> tl <span style="color:#666">-&gt;</span> loop acc tl <span style="color:#a2f;font-weight:bold">in</span>
-    loop <span style="color:#666">[</span>v<span style="color:#666">]</span> udgraph <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#080;font-style:italic">(* main procedure *)</span>
-  <span style="color:#080;font-style:italic">(* (p, q) ∈ marked &lt;-&gt; p and q are distinguishable *)</span>
-  <span style="color:#a2f;font-weight:bold">let</span> init_marked<span style="color:#666">,</span> init_unmarked <span style="color:#666">=</span>
-    partition mark_initial_cond <span style="color:#666">(</span>original_pairs states<span style="color:#666">)</span> <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#080;font-style:italic">(* saturate marked and unmarked *)</span>
-  <span style="color:#080;font-style:italic">(* &#34;marked ∩ unmarked = ∅&#34; stays true after loop *)</span>
-  <span style="color:#a2f;font-weight:bold">let</span> marked<span style="color:#666">,</span> unmarked <span style="color:#666">=</span> loop <span style="color:#666">(</span>init_marked<span style="color:#666">,</span> init_unmarked<span style="color:#666">)</span> <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#080;font-style:italic">(* calculate new states from marked and unmarked *)</span>
-  <span style="color:#a2f;font-weight:bold">let</span> new_states <span style="color:#666">=</span>
-    fold_left_ignore
-      <span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">fun</span> acc s <span style="color:#666">-&gt;</span> exists <span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">fun</span> set <span style="color:#666">-&gt;</span> mem s set<span style="color:#666">)</span> acc<span style="color:#666">)</span>
-      <span style="color:#080;font-style:italic">(* largest undistinguishable set which contains s *)</span>
-      <span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">fun</span> acc s <span style="color:#666">-&gt;</span> <span style="color:#666">(</span>connected_component unmarked s<span style="color:#666">)</span> <span style="color:#666">::</span> acc<span style="color:#666">)</span>
-      [] states <span style="color:#a2f;font-weight:bold">in</span>
-  <span style="color:#080;font-style:italic">(* also calculate new transition from new_states *)</span>
-  <span style="color:#a2f;font-weight:bold">let</span> new_trans <span style="color:#666">=</span>
-    fold_left_ignore
-      <span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">fun</span> acc s <span style="color:#666">-&gt;</span> exists <span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">fun</span> <span style="color:#666">(</span>set<span style="color:#666">,</span> <span style="color:#666">_,</span> <span style="color:#666">_)</span> <span style="color:#666">-&gt;</span> mem s set<span style="color:#666">)</span> acc<span style="color:#666">)</span>
-      <span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">fun</span> acc s <span style="color:#666">-&gt;</span> <span style="color:#666">(</span>transitions_from s new_states<span style="color:#666">)</span> <span style="color:#666">@</span> acc<span style="color:#666">)</span>
-      [] states <span style="color:#a2f;font-weight:bold">in</span>
-  cons
-    maton<span style="color:#666">.</span>alphabet
-    new_trans
-    <span style="color:#080;font-style:italic">(* note : exactly one element of new_states contains maton.inits *)</span>
-    <span style="color:#666">(</span>find <span style="color:#666">(</span>mem maton<span style="color:#666">.</span>inits<span style="color:#666">)</span> new_states<span style="color:#666">)</span>
-    <span style="color:#666">(</span>filter <span style="color:#666">(</span>anything_in_common maton<span style="color:#666">.</span>finals<span style="color:#666">)</span> new_states<span style="color:#666">)</span></code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">minimize</span> <span class="n">maton</span> <span class="o">=</span>
+  <span class="c">(* helper functions *)</span>
+  <span class="k">let</span> <span class="n">transitable_into</span> <span class="n">marked</span> <span class="o">(</span><span class="n">p</span><span class="o">,</span> <span class="n">q</span><span class="o">)</span> <span class="o">=</span>
+    <span class="n">exists</span>
+      <span class="o">(</span><span class="k">fun</span> <span class="n">c</span> <span class="o">-&gt;</span>
+         <span class="k">let</span> <span class="n">p&#39;</span><span class="o">,</span> <span class="n">q&#39;</span> <span class="o">=</span> <span class="n">transit</span> <span class="n">maton</span> <span class="n">p</span> <span class="n">c</span><span class="o">,</span> <span class="n">transit</span> <span class="n">maton</span> <span class="n">q</span> <span class="n">c</span> <span class="k">in</span>
+         <span class="n">mem</span> <span class="o">(</span><span class="n">p&#39;</span><span class="o">,</span> <span class="n">q&#39;</span><span class="o">)</span> <span class="n">marked</span> <span class="o">||</span> <span class="n">mem</span> <span class="o">(</span><span class="n">q&#39;</span><span class="o">,</span> <span class="n">p&#39;</span><span class="o">)</span> <span class="n">marked</span><span class="o">)</span>
+      <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">mark_initial_cond</span> <span class="o">(</span><span class="n">p</span><span class="o">,</span> <span class="n">q</span><span class="o">)</span> <span class="o">=</span>
+    <span class="o">(</span><span class="n">mem</span> <span class="n">p</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span> <span class="o">&amp;&amp;</span> <span class="n">not</span> <span class="o">(</span><span class="n">mem</span> <span class="n">q</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">))</span> <span class="o">||</span>
+    <span class="o">(</span><span class="n">not</span> <span class="o">(</span><span class="n">mem</span> <span class="n">p</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">mem</span> <span class="n">q</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">transitions_from</span> <span class="n">s</span> <span class="n">new_states</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">find</span> <span class="o">(</span><span class="n">mem</span> <span class="n">s</span><span class="o">)</span> <span class="n">new_states</span>
+    <span class="ow">and</span> <span class="n">next</span> <span class="n">c</span> <span class="o">=</span> <span class="n">find</span> <span class="o">(</span><span class="n">mem</span> <span class="o">(</span><span class="n">transit</span> <span class="n">maton</span> <span class="n">s</span> <span class="n">c</span><span class="o">))</span> <span class="n">new_states</span> <span class="k">in</span>
+    <span class="o">(</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">c</span> <span class="o">-&gt;</span> <span class="n">origin</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">next</span> <span class="n">c</span><span class="o">)</span> <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span><span class="o">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">states</span> <span class="o">=</span> <span class="n">collect_states</span> <span class="n">maton</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="k">rec</span> <span class="n">loop</span> <span class="o">(</span><span class="n">marked</span><span class="o">,</span> <span class="n">unmarked</span><span class="o">)</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="n">to_add</span> <span class="o">=</span> <span class="n">filter</span> <span class="o">(</span><span class="n">transitable_into</span> <span class="n">marked</span><span class="o">)</span> <span class="n">unmarked</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="n">subset</span> <span class="n">to_add</span> <span class="n">marked</span> <span class="k">then</span> <span class="n">marked</span><span class="o">,</span> <span class="n">unmarked</span>
+    <span class="k">else</span> <span class="n">loop</span> <span class="o">((</span><span class="n">union</span> <span class="n">marked</span> <span class="n">to_add</span><span class="o">),</span> <span class="o">(</span><span class="n">diff</span> <span class="n">unmarked</span> <span class="n">to_add</span><span class="o">))</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="n">connected_component</span> <span class="n">udgraph</span> <span class="n">v</span> <span class="o">=</span>
+    <span class="k">let</span> <span class="k">rec</span> <span class="n">loop</span> <span class="n">acc</span> <span class="o">=</span> <span class="k">function</span>
+      <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="n">acc</span>
+      <span class="o">|</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">::</span> <span class="n">tl</span> <span class="k">when</span> <span class="n">x</span> <span class="o">=</span> <span class="n">v</span> <span class="o">||</span> <span class="n">y</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">loop</span> <span class="o">(</span><span class="n">union</span> <span class="n">acc</span> <span class="o">[</span><span class="n">x</span><span class="o">;</span> <span class="n">y</span><span class="o">])</span> <span class="n">tl</span>
+      <span class="o">|</span> <span class="o">_</span> <span class="o">::</span> <span class="n">tl</span> <span class="o">-&gt;</span> <span class="n">loop</span> <span class="n">acc</span> <span class="n">tl</span> <span class="k">in</span>
+    <span class="n">loop</span> <span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="n">udgraph</span> <span class="k">in</span>
+  <span class="c">(* main procedure *)</span>
+  <span class="c">(* (p, q) ∈ marked &lt;-&gt; p and q are distinguishable *)</span>
+  <span class="k">let</span> <span class="n">init_marked</span><span class="o">,</span> <span class="n">init_unmarked</span> <span class="o">=</span>
+    <span class="n">partition</span> <span class="n">mark_initial_cond</span> <span class="o">(</span><span class="n">original_pairs</span> <span class="n">states</span><span class="o">)</span> <span class="k">in</span>
+  <span class="c">(* saturate marked and unmarked *)</span>
+  <span class="c">(* &#34;marked ∩ unmarked = ∅&#34; stays true after loop *)</span>
+  <span class="k">let</span> <span class="n">marked</span><span class="o">,</span> <span class="n">unmarked</span> <span class="o">=</span> <span class="n">loop</span> <span class="o">(</span><span class="n">init_marked</span><span class="o">,</span> <span class="n">init_unmarked</span><span class="o">)</span> <span class="k">in</span>
+  <span class="c">(* calculate new states from marked and unmarked *)</span>
+  <span class="k">let</span> <span class="n">new_states</span> <span class="o">=</span>
+    <span class="n">fold_left_ignore</span>
+      <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="n">set</span> <span class="o">-&gt;</span> <span class="n">mem</span> <span class="n">s</span> <span class="n">set</span><span class="o">)</span> <span class="n">acc</span><span class="o">)</span>
+      <span class="c">(* largest undistinguishable set which contains s *)</span>
+      <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">connected_component</span> <span class="n">unmarked</span> <span class="n">s</span><span class="o">)</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span>
+      <span class="bp">[]</span> <span class="n">states</span> <span class="k">in</span>
+  <span class="c">(* also calculate new transition from new_states *)</span>
+  <span class="k">let</span> <span class="n">new_trans</span> <span class="o">=</span>
+    <span class="n">fold_left_ignore</span>
+      <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">set</span><span class="o">,</span> <span class="o">_,</span> <span class="o">_)</span> <span class="o">-&gt;</span> <span class="n">mem</span> <span class="n">s</span> <span class="n">set</span><span class="o">)</span> <span class="n">acc</span><span class="o">)</span>
+      <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">transitions_from</span> <span class="n">s</span> <span class="n">new_states</span><span class="o">)</span> <span class="o">@</span> <span class="n">acc</span><span class="o">)</span>
+      <span class="bp">[]</span> <span class="n">states</span> <span class="k">in</span>
+  <span class="n">cons</span>
+    <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span>
+    <span class="n">new_trans</span>
+    <span class="c">(* note : exactly one element of new_states contains maton.inits *)</span>
+    <span class="o">(</span><span class="n">find</span> <span class="o">(</span><span class="n">mem</span> <span class="n">maton</span><span class="o">.</span><span class="n">inits</span><span class="o">)</span> <span class="n">new_states</span><span class="o">)</span>
+    <span class="o">(</span><span class="n">filter</span> <span class="o">(</span><span class="n">anything_in_common</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">)</span> <span class="n">new_states</span><span class="o">)</span></code></pre></div>
 <p>使用例:</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#666">#</span> <span style="color:#a2f;font-weight:bold">let</span> maton <span style="color:#666">=</span> <span style="color:#00f;font-weight:bold">DFA</span>.cons <span style="color:#666">[</span><span style="color:#b44">&#34;0&#34;</span><span style="color:#666">;</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">]</span>
-      <span style="color:#666">[(</span>0<span style="color:#666">,</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">,</span> 1<span style="color:#666">);</span>
-       <span style="color:#666">(</span>0<span style="color:#666">,</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">,</span> 2<span style="color:#666">);</span>
-       <span style="color:#666">(</span>1<span style="color:#666">,</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">,</span> 0<span style="color:#666">);</span>
-       <span style="color:#666">(</span>1<span style="color:#666">,</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">,</span> 3<span style="color:#666">);</span>
-       <span style="color:#666">(</span>2<span style="color:#666">,</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">,</span> 4<span style="color:#666">);</span>
-       <span style="color:#666">(</span>2<span style="color:#666">,</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">,</span> 5<span style="color:#666">);</span>
-       <span style="color:#666">(</span>3<span style="color:#666">,</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">,</span> 4<span style="color:#666">);</span>
-       <span style="color:#666">(</span>3<span style="color:#666">,</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">,</span> 5<span style="color:#666">);</span>
-       <span style="color:#666">(</span>4<span style="color:#666">,</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">,</span> 4<span style="color:#666">);</span>
-       <span style="color:#666">(</span>4<span style="color:#666">,</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">,</span> 5<span style="color:#666">);</span>
-       <span style="color:#666">(</span>5<span style="color:#666">,</span> <span style="color:#b44">&#34;0&#34;</span><span style="color:#666">,</span> 5<span style="color:#666">);</span>
-       <span style="color:#666">(</span>5<span style="color:#666">,</span> <span style="color:#b44">&#34;1&#34;</span><span style="color:#666">,</span> 5<span style="color:#666">)]</span>
-      0 <span style="color:#666">[</span>2<span style="color:#666">;</span>3<span style="color:#666">;</span>4<span style="color:#666">]</span> <span style="color:#666">;;</span>
-<span style="color:#a2f;font-weight:bold">val</span> maton <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00f;font-weight:bold">DFA</span>.t <span style="color:#666">=</span> <span style="color:#666">&lt;</span>abstr<span style="color:#666">&gt;</span>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="k">let</span> <span class="n">maton</span> <span class="o">=</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">cons</span> <span class="o">[</span><span class="s2">&#34;0&#34;</span><span class="o">;</span> <span class="s2">&#34;1&#34;</span><span class="o">]</span>
+      <span class="o">[(</span><span class="n">0</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span>
+       <span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">2</span><span class="o">);</span>
+       <span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
+       <span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">3</span><span class="o">);</span>
+       <span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">4</span><span class="o">);</span>
+       <span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
+       <span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">4</span><span class="o">);</span>
+       <span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
+       <span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">4</span><span class="o">);</span>
+       <span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
+       <span class="o">(</span><span class="n">5</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
+       <span class="o">(</span><span class="n">5</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">5</span><span class="o">)]</span>
+      <span class="n">0</span> <span class="o">[</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span> <span class="o">;;</span>
+<span class="k">val</span> <span class="n">maton</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
 
-<span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">DFA</span>.print_dfa maton string_of_int<span style="color:#666">;;</span></code></pre></td></tr></table>
-</div>
-</div>
+<span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">print_dfa</span> <span class="n">maton</span> <span class="n">string_of_int</span><span class="o">;;</span></code></pre></div>
 
 <figure >
     
@@ -552,16 +487,10 @@ node <span style="color:#666">[</span>shape <span style="color:#666">=</span> el
 
 
 <p>これを最小化すると、</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">4</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#666">#</span> <span style="color:#a2f;font-weight:bold">let</span> minimized <span style="color:#666">=</span> <span style="color:#00f;font-weight:bold">DFA</span>.minimize maton<span style="color:#666">;;</span>
-<span style="color:#a2f;font-weight:bold">val</span> minimized <span style="color:#666">:</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#0b0;font-weight:bold">list</span> <span style="color:#00f;font-weight:bold">DFA</span>.t <span style="color:#666">=</span> <span style="color:#666">&lt;</span>abstr<span style="color:#666">&gt;</span>
+<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="k">let</span> <span class="n">minimized</span> <span class="o">=</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">minimize</span> <span class="n">maton</span><span class="o">;;</span>
+<span class="k">val</span> <span class="n">minimized</span> <span class="o">:</span> <span class="kt">int</span> <span class="kt">list</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
 
-<span style="color:#666">#</span> <span style="color:#00f;font-weight:bold">DFA</span>.print_dfa minimized <span style="color:#666">(</span><span style="color:#00f;font-weight:bold">MyExt</span>.<span style="color:#00f;font-weight:bold">ListExt</span>.string_of_list string_of_int<span style="color:#666">);;</span></code></pre></td></tr></table>
-</div>
-</div>
+<span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">print_dfa</span> <span class="n">minimized</span> <span class="o">(</span><span class="nn">MyExt</span><span class="p">.</span><span class="nn">ListExt</span><span class="p">.</span><span class="n">string_of_list</span> <span class="n">string_of_int</span><span class="o">);;</span></code></pre></div>
 
 <figure >
     

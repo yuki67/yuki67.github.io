@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.34" />
 
-  <title>Tags &middot; yuki&#39;s blog</title>
+  <title>PythonっぽいRangeの実装 in C&#43;&#43; &middot; yuki&#39;s blog</title>
 
   
   
@@ -36,8 +36,6 @@
 
   
   
-  <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki67.github.io/tags/index.xml" />
-  
 
   
 
@@ -52,7 +50,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
-    <link rel="stylesheet" href="https://yuki67.github.io/css/pygments.css">
 
     <body>
         <div id="layout">
@@ -94,10 +91,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://yuki67.github.io/tags/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -200,68 +193,84 @@
 
 
 <div class="header">
-  <h1>Tags</h1>
+  <h1>PythonっぽいRangeの実装 in C&#43;&#43;</h1>
+  <h2></h2>
 </div>
 <div class="content">
-  <ul>
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-01-23</time>
+  </div>
+
+  
+
+  
+
   
   
-    <li>
-      <a href="%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
-      <span>&#40;10&#41;</span>
-    </li>
   
-    <li>
-      <a href="ocaml">ocaml</a>
-      <span>&#40;4&#41;</span>
-    </li>
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">Cpp</a>
+    
+  </div>
   
-    <li>
-      <a href="python">python</a>
-      <span>&#40;4&#41;</span>
-    </li>
   
-    <li>
-      <a href="cuda">cuda</a>
-      <span>&#40;3&#41;</span>
-    </li>
+
+</div>
+
   
-    <li>
-      <a href="math">math</a>
-      <span>&#40;3&#41;</span>
-    </li>
+
+<h2 id="拡張-for">拡張 for</h2>
+
+<p>C++11では配列やSTLコンテナに対するfor文を、以下のように簡潔に書ける。</p>
+
+<p><code>hoge</code></p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#080">#include</span> <span style="color:#080">&lt;vector&gt;</span><span style="color:#080">
+</span><span style="color:#080">#include</span> <span style="color:#080">&lt;iostream&gt;</span><span style="color:#080">
+</span><span style="color:#080"></span>
+<span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">main</span>() {
+  std<span style="color:#666">::</span>vector<span style="color:#666">&lt;</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">&gt;</span> vec{<span style="color:#666">1</span>,<span style="color:#666">2</span>,<span style="color:#666">3</span>};
+  <span style="color:#a2f;font-weight:bold">for</span> (<span style="color:#a2f;font-weight:bold">const</span> <span style="color:#a2f;font-weight:bold">auto</span><span style="color:#666">&amp;</span> <span style="color:#a0a000">e</span> : vec) {
+    std<span style="color:#666">::</span>cout <span style="color:#666">&lt;&lt;</span> e <span style="color:#666">&lt;&lt;</span> std<span style="color:#666">::</span>endl;
+  }
+}</code></pre></div><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#666">1</span>
+<span style="color:#666">2</span>
+<span style="color:#666">3</span></code></pre></div>
+
   
-    <li>
-      <a href="%E3%81%9D%E3%81%AE%E4%BB%96">その他</a>
-      <span>&#40;3&#41;</span>
-    </li>
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://yuki67.github.io/post/customize_desktop/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/customize_desktop/">Ubuntu 17.10で最大化/最小化ボタンを左へ移動する</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
   
-    <li>
-      <a href="javascript">javascript</a>
-      <span>&#40;2&#41;</span>
-    </li>
-  
-    <li>
-      <a href="%E3%83%A1%E3%83%A2">メモ</a>
-      <span>&#40;2&#41;</span>
-    </li>
-  
-    <li>
-      <a href="opengl">opengl</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="shell">shell</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="%E6%9C%AC">本</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-  </ul>
+
 </div>
 
 </div>
@@ -286,3 +295,4 @@
 
 </body>
 </html>
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cpp on yuki&#39;s blog</title>
+    <link>https://yuki67.github.io/tags/cpp/</link>
+    <description>Recent content in Cpp on yuki&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <copyright>by yuki</copyright>
+    <lastBuildDate>Tue, 23 Jan 2018 00:00:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://yuki67.github.io/tags/cpp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PythonっぽいRangeの実装 in C&#43;&#43;</title>
+      <link>https://yuki67.github.io/post/python_like_range/</link>
+      <pubDate>Tue, 23 Jan 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/python_like_range/</guid>
+      <description> 拡張 for C++11では配列やSTLコンテナに対するfor文を、以下のように簡潔に書ける。
+hoge
+#include &amp;lt;vector&amp;gt;#include &amp;lt;iostream&amp;gt; int main() { std::vector&amp;lt;int&amp;gt; vec{1,2,3}; for (const auto&amp;amp; e : vec) { std::cout &amp;lt;&amp;lt; e &amp;lt;&amp;lt; std::endl; } }1 2 3</description>
+    </item>
+    
+  </channel>
+</rss>

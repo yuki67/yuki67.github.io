@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="generator" content="Hugo 0.34" />
 
   <title>Cudaプログラムの実行時間測定 &middot; yuki&#39;s blog</title>
 
@@ -50,6 +50,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+    <link rel="stylesheet" href="https://yuki67.github.io/css/pygments.css">
 
     <body>
         <div id="layout">
@@ -228,101 +229,83 @@
   <p>Cuda入門に出てきた関数をクラスにまとめたので、コピペ用に。</p>
 
 <p></p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">19</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">20</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">21</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">22</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">23</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">24</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">25</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">26</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">27</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">28</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">29</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">30</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">31</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">32</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">33</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">34</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">35</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">36</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">37</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">38</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">39</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">40</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">41</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">42</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">43</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">44</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">45</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">46</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">47</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">48</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">49</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">50</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">51</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">52</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">53</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">54</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">55</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">56</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#080">#ifndef CUDATIMER_H
-</span><span style="color:#080">#define CUDATIMER_H
-</span><span style="color:#080"></span>
-<span style="color:#080">#include</span> <span style="color:#080">&lt;iostream&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;stdlib.h&gt;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#080">#include</span> <span style="color:#080">&#34;cuda_runtime.h&#34;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#080;font-style:italic">// cudaのエラー検出用マクロ
-</span><span style="color:#080;font-style:italic"></span><span style="color:#080">#define EXIT_IF_FAIL(call)                                                     \
-</span><span style="color:#080"></span>  <span style="color:#a2f;font-weight:bold">do</span> {                                                                         \
-    (call);                                                                    \
-    cudaError_t err <span style="color:#666">=</span> cudaGetLastError();                                      \
-    <span style="color:#a2f;font-weight:bold">if</span> (err <span style="color:#666">!=</span> cudaSuccess) {                                                  \
-      std<span style="color:#666">::</span>cout <span style="color:#666">&lt;&lt;</span> <span style="color:#b44"></span><span style="color:#b44">&#34;error in file &#34;</span> <span style="color:#666">&lt;&lt;</span> __FILE__ <span style="color:#666">&lt;&lt;</span> <span style="color:#b44"></span><span style="color:#b44">&#34; line at &#34;</span> <span style="color:#666">&lt;&lt;</span> __LINE__     \
-                <span style="color:#666">&lt;&lt;</span> <span style="color:#b44"></span><span style="color:#b44">&#34;: &#34;</span> <span style="color:#666">&lt;&lt;</span> cudaGetErrorString(err) <span style="color:#666">&lt;&lt;</span> std<span style="color:#666">::</span>endl;               \
-      exit(<span style="color:#666">1</span>);                                                                 \
-    }                                                                          \
-  } <span style="color:#a2f;font-weight:bold">while</span> (<span style="color:#666">0</span>)
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#ifndef CUDATIMER_H
+</span><span class="cp">#define CUDATIMER_H
+</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&#34;cuda_runtime.h&#34;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="c1">// cudaのエラー検出用マクロ
+</span><span class="c1"></span><span class="cp">#define EXIT_IF_FAIL(call)                                                     \
+</span><span class="cp"></span>  <span class="k">do</span> <span class="p">{</span>                                                                         \
+    <span class="p">(</span><span class="n">call</span><span class="p">);</span>                                                                    \
+    <span class="n">cudaError_t</span> <span class="n">err</span> <span class="o">=</span> <span class="n">cudaGetLastError</span><span class="p">();</span>                                      \
+    <span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">!=</span> <span class="n">cudaSuccess</span><span class="p">)</span> <span class="p">{</span>                                                  \
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;error in file &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">__FILE__</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34; line at &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">__LINE__</span>     \
+                <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">cudaGetErrorString</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>               \
+      <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>                                                                 \
+    <span class="p">}</span>                                                                          \
+  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">CudaTimer</span> {
-<span style="color:#a2f;font-weight:bold">private</span><span style="color:#666">:</span>
-  cudaEvent_t start, end;
+<span class="k">class</span> <span class="nc">CudaTimer</span> <span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+  <span class="n">cudaEvent_t</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">;</span>
 
-<span style="color:#a2f;font-weight:bold">public</span><span style="color:#666">:</span>
-  CudaTimer() {
-    EXIT_IF_FAIL(cudaEventCreate(<span style="color:#666">&amp;</span>start));
-    EXIT_IF_FAIL(cudaEventCreate(<span style="color:#666">&amp;</span>end));
-  }
-  <span style="color:#666">~</span>CudaTimer() {
-    EXIT_IF_FAIL(cudaEventDestroy(start));
-    EXIT_IF_FAIL(cudaEventDestroy(end));
-  }
-  <span style="color:#080;font-style:italic">// 計測開始
-</span><span style="color:#080;font-style:italic"></span>  <span style="color:#0b0;font-weight:bold">void</span> begin() {
-    EXIT_IF_FAIL(cudaEventRecord(start));
-  }
-  <span style="color:#080;font-style:italic">// 計測終了
-</span><span style="color:#080;font-style:italic"></span>  <span style="color:#0b0;font-weight:bold">void</span> stop() {
-    EXIT_IF_FAIL(cudaEventRecord(end));
-  }
-  <span style="color:#080;font-style:italic">// 測定結果を出力
-</span><span style="color:#080;font-style:italic"></span>  <span style="color:#0b0;font-weight:bold">void</span> report() {
-    <span style="color:#080;font-style:italic">// イベントendが終わるまで待つ
-</span><span style="color:#080;font-style:italic"></span>    EXIT_IF_FAIL(cudaEventSynchronize(end));
-    <span style="color:#0b0;font-weight:bold">float</span> elapsed;
-    EXIT_IF_FAIL(cudaEventElapsedTime(<span style="color:#666">&amp;</span>elapsed, start, end));
-    printf(<span style="color:#b44"></span><span style="color:#b44">&#34;elapsed: %f ms</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#b44">&#34;</span>, elapsed);
-  }
-  <span style="color:#0b0;font-weight:bold">void</span> stop_and_report() {
-    stop();
-    report();
-  }
-};
+<span class="k">public</span><span class="o">:</span>
+  <span class="n">CudaTimer</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">start</span><span class="p">));</span>
+    <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaEventCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">end</span><span class="p">));</span>
+  <span class="p">}</span>
+  <span class="o">~</span><span class="n">CudaTimer</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaEventDestroy</span><span class="p">(</span><span class="n">start</span><span class="p">));</span>
+    <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaEventDestroy</span><span class="p">(</span><span class="n">end</span><span class="p">));</span>
+  <span class="p">}</span>
+  <span class="c1">// 計測開始
+</span><span class="c1"></span>  <span class="kt">void</span> <span class="n">begin</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">start</span><span class="p">));</span>
+  <span class="p">}</span>
+  <span class="c1">// 計測終了
+</span><span class="c1"></span>  <span class="kt">void</span> <span class="n">stop</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">end</span><span class="p">));</span>
+  <span class="p">}</span>
+  <span class="c1">// 測定結果を出力
+</span><span class="c1"></span>  <span class="kt">void</span> <span class="n">report</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// イベントendが終わるまで待つ
+</span><span class="c1"></span>    <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaEventSynchronize</span><span class="p">(</span><span class="n">end</span><span class="p">));</span>
+    <span class="kt">float</span> <span class="n">elapsed</span><span class="p">;</span>
+    <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaEventElapsedTime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">elapsed</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">));</span>
+    <span class="n">printf</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;elapsed: %f ms</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="kt">void</span> <span class="n">stop_and_report</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">stop</span><span class="p">();</span>
+    <span class="n">report</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">};</span>
 
-<span style="color:#080">#endif </span><span style="color:#080;font-style:italic">/* CUDATIMER_H */</span></code></pre></td></tr></table>
-</div>
-</div>
+<span class="cp">#endif </span><span class="cm">/* CUDATIMER_H */</span></code></pre></div>
 <p>上のプログラムを <code>cudaTimer.h</code> と保存すると、以下のように使える。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#080">#include</span> <span style="color:#080">&lt;cuda_runtime.h&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;stdio.h&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;unistd.h&gt;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#080">#include</span> <span style="color:#080">&#34;cudaTimer.h&#34;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#080;font-style:italic">// 何もしない
-</span><span style="color:#080;font-style:italic"></span>__global__ <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">empty</span>() {}
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;cuda_runtime.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&#34;cudaTimer.h&#34;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="c1">// 何もしない
+</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">empty</span><span class="p">()</span> <span class="p">{}</span>
 
-<span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">main</span>() {
-    CudaTimer timer;
-    timer.begin();
-    empty<span style="color:#666">&lt;&lt;&lt;</span><span style="color:#666">1024</span>, <span style="color:#666">1024</span><span style="color:#666">&gt;&gt;&gt;</span>();
-    timer.stop_and_report();
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">CudaTimer</span> <span class="n">timer</span><span class="p">;</span>
+    <span class="n">timer</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+    <span class="n">empty</span><span class="o">&lt;&lt;&lt;</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">1024</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
+    <span class="n">timer</span><span class="p">.</span><span class="n">stop_and_report</span><span class="p">();</span>
 
-  <span style="color:#a2f;font-weight:bold">return</span> <span style="color:#666">0</span>;
-}</code></pre></td></tr></table>
-</div>
-</div>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
 <p>上のプログラムを <code>main.cu</code> という名前で保存して以下のように実行すれば実行の時間を計測できる。</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">2</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ nvcc -run main.cu
-elapsed: <span style="color:#666">0</span>.017344 ms</code></pre></td></tr></table>
-</div>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ nvcc -run main.cu
+elapsed: <span class="m">0</span>.017344 ms</code></pre></div>
 <p>c++のことをよく知らないのでクラスの作り方に自信がないが、今のところ特に問題なく使えている。</p>
 
   
