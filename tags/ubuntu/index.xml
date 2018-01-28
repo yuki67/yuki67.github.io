@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>メモ on yuki&#39;s blog</title>
-    <link>https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/</link>
-    <description>Recent content in メモ on yuki&#39;s blog</description>
+    <title>Ubuntu on yuki&#39;s blog</title>
+    <link>https://yuki67.github.io/tags/ubuntu/</link>
+    <description>Recent content in Ubuntu on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Sun, 28 Jan 2018 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki67.github.io/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -37,17 +37,6 @@
     
 &lt;/figure&gt;
 
-
-&lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>古いファイルを削除してファイルの数を一定にする</title>
-      <link>https://yuki67.github.io/post/delete_old_files/</link>
-      <pubDate>Tue, 09 Jan 2018 00:00:00 +0900</pubDate>
-      
-      <guid>https://yuki67.github.io/post/delete_old_files/</guid>
-      <description>&lt;p&gt;ログの整理で使った。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

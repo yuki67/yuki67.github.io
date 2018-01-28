@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.34" />
 
-  <title>メモ &middot; yuki&#39;s blog</title>
+  <title>Ubuntu (17.10) で Kindle for PC を使う &middot; yuki&#39;s blog</title>
 
   
   
@@ -35,8 +35,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-  <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/index.xml" />
   
 
   
@@ -94,10 +92,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -200,20 +194,85 @@
 
 
 <div class="header">
-    <h1>メモ</h1>
+  <h1>Ubuntu (17.10) で Kindle for PC を使う</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>2018-01-28</time>
+  </div>
+
+  
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">メモ</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ubuntu">ubuntu</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/kindle">kindle</a>
+    
+  </div>
+  
+  
+
 </div>
 
-<div class="content">
-    
-    <li><time>2018-01-28</time> - <a href="https://yuki67.github.io/post/kindle_for_ubuntu/">Ubuntu (17.10) で Kindle for PC を使う</a></li>
+  <p></p>
 
-    
-    <li><time>2018-01-22</time> - <a href="https://yuki67.github.io/post/buttons_to_left/">Ubuntu 17.10で最大化/最小化ボタンを左へ移動する</a></li>
+<p><a href="https://www.winehq.org/">Wine</a> を使うと <a href="https://www.amazon.co.jp/gp/help/customer/display.html?nodeId=201245960">Kindle for PC</a> をUbuntuで使えると聞いたのでやってみたがエラーがたくさん出て手間取った。</p>
 
-    
-    <li><time>2018-01-09</time> - <a href="https://yuki67.github.io/post/delete_old_files/">古いファイルを削除してファイルの数を一定にする</a></li>
+<p>結論からいうと、Kindle for PCの最新版はインストールできない。そこで&rdquo;Kindle for PC older version&rdquo;などのワードでググって出てくる(オフィシャルでない)サイトから古いものを落とす必要がある。自分の環境では version 1.14.1 (build 43029) のインストーラを使ったらうまくいった。</p>
 
+<p>エラーの原因が分からなかったときにいろいろ試したので、次の要素も関係があるのかもしれない。自分はもう動くようになったので詳しく調べていない。</p>
+
+<ul>
+<li>Wine は最新版 (3.0) ではなくデフォルトで入っているppaのもの (2.0.2) を使った。</li>
+<li>Wine PREFIX を32ビットのもに変えた (<a href="https://askubuntu.com/questions/177192/how-do-i-create-a-32-bit-wine-prefix">参考</a>)</li>
+<li><code>winetricks allfonts</code> を実行した</li>
+</ul>
+
+<p><a href="https://read.amazon.co.jp/">Kindle Cloud Reader</a> がまともに使えるならこんなこともしなくて済むんだけどなぁ。</p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
     
+    <a href="https://yuki67.github.io/post/buttons_to_left/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/buttons_to_left/">Ubuntu 17.10で最大化/最小化ボタンを左へ移動する</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
 </div>
 
 </div>
