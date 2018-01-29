@@ -22,6 +22,17 @@
     </item>
     
     <item>
+      <title>Python風Rangeの実装 in C&#43;&#43;</title>
+      <link>https://yuki67.github.io/post/python_like_range/</link>
+      <pubDate>Tue, 23 Jan 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/python_like_range/</guid>
+      <description>&lt;p&gt;範囲forについて学んだので実装した。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Ubuntu 17.10で最大化/最小化ボタンを左へ移動する</title>
       <link>https://yuki67.github.io/post/buttons_to_left/</link>
       <pubDate>Mon, 22 Jan 2018 00:00:00 +0900</pubDate>

@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.34" />
 
-  <title>PythonっぽいRangeの実装 in C&#43;&#43; &middot; yuki&#39;s blog</title>
+  <title>Python風Rangeの実装 in C&#43;&#43; &middot; yuki&#39;s blog</title>
 
   
   
@@ -50,6 +50,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+    <link rel="stylesheet" href="https://yuki67.github.io/css/pygments.css">
 
     <body>
         <div id="layout">
@@ -193,7 +194,7 @@
 
 
 <div class="header">
-  <h1>PythonっぽいRangeの実装 in C&#43;&#43;</h1>
+  <h1>Python風Rangeの実装 in C&#43;&#43;</h1>
   <h2></h2>
 </div>
 <div class="content">
@@ -215,7 +216,9 @@
   <div>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">Cpp</a>
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">Cpp</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
     
   </div>
   
@@ -223,36 +226,342 @@
 
 </div>
 
-  
+  <p>範囲forについて学んだので実装した。</p>
 
-<h2 id="拡張-for">拡張 for</h2>
+<p></p>
 
-<p>C++11では配列やSTLコンテナに対するfor文を、以下のように簡潔に書ける。</p>
+<h2 id="普通の-for">普通の for</h2>
 
-<p><code>hoge</code></p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#080">#include</span> <span style="color:#080">&lt;vector&gt;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&lt;iostream&gt;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">main</span>() {
-  std<span style="color:#666">::</span>vector<span style="color:#666">&lt;</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">&gt;</span> vec{<span style="color:#666">1</span>,<span style="color:#666">2</span>,<span style="color:#666">3</span>};
-  <span style="color:#a2f;font-weight:bold">for</span> (<span style="color:#a2f;font-weight:bold">const</span> <span style="color:#a2f;font-weight:bold">auto</span><span style="color:#666">&amp;</span> <span style="color:#a0a000">e</span> : vec) {
-    std<span style="color:#666">::</span>cout <span style="color:#666">&lt;&lt;</span> e <span style="color:#666">&lt;&lt;</span> std<span style="color:#666">::</span>endl;
-  }
-}</code></pre></div><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#666">1</span>
-<span style="color:#666">2</span>
-<span style="color:#666">3</span></code></pre></div>
+<p>STLコンテナはイテレーターを持つので、要素を順番に取る処理がfor文で書ける。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;set&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+  <span class="c1">// begin()とend()でイテレーターを取得し、for文の条件として使う
+</span><span class="c1"></span>  <span class="c1">// itrを定義するときの型はautoと書くのが普通
+</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">itr</span> <span class="o">!=</span> <span class="n">vec</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">itr</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// イテレーターはコンテナの成分のポインタっぽく使える
+</span><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">itr</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="c1">// vectorだけでなく他のコンテナでもほとんど同じように書ける
+</span><span class="c1"></span>  <span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">set</span><span class="p">{</span><span class="sa"></span><span class="s">&#34;a&#34;</span><span class="p">,</span> <span class="sa"></span><span class="s">&#34;b&#34;</span><span class="p">,</span> <span class="sa"></span><span class="s">&#34;c&#34;</span><span class="p">};</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">set</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">itr</span> <span class="o">!=</span> <span class="n">set</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">itr</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">itr</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="mi">1</span>
+<span class="mi">2</span>
+<span class="mi">3</span>
+
+<span class="n">a</span>
+<span class="n">b</span>
+<span class="n">c</span></code></pre></div>
+<h2 id="範囲-for">範囲 for</h2>
+
+<p>C++11では同じ意味のfor文を次のように書ける。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;set&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+  <span class="c1">// 範囲 for
+</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">vec</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">set</span><span class="p">{</span><span class="sa"></span><span class="s">&#34;a&#34;</span><span class="p">,</span> <span class="sa"></span><span class="s">&#34;b&#34;</span><span class="p">,</span> <span class="sa"></span><span class="s">&#34;c&#34;</span><span class="p">};</span>
+  <span class="c1">// strを参照にしてstd::stringのコピーが起こらないようにする
+</span><span class="c1"></span>  <span class="c1">// さらにconstをつけてループ内でsetの内容が変わらないことを保証する
+</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="nl">str</span> <span class="p">:</span> <span class="n">set</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="mi">1</span>
+<span class="mi">2</span>
+<span class="mi">3</span>
+
+<span class="n">a</span>
+<span class="n">b</span>
+<span class="n">c</span></code></pre></div>
+<h2 id="pythonのrange">pythonのrange</h2>
+
+<p>pythonには <code>range()</code> 関数があり、以下のように使える。</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="mi">3</span>
+<span class="mi">5</span>
+<span class="mi">7</span>
+<span class="mi">9</span></code></pre></div>
+<p>これをC++で実装する。</p>
+
+<h2 id="範囲-for-の展開">範囲 for の展開</h2>
+
+<p><a href="https://cpprefjp.github.io/lang/cpp11/range_based_for.html">リファレンス</a>によると、</p>
+<div class="highlight"><pre class="chroma"><code class="language-nil" data-lang="nil">for ( range_declaration : range_expression )
+  loop_statement</code></pre></div>
+<p>は以下のように展開される。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="p">{</span>
+  <span class="k">auto</span> <span class="o">&amp;&amp;</span> <span class="n">__range</span> <span class="o">=</span> <span class="n">range_expression</span><span class="p">;</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">__begin</span> <span class="o">=</span> <span class="n">begin</span><span class="p">(</span><span class="n">__range</span><span class="p">),</span> <span class="n">__end</span> <span class="o">=</span> <span class="n">end</span><span class="p">(</span><span class="n">__range</span><span class="p">);</span> <span class="n">__begin</span> <span class="o">!=</span> <span class="n">__end</span><span class="p">;</span> <span class="o">++</span><span class="n">__begin</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">range_declaration</span> <span class="o">=</span> <span class="o">*</span><span class="n">__begin</span><span class="p">;</span>
+    <span class="n">loop_statement</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<h2 id="範囲-for-に対応したクラス">範囲 for に対応したクラス</h2>
+
+<p>展開式を見ると、クラスを範囲 for に対応させるには適当な型のついた</p>
+
+<ul>
+<li>begin()</li>
+<li>end()</li>
+<li>operator!=</li>
+<li>operator++</li>
+<li>operator*</li>
+</ul>
+
+<p>があればいいことが分かる。</p>
+
+<h2 id="c-で実装">C++で実装</h2>
+
+<p>とりあえず最低限のものを実装する。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">Range</span> <span class="p">{</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="n">T</span> <span class="n">m_value</span><span class="p">;</span>        <span class="c1">// 現在値
+</span><span class="c1"></span>  <span class="k">const</span> <span class="n">T</span> <span class="n">m_end</span><span class="p">;</span>    <span class="c1">// 終了値
+</span><span class="c1"></span>  <span class="k">const</span> <span class="n">T</span> <span class="n">m_stride</span><span class="p">;</span> <span class="c1">// ループ一回ごとに進む値
+</span><span class="c1"></span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="c1">// コンストラクタ
+</span><span class="c1"></span>  <span class="n">Range</span><span class="p">(</span><span class="n">T</span> <span class="n">begin</span><span class="p">,</span> <span class="n">T</span> <span class="n">end</span><span class="p">,</span> <span class="n">T</span> <span class="n">stride</span><span class="p">)</span>
+      <span class="o">:</span> <span class="n">m_value</span><span class="p">(</span><span class="n">begin</span><span class="p">),</span> <span class="n">m_end</span><span class="p">(</span><span class="n">end</span><span class="p">),</span> <span class="n">m_stride</span><span class="p">(</span><span class="n">stride</span><span class="p">)</span> <span class="p">{}</span>
+  <span class="c1">// ゲッタ
+</span><span class="c1"></span>  <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// begin()の戻り値がforループの中で編集される
+</span><span class="c1"></span>  <span class="n">Range</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">begin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// end()の返り値との比較によってループから抜けるかどうかが判定される
+</span><span class="c1"></span>  <span class="c1">// begin()とend()は同じ型を持つ必要がある
+</span><span class="c1"></span>  <span class="k">const</span> <span class="n">Range</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">end</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">Range</span><span class="p">(</span><span class="n">m_end</span><span class="p">,</span> <span class="n">m_end</span><span class="p">,</span> <span class="n">m_end</span><span class="p">);</span> <span class="p">}</span>
+  <span class="c1">// operator!=(rhs) はforループから抜けてよいかどうかを返す
+</span><span class="c1"></span>  <span class="c1">// Rangeオブジェクトが異なるかどうかではない
+</span><span class="c1"></span>  <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">Range</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">m_stride</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">m_value</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">value</span><span class="p">()</span> <span class="o">:</span> <span class="n">m_value</span> <span class="o">&gt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="c1">// m_valueを進める
+</span><span class="c1"></span>  <span class="kt">void</span> <span class="k">operator</span><span class="o">++</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_value</span> <span class="o">+=</span> <span class="n">m_stride</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// 現在の値を返す
+</span><span class="c1"></span>  <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+
+<span class="c1">// 実際に使う
+</span><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">Range</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">})</span> <span class="p">{</span>
+    <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span> <span class="c1">// i = 0,3,6,9,12,15,18
+</span><span class="c1"></span>  <span class="p">}</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">sum</span> <span class="o">==</span> <span class="mi">63</span><span class="p">);</span>
+
+
+<span class="c1">// Rangeの使い回し
+</span><span class="c1"></span>  <span class="kt">float</span> <span class="n">sumd</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">Range</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">r</span><span class="p">{</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">5.3</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">};</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">double</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">double</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">sumd</span> <span class="o">+=</span> <span class="n">d</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">sumd</span> <span class="o">-=</span> <span class="n">d</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">fabs</span><span class="p">(</span><span class="n">sumd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-5</span><span class="p">);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;OK&#34;</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span></code></pre></div>
+<p>とりあえずはこれで使える。</p>
+
+<h2 id="改善">改善</h2>
+
+<p>この実装にはいくつか問題がある。</p>
+
+<ul>
+<li>同じRangeオブジェクトのend()は常に同じ値しか返さないので、const参照を返したほうがいい。</li>
+<li>Rangeオブジェクトを作るたびに型を明示的に書かなければいけないのは面倒くさい。</li>
+</ul>
+
+<p>これを直す。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">Range</span> <span class="p">{</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="c1">// Rangeとは別にクラスを作って、begin(), end()はこのクラスのオブジェクトを返すことにする
+</span><span class="c1"></span>  <span class="k">class</span> <span class="nc">Iterator</span> <span class="p">{</span>
+   <span class="c1">// 変数/メソッドは同じ
+</span><span class="c1"></span>   <span class="k">private</span><span class="o">:</span>
+    <span class="n">T</span> <span class="n">m_value</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">T</span> <span class="n">m_end</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">T</span> <span class="n">m_stride</span><span class="p">;</span>
+
+   <span class="k">public</span><span class="o">:</span>
+    <span class="n">Iterator</span><span class="p">(</span><span class="n">T</span> <span class="n">begin</span><span class="p">,</span> <span class="n">T</span> <span class="n">end</span><span class="p">,</span> <span class="n">T</span> <span class="n">stride</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">m_value</span><span class="p">(</span><span class="n">begin</span><span class="p">),</span> <span class="n">m_end</span><span class="p">(</span><span class="n">end</span><span class="p">),</span> <span class="n">m_stride</span><span class="p">(</span><span class="n">stride</span><span class="p">)</span> <span class="p">{}</span>
+    <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">void</span> <span class="k">operator</span><span class="o">++</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_value</span> <span class="o">+=</span> <span class="n">m_stride</span><span class="p">;</span> <span class="p">}</span>
+    <span class="n">T</span> <span class="k">operator</span><span class="o">*</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span> <span class="p">}</span>
+    <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">Iterator</span> <span class="o">&amp;</span><span class="n">end</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">m_stride</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">m_value</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">.</span><span class="nl">m_end</span> <span class="p">:</span> <span class="n">m_value</span> <span class="o">&gt;</span> <span class="n">end</span><span class="p">.</span><span class="n">m_end</span><span class="p">;</span>
+    <span class="p">}</span>
+
+  <span class="p">};</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="c1">// Rangeが begin(), end() で返すのは
+</span><span class="c1"></span>  <span class="c1">// 常に同じIteratorオブジェクトなのでどちらもconstで問題ない
+</span><span class="c1"></span>  <span class="k">const</span> <span class="n">Iterator</span> <span class="n">m_begin</span><span class="p">,</span> <span class="n">m_end</span><span class="p">;</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">Range</span><span class="p">(</span><span class="n">T</span> <span class="n">begin</span><span class="p">,</span> <span class="n">T</span> <span class="n">end</span><span class="p">,</span> <span class="n">T</span> <span class="n">stride</span><span class="p">)</span>
+      <span class="o">:</span> <span class="n">m_begin</span><span class="p">{</span><span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">stride</span><span class="p">},</span> <span class="n">m_end</span><span class="p">{</span><span class="n">end</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">end</span><span class="p">}</span> <span class="p">{}</span>
+
+  <span class="c1">// begin() の戻り値は常に同じだが、for文の中で変更されるので値で帰す
+</span><span class="c1"></span>  <span class="n">Iterator</span> <span class="n">begin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_begin</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// end() の返り値は常に同じでfor文中で変更されることもないのでconst参照で返す
+</span><span class="c1"></span>  <span class="k">const</span> <span class="n">Iterator</span> <span class="o">&amp;</span><span class="n">end</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_end</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="p">};</span>
+
+<span class="c1">// 関数テンプレートを使って型の明示を不要にする
+</span><span class="c1"></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="n">Range</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">range</span><span class="p">(</span><span class="n">T</span> <span class="n">begin</span><span class="p">,</span> <span class="n">T</span> <span class="n">end</span><span class="p">,</span> <span class="n">T</span> <span class="n">stride</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span><span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">stride</span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="c1">// 実際に使う (一つ前のプログラムと同じ)
+</span><span class="c1"></span><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span> <span class="c1">// i = 0,3,6,9,12,15,18
+</span><span class="c1"></span>  <span class="p">}</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">sum</span> <span class="o">==</span> <span class="mi">63</span><span class="p">);</span>
+
+  <span class="c1">// Rangeの使い回し
+</span><span class="c1"></span>  <span class="kt">float</span> <span class="n">sumd</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">auto</span> <span class="n">r</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">5.3</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">double</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">double</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">sumd</span> <span class="o">+=</span> <span class="n">d</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">sumd</span> <span class="o">-=</span> <span class="n">d</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">fabs</span><span class="p">(</span><span class="n">sumd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-5</span><span class="p">);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;OK&#34;</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span></code></pre></div>
+<p>だいぶpythonっぽくできる。 <code>range()</code> の引数を省略できるようにするのは簡単なので省略。</p>
+
+<h2 id="c-17">C++17</h2>
+
+<p>C++17 では範囲forの展開方法が変わり、begin()とend()の返り値の型が一致しなくても良くなっている。具体的には、C++11では</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="p">{</span>
+    <span class="k">auto</span> <span class="o">&amp;&amp;</span> <span class="n">__range</span> <span class="o">=</span> <span class="n">range_expression</span> <span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">__begin</span> <span class="o">=</span> <span class="n">begin_expr</span><span class="p">,</span> <span class="n">__end</span> <span class="o">=</span> <span class="n">end_expr</span><span class="p">;</span>
+            <span class="n">__begin</span> <span class="o">!=</span> <span class="n">__end</span><span class="p">;</span> <span class="o">++</span><span class="n">__begin</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">range_declaration</span> <span class="o">=</span> <span class="o">*</span><span class="n">__begin</span><span class="p">;</span>
+        <span class="n">loop_statement</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<p>だったものが</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="p">{</span>
+    <span class="k">auto</span> <span class="o">&amp;&amp;</span> <span class="n">__range</span> <span class="o">=</span> <span class="n">range_expression</span> <span class="p">;</span>
+    <span class="k">auto</span> <span class="n">__begin</span> <span class="o">=</span> <span class="n">begin_expr</span> <span class="p">;</span>
+    <span class="k">auto</span> <span class="n">__end</span> <span class="o">=</span> <span class="n">end_expr</span> <span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="p">;</span> <span class="n">__begin</span> <span class="o">!=</span> <span class="n">__end</span><span class="p">;</span> <span class="o">++</span><span class="n">__begin</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">range_declaration</span> <span class="o">=</span> <span class="o">*</span><span class="n">__begin</span><span class="p">;</span>
+        <span class="n">loop_statement</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<p>に変わっている(<a href="http://en.cppreference.com/w/cpp/language/range-for">リファレンス</a>)。</p>
+
+<p>そのため、python風のrangeも簡潔に書ける。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="c1">// python風range (C++17)
+</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">Range</span> <span class="p">{</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="n">T</span> <span class="n">m_value</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">T</span> <span class="n">m_end</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">T</span> <span class="n">m_stride</span><span class="p">;</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">Range</span><span class="p">(</span><span class="n">T</span> <span class="n">begin</span><span class="p">,</span> <span class="n">T</span> <span class="n">end</span><span class="p">,</span> <span class="n">T</span> <span class="n">stride</span><span class="p">)</span>
+      <span class="o">:</span>  <span class="n">m_value</span><span class="p">(</span><span class="n">begin</span><span class="p">),</span> <span class="n">m_end</span><span class="p">(</span><span class="n">end</span><span class="p">),</span> <span class="n">m_stride</span><span class="p">(</span><span class="n">stride</span><span class="p">)</span> <span class="p">{}</span>
+  <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span> <span class="p">}</span>
+  <span class="n">Range</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">begin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// end()の返り値の型が変わる
+</span><span class="c1"></span>  <span class="n">T</span> <span class="n">end</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_end</span><span class="p">;</span> <span class="p">}</span>
+  <span class="c1">// operator!=の引数の型が変わる
+</span><span class="c1"></span>  <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">m_stride</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">m_value</span> <span class="o">&lt;</span> <span class="nl">value</span> <span class="p">:</span> <span class="n">m_value</span> <span class="o">&gt;</span> <span class="n">value</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">void</span> <span class="k">operator</span><span class="o">++</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_value</span> <span class="o">+=</span> <span class="n">m_stride</span><span class="p">;</span> <span class="p">}</span>
+  <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+
+<span class="c1">// 実際に使う
+</span><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">Range</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">})</span> <span class="p">{</span>
+    <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">sum</span> <span class="o">==</span> <span class="mi">63</span><span class="p">);</span>
+
+
+<span class="c1">// Rangeの使い回し
+</span><span class="c1"></span>  <span class="kt">float</span> <span class="n">sumd</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">Range</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">r</span><span class="p">{</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">5.3</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">};</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">double</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">double</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">sumd</span> <span class="o">+=</span> <span class="n">d</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">sumd</span> <span class="o">-=</span> <span class="n">d</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">fabs</span><span class="p">(</span><span class="n">sumd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-5</span><span class="p">);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;OK&#34;</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span></code></pre></div>
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="https://yuki67.github.io/post/customize_desktop/"><i class="fa fa-chevron-left"></i></a>
+    <a href="https://yuki67.github.io/post/buttons_to_left/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="https://yuki67.github.io/post/customize_desktop/">Ubuntu 17.10で最大化/最小化ボタンを左へ移動する</a>
+      <a href="https://yuki67.github.io/post/buttons_to_left/">Ubuntu 17.10で最大化/最小化ボタンを左へ移動する</a>
     </nav>
     
   </div>
@@ -261,8 +570,14 @@
   </div>
   <div class="pure-u-10-24">
     
+    <nav class="next">
+      <a href="https://yuki67.github.io/post/kindle_for_ubuntu/">Ubuntu (17.10) で Kindle for PC を使う</a>
+    </nav>
+    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://yuki67.github.io/post/kindle_for_ubuntu/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

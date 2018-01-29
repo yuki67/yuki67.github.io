@@ -13,14 +13,14 @@
     
     
     <item>
-      <title>PythonっぽいRangeの実装 in C&#43;&#43;</title>
+      <title>Python風Rangeの実装 in C&#43;&#43;</title>
       <link>https://yuki67.github.io/post/python_like_range/</link>
       <pubDate>Tue, 23 Jan 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/post/python_like_range/</guid>
-      <description> 拡張 for C++11では配列やSTLコンテナに対するfor文を、以下のように簡潔に書ける。
-hoge
-#include &amp;lt;vector&amp;gt;#include &amp;lt;iostream&amp;gt; int main() { std::vector&amp;lt;int&amp;gt; vec{1,2,3}; for (const auto&amp;amp; e : vec) { std::cout &amp;lt;&amp;lt; e &amp;lt;&amp;lt; std::endl; } }1 2 3</description>
+      <description>&lt;p&gt;範囲forについて学んだので実装した。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>
