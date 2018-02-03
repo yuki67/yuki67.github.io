@@ -285,6 +285,11 @@
 <span class="p">};</span>
 
 <span class="cp">#endif </span><span class="cm">/* CUDATIMER_H */</span></code></pre></div>
+<div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 1:</span>
+  cudaTimer.h
+</div>
+
 <p>上のプログラムを <code>cudaTimer.h</code> と保存すると、以下のように使える。</p>
 <div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;cuda_runtime.h&gt;</span><span class="cp">
 </span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
@@ -298,11 +303,17 @@
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">CudaTimer</span> <span class="n">timer</span><span class="p">;</span>
     <span class="n">timer</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
-    <span class="n">empty</span><span class="o">&lt;&lt;&lt;</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">1024</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
+    <span class="c1">// 何もしない関数を呼ぶとどれくらい時間がかかるのだろう?
+</span><span class="c1"></span>    <span class="n">empty</span><span class="o">&lt;&lt;&lt;</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">1024</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
     <span class="n">timer</span><span class="p">.</span><span class="n">stop_and_report</span><span class="p">();</span>
 
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span></code></pre></div>
+<div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 2:</span>
+  main.cu
+</div>
+
 <p>上のプログラムを <code>main.cu</code> という名前で保存して以下のように実行すれば実行の時間を計測できる。</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ nvcc -run main.cu
 elapsed: <span class="m">0</span>.017344 ms</code></pre></div>
