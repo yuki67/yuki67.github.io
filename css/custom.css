@@ -1,7 +1,15 @@
+/* 本文の色 */
 body {
     color: #4c4c4c;
 }
 
+/* 本文の章タイトルの下に線を引く */
+.content h2, h3, h4 {
+    border-bottom: 1px solid #aaa;
+    line-height: 1.6em;
+}
+
+/* code block の背景 */
 code {
     background: #dddddd;
 }

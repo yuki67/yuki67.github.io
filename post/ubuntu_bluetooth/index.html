@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.34" />
 
-  <title>nikolaでブログはじめました &middot; yuki&#39;s blog</title>
+  <title>Ubuntu 17.10 で MDR-1000X を使う &middot; yuki&#39;s blog</title>
 
   
   
@@ -194,7 +194,7 @@
 
 
 <div class="header">
-  <h1>nikolaでブログはじめました</h1>
+  <h1>Ubuntu 17.10 で MDR-1000X を使う</h1>
   <h2></h2>
 </div>
 <div class="content">
@@ -203,7 +203,7 @@
 
   <span>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017-08-11</time>
+    <time>2018-02-05</time>
   </span>
   &nbsp;&nbsp;&nbsp;
   
@@ -216,7 +216,9 @@
   <span>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%81%9D%E3%81%AE%E4%BB%96">その他</a>
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">メモ</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ubuntu">ubuntu</a>
     
   </span>
   
@@ -225,64 +227,36 @@
 </div>
 
 
-  <p>(今はnikolaを使っておらず、Hugoに移行した。)</p>
+  <p></p>
 
-<p></p>
+<p>MDR-1000X を bluetooth で Ubuntu に接続しても音が聞こえなかったが、 <code>pavucontrol</code> を使ったらできるようになった。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt install pavucontrol</code></pre></div>
+<p>としてから</p>
 
-<p>nikolaでブログはじめました。</p>
+<ol>
+<li><code>pavucontrol</code> で起動</li>
+<li>設定タブからプロファイルを <code>High Fidelity Playback (A2DP Sink)</code> に変更</li>
+<li>Ubuntuのサウンド設定からサウンドの出力デバイスをMDR-1000Xに変える</li>
+</ol>
 
-<p>github pagesはサイトジェネレータとしてjekyllをデフォルトで使う。jekyllはrubyで書かれているが、自分はrubyをよく知らないのでいまいち使いづらく、ちょっと触ってから放置してた。</p>
+<p>とするとできる。
+上手く行かないときは一度サウンド設定を他のデバイスにしてからMDR-1000Xに戻したり、音量を変えたりすると
+できるようになることがある。</p>
 
-<p>そんなときにpythonで作られたNikolaというのがあると知った。pythonならrubyより詳しく知ってるので、これを使って再チャレンジすることにした。</p>
-
-<p>以下設定してみて感じたこと</p>
-
-<ul>
-<li>インストールが簡単
-
-<ul>
-<li>pipで全部入る。virutualenvで少し手間取ったけどこれは私がこれについてよく知らなかったせい。</li>
-</ul></li>
-<li>記事書くのも簡単
-
-<ul>
-<li><code>nikola new_post</code> で終わり</li>
-</ul></li>
-<li>org-modeで記事を書くための公式のプラグインがある。
-
-<ul>
-<li>今それで書いてる。org-modeも一緒に習得できてお得。</li>
-</ul></li>
-<li>github pages と連携している
-
-<ul>
-<li>記事を書いたら <code>nikola github_deploy</code> でgitのブランチの作成、コミット、プッシュまで全部やって、サイトが見れる状態にしてくれる。</li>
-</ul></li>
-<li>設定がpythonで書かれている
-
-<ul>
-<li>pythonで書かれているのだから当たり前だが、読みやすくて嬉しい。例えば <code>COMPILERS[&quot;orgmode&quot;] = ('.org', )</code> と書かれていたときに、「あぁこれはCOMPILERSという辞書に新しい要素を追加しているのだな」分かるのは大きい。</li>
-</ul></li>
-<li>\(\LaTeX\)表記に対応している
-
-<ul>
-<li>ただ、記事に&rdquo;mathjax&rdquo;というタグを付けないといけないというのは分かりづらいと思う。</li>
-</ul></li>
-<li>日本語に対応してる
-
-<ul>
-<li>例えばトップページにある&rdquo;続きを読む&rdquo;のリンクはNikolaが追加したもの。</li>
-</ul></li>
-</ul>
-
-<p>続くかな。</p>
+<p>自動化するのは面倒くさいのでパス。</p>
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
+    <a href="https://yuki67.github.io/post/kindle_for_ubuntu/"><i class="fa fa-chevron-left"></i></a>
+    
   </div>
   <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/kindle_for_ubuntu/">Ubuntu (17.10) で Kindle for PC を使う</a>
+    </nav>
     
   </div>
   <div class="pure-u-2-24">
@@ -290,14 +264,8 @@
   </div>
   <div class="pure-u-10-24">
     
-    <nav class="next">
-      <a href="https://yuki67.github.io/post/montecarlo_integral/">モンテカルロ積分</a>
-    </nav>
-    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="https://yuki67.github.io/post/montecarlo_integral/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
