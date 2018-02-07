@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Mon, 05 Feb 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 07 Feb 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>C&#43;&#43;のconstexpr</title>
+      <link>https://yuki67.github.io/post/constexpr/</link>
+      <pubDate>Wed, 07 Feb 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/constexpr/</guid>
+      <description>概要 C++では関数や式に constexpr をつけることで、その値をコンパイル時に計算するようにコンパイラに指示できる。 コンパイル時に計算された constexpr 式の値はリテラルやテンプレート変数と同じように使用できる。例えば、
+ 他のテンプレートに渡す 配列の大きさの宣言に使う 他のconstexprを作る  が行える。
+以下は確認例。
+#include &amp;lt;array&amp;gt;#include &amp;lt;iostream&amp;gt; // この関数は(可能ならば)コンパイル時に計算が行われる constexpr int add(int x, int y) { return x + y; } int main() { // constexprはテンプレートの引数に使える  // add()の宣言からconstexprを削除するとコンパイルエラーになる  std::array&amp;lt;int, add(1, 1)&amp;gt; arr1; // 配列も確保できる  int arr2[add(1, 1)]; // constexprを使って別のconstexprを定義できる  constexpr auto x = 0; constexpr auto y = add(x, 1); std::array&amp;lt;int, y&amp;gt; arr4; std::cout &amp;lt;&amp;lt; &amp;#34;OK&amp;#34; &amp;lt;&amp;lt; std::endl; return 0; }OK 上の例では add() 関数が簡単なので constexpr によるありがたみが薄く、 テンプレート変数を使っても同じことができそうに見えるが、 constexpr を使ったほう簡潔で、通常の関数と同じ記法で書くことができる分うれしい。 関数が複雑になった場合(例えば fact() pow() log2() など) にはありがたみが増す。</description>
+    </item>
     
     <item>
       <title>Ubuntu 17.10 で MDR-1000X を使う</title>

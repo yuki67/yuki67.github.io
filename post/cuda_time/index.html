@@ -230,6 +230,11 @@
   <p>Cuda入門に出てきた関数をクラスにまとめたので、コピペ用に。</p>
 
 <p></p>
+
+<p><div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 1:</span>
+  cudaTimer.h
+</div></p>
 <div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#ifndef CUDATIMER_H
 </span><span class="cp">#define CUDATIMER_H
 </span><span class="cp"></span>
@@ -286,12 +291,12 @@
 <span class="p">};</span>
 
 <span class="cp">#endif </span><span class="cm">/* CUDATIMER_H */</span></code></pre></div>
-<div class="src-block-caption">
-  <span class="src-block-number">Code Snippet 1:</span>
-  cudaTimer.h
-</div>
-
 <p>上のプログラムを <code>cudaTimer.h</code> と保存すると、以下のように使える。</p>
+
+<p><div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 2:</span>
+  main.cu
+</div></p>
 <div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;cuda_runtime.h&gt;</span><span class="cp">
 </span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
 </span><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
@@ -310,11 +315,6 @@
 
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span></code></pre></div>
-<div class="src-block-caption">
-  <span class="src-block-number">Code Snippet 2:</span>
-  main.cu
-</div>
-
 <p>上のプログラムを <code>main.cu</code> という名前で保存して以下のように実行すれば実行の時間を計測できる。</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ nvcc -run main.cu
 elapsed: <span class="m">0</span>.017344 ms</code></pre></div>

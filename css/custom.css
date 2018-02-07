@@ -9,7 +9,11 @@ body {
     line-height: 1.6em;
 }
 
-/* code block の背景 */
-code {
-    background: #dddddd;
+.chroma, code {
+    line-height: 1.0em;
+}
+
+.src-block-caption {
+    font-size: 75.0%;
+    margin-bottom: 0px;
 }
