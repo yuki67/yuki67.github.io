@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://yuki67.github.io/post/finite_field/</loc>
+    <lastmod>2018-02-10T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://yuki67.github.io/post/constexpr/</loc>
     <lastmod>2018-02-07T00:00:00+09:00</lastmod>
   </url>
@@ -150,7 +155,7 @@
   
   <url>
     <loc>https://yuki67.github.io/post/</loc>
-    <lastmod>2018-02-07T00:00:00+09:00</lastmod>
+    <lastmod>2018-02-10T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -185,7 +190,7 @@
   
   <url>
     <loc>https://yuki67.github.io/</loc>
-    <lastmod>2018-02-07T00:00:00+09:00</lastmod>
+    <lastmod>2018-02-10T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -197,7 +202,7 @@
   
   <url>
     <loc>https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/</loc>
-    <lastmod>2018-02-07T00:00:00+09:00</lastmod>
+    <lastmod>2018-02-10T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
