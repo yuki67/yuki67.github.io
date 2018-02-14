@@ -284,16 +284,20 @@
 <ul>
 <li><code>float</code> と <code>double</code> に対応するクラスがある。</li>
 <li><code>float</code> と <code>double</code> の値を受け取るコンストラクタがある。</li>
-<li>格納されている値を返す関数がある。</li>
-<li>格納されている値の指数部を返す関数がある。</li>
-<li>格納されている値の仮数部を返す関数がある。</li>
+<li>指数部、仮数部の長さを返す関数がある。</li>
+<li>格納されている値をビット列として返す関数がある。</li>
+<li>格納されている値の指数部をビット列として返す関数がある。</li>
+<li>格納されている値の仮数部をビット列として返す関数がある。</li>
 <li>上の3つの関数の返り値として <code>std::bitset&lt;N&gt;</code> を使う。</li>
-<li><code>float</code> と <code>double</code> で2つのクラスが必要になるが、コードは2度書きたくない</li>
 </ul>
 
-<p><code>constexpr</code> を使うといい感じにこの要求を満たすクラスを作れる。</p>
+<p>この機能を持たせるには <code>float</code> と <code>double</code> に対応するクラスで
+違う長さの <code>std::bitset&lt;N&gt;</code> をメンバ変数として持つ必要がある。
+クラスを2つ作ることも可能だが、長さ以外の部分がほぼ同じになるので無駄になる。</p>
 
 <h3 id="実装">実装</h3>
+
+<p>テンプレートと <code>constexpr</code> を使うといい感じにこの要求を満たすクラスを作れる。</p>
 
 <p><div class="src-block-caption">
   <span class="src-block-number">Code Snippet 1:</span>
@@ -363,7 +367,7 @@
   <span class="n">init_bits</span><span class="p">();</span>
 <span class="p">}</span></code></pre></div>
 <p>テンプレートを使ってクラスを定義し、それを <code>float</code> と <code>double</code> 用に特殊化することでコードの重複を防いだ。
-他にも <code>float</code> や <code>double</code> でない 浮動小数点数の表現にも対応することができるという利点がある。</p>
+やろうと思えば、 <code>float</code> や <code>double</code> でない 浮動小数点数の表現にも対応することができる。</p>
 
 <p>以下のように使う。</p>
 <div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;floating_point.hpp&#34;</span><span class="cp">
@@ -371,10 +375,11 @@
 </span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 </span><span class="cp"></span>
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// 対応するビット列は適当に求める
+  <span class="c1">// 実数に対応するビット列は適当に求める
 </span><span class="c1"></span>  <span class="n">Single</span> <span class="n">f</span><span class="p">(</span><span class="mf">1234.567</span><span class="p">);</span>
   <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bit_sign</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_all</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_all</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;01000100100110100101001000100101&#34;</span><span class="p">));</span>
+  <span class="c1">// to_string()をしてから比較をしてもいいが、Single::w_all()などを使うためにあえてそのまま比較する
+</span><span class="c1"></span>  <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_all</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_all</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;01000100100110100101001000100101&#34;</span><span class="p">));</span>
   <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_exp</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_exp</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;10001001&#34;</span><span class="p">));</span>
   <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_sig</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_sig</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;00110100101001000100101&#34;</span><span class="p">));</span>
 

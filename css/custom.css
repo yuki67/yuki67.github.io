@@ -10,7 +10,8 @@ body {
 }
 
 .chroma, code {
-    line-height: 1.0em;
+    /* 1.0em だとアンダーバーが見えない */
+    line-height: 1.02em;
 }
 
 .src-block-caption {
