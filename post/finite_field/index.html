@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.34" />
+  <meta name="generator" content="Hugo 0.36.1" />
 
   <title>有限体の実装 in C&#43;&#43; &middot; yuki&#39;s blog</title>
 
@@ -339,6 +339,7 @@
 </span><span class="c1"></span>  <span class="k">constexpr</span> <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">P</span><span class="o">&gt;</span> <span class="n">inverses</span> <span class="o">=</span> <span class="n">construct_inverses</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span><span class="p">();</span>
 
  <span class="k">public</span><span class="o">:</span>
+  <span class="n">FiniteField</span><span class="p">()</span> <span class="o">:</span> <span class="n">m_val</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{}</span>
   <span class="n">FiniteField</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">val</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_val</span><span class="p">(</span><span class="n">mod_pos</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">P</span><span class="p">))</span> <span class="p">{}</span>
 
   <span class="c1">// このexplicitを抜くと恐ろしい量のエラーが出る
@@ -458,8 +459,14 @@
   </div>
   <div class="pure-u-10-24">
     
+    <nav class="next">
+      <a href="https://yuki67.github.io/post/freshmans_dream/">一年生の夢の実装 in C&#43;&#43;</a>
+    </nav>
+    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://yuki67.github.io/post/freshmans_dream/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

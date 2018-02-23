@@ -9,9 +9,10 @@ body {
     line-height: 1.6em;
 }
 
-.chroma, code {
-    /* 1.0em だとアンダーバーが見えない */
-    line-height: 1.02em;
+pre, code {
+    line-height: 1.0em;
+    font-size: 0.95em;
+    font-family: "Courier New", Courier, monospace;
 }
 
 .src-block-caption {

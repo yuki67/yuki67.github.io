@@ -7,10 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Sat, 10 Feb 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 23 Feb 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>一年生の夢の実装 in C&#43;&#43;</title>
+      <link>https://yuki67.github.io/post/freshmans_dream/</link>
+      <pubDate>Fri, 23 Feb 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/freshmans_dream/</guid>
+      <description>&lt;p&gt;式&lt;/p&gt;
+
+&lt;p&gt;\begin{align*}
+(x + y)^{p} = x^{p} + y^{p}
+\end{align*}&lt;/p&gt;
+
+&lt;p&gt;を一年生の夢 (&lt;a href=&#34;https://en.wikipedia.org/wiki/Freshman%27s_dream&#34;&gt;Freshman&amp;rsquo;s dream&lt;/a&gt;) という。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>有限体の実装 in C&#43;&#43;</title>
