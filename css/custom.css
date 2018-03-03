@@ -9,13 +9,64 @@ body {
     line-height: 1.6em;
 }
 
-pre, code {
-    line-height: 1.0em;
-    font-size: 0.95em;
+code, .chroma {
+    line-height: 1.1em;
+    font-size: 90%;
+    background-color: #f5f5f5;
     font-family: "Courier New", Courier, monospace;
 }
 
 .src-block-caption {
-    font-size: 75.0%;
-    margin-bottom: 0px;
+    padding: 5px 0px 5px 0px;
+    line-height: 1.0em;
+    font-size: 90%;
+    background-color: #e0e0e0;
+    border-left: 4px solid #86ad72;
+}
+
+.src-block-caption + p {
+    margin: 0;
+}
+
+/* ソースコード, 定理, 命題, 事実, 証明*/
+.chroma {
+    margin-top: 0px;
+    padding: 10px 10px 10px 10px;
+    border-left: 4px solid #86ad72;
+}
+
+.theorem, .lemma, .fact {
+    position: relative;
+    padding: 10px 10px 10px 10px;
+    box-sizing: border-box;
+    background: #f5f5f5;
+    border-left: 4px solid #61d2ca;
+ }
+
+.proof {
+    position: relative;
+    padding: 10px 10px 10px 15px;
+    box-sizing: border-box;
+    background: #f5f5f5;
+    border-left: 4px solid #bf81ea;
+}
+
+.theorem:before {
+    content: "定理";
+    font-weight: bold;
+}
+
+.lemma:before {
+    content: "命題";
+    font-weight: bold;
+}
+
+.fact:before {
+    content: "事実";
+    font-weight: bold;
+}
+
+.proof:before {
+    content: "証明";
+    font-weight: bold;
 }
