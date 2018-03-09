@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>About on yuki&#39;s blog</title>
+    <link>https://yuki67.github.io/tags/about/</link>
+    <description>Recent content in About on yuki&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <copyright>by yuki</copyright>
+    <lastBuildDate>Sat, 03 Mar 2018 00:00:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://yuki67.github.io/tags/about/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>全体像</title>
+      <link>https://yuki67.github.io/post/org-md-hugo/</link>
+      <pubDate>Sat, 03 Mar 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/org-md-hugo/</guid>
+      <description>&lt;p&gt;このサイトは&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://orgmode.org/&#34;&gt;org mode&lt;/a&gt; で書いた文章を&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/kaushalmodi/ox-hugo&#34;&gt;ox-hugo&lt;/a&gt; で markdown に変換し&lt;/li&gt;
+&lt;li&gt;markdown から &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; で静的サイトを作成し&lt;/li&gt;
+&lt;li&gt;作成された静的サイトを &lt;a href=&#34;https://pages.github.com/&#34;&gt;github pages&lt;/a&gt; で公開する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;という手順で作られている。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

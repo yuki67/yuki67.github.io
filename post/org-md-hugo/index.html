@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.36.1" />
 
-  <title>Ubuntu 17.10 で Kindle for PC を使う &middot; yuki&#39;s blog</title>
+  <title>全体像 &middot; yuki&#39;s blog</title>
 
   
   
@@ -212,7 +212,7 @@
 
 
 <div class="header">
-  <h1>Ubuntu 17.10 で Kindle for PC を使う</h1>
+  <h1>全体像</h1>
   <h2></h2>
 </div>
 <div class="content">
@@ -221,7 +221,7 @@
 
   <span>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-01-28</time>
+    <time>2018-03-03</time>
   </span>
   &nbsp;&nbsp;&nbsp;
   
@@ -234,11 +234,7 @@
   <span>
     <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">メモ</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ubuntu">ubuntu</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/kindle">kindle</a>
+      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/about">about</a>
     
   </span>
   
@@ -247,33 +243,44 @@
 </div>
 
 
-  <p></p>
-
-<p><a href="https://www.winehq.org/">Wine</a> を使うと <a href="https://www.amazon.co.jp/gp/help/customer/display.html?nodeId=201245960">Kindle for PC</a> をUbuntuで使えると聞いたのでやってみたがエラーがたくさん出て手間取った。</p>
-
-<p>結論からいうと、Kindle for PCの最新版はインストールできない。そこで&rdquo;Kindle for PC older version&rdquo;などのワードでググって出てくる(オフィシャルでない)サイトから古いものを落とす必要がある。自分の環境では version 1.14.1 (build 43029) のインストーラを使ったらうまくいった。</p>
-
-<p>エラーの原因が分からなかったときにいろいろ試したので、次の要素も関係があるのかもしれない。自分はもう動くようになったので詳しく調べていない。</p>
+  <p>このサイトは</p>
 
 <ul>
-<li>Wine は最新版 (3.0) ではなくデフォルトで入っているppaのもの (2.0.2) を使った。</li>
-<li>Wine PREFIX を32ビットのもに変えた (<a href="https://askubuntu.com/questions/177192/how-do-i-create-a-32-bit-wine-prefix">参考</a>)</li>
-<li><code>winetricks allfonts</code> を実行した</li>
+<li><a href="https://orgmode.org/">org mode</a> で書いた文章を</li>
+<li><a href="https://github.com/kaushalmodi/ox-hugo">ox-hugo</a> で markdown に変換し</li>
+<li>markdown から <a href="https://gohugo.io/">Hugo</a> で静的サイトを作成し</li>
+<li>作成された静的サイトを <a href="https://pages.github.com/">github pages</a> で公開する</li>
 </ul>
 
-<p><a href="https://read.amazon.co.jp/">Kindle Cloud Reader</a> がまともに使えるならこんなこともしなくて済むんだけどなぁ。</p>
+<p>という手順で作られている。</p>
+
+<p></p>
+
+<p>全体像を画像にまとめた。自分が直接編集するファイルを緑で塗った。</p>
+
+
+<figure >
+    
+        <img src="https://yuki67.github.io/ox-hugo/zentai.png" />
+    
+    
+</figure>
+
+
+<p>最終的な静的サイトのソースコードは <a href="https://github.com/yuki67/yuki67.github.io">github</a> で見ることができる。
+それ以外のファイルはあまりにも頻繁に更新されるので公開していない。</p>
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="https://yuki67.github.io/post/python_like_range/"><i class="fa fa-chevron-left"></i></a>
+    <a href="https://yuki67.github.io/post/bigint/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="https://yuki67.github.io/post/python_like_range/">Python風Rangeの実装 in C&#43;&#43;</a>
+      <a href="https://yuki67.github.io/post/bigint/">BigIntの実装 in C&#43;&#43;</a>
     </nav>
     
   </div>
@@ -282,14 +289,8 @@
   </div>
   <div class="pure-u-10-24">
     
-    <nav class="next">
-      <a href="https://yuki67.github.io/post/ubuntu_bluetooth/">Ubuntu 17.10 で MDR-1000X を使う</a>
-    </nav>
-    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="https://yuki67.github.io/post/ubuntu_bluetooth/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

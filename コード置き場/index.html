@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.36.1" />
 
-  <title>Ubuntu 17.10 で Kindle for PC を使う &middot; yuki&#39;s blog</title>
+  <title>コード置き場 &middot; yuki&#39;s blog</title>
 
   
   
@@ -35,6 +35,8 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
+  
+  <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki67.github.io/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/index.xml" />
   
 
   
@@ -110,6 +112,10 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://yuki67.github.io/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+    </li>
     
 
     
@@ -212,92 +218,12 @@
 
 
 <div class="header">
-  <h1>Ubuntu 17.10 で Kindle for PC を使う</h1>
-  <h2></h2>
+  <h1>コード置き場</h1>
 </div>
 <div class="content">
-
-  <div class="post-meta">
-
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-01-28</time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
+  <p>自作のプログラムとその解説です。</p>
 
   
-  &nbsp;&nbsp;&nbsp;
-  
-  
-  
-  <span>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">メモ</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ubuntu">ubuntu</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/kindle">kindle</a>
-    
-  </span>
-  
-  
-
-</div>
-
-
-  <p></p>
-
-<p><a href="https://www.winehq.org/">Wine</a> を使うと <a href="https://www.amazon.co.jp/gp/help/customer/display.html?nodeId=201245960">Kindle for PC</a> をUbuntuで使えると聞いたのでやってみたがエラーがたくさん出て手間取った。</p>
-
-<p>結論からいうと、Kindle for PCの最新版はインストールできない。そこで&rdquo;Kindle for PC older version&rdquo;などのワードでググって出てくる(オフィシャルでない)サイトから古いものを落とす必要がある。自分の環境では version 1.14.1 (build 43029) のインストーラを使ったらうまくいった。</p>
-
-<p>エラーの原因が分からなかったときにいろいろ試したので、次の要素も関係があるのかもしれない。自分はもう動くようになったので詳しく調べていない。</p>
-
-<ul>
-<li>Wine は最新版 (3.0) ではなくデフォルトで入っているppaのもの (2.0.2) を使った。</li>
-<li>Wine PREFIX を32ビットのもに変えた (<a href="https://askubuntu.com/questions/177192/how-do-i-create-a-32-bit-wine-prefix">参考</a>)</li>
-<li><code>winetricks allfonts</code> を実行した</li>
-</ul>
-
-<p><a href="https://read.amazon.co.jp/">Kindle Cloud Reader</a> がまともに使えるならこんなこともしなくて済むんだけどなぁ。</p>
-
-  
-<div class="prev-next-post pure-g">
-  <div class="pure-u-1-24" style="text-align: left;">
-    
-    <a href="https://yuki67.github.io/post/python_like_range/"><i class="fa fa-chevron-left"></i></a>
-    
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="prev">
-      <a href="https://yuki67.github.io/post/python_like_range/">Python風Rangeの実装 in C&#43;&#43;</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-2-24">
-    &nbsp;
-  </div>
-  <div class="pure-u-10-24">
-    
-    <nav class="next">
-      <a href="https://yuki67.github.io/post/ubuntu_bluetooth/">Ubuntu 17.10 で MDR-1000X を使う</a>
-    </nav>
-    
-  </div>
-  <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="https://yuki67.github.io/post/ubuntu_bluetooth/"><i class="fa fa-chevron-right"></i></a>
-    
-  </div>
-</div>
-
-
-
-  
-
 </div>
 
 </div>
