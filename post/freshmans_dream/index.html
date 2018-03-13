@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.36.1" />
+  <meta name="generator" content="Hugo 0.37.1" />
 
   <title>一年生の夢の実装 in C&#43;&#43; &middot; yuki&#39;s blog</title>
 
@@ -82,13 +82,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>All Posts</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>Post</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Codes</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Code</a>
       
         </li>
       
@@ -100,7 +100,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/"><i class='fa fa-sticky-note fa-fw'></i>Note</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tag</a>
       
         </li>
       
@@ -218,31 +224,41 @@
 <div class="content">
 
   <div class="post-meta">
-
   <span>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-02-23</time>
+    <time>
+      
+        2018-02-23
+      
+    </time>
   </span>
   &nbsp;&nbsp;&nbsp;
   
-
   
-  &nbsp;&nbsp;&nbsp;
-  
-  
-  
-  <span>
-    <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">cpp</a>
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
+          cpp
+        </a>
+        
+      
+    </span>
     
-  </span>
   
-  
-
 </div>
+
+
+  
 
 
   <p>式</p>
@@ -415,7 +431,8 @@
 <span class="p">};</span>
 
 <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="kt">bool</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">print_zero</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span></code></pre></div>
+<span class="kt">bool</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">print_zero</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</code></pre></div>
 <h2 id="確認">確認</h2>
 
 <p>上の多項式クラスを使って以下のようにして１年生の夢が成り立つことを確かめた。</p>
@@ -423,7 +440,10 @@
 </span><span class="cp">#include</span> <span class="cpf">&#34;polynomial.hpp&#34;</span><span class="cp">
 </span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 </span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> 
+<span class="nf">main</span><span class="p">()</span>
+ 
+<span class="p">{</span>
   <span class="c1">// 位数が 2, 3, 11, 101, 8192 の場合について確認する
 </span><span class="c1"></span>  <span class="k">using</span> <span class="n">P2</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;&gt;</span><span class="p">;</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;In F2, (1 + x)^2 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P2</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
@@ -441,7 +461,8 @@
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;In F8291, (1 + x)^8291 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P8291</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">8291</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
 
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-nil" data-lang="nil">In F2, (1 + x)^2 = 1 + x^2
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-nil" data-lang="nil">In F2, (1 + x)^2 = 1 + x^2
 In F3, (1 + x)^3 = 1 + x^3
 In F11, (1 + x)^11 = 1 + x^11
 In F101, (1 + x)^101 = 1 + x^101

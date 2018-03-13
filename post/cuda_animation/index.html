@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.36.1" />
+  <meta name="generator" content="Hugo 0.37.1" />
 
   <title>CudaとOpenGLを連携させてアニメーションを描画する &middot; yuki&#39;s blog</title>
 
@@ -82,13 +82,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>All Posts</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>Post</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Codes</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Code</a>
       
         </li>
       
@@ -100,7 +100,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/"><i class='fa fa-sticky-note fa-fw'></i>Note</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tag</a>
       
         </li>
       
@@ -218,31 +224,41 @@
 <div class="content">
 
   <div class="post-meta">
-
   <span>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017-12-03</time>
+    <time>
+      
+        2017-12-03
+      
+    </time>
   </span>
   &nbsp;&nbsp;&nbsp;
   
-
   
-  &nbsp;&nbsp;&nbsp;
-  
-  
-  
-  <span>
-    <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cuda">cuda</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cuda">
+          cuda
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
     
-  </span>
   
-  
-
 </div>
+
+
+  
 
 
   <p>CUDAを使って毎フレーム画像を更新したいが、いちいち画像をCPUに送り返している暇がないときに。</p>
@@ -287,7 +303,10 @@
 </span><span class="c1"></span><span class="kt">int</span> <span class="n">interval</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
 
 <span class="c1">// カーネル関数: bitmapに適当に色を塗る
-</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">kernel</span><span class="p">(</span><span class="n">uchar4</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tick</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> 
+<span class="nf">kernel</span><span class="p">(</span><span class="n">uchar4</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tick</span><span class="p">)</span>
+ 
+<span class="p">{</span>
   <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
   <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
   <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">gridDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
@@ -307,14 +326,20 @@
 <span class="p">}</span>
 
 <span class="c1">// 描画用コールバック
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">draw</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kt">void</span> 
+<span class="nf">draw</span><span class="p">()</span>
+ 
+<span class="p">{</span>
   <span class="c1">// ピクセルバッファオブジェクトがバインドされているので、サイズを指定するだけで良い
 </span><span class="c1"></span>  <span class="n">glDrawPixels</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">,</span> <span class="n">GL_RGBA</span><span class="p">,</span> <span class="n">GL_UNSIGNED_BYTE</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
   <span class="n">glutSwapBuffers</span><span class="p">();</span>
 <span class="p">}</span>
 
 <span class="c1">// 画面を更新するコールバック
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">update</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kt">void</span> 
+<span class="nf">update</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">)</span>
+ 
+<span class="p">{</span>
   <span class="k">static</span> <span class="kt">int</span> <span class="n">tick</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 今何フレーム目?
 </span><span class="c1"></span>  <span class="n">uchar4</span> <span class="o">*</span><span class="n">dev_bitmap</span><span class="p">;</span>
   <span class="n">size_t</span> <span class="n">size</span><span class="p">;</span>
@@ -343,7 +368,10 @@
   <span class="n">tick</span><span class="o">++</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+<span class="kt">int</span> 
+<span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+ 
+<span class="p">{</span>
   <span class="c1">// OpenGLの初期化
 </span><span class="c1"></span>  <span class="n">glutInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
   <span class="n">glutInitDisplayMode</span><span class="p">(</span><span class="n">GLUT_DOUBLE</span> <span class="o">|</span> <span class="n">GLUT_RGBA</span><span class="p">);</span>
@@ -371,7 +399,8 @@
   <span class="n">glDeleteBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pbo</span><span class="p">);</span>
   <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGLUnregisterBufferObject</span><span class="p">(</span><span class="n">m_pbo</span><span class="p">));</span>
   <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsUnregisterResource</span><span class="p">(</span><span class="n">m_resource</span><span class="p">));</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
 <p><code>nvcc anim.cu -run -lGL -lglut</code> で実行すると以下のようなアニメーションが表示される。</p>
 
 <div class="embed video-player">

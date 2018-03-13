@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.36.1" />
+  <meta name="generator" content="Hugo 0.37.1" />
 
   <title>ビットマップをOpenGLで描画する &middot; yuki&#39;s blog</title>
 
@@ -82,13 +82,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>All Posts</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>Post</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Codes</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Code</a>
       
         </li>
       
@@ -100,7 +100,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/"><i class='fa fa-sticky-note fa-fw'></i>Note</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tag</a>
       
         </li>
       
@@ -218,33 +224,48 @@
 <div class="content">
 
   <div class="post-meta">
-
   <span>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017-11-20</time>
+    <time>
+      
+        2017-11-20
+      
+    </time>
   </span>
   &nbsp;&nbsp;&nbsp;
   
-
   
-  &nbsp;&nbsp;&nbsp;
-  
-  
-  
-  <span>
-    <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cuda">cuda</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/opengl">opengl</a>&nbsp;&#47;
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cuda">
+          cuda
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/opengl">
+          opengl
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
-    
-  </span>
   
-  
-
 </div>
+
+
+  
 
 
   <p>cudaでビットマップを作って、それをOpenGLを使ってウィンドウ上に表示したい。</p>
@@ -280,14 +301,20 @@
 </span><span class="c1"></span><span class="k">struct</span> <span class="n">DataBlock</span> <span class="p">{</span>
   <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">;</span>
   <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">dev_bitmap</span><span class="p">;</span>
-  <span class="k">static</span> <span class="n">DataBlock</span> <span class="o">*</span><span class="nf">get_data</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">static</span> <span class="n">DataBlock</span> <span class="o">*</span>
+<span class="nf">get_data</span><span class="p">()</span>
+ 
+<span class="p">{</span>
     <span class="k">static</span> <span class="n">DataBlock</span> <span class="n">g_data</span><span class="p">;</span>
     <span class="k">return</span> <span class="o">&amp;</span><span class="n">g_data</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">};</span>
 
 <span class="c1">// カーネル関数: bitmapに適当に色を塗る
-</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">kernel</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> 
+<span class="nf">kernel</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">)</span>
+ 
+<span class="p">{</span>
   <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
   <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
   <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">gridDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
@@ -299,7 +326,10 @@
 <span class="p">}</span>
 
 <span class="c1">// 描画用コールバック
-</span><span class="c1"></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">draw</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="k">static</span> <span class="kt">void</span> 
+<span class="nf">draw</span><span class="p">()</span>
+ 
+<span class="p">{</span>
   <span class="n">DataBlock</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="o">::</span><span class="n">get_data</span><span class="p">();</span>
   <span class="n">glClearColor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
   <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">);</span>
@@ -307,7 +337,10 @@
   <span class="n">glFlush</span><span class="p">();</span>
 <span class="p">}</span>
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+<span class="kt">int</span> 
+<span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+ 
+<span class="p">{</span>
   <span class="n">DataBlock</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="o">::</span><span class="n">get_data</span><span class="p">();</span>
 
   <span class="c1">// ビットマップをデバイス/ホストに確保
@@ -337,11 +370,12 @@
 </span><span class="c1"></span>  <span class="n">free</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">);</span>
 
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
 <p><code>nvcc --run main.cu -lGL -lglut</code> とすれば以下のウィンドウが出力される。</p>
 
 
-<figure >
+<figure>
     
         <img src="https://yuki67.github.io/ox-hugo/window.png" />
     

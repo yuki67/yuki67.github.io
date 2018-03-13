@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.36.1" />
+  <meta name="generator" content="Hugo 0.37.1" />
 
   <title>Python風Rangeの実装 in C&#43;&#43; &middot; yuki&#39;s blog</title>
 
@@ -82,13 +82,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>All Posts</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>Post</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Codes</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Code</a>
       
         </li>
       
@@ -100,7 +100,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/"><i class='fa fa-sticky-note fa-fw'></i>Note</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tag</a>
       
         </li>
       
@@ -218,31 +224,41 @@
 <div class="content">
 
   <div class="post-meta">
-
   <span>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-01-23</time>
+    <time>
+      
+        2018-01-23
+      
+    </time>
   </span>
   &nbsp;&nbsp;&nbsp;
   
-
   
-  &nbsp;&nbsp;&nbsp;
-  
-  
-  
-  <span>
-    <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">cpp</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
+          cpp
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
     
-  </span>
   
-  
-
 </div>
+
+
+  
 
 
   <p>範囲forについて学んだので実装した。</p>
@@ -257,7 +273,10 @@
 </span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
 </span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
 </span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> 
+<span class="nf">main</span><span class="p">()</span>
+ 
+<span class="p">{</span>
   <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
   <span class="c1">// begin()とend()でイテレーターを取得し、for文の条件として使う
 </span><span class="c1"></span>  <span class="c1">// itrを定義するときの型はautoと書くのが普通
@@ -272,13 +291,15 @@
   <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">set</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">itr</span> <span class="o">!=</span> <span class="n">set</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">itr</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">itr</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
   <span class="p">}</span>
-<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="mi">1</span>
 <span class="mi">2</span>
 <span class="mi">3</span>
 
 <span class="n">a</span>
 <span class="n">b</span>
-<span class="n">c</span></code></pre></div>
+<span class="n">c</span>
+</code></pre></div>
 <h2 id="範囲-for">範囲 for</h2>
 
 <p>C++11では同じ意味のfor文を次のように書ける。</p>
@@ -287,7 +308,10 @@
 </span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
 </span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
 </span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> 
+<span class="nf">main</span><span class="p">()</span>
+ 
+<span class="p">{</span>
   <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
   <span class="c1">// 範囲 for
 </span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">vec</span><span class="p">)</span> <span class="p">{</span>
@@ -301,13 +325,15 @@
 </span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="nl">str</span> <span class="p">:</span> <span class="n">set</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
   <span class="p">}</span>
-<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="mi">1</span>
 <span class="mi">2</span>
 <span class="mi">3</span>
 
 <span class="n">a</span>
 <span class="n">b</span>
-<span class="n">c</span></code></pre></div>
+<span class="n">c</span>
+</code></pre></div>
 <h2 id="pythonのrange">pythonのrange</h2>
 
 <p>pythonには <code>range()</code> 関数があり、以下のように使える。</p>
@@ -331,7 +357,8 @@
     <span class="n">range_declaration</span> <span class="o">=</span> <span class="o">*</span><span class="n">__begin</span><span class="p">;</span>
     <span class="n">loop_statement</span>
   <span class="p">}</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="範囲-for-に対応したクラス">範囲 for に対応したクラス</h2>
 
 <p>展開式を見ると、クラスを範囲 for に対応させるには適当な型のついた</p>
@@ -385,7 +412,10 @@
 
 
 <span class="c1">// 実際に使う
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kt">int</span> 
+<span class="nf">main</span><span class="p">()</span>
+ 
+<span class="p">{</span>
   <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">Range</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">})</span> <span class="p">{</span>
     <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span> <span class="c1">// i = 0,3,6,9,12,15,18
@@ -406,7 +436,9 @@
 
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;OK&#34;</span><span class="p">;</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>
+</code></pre></div>
 <p>とりあえずはこれで使える。</p>
 
 <h2 id="改善">改善</h2>
@@ -490,7 +522,9 @@
 
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;OK&#34;</span><span class="p">;</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>
+</code></pre></div>
 <p>だいぶpythonっぽくできる。 <code>range()</code> の引数を省略できるようにするのは簡単なので省略。</p>
 
 <h2 id="c-17">C++17</h2>
@@ -503,7 +537,8 @@
         <span class="n">range_declaration</span> <span class="o">=</span> <span class="o">*</span><span class="n">__begin</span><span class="p">;</span>
         <span class="n">loop_statement</span>
     <span class="p">}</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
 <p>だったものが</p>
 <div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="p">{</span>
     <span class="k">auto</span> <span class="o">&amp;&amp;</span> <span class="n">__range</span> <span class="o">=</span> <span class="n">range_expression</span> <span class="p">;</span>
@@ -513,7 +548,8 @@
         <span class="n">range_declaration</span> <span class="o">=</span> <span class="o">*</span><span class="n">__begin</span><span class="p">;</span>
         <span class="n">loop_statement</span>
     <span class="p">}</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
 <p>に変わっている(<a href="http://en.cppreference.com/w/cpp/language/range-for">リファレンス</a>)。</p>
 
 <p>そのため、python風のrangeも簡潔に書ける。</p>
@@ -571,7 +607,9 @@
 
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;OK&#34;</span><span class="p">;</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>
+</code></pre></div>
 
   
 <div class="prev-next-post pure-g">

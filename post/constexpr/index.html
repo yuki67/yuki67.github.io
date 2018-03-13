@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.36.1" />
+  <meta name="generator" content="Hugo 0.37.1" />
 
   <title>C&#43;&#43;のconstexpr &middot; yuki&#39;s blog</title>
 
@@ -82,13 +82,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>All Posts</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>Post</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Codes</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Code</a>
       
         </li>
       
@@ -100,7 +100,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/"><i class='fa fa-sticky-note fa-fw'></i>Note</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tag</a>
       
         </li>
       
@@ -218,31 +224,41 @@
 <div class="content">
 
   <div class="post-meta">
-
   <span>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-02-07</time>
+    <time>
+      
+        2018-02-07
+      
+    </time>
   </span>
   &nbsp;&nbsp;&nbsp;
   
-
   
-  &nbsp;&nbsp;&nbsp;
-  
-  
-  
-  <span>
-    <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">cpp</a>
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
+          cpp
+        </a>
+        
+      
+    </span>
     
-  </span>
   
-  
-
 </div>
+
+
+  
 
 
   <p></p>
@@ -265,11 +281,17 @@
 </span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 </span><span class="cp"></span>
 <span class="c1">// この関数は(可能ならば)コンパイル時に計算が行われる
-</span><span class="c1"></span><span class="k">constexpr</span> <span class="kt">int</span> <span class="nf">add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="k">constexpr</span> <span class="kt">int</span> 
+<span class="nf">add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+ 
+<span class="p">{</span>
   <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> 
+<span class="nf">main</span><span class="p">()</span>
+ 
+<span class="p">{</span>
   <span class="c1">// constexprはテンプレートの引数に使える
 </span><span class="c1"></span>  <span class="c1">// add()の宣言からconstexprを削除するとコンパイルエラーになる
 </span><span class="c1"></span>  <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">arr1</span><span class="p">;</span>
@@ -283,7 +305,9 @@
 
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;OK&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>
+</code></pre></div>
 <p>上の例では <code>add()</code> 関数が簡単なので <code>constexpr</code> によるありがたみが薄く、
 テンプレート変数を使っても同じことができそうに見えるが、
 <code>constexpr</code> を使ったほう簡潔で、通常の関数と同じ記法で書くことができる分うれしい。
@@ -333,8 +357,14 @@
 </span><span class="c1"></span>  <span class="c1">// constexprなのがミソ
 </span><span class="c1"></span>  <span class="c1">// コンパイル時に他の変数の宣言に使うのでクラスの先頭に書く
 </span><span class="c1"></span>  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="n">w_exp</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">wExponent</span><span class="p">;</span> <span class="p">};</span>
-  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="nf">w_sig</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">wSignificand</span><span class="p">;</span> <span class="p">};</span>
-  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="nf">w_all</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">wExponent</span> <span class="o">+</span> <span class="n">wSignificand</span><span class="p">;</span> <span class="p">};</span>
+  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> 
+<span class="nf">w_sig</span><span class="p">()</span>
+ 
+<span class="p">{</span> <span class="k">return</span> <span class="n">wSignificand</span><span class="p">;</span> <span class="p">};</span>
+  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> 
+<span class="nf">w_all</span><span class="p">()</span>
+ 
+<span class="p">{</span> <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">wExponent</span> <span class="o">+</span> <span class="n">wSignificand</span><span class="p">;</span> <span class="p">};</span>
 
  <span class="k">private</span><span class="o">:</span>
   <span class="n">T</span> <span class="n">m_val</span><span class="p">;</span>
@@ -345,11 +375,20 @@
   <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">w_sig</span><span class="p">()</span><span class="o">&gt;</span> <span class="n">m_bits_sig</span><span class="p">;</span>
 
   <span class="c1">// 指数部、仮数部の第iビットが全体の第何ビットかを返す
-</span><span class="c1"></span>  <span class="k">static</span> <span class="kt">unsigned</span> <span class="nf">index_exp</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">w_sig</span><span class="p">()</span> <span class="o">+</span> <span class="n">i</span><span class="p">;</span> <span class="p">}</span>
-  <span class="k">static</span> <span class="kt">unsigned</span> <span class="nf">index_sig</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">i</span><span class="p">;</span> <span class="p">}</span>
+</span><span class="c1"></span>  <span class="k">static</span> <span class="kt">unsigned</span> 
+<span class="nf">index_exp</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span><span class="p">)</span>
+ 
+<span class="p">{</span> <span class="k">return</span> <span class="n">w_sig</span><span class="p">()</span> <span class="o">+</span> <span class="n">i</span><span class="p">;</span> <span class="p">}</span>
+  <span class="k">static</span> <span class="kt">unsigned</span> 
+<span class="nf">index_sig</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span><span class="p">)</span>
+ 
+<span class="p">{</span> <span class="k">return</span> <span class="n">i</span><span class="p">;</span> <span class="p">}</span>
 
   <span class="c1">// m_bits_allが初期化された状態から、m_bits_expとm_bits_sigを初期化する
-</span><span class="c1"></span>  <span class="kt">void</span> <span class="nf">init_bits</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="c1"></span>  <span class="kt">void</span> 
+<span class="nf">init_bits</span><span class="p">()</span>
+ 
+<span class="p">{</span>
     <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">w_exp</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
       <span class="n">m_bits_exp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_bits_all</span><span class="p">[</span><span class="n">index_exp</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span>
     <span class="p">}</span>
@@ -383,7 +422,8 @@
 <span class="n">Double</span><span class="o">::</span><span class="n">FloatingPoint</span><span class="p">(</span><span class="kt">double</span> <span class="n">val</span><span class="p">)</span>
     <span class="o">:</span> <span class="n">m_val</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">m_bits_all</span><span class="p">(</span><span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">int64_t</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">val</span><span class="p">))</span> <span class="p">{</span>
   <span class="n">init_bits</span><span class="p">();</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
 <p>テンプレートを使ってクラスを定義し、それを <code>float</code> と <code>double</code> 用に特殊化することでコードの重複を防いだ。
 やろうと思えば、 <code>float</code> や <code>double</code> でない 浮動小数点数の表現にも対応することができる。</p>
 
@@ -392,7 +432,10 @@
 </span><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
 </span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 </span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> 
+<span class="nf">main</span><span class="p">()</span>
+ 
+<span class="p">{</span>
   <span class="c1">// 実数に対応するビット列は適当に求める
 </span><span class="c1"></span>  <span class="n">Single</span> <span class="n">f</span><span class="p">(</span><span class="mf">1234.567</span><span class="p">);</span>
   <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bit_sign</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
@@ -412,7 +455,9 @@
 
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;OK&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>
+</code></pre></div>
 
   
 <div class="prev-next-post pure-g">

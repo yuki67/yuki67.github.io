@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.36.1" />
+  <meta name="generator" content="Hugo 0.37.1" />
 
   <title>Cudaプログラムの実行時間測定 &middot; yuki&#39;s blog</title>
 
@@ -82,13 +82,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>All Posts</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>Post</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Codes</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Code</a>
       
         </li>
       
@@ -100,7 +100,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/"><i class='fa fa-sticky-note fa-fw'></i>Note</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tag</a>
       
         </li>
       
@@ -218,31 +224,41 @@
 <div class="content">
 
   <div class="post-meta">
-
   <span>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2017-11-24</time>
+    <time>
+      
+        2017-11-24
+      
+    </time>
   </span>
   &nbsp;&nbsp;&nbsp;
   
-
   
-  &nbsp;&nbsp;&nbsp;
-  
-  
-  
-  <span>
-    <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cuda">cuda</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cuda">
+          cuda
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
     
-  </span>
   
-  
-
 </div>
+
+
+  
 
 
   <p>Cuda入門に出てきた関数をクラスにまとめたので、コピペ用に。</p>
@@ -308,7 +324,8 @@
   <span class="p">}</span>
 <span class="p">};</span>
 
-<span class="cp">#endif </span><span class="cm">/* CUDATIMER_H */</span></code></pre></div>
+<span class="cp">#endif </span><span class="cm">/* CUDATIMER_H */</span><span class="cp">
+</span><span class="cp"></span></code></pre></div>
 <p>上のプログラムを <code>cudaTimer.h</code> と保存すると、以下のように使える。</p>
 
 <p><div class="src-block-caption">
@@ -322,9 +339,15 @@
 <span class="cp">#include</span> <span class="cpf">&#34;cudaTimer.h&#34;</span><span class="cp">
 </span><span class="cp"></span>
 <span class="c1">// 何もしない
-</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">empty</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> 
+<span class="nf">empty</span><span class="p">()</span>
+ 
+<span class="p">{}</span>
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> 
+<span class="nf">main</span><span class="p">()</span>
+ 
+<span class="p">{</span>
     <span class="n">CudaTimer</span> <span class="n">timer</span><span class="p">;</span>
     <span class="n">timer</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
     <span class="c1">// 何もしない関数を呼ぶとどれくらい時間がかかるのだろう?
@@ -332,7 +355,8 @@
     <span class="n">timer</span><span class="p">.</span><span class="n">stop_and_report</span><span class="p">();</span>
 
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
 <p>上のプログラムを <code>main.cu</code> という名前で保存して以下のように実行すれば実行の時間を計測できる。</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ nvcc -run main.cu
 elapsed: <span class="m">0</span>.017344 ms</code></pre></div>

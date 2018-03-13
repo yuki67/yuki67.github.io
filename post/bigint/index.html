@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.36.1" />
+  <meta name="generator" content="Hugo 0.37.1" />
 
   <title>BigIntの実装 in C&#43;&#43; &middot; yuki&#39;s blog</title>
 
@@ -82,13 +82,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>All Posts</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>Post</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Codes</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Code</a>
       
         </li>
       
@@ -100,7 +100,13 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tags</a>
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/"><i class='fa fa-sticky-note fa-fw'></i>Note</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tag</a>
       
         </li>
       
@@ -218,31 +224,41 @@
 <div class="content">
 
   <div class="post-meta">
-
   <span>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>2018-03-02</time>
+    <time>
+      
+        2018-03-02
+      
+    </time>
   </span>
   &nbsp;&nbsp;&nbsp;
   
-
   
-  &nbsp;&nbsp;&nbsp;
-  
-  
-  
-  <span>
-    <i class="fa fa-tags fa-fw"></i>
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">cpp</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
+          cpp
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
     
-  </span>
   
-  
-
 </div>
+
+
+  
 
 
   <p>多倍長整数を実装できたのでまとめた。C++のいい練習になると思って始めたらかなり時間がかかった。</p>
@@ -258,14 +274,20 @@
 <div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;big_int.hpp&#34;</span><span class="cp">
 </span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 </span><span class="cp"></span>
-<span class="n">BigInt</span> <span class="nf">fact</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+<span class="n">BigInt</span> 
+<span class="nf">fact</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">n</span><span class="p">)</span>
+ 
+<span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
   <span class="k">else</span>
     <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fact</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="n">BigInt</span> <span class="nf">fib</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+<span class="n">BigInt</span> 
+<span class="nf">fib</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">n</span><span class="p">)</span>
+ 
+<span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
         <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
     <span class="n">BigInt</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -278,11 +300,15 @@
     <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> 
+<span class="nf">main</span><span class="p">()</span>
+ 
+<span class="p">{</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;fact(100) = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">fact</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;fib(1000) = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">fib</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">fact(100) = 93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">fact(100) = 93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000
 fib(1000) = 70330367711422815821835254877183549770181269836358732742604905087154537118196933579742249494562611733487750449241765991088186363265450223647106012053374121273867339111198139373125598767690091902245245323403501</code></pre></div>
 <h2 id="実装したこと">実装したこと</h2>
 
@@ -300,19 +326,52 @@ fib(1000) = 70330367711422815821835254877183549770181269836358732742604905087154
   <span class="n">BigInt</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
   <span class="n">BigInt</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">str</span><span class="p">);</span>
 
-  <span class="k">static</span> <span class="n">BigInt</span> <span class="nf">of_big_uint</span><span class="p">(</span><span class="n">BigUInt</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
-  <span class="k">static</span> <span class="n">BigInt</span> <span class="nf">of_vector</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
-  <span class="k">static</span> <span class="n">BigInt</span> <span class="nf">random</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="p">);</span>
-  <span class="n">uint64_t</span> <span class="nf">width</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="nf">sign</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="nf">is_zero</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="nf">is_positive</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="nf">is_negative</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-  <span class="n">BigInt</span> <span class="nf">cshift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">BigInt</span> 
+<span class="nf">of_big_uint</span><span class="p">(</span><span class="n">BigUInt</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span>
+
+<span class="p">;</span>
+  <span class="k">static</span> <span class="n">BigInt</span> 
+<span class="nf">of_vector</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span>
+
+<span class="p">;</span>
+  <span class="k">static</span> <span class="n">BigInt</span> 
+<span class="nf">random</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="p">;</span>
+  <span class="n">uint64_t</span> 
+<span class="nf">width</span><span class="p">()</span>
+ <span class="k">const</span>
+<span class="p">;</span>
+  <span class="kt">bool</span> 
+<span class="nf">sign</span><span class="p">()</span>
+ <span class="k">const</span>
+<span class="p">;</span>
+  <span class="kt">bool</span> 
+<span class="nf">is_zero</span><span class="p">()</span>
+ <span class="k">const</span>
+<span class="p">;</span>
+  <span class="kt">bool</span> 
+<span class="nf">is_positive</span><span class="p">()</span>
+ <span class="k">const</span>
+<span class="p">;</span>
+  <span class="kt">bool</span> 
+<span class="nf">is_negative</span><span class="p">()</span>
+ <span class="k">const</span>
+<span class="p">;</span>
+  <span class="n">BigInt</span> 
+<span class="nf">cshift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span>
+ <span class="k">const</span>
+<span class="p">;</span>
   <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">shift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">);</span>
-  <span class="n">BigInt</span> <span class="nf">cshift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigInt</span> 
+<span class="nf">cshift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span>
+ <span class="k">const</span>
+<span class="p">;</span>
   <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">shift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">);</span>
-  <span class="n">BigInt</span> <span class="nf">pow</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">exp</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigInt</span> 
+<span class="nf">pow</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">exp</span><span class="p">)</span>
+ <span class="k">const</span>
+<span class="p">;</span>
   <span class="k">const</span> <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
   <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">);</span>
   <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">++</span><span class="p">();</span>
@@ -337,7 +396,8 @@ fib(1000) = 70330367711422815821835254877183549770181269836358732742604905087154
   <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">/</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
   <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">%</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
   <span class="k">friend</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
-<span class="p">};</span></code></pre></div>
+<span class="p">};</span>
+</code></pre></div>
 <p>となった。</p>
 
 <p>実装する上でつまずいたところを書く。</p>
@@ -354,7 +414,8 @@ fib(1000) = 70330367711422815821835254877183549770181269836358732742604905087154
 
  <span class="k">public</span><span class="o">:</span>
   <span class="p">...(</span><span class="err">略</span><span class="p">)...</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
 <p>符号と絶対値を分ければ多くの演算は符号による場合分けによって符号なしの演算に帰着できる。例えば加算は</p>
 <div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// 以下の &lt;, &gt;, +=, -=, + が全てBigUIntのものであることに注意
@@ -369,7 +430,8 @@ fib(1000) = 70330367711422815821835254877183549770181269836358732742604905087154
     <span class="n">lhs</span> <span class="o">=</span> <span class="n">BigInt</span><span class="p">(</span><span class="mi">0ul</span><span class="p">);</span>
   <span class="p">}</span>
   <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
 <p>となる。</p>
 
 <p>固定長整数の場合には符号付き整数を2の補数で表現することで加算と減算の処理を同じにできる。
@@ -386,7 +448,8 @@ fib(1000) = 70330367711422815821835254877183549770181269836358732742604905087154
  <span class="k">private</span><span class="o">:</span>
   <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">m_vec</span><span class="p">;</span>
   <span class="p">...(</span><span class="err">略</span><span class="p">)...</span>
-<span class="p">};</span></code></pre></div>
+<span class="p">};</span>
+</code></pre></div>
 <h2 id="オーバーフローの検出">オーバーフローの検出</h2>
 
 <p>多倍長整数の加算と減算ではキャリーを計算するためにオーバーフローを検出する必要がある。</p>
@@ -474,7 +537,8 @@ a - b = A \geq 0
   <span class="p">}</span>
 
   <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
 <p>減算も似たような関係を使って書いた。</p>
 
 <h2 id="除算アルゴリズム">除算アルゴリズム</h2>
@@ -533,15 +597,36 @@ a - b = A \geq 0
   <span class="n">BigUInt</span><span class="p">(</span><span class="n">uint32_t</span> <span class="n">i</span><span class="p">);</span>
   <span class="n">BigUInt</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">);</span>
   <span class="n">BigUInt</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">str</span><span class="p">);</span>
-  <span class="k">static</span> <span class="n">BigUInt</span> <span class="nf">of_vector</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">);</span>
-  <span class="k">static</span> <span class="n">BigUInt</span> <span class="nf">random</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="p">);</span>
-  <span class="n">uint64_t</span> <span class="nf">width</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="nf">is_zero</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-  <span class="n">BigUInt</span> <span class="nf">cshift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">BigUInt</span> 
+<span class="nf">of_vector</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">)</span>
+
+<span class="p">;</span>
+  <span class="k">static</span> <span class="n">BigUInt</span> 
+<span class="nf">random</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="p">;</span>
+  <span class="n">uint64_t</span> 
+<span class="nf">width</span><span class="p">()</span>
+ <span class="k">const</span>
+<span class="p">;</span>
+  <span class="kt">bool</span> 
+<span class="nf">is_zero</span><span class="p">()</span>
+ <span class="k">const</span>
+<span class="p">;</span>
+  <span class="n">BigUInt</span> 
+<span class="nf">cshift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span>
+ <span class="k">const</span>
+<span class="p">;</span>
   <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">shift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">);</span>
-  <span class="n">BigUInt</span> <span class="nf">cshift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigUInt</span> 
+<span class="nf">cshift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span>
+ <span class="k">const</span>
+<span class="p">;</span>
   <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">shift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">);</span>
-  <span class="n">BigUInt</span> <span class="nf">pow</span><span class="p">(</span><span class="n">BigUInt</span> <span class="n">exp</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigUInt</span> 
+<span class="nf">pow</span><span class="p">(</span><span class="n">BigUInt</span> <span class="n">exp</span><span class="p">)</span>
+ <span class="k">const</span>
+<span class="p">;</span>
   <span class="k">const</span> <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
   <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">);</span>
   <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">++</span><span class="p">();</span>
@@ -568,7 +653,8 @@ a - b = A \geq 0
   <span class="k">friend</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
 <span class="p">};</span>
 
-<span class="cp">#endif </span><span class="cm">/* BIG_UINT_H */</span></code></pre></div>
+<span class="cp">#endif </span><span class="cm">/* BIG_UINT_H */</span><span class="cp">
+</span><span class="cp"></span></code></pre></div>
 <p><div class="src-block-caption">
   <span class="src-block-number">Code Snippet 2:</span>
   big_uint.cpp
@@ -623,7 +709,10 @@ a - b = A \geq 0
 
 <span class="n">BigUInt</span><span class="o">::</span><span class="n">BigUInt</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">str</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_vec</span><span class="p">({</span><span class="mi">0</span><span class="p">})</span> <span class="p">{</span>
   <span class="n">BigUInt</span> <span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-  <span class="n">BigUInt</span> <span class="nf">ten</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+  <span class="n">BigUInt</span> 
+<span class="nf">ten</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="p">;</span>
 
   <span class="k">for</span> <span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">UINT64_MAX</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
     <span class="o">*</span><span class="k">this</span> <span class="o">+=</span> <span class="n">std</span><span class="o">::</span><span class="n">stoul</span><span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">base</span><span class="p">;</span>
@@ -721,7 +810,10 @@ a - b = A \geq 0
     <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="n">shamt_quot</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">shamt_rem</span><span class="p">;</span>
   <span class="p">}</span>
   <span class="n">m_vec</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="n">shamt_quot</span><span class="p">);</span>
-  <span class="k">return</span> <span class="nf">delete_trailing_zeros</span><span class="p">();</span>
+  <span class="k">return</span> 
+<span class="nf">delete_trailing_zeros</span><span class="p">()</span>
+
+<span class="p">;</span>
 <span class="p">}</span>
 
 <span class="n">BigUInt</span> <span class="n">BigUInt</span><span class="o">::</span><span class="k">operator</span><span class="o">-</span><span class="p">()</span> <span class="p">{</span>
@@ -916,7 +1008,10 @@ a - b = A \geq 0
 
 <span class="n">BigUInt</span> <span class="k">operator</span><span class="o">/</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="n">lhs</span><span class="p">);</span>
-  <span class="k">return</span> <span class="nf">divmod</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">rhs</span><span class="p">);</span>
+  <span class="k">return</span> 
+<span class="nf">divmod</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
+
+<span class="p">;</span>
 <span class="p">}</span>
 
 <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">/=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
@@ -943,7 +1038,10 @@ a - b = A \geq 0
 
 <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">BigUInt</span> <span class="n">base</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
-  <span class="k">const</span> <span class="n">BigUInt</span> <span class="nf">ten</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+  <span class="k">const</span> <span class="n">BigUInt</span> 
+<span class="nf">ten</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="p">;</span>
 
   <span class="k">while</span> <span class="p">(</span><span class="n">rhs</span> <span class="o">&gt;=</span> <span class="n">base</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">base</span> <span class="o">*=</span> <span class="n">ten</span><span class="p">;</span>
@@ -955,7 +1053,8 @@ a - b = A \geq 0
     <span class="n">lhs</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">temp</span> <span class="o">/</span> <span class="p">(</span><span class="n">base</span> <span class="o">/=</span> <span class="n">ten</span><span class="p">))[</span><span class="mi">0</span><span class="p">];</span>
   <span class="p">}</span>
   <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="bigintクラス">BigIntクラス</h2>
 
 <p>BigIntクラスのヘッダと実装を載せる。</p>
@@ -983,19 +1082,52 @@ a - b = A \geq 0
   <span class="n">BigInt</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
   <span class="n">BigInt</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">str</span><span class="p">);</span>
 
-  <span class="k">static</span> <span class="n">BigInt</span> <span class="nf">of_big_uint</span><span class="p">(</span><span class="n">BigUInt</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
-  <span class="k">static</span> <span class="n">BigInt</span> <span class="nf">of_vector</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
-  <span class="k">static</span> <span class="n">BigInt</span> <span class="nf">random</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="p">);</span>
-  <span class="n">uint64_t</span> <span class="nf">width</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="nf">sign</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="nf">is_zero</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="nf">is_positive</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="nf">is_negative</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-  <span class="n">BigInt</span> <span class="nf">cshift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">BigInt</span> 
+<span class="nf">of_big_uint</span><span class="p">(</span><span class="n">BigUInt</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span>
+
+<span class="p">;</span>
+  <span class="k">static</span> <span class="n">BigInt</span> 
+<span class="nf">of_vector</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span>
+
+<span class="p">;</span>
+  <span class="k">static</span> <span class="n">BigInt</span> 
+<span class="nf">random</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="p">;</span>
+  <span class="n">uint64_t</span> 
+<span class="nf">width</span><span class="p">()</span>
+ <span class="k">const</span>
+<span class="p">;</span>
+  <span class="kt">bool</span> 
+<span class="nf">sign</span><span class="p">()</span>
+ <span class="k">const</span>
+<span class="p">;</span>
+  <span class="kt">bool</span> 
+<span class="nf">is_zero</span><span class="p">()</span>
+ <span class="k">const</span>
+<span class="p">;</span>
+  <span class="kt">bool</span> 
+<span class="nf">is_positive</span><span class="p">()</span>
+ <span class="k">const</span>
+<span class="p">;</span>
+  <span class="kt">bool</span> 
+<span class="nf">is_negative</span><span class="p">()</span>
+ <span class="k">const</span>
+<span class="p">;</span>
+  <span class="n">BigInt</span> 
+<span class="nf">cshift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span>
+ <span class="k">const</span>
+<span class="p">;</span>
   <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">shift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">);</span>
-  <span class="n">BigInt</span> <span class="nf">cshift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigInt</span> 
+<span class="nf">cshift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span>
+ <span class="k">const</span>
+<span class="p">;</span>
   <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">shift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">);</span>
-  <span class="n">BigInt</span> <span class="nf">pow</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">exp</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigInt</span> 
+<span class="nf">pow</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">exp</span><span class="p">)</span>
+ <span class="k">const</span>
+<span class="p">;</span>
   <span class="k">const</span> <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
   <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">);</span>
   <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">++</span><span class="p">();</span>
@@ -1021,7 +1153,8 @@ a - b = A \geq 0
   <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">%</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
   <span class="k">friend</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
 <span class="p">};</span>
-<span class="cp">#endif // BITINT_H</span></code></pre></div>
+<span class="cp">#endif </span><span class="c1">// BITINT_H
+</span><span class="c1"></span></code></pre></div>
 <p><div class="src-block-caption">
   <span class="src-block-number">Code Snippet 4:</span>
   big_int.cpp
@@ -1232,7 +1365,8 @@ a - b = A \geq 0
   <span class="p">}</span>
   <span class="n">lhs</span> <span class="o">&lt;&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
   <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
 
   
 <div class="prev-next-post pure-g">
