@@ -54,7 +54,7 @@
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     "HTML-CSS": {
-    undefinedFamily: "sans-serif"
+      undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
   }
   });
   </script>
@@ -241,14 +241,7 @@
       <i class="fa fa-tags fa-fw"></i>
       
         <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/python">
-          python
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/math">
-          math
+          Python
         </a>
         
           &nbsp;&#47;
@@ -298,9 +291,8 @@
 <p>まず、</p>
 
 <p>\begin{align}
-& \int_a^b f(x) dx = \lim_{n \to \infty} \frac{b - a}{n} \sum_{i=0}^{n} f(a + (b - a)\frac{i}{n})
-\end{align}
-</p>
+&amp; \int_a^b f(x) dx = \lim_{n \to \infty} \frac{b - a}{n} \sum_{i=0}^{n} f(a + (b - a)\frac{i}{n})
+\end{align}</p>
 
 <p>を使って値を求める。</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">section_split</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>

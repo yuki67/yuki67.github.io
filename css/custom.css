@@ -10,6 +10,12 @@ body {
     border-bottom: 1px solid #aaa;
 }
 
+/* 表 */
+table, th, td {
+  border: 2px solid #aaa;
+  padding: 0.6em;
+}
+
 header h2 {
     margin-bottom: 0em;
 }

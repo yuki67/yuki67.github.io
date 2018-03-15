@@ -24,6 +24,17 @@
     </item>
     
     <item>
+      <title>org babel</title>
+      <link>https://yuki67.github.io/tags/org/org-babel/</link>
+      <pubDate>Tue, 13 Mar 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/tags/org/org-babel/</guid>
+      <description>&lt;p&gt;org mode には org-babel という機能があり、orgファイルに書いたソースコードをその場で実行できる。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>全体像</title>
       <link>https://yuki67.github.io/post/org-md-hugo/</link>
       <pubDate>Sat, 03 Mar 2018 00:00:00 +0900</pubDate>

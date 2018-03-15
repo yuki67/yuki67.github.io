@@ -18,7 +18,7 @@
       <pubDate>Thu, 08 Mar 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/tags/org/</guid>
-      <description>org mode とは emacs 付属の軽量マークアップ言語で、 markdown や ReStructuredText の親戚にあたる。非常に多機能であり、他の軽量マークアップ言語にある機能 (リンク・表・箇条書き・\(\LaTeX\)など) は全て行える。 以下の個別ページでは org mode の機能のうちこのサイトを作るときに使っているものを解説する。</description>
+      <description>org mode とは emacs 付属の軽量マークアップ言語で、 markdown や ReStructuredText の親戚にあたる。 非常に多機能であり、他の軽量マークアップ言語にある機能 (リンク・表・箇条書き・\(\LaTeX\)など) は全て行える。 以下の個別ページでは org mode の機能のうちこのサイトを作るときに使っているものを解説する。</description>
     </item>
     
     <item>
@@ -54,15 +54,6 @@
       <pubDate>Sun, 28 Jan 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/tags/kindle/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Math</title>
-      <link>https://yuki67.github.io/tags/math/</link>
-      <pubDate>Tue, 22 Aug 2017 00:00:00 +0900</pubDate>
-      
-      <guid>https://yuki67.github.io/tags/math/</guid>
       <description></description>
     </item>
     
@@ -114,7 +105,7 @@
     <item>
       <title>about</title>
       <link>https://yuki67.github.io/tags/about/</link>
-      <pubDate>Thu, 08 Mar 2018 00:00:00 +0900</pubDate>
+      <pubDate>Tue, 13 Mar 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/tags/about/</guid>
       <description>このサイトがどのように作られているかについてのメモです。</description>
@@ -141,7 +132,7 @@
     <item>
       <title>ノート</title>
       <link>https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/</link>
-      <pubDate>Tue, 13 Mar 2018 00:31:05 +0900</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/</guid>
       <description>勉強しながら書いたノートです。</description>

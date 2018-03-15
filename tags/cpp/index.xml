@@ -41,6 +41,17 @@
     </item>
     
     <item>
+      <title>有限体の実装 in C&#43;&#43;</title>
+      <link>https://yuki67.github.io/post/finite_field/</link>
+      <pubDate>Sat, 10 Feb 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/finite_field/</guid>
+      <description>&lt;p&gt;※ 位数が素数である場合に限る&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>C&#43;&#43;のconstexpr</title>
       <link>https://yuki67.github.io/post/constexpr/</link>
       <pubDate>Wed, 07 Feb 2018 00:00:00 +0900</pubDate>

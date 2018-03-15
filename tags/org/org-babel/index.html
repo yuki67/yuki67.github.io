@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.37.1" />
 
-  <title>Math &middot; yuki&#39;s blog</title>
+  <title>org babel &middot; yuki&#39;s blog</title>
 
   
   
@@ -36,8 +36,6 @@
 
   
   
-  <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki67.github.io/tags/math/index.xml" />
-  
 
   
 
@@ -56,7 +54,7 @@
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     "HTML-CSS": {
-    undefinedFamily: "sans-serif"
+      undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
   }
   });
   </script>
@@ -118,10 +116,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://yuki67.github.io/tags/math/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -224,44 +218,88 @@
 
 
 <div class="header">
-  <h1>Math</h1>
+  <h1>org babel</h1>
 </div>
 <div class="content">
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-03-13
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
   
-
   
-      <h2>2017-8</h2>
-      <ul>
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
       
-          <li>
-  <time>
-    
-        2017-08-22
-    
-    </time> - <a href="https://yuki67.github.io/post/random_pick/">ランダムピック</a>
-</li>
-
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/about">
+          about
+        </a>
+        
+          &nbsp;&#47;
+        
       
-          <li>
-  <time>
-    
-        2017-08-15
-    
-    </time> - <a href="https://yuki67.github.io/post/inverse_method/">逆関数法</a>
-</li>
-
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/org">
+          org
+        </a>
+        
       
-          <li>
-  <time>
+    </span>
     
-        2017-08-12
-    
-    </time> - <a href="https://yuki67.github.io/post/montecarlo_integral/">モンテカルロ積分</a>
-</li>
-
-      
-      </ul>
   
+</div>
+
+  <p>org mode には org-babel という機能があり、orgファイルに書いたソースコードをその場で実行できる。</p>
+
+<p></p>
+
+<p>例えば org mode のファイルに python のソースコードを</p>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+BEGIN_SRC python :results output verbatim :exports both :eval no-export
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fact(n - 1)
+
+# 6! を出力する
+print(fact(6))
+#+END_SRC</code></pre></div>
+<p>というふうに書いたとする。
+この状態からカーソルをソースコードの中に移動させて <code>C-c C-c</code> とすると python コードの実行され、以下のように実行結果が挿入される。</p>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+BEGIN_SRC python :results output verbatim :exports both :eval no-export
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fact(n - 1)
+
+# 6! を出力する
+print(fact(6))
+#+END_SRC
+
+#+RESULTS:
+: 720</code></pre></div>
+<p>この部分をエクスポートすると、</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fact</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fact</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 6! を出力する</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fact</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">720</code></pre></div>
+<p>となる。</p>
+
+<p>org-babel は python の他にも<a href="https://orgmode.org/manual/Languages.html">様々な言語</a>に対応しているので、コードを含んだ文章を書くのが楽になる。</p>
+  <ul>
+    
+  </ul>
 </div>
 
 </div>

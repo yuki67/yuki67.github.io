@@ -54,7 +54,7 @@
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     "HTML-CSS": {
-    undefinedFamily: "sans-serif"
+      undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
   }
   });
   </script>
@@ -241,14 +241,7 @@
       <i class="fa fa-tags fa-fw"></i>
       
         <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/python">
-          python
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/math">
-          math
+          Python
         </a>
         
           &nbsp;&#47;
@@ -386,11 +379,10 @@ P({\it cdf}^{-1}(x) \le y) = {\it cdf}(y)
 <p>よって</p>
 
 <p>\begin{align}
-{\it cdf}(x) & = \int_{-\infty}^{x} {\it pdf}(x) dx \\
-             & = \int_{a}^{x} \frac{2x}{b^{2} - a^{2}} dx \\
-             & = \frac{x^{2} - a^{2}}{b^{2} - a^{2}}
-\end{align}
-</p>
+{\it cdf}(x) &amp; = \int_{-\infty}^{x} {\it pdf}(x) dx \\<br />
+             &amp; = \int_{a}^{x} \frac{2x}{b^{2} - a^{2}} dx \\<br />
+             &amp; = \frac{x^{2} - a^{2}}{b^{2} - a^{2}}
+\end{align}</p>
 
 <p>これより
 \[
@@ -433,10 +425,9 @@ P({\it cdf}^{-1}(x) \le y) = {\it cdf}(y)
 よって</p>
 
 <p>\begin{align}
-{\it cdf}(x) & = \int_{a}^{x} \frac{k}{(e^{-ka} - e^{-kb})}e^{-kx} dx \\
-             & = \frac{e^{-ka}-e^{-kx}}{e^{-ka} - e^{-kb}}
-\end{align}
-</p>
+{\it cdf}(x) &amp; = \int_{a}^{x} \frac{k}{(e^{-ka} - e^{-kb})}e^{-kx} dx \\<br />
+             &amp; = \frac{e^{-ka}-e^{-kx}}{e^{-ka} - e^{-kb}}
+\end{align}</p>
 
 <p>\[\therefore {\it cdf}^{-1}(x) = - \frac{\log(e^{-ka} - (e^{-ka} - e^{-kb})x)}{k}\]</p>
 
@@ -481,12 +472,11 @@ P({\it cdf}^{-1}(x) \le y) = {\it cdf}(y)
 <p>このことは</p>
 
 <p>\begin{align}
-P(X = x) & = P(x_{1} \leq x \land , \dots , \land x_{n} \leq x) \\
-         & = \prod_{i=1}^{n} P(x_{i} \leq x) & (\because x_{i} は独立) \\
-         & \sim \prod_{i=1}^{n} x & (\because x_{i}は一様分布に従う) \\
-         & = x^{n}
-\end{align}
-</p>
+P(X = x) &amp; = P(x_{1} \leq x \land , \dots , \land x_{n} \leq x) \\<br />
+         &amp; = \prod_{i=1}^{n} P(x_{i} \leq x) &amp; (\because x_{i} は独立) \\<br />
+         &amp; \sim \prod_{i=1}^{n} x &amp; (\because x_{i}は一様分布に従う) \\<br />
+         &amp; = x^{n}
+\end{align}</p>
 
 <p>からわかる。</p>
 
