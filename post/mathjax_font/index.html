@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.37.1" />
 
-  <title>Ocaml &middot; yuki&#39;s blog</title>
+  <title>MathJax 数式内のフォントを変更する &middot; yuki&#39;s blog</title>
 
   
   
@@ -35,8 +35,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-  <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki67.github.io/tags/ocaml/index.xml" />
   
 
   
@@ -124,10 +122,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://yuki67.github.io/tags/ocaml/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -230,63 +224,120 @@
 
 
 <div class="header">
-  <h1>Ocaml</h1>
+  <h1>MathJax 数式内のフォントを変更する</h1>
+  <h2></h2>
 </div>
 <div class="content">
+
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-03-15
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
   
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/mathjax">
+          MathJax
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
 
   
-      <h2>2017-12</h2>
-      <ul>
-      
-          <li>
-  <time>
-    
-        2017-12-13
-    
-    </time> - <a href="https://yuki67.github.io/post/mincaml_jbuilder/">MinCamlをjbuilderでビルドする</a>
-</li>
 
-      
-      </ul>
+
+  <p></p>
+
+<p>MathJax で書いた数式内の日本語のフォントが数式外の文章と異なる場合がある。</p>
+
+
+<figure>
+    
+        <img src="https://yuki67.github.io/ox-hugo/font.png" alt="Figure 1: 数式内でフォントが異なる例" />
+    
+    
+    <figcaption>
+        <p>
+        Figure 1: 数式内でフォントが異なる例
+        
+            
+        
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+<p>日本語(正確には「デフォルトのフォントに含まれていない文字」)に使うフォントを指定するコードを入れれば解決できる。</p>
+<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/x-mathjax-config&#34;</span><span class="p"></span><span class="p">&gt;</span>
+  <span class="nx">MathJax</span><span class="p">.</span><span class="nx">Hub</span><span class="p">.</span><span class="nx">Config</span><span class="p">({</span>
+  <span class="s2">&#34;HTML-CSS&#34;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">undefinedFamily</span><span class="o">:</span> <span class="s2">&#34;&#39;Raleway&#39;, Helvetica, Arial, sans-serif&#34;</span>
+  <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">&lt;</span><span class="p">/</span><span class="nt">script</span><span class="p">&gt;</span></code></pre></div>
+<p>以下は使用例。</p>
+
+<p>数式外の文章</p>
+
+<p>\begin{align*}
+y = x 数式内の文章
+\end{align*}</p>
+
+<h2 id="参考資料">参考資料</h2>
+
+<p><a href="http://docs.mathjax.org/en/latest/options/output-processors/HTML-CSS.html?highlight=undefined%20family">The HTML-CSS output processor — MathJax 2.7 documentation</a></p>
+
   
-      <h2>2017-10</h2>
-      <ul>
-      
-          <li>
-  <time>
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
     
-        2017-10-01
+    <a href="https://yuki67.github.io/post/org-babel/"><i class="fa fa-chevron-left"></i></a>
     
-    </time> - <a href="https://yuki67.github.io/post/more_bucklescript/">もっとbucklescriptをいじった</a>
-</li>
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/org-babel/">org babel</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
 
-      
-      </ul>
+
+
   
-      <h2>2017-9</h2>
-      <ul>
-      
-          <li>
-  <time>
-    
-        2017-09-24
-    
-    </time> - <a href="https://yuki67.github.io/post/hello_buckle/">hello bucklescript!</a>
-</li>
 
-      
-          <li>
-  <time>
-    
-        2017-09-17
-    
-    </time> - <a href="https://yuki67.github.io/post/automaton/">オートマトン in OCaml</a>
-</li>
-
-      
-      </ul>
-  
 </div>
 
 </div>

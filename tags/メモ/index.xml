@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Mon, 05 Feb 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 15 Mar 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MathJax 数式内のフォントを変更する</title>
+      <link>https://yuki67.github.io/post/mathjax_font/</link>
+      <pubDate>Thu, 15 Mar 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/mathjax_font/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Ubuntu 17.10 で MDR-1000X を使う</title>
