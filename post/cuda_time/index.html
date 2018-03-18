@@ -345,15 +345,9 @@
 <span class="cp">#include</span> <span class="cpf">&#34;cudaTimer.h&#34;</span><span class="cp">
 </span><span class="cp"></span>
 <span class="c1">// 何もしない
-</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> 
-<span class="nf">empty</span><span class="p">()</span>
- 
-<span class="p">{}</span>
+</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">empty</span><span class="p">()</span> <span class="p">{}</span>
 
-<span class="kt">int</span> 
-<span class="nf">main</span><span class="p">()</span>
- 
-<span class="p">{</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">CudaTimer</span> <span class="n">timer</span><span class="p">;</span>
     <span class="n">timer</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
     <span class="c1">// 何もしない関数を呼ぶとどれくらい時間がかかるのだろう?

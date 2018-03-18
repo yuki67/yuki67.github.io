@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.37.1" />
 
-  <title>メモ &middot; yuki&#39;s blog</title>
+  <title>Hugo の C&#43;&#43; 用 シンタックスハイライトを直す &middot; yuki&#39;s blog</title>
 
   
   
@@ -35,8 +35,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-  <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/index.xml" />
   
 
   
@@ -124,10 +122,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -230,81 +224,136 @@
 
 
 <div class="header">
-  <h1>メモ</h1>
+  <h1>Hugo の C&#43;&#43; 用 シンタックスハイライトを直す</h1>
+  <h2></h2>
 </div>
 <div class="content">
-  
 
-  
-      <h2>2018-3</h2>
-      <ul>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
       
-          <li>
-  <time>
-    
         2018-03-18
-    
-    </time> - <a href="https://yuki67.github.io/post/hugo_cpp_highlight/">Hugo の C&#43;&#43; 用 シンタックスハイライトを直す</a>
-</li>
-
       
-          <li>
-  <time>
-    
-        2018-03-15
-    
-    </time> - <a href="https://yuki67.github.io/post/mathjax_font/">MathJax 数式内のフォントを変更する</a>
-</li>
-
-      
-      </ul>
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
   
-      <h2>2018-2</h2>
-      <ul>
-      
-          <li>
-  <time>
-    
-        2018-02-05
-    
-    </time> - <a href="https://yuki67.github.io/post/ubuntu_bluetooth/">Ubuntu 17.10 で MDR-1000X を使う</a>
-</li>
-
-      
-      </ul>
   
-      <h2>2018-1</h2>
-      <ul>
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
       
-          <li>
-  <time>
-    
-        2018-01-28
-    
-    </time> - <a href="https://yuki67.github.io/post/kindle_for_ubuntu/">Ubuntu 17.10 で Kindle for PC を使う</a>
-</li>
-
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/hugo">
+          Hugo
+        </a>
+        
+          &nbsp;&#47;
+        
       
-          <li>
-  <time>
-    
-        2018-01-22
-    
-    </time> - <a href="https://yuki67.github.io/post/buttons_to_left/">Ubuntu 17.10で最大化/最小化ボタンを左へ移動する</a>
-</li>
-
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
       
-          <li>
-  <time>
+    </span>
     
-        2018-01-09
-    
-    </time> - <a href="https://yuki67.github.io/post/delete_old_files/">古いファイルを削除してファイルの数を一定にする</a>
-</li>
-
-      
-      </ul>
   
+</div>
+
+
+  
+
+
+  <p></p>
+
+<p>Hugo で C++ のコードをシンタックスハイライトしたら誤った位置に改行が入っていた。</p>
+
+
+<figure>
+    
+        <img src="https://yuki67.github.io/ox-hugo/source.png" alt="Figure 1: 入力したソースコード" />
+    
+    
+    <figcaption>
+        <p>
+        Figure 1: 入力したソースコード
+        
+            
+        
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+
+<figure>
+    
+        <img src="https://yuki67.github.io/ox-hugo/result.png" alt="Figure 2: 出力されるソースコード" />
+    
+    
+    <figcaption>
+        <p>
+        Figure 2: 出力されるソースコード
+        
+            
+        
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+<p>調べたところ Hugo が使っているシンタックスハイライタ chroma の<a href="https://github.com/alecthomas/chroma/issues/124">バグ</a>であることが分かった。
+このバグは chroma の最新版(0.4.0)では直っていたので、 Hugo が最新版の chroma を使うようにしたところ直った。</p>
+
+<p>手順は簡単で、</p>
+
+<ul>
+<li><code>go get -v github.com/gohugoio/hugo</code></li>
+<li><code>git checkout v0.37.1</code></li>
+<li><code>Gopkg.toml</code> 内の chroma のバージョンを0.4.0に直す</li>
+<li><a href="https://github.com/magefile/mage">mage</a>をインストールする</li>
+<li><code>mage vendor</code></li>
+<li><code>mage install</code></li>
+</ul>
+
+<p>でできる。</p>
+
+<p>しばらくすれば Hugo が chroma の最新版を使うようになるとは思うが、それまではこれで。</p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://yuki67.github.io/post/mathjax_font/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/mathjax_font/">MathJax 数式内のフォントを変更する</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
 </div>
 
 </div>

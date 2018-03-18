@@ -446,10 +446,7 @@
 </span><span class="cp">#include</span> <span class="cpf">&#34;polynomial.hpp&#34;</span><span class="cp">
 </span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 </span><span class="cp"></span>
-<span class="kt">int</span> 
-<span class="nf">main</span><span class="p">()</span>
- 
-<span class="p">{</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
   <span class="c1">// 位数が 2, 3, 11, 101, 8192 の場合について確認する
 </span><span class="c1"></span>  <span class="k">using</span> <span class="n">P2</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;&gt;</span><span class="p">;</span>
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;In F2, (1 + x)^2 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P2</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>

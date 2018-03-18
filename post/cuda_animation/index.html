@@ -309,10 +309,7 @@
 </span><span class="c1"></span><span class="kt">int</span> <span class="n">interval</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
 
 <span class="c1">// カーネル関数: bitmapに適当に色を塗る
-</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> 
-<span class="nf">kernel</span><span class="p">(</span><span class="n">uchar4</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tick</span><span class="p">)</span>
- 
-<span class="p">{</span>
+</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">kernel</span><span class="p">(</span><span class="n">uchar4</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tick</span><span class="p">)</span> <span class="p">{</span>
   <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
   <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
   <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">gridDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
@@ -332,20 +329,14 @@
 <span class="p">}</span>
 
 <span class="c1">// 描画用コールバック
-</span><span class="c1"></span><span class="kt">void</span> 
-<span class="nf">draw</span><span class="p">()</span>
- 
-<span class="p">{</span>
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">draw</span><span class="p">()</span> <span class="p">{</span>
   <span class="c1">// ピクセルバッファオブジェクトがバインドされているので、サイズを指定するだけで良い
 </span><span class="c1"></span>  <span class="n">glDrawPixels</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">,</span> <span class="n">GL_RGBA</span><span class="p">,</span> <span class="n">GL_UNSIGNED_BYTE</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
   <span class="n">glutSwapBuffers</span><span class="p">();</span>
 <span class="p">}</span>
 
 <span class="c1">// 画面を更新するコールバック
-</span><span class="c1"></span><span class="kt">void</span> 
-<span class="nf">update</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">)</span>
- 
-<span class="p">{</span>
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">update</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">static</span> <span class="kt">int</span> <span class="n">tick</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 今何フレーム目?
 </span><span class="c1"></span>  <span class="n">uchar4</span> <span class="o">*</span><span class="n">dev_bitmap</span><span class="p">;</span>
   <span class="n">size_t</span> <span class="n">size</span><span class="p">;</span>
@@ -374,10 +365,7 @@
   <span class="n">tick</span><span class="o">++</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="kt">int</span> 
-<span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
- 
-<span class="p">{</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
   <span class="c1">// OpenGLの初期化
 </span><span class="c1"></span>  <span class="n">glutInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
   <span class="n">glutInitDisplayMode</span><span class="p">(</span><span class="n">GLUT_DOUBLE</span> <span class="o">|</span> <span class="n">GLUT_RGBA</span><span class="p">);</span>
