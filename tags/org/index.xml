@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>org mode on yuki&#39;s blog</title>
+    <title>Org on yuki&#39;s blog</title>
     <link>https://yuki42.netlify.com/tags/org/</link>
-    <description>Recent content in org mode on yuki&#39;s blog</description>
+    <description>Recent content in Org on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Thu, 08 Mar 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 13 Mar 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki42.netlify.com/tags/org/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>org babel</title>
+      <title>org-babel</title>
       <link>https://yuki42.netlify.com/post/org-babel/</link>
       <pubDate>Tue, 13 Mar 2018 00:00:00 +0900</pubDate>
       
@@ -24,14 +24,12 @@
     </item>
     
     <item>
-      <title>org babel</title>
-      <link>https://yuki42.netlify.com/tags/org/org-babel/</link>
-      <pubDate>Tue, 13 Mar 2018 00:00:00 +0900</pubDate>
+      <title>org-modeの概要</title>
+      <link>https://yuki42.netlify.com/post/org-mode/</link>
+      <pubDate>Thu, 08 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/tags/org/org-babel/</guid>
-      <description>&lt;p&gt;org mode には org-babel という機能があり、orgファイルに書いたソースコードをその場で実行できる。&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <guid>https://yuki42.netlify.com/post/org-mode/</guid>
+      <description>org mode とは emacs 付属の軽量マークアップ言語で、 markdown や ReStructuredText の親戚にあたる。 非常に多機能であり、他の軽量マークアップ言語にある機能 (リンク・表・箇条書き・\(\LaTeX\)など) は全て行える。 以下の個別ページでは org mode の機能のうちこのサイトを作るときに使っているものを解説する。</description>
     </item>
     
   </channel>

@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.37.1" />
 
-  <title>org babel &middot; yuki&#39;s blog</title>
+  <title>org-modeの概要 &middot; yuki&#39;s blog</title>
 
   
   
@@ -224,15 +224,17 @@
 
 
 <div class="header">
-  <h1>org babel</h1>
+  <h1>org-modeの概要</h1>
+  <h2></h2>
 </div>
 <div class="content">
+
   <div class="post-meta">
   <span>
     <i class="fa fa-calendar fa-fw"></i>
     <time>
       
-        2018-03-13
+        2018-03-08
       
     </time>
   </span>
@@ -244,15 +246,15 @@
       <span>
       <i class="fa fa-tags fa-fw"></i>
       
-        <a class="post-taxonomy-tag" href="https://yuki42.netlify.com/tags/about">
-          about
+        <a class="post-taxonomy-tag" href="https://yuki42.netlify.com/tags/org">
+          org
         </a>
         
           &nbsp;&#47;
         
       
-        <a class="post-taxonomy-tag" href="https://yuki42.netlify.com/tags/org">
-          org
+        <a class="post-taxonomy-tag" href="https://yuki42.netlify.com/tags/about">
+          about
         </a>
         
       
@@ -261,51 +263,50 @@
   
 </div>
 
-  <p>org mode には org-babel という機能があり、orgファイルに書いたソースコードをその場で実行できる。</p>
 
-<p></p>
+  
 
-<p>例えば org mode のファイルに python のソースコードを</p>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+BEGIN_SRC python :results output verbatim :exports both :eval no-export
-def fact(n):
-    if n == 0:
-        return 1
-    else:
-        return n * fact(n - 1)
 
-# 6! を出力する
-print(fact(6))
-#+END_SRC</code></pre></div>
-<p>というふうに書いたとする。
-この状態からカーソルをソースコードの中に移動させて <code>C-c C-c</code> とすると python コードの実行され、以下のように実行結果が挿入される。</p>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+BEGIN_SRC python :results output verbatim :exports both :eval no-export
-def fact(n):
-    if n == 0:
-        return 1
-    else:
-        return n * fact(n - 1)
+  <p><a href="https://orgmode.org/">org mode</a> とは emacs 付属の軽量マークアップ言語で、 markdown や ReStructuredText の親戚にあたる。
+非常に多機能であり、他の軽量マークアップ言語にある機能 (リンク・表・箇条書き・\(\LaTeX\)など) は全て行える。
+以下の個別ページでは org mode の機能のうちこのサイトを作るときに使っているものを解説する。</p>
 
-# 6! を出力する
-print(fact(6))
-#+END_SRC
 
-#+RESULTS:
-: 720</code></pre></div>
-<p>この部分をエクスポートすると、</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fact</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fact</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># 6! を出力する</span>
-<span class="k">print</span><span class="p">(</span><span class="n">fact</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">720</code></pre></div>
-<p>となる。</p>
-
-<p>org-babel は python の他にも<a href="https://orgmode.org/manual/Languages.html">様々な言語</a>に対応しているので、コードを含んだ文章を書くのが楽になる。</p>
-  <ul>
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
     
-  </ul>
+    <a href="https://yuki42.netlify.com/post/org-md-hugo/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki42.netlify.com/post/org-md-hugo/">全体像</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://yuki42.netlify.com/post/org-babel/">org-babel</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://yuki42.netlify.com/post/org-babel/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+
 </div>
 
 </div>

@@ -31,7 +31,7 @@
     </item>
     
     <item>
-      <title>org babel</title>
+      <title>org-babel</title>
       <link>https://yuki42.netlify.com/post/org-babel/</link>
       <pubDate>Tue, 13 Mar 2018 00:00:00 +0900</pubDate>
       
@@ -42,14 +42,12 @@
     </item>
     
     <item>
-      <title>org babel</title>
-      <link>https://yuki42.netlify.com/tags/org/org-babel/</link>
-      <pubDate>Tue, 13 Mar 2018 00:00:00 +0900</pubDate>
+      <title>org-modeの概要</title>
+      <link>https://yuki42.netlify.com/post/org-mode/</link>
+      <pubDate>Thu, 08 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/tags/org/org-babel/</guid>
-      <description>&lt;p&gt;org mode には org-babel という機能があり、orgファイルに書いたソースコードをその場で実行できる。&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <guid>https://yuki42.netlify.com/post/org-mode/</guid>
+      <description>org mode とは emacs 付属の軽量マークアップ言語で、 markdown や ReStructuredText の親戚にあたる。 非常に多機能であり、他の軽量マークアップ言語にある機能 (リンク・表・箇条書き・\(\LaTeX\)など) は全て行える。 以下の個別ページでは org mode の機能のうちこのサイトを作るときに使っているものを解説する。</description>
     </item>
     
     <item>
@@ -64,7 +62,8 @@
 &lt;li&gt;&lt;a href=&#34;https://orgmode.org/&#34;&gt;org mode&lt;/a&gt; で書いた文章を&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/kaushalmodi/ox-hugo&#34;&gt;ox-hugo&lt;/a&gt; で markdown に変換し&lt;/li&gt;
 &lt;li&gt;markdown から &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; で静的サイトを作成し&lt;/li&gt;
-&lt;li&gt;作成された静的サイトを &lt;a href=&#34;https://pages.github.com/&#34;&gt;github pages&lt;/a&gt; で公開する&lt;/li&gt;
+&lt;li&gt;静的サイトを &lt;a href=&#34;https://gitlab.com/&#34;&gt;GitLab&lt;/a&gt; のプライベートリポジトリに置き&lt;/li&gt;
+&lt;li&gt;そのリポジトリを &lt;a href=&#34;https://www.netlify.com/&#34;&gt;Netlify&lt;/a&gt; で公開する&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;という手順で作られている。&lt;/p&gt;
