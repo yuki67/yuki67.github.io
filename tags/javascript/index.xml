@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Javascript on yuki&#39;s blog</title>
-    <link>https://yuki67.github.io/tags/javascript/</link>
+    <link>https://yuki42.netlify.com/tags/javascript/</link>
     <description>Recent content in Javascript on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Sun, 01 Oct 2017 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki67.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki42.netlify.com/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>もっとbucklescriptをいじった</title>
-      <link>https://yuki67.github.io/post/more_bucklescript/</link>
+      <link>https://yuki42.netlify.com/post/more_bucklescript/</link>
       <pubDate>Sun, 01 Oct 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/more_bucklescript/</guid>
+      <guid>https://yuki42.netlify.com/post/more_bucklescript/</guid>
       <description>デモサイトはここにある。 もう遅いので説明なんかは後で。</description>
     </item>
     
     <item>
       <title>hello bucklescript!</title>
-      <link>https://yuki67.github.io/post/hello_buckle/</link>
+      <link>https://yuki42.netlify.com/post/hello_buckle/</link>
       <pubDate>Sun, 24 Sep 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/hello_buckle/</guid>
+      <guid>https://yuki42.netlify.com/post/hello_buckle/</guid>
       <description>&lt;p&gt;bucklescriptを使うとOCamlを使ってjavascriptが書けると聞いたので試した。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>

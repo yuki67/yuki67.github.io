@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Shell on yuki&#39;s blog</title>
-    <link>https://yuki67.github.io/tags/shell/</link>
+    <link>https://yuki42.netlify.com/tags/shell/</link>
     <description>Recent content in Shell on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Tue, 09 Jan 2018 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki67.github.io/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki42.netlify.com/tags/shell/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>古いファイルを削除してファイルの数を一定にする</title>
-      <link>https://yuki67.github.io/post/delete_old_files/</link>
+      <link>https://yuki42.netlify.com/post/delete_old_files/</link>
       <pubDate>Tue, 09 Jan 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/delete_old_files/</guid>
+      <guid>https://yuki42.netlify.com/post/delete_old_files/</guid>
       <description>&lt;p&gt;ログの整理で使った。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>

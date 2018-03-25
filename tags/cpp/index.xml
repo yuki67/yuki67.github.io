@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cpp on yuki&#39;s blog</title>
-    <link>https://yuki67.github.io/tags/cpp/</link>
+    <link>https://yuki42.netlify.com/tags/cpp/</link>
     <description>Recent content in Cpp on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Fri, 02 Mar 2018 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki67.github.io/tags/cpp/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki42.netlify.com/tags/cpp/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>BigIntの実装 in C&#43;&#43;</title>
-      <link>https://yuki67.github.io/post/bigint/</link>
+      <link>https://yuki42.netlify.com/post/bigint/</link>
       <pubDate>Fri, 02 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/bigint/</guid>
+      <guid>https://yuki42.netlify.com/post/bigint/</guid>
       <description>&lt;p&gt;多倍長整数を実装できたのでまとめた。C++のいい練習になると思って始めたらかなり時間がかかった。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -25,10 +25,10 @@
     
     <item>
       <title>一年生の夢の実装 in C&#43;&#43;</title>
-      <link>https://yuki67.github.io/post/freshmans_dream/</link>
+      <link>https://yuki42.netlify.com/post/freshmans_dream/</link>
       <pubDate>Fri, 23 Feb 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/freshmans_dream/</guid>
+      <guid>https://yuki42.netlify.com/post/freshmans_dream/</guid>
       <description>&lt;p&gt;式&lt;/p&gt;
 
 &lt;p&gt;\begin{align*}
@@ -42,10 +42,10 @@
     
     <item>
       <title>有限体の実装 in C&#43;&#43;</title>
-      <link>https://yuki67.github.io/post/finite_field/</link>
+      <link>https://yuki42.netlify.com/post/finite_field/</link>
       <pubDate>Sat, 10 Feb 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/finite_field/</guid>
+      <guid>https://yuki42.netlify.com/post/finite_field/</guid>
       <description>&lt;p&gt;※ 位数が素数である場合に限る&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -53,19 +53,19 @@
     
     <item>
       <title>C&#43;&#43;のconstexpr</title>
-      <link>https://yuki67.github.io/post/constexpr/</link>
+      <link>https://yuki42.netlify.com/post/constexpr/</link>
       <pubDate>Wed, 07 Feb 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/constexpr/</guid>
+      <guid>https://yuki42.netlify.com/post/constexpr/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python風Rangeの実装 in C&#43;&#43;</title>
-      <link>https://yuki67.github.io/post/python_like_range/</link>
+      <link>https://yuki42.netlify.com/post/python_like_range/</link>
       <pubDate>Tue, 23 Jan 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/python_like_range/</guid>
+      <guid>https://yuki42.netlify.com/post/python_like_range/</guid>
       <description>&lt;p&gt;範囲forについて学んだので実装した。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>

@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python on yuki&#39;s blog</title>
-    <link>https://yuki67.github.io/tags/python/</link>
+    <link>https://yuki42.netlify.com/tags/python/</link>
     <description>Recent content in Python on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Tue, 22 Aug 2017 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki67.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki42.netlify.com/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ランダムピック</title>
-      <link>https://yuki67.github.io/post/random_pick/</link>
+      <link>https://yuki42.netlify.com/post/random_pick/</link>
       <pubDate>Tue, 22 Aug 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/random_pick/</guid>
+      <guid>https://yuki42.netlify.com/post/random_pick/</guid>
       <description>&lt;p&gt;整数の組 \((i, j)\) に対してランダムな整数を割り振りたい。
 それも、全ての組について乱数を保存することなく割り振りたい。&lt;/p&gt;
 
@@ -26,10 +26,10 @@
     
     <item>
       <title>パーリンノイズ</title>
-      <link>https://yuki67.github.io/post/perlin_noise/</link>
+      <link>https://yuki42.netlify.com/post/perlin_noise/</link>
       <pubDate>Thu, 17 Aug 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/perlin_noise/</guid>
+      <guid>https://yuki42.netlify.com/post/perlin_noise/</guid>
       <description>&lt;p&gt;書いたので。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -37,10 +37,10 @@
     
     <item>
       <title>逆関数法</title>
-      <link>https://yuki67.github.io/post/inverse_method/</link>
+      <link>https://yuki42.netlify.com/post/inverse_method/</link>
       <pubDate>Tue, 15 Aug 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/inverse_method/</guid>
+      <guid>https://yuki42.netlify.com/post/inverse_method/</guid>
       <description>&lt;p&gt;ある分布が与えられたときにその分布に従う乱数を生成することを考える。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -48,10 +48,10 @@
     
     <item>
       <title>モンテカルロ積分</title>
-      <link>https://yuki67.github.io/post/montecarlo_integral/</link>
+      <link>https://yuki42.netlify.com/post/montecarlo_integral/</link>
       <pubDate>Sat, 12 Aug 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/montecarlo_integral/</guid>
+      <guid>https://yuki42.netlify.com/post/montecarlo_integral/</guid>
       <description>&lt;p&gt;積分&lt;/p&gt;
 
 &lt;p&gt;\[

@@ -2,175 +2,175 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on yuki&#39;s blog</title>
-    <link>https://yuki67.github.io/tags/</link>
+    <link>https://yuki42.netlify.com/tags/</link>
     <description>Recent content in Tags on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Thu, 08 Mar 2018 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki67.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki42.netlify.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>org mode</title>
-      <link>https://yuki67.github.io/tags/org/</link>
+      <link>https://yuki42.netlify.com/tags/org/</link>
       <pubDate>Thu, 08 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/org/</guid>
+      <guid>https://yuki42.netlify.com/tags/org/</guid>
       <description>org mode とは emacs 付属の軽量マークアップ言語で、 markdown や ReStructuredText の親戚にあたる。 非常に多機能であり、他の軽量マークアップ言語にある機能 (リンク・表・箇条書き・\(\LaTeX\)など) は全て行える。 以下の個別ページでは org mode の機能のうちこのサイトを作るときに使っているものを解説する。</description>
     </item>
     
     <item>
       <title>Cpp</title>
-      <link>https://yuki67.github.io/tags/cpp/</link>
+      <link>https://yuki42.netlify.com/tags/cpp/</link>
       <pubDate>Fri, 02 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/cpp/</guid>
+      <guid>https://yuki42.netlify.com/tags/cpp/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Cuda</title>
-      <link>https://yuki67.github.io/tags/cuda/</link>
+      <link>https://yuki42.netlify.com/tags/cuda/</link>
       <pubDate>Sun, 03 Dec 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/cuda/</guid>
+      <guid>https://yuki42.netlify.com/tags/cuda/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Hugo</title>
-      <link>https://yuki67.github.io/tags/hugo/</link>
+      <link>https://yuki42.netlify.com/tags/hugo/</link>
       <pubDate>Sun, 18 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/hugo/</guid>
+      <guid>https://yuki42.netlify.com/tags/hugo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Javascript</title>
-      <link>https://yuki67.github.io/tags/javascript/</link>
+      <link>https://yuki42.netlify.com/tags/javascript/</link>
       <pubDate>Sun, 01 Oct 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/javascript/</guid>
+      <guid>https://yuki42.netlify.com/tags/javascript/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Kindle</title>
-      <link>https://yuki67.github.io/tags/kindle/</link>
+      <link>https://yuki42.netlify.com/tags/kindle/</link>
       <pubDate>Sun, 28 Jan 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/kindle/</guid>
+      <guid>https://yuki42.netlify.com/tags/kindle/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Mathjax</title>
-      <link>https://yuki67.github.io/tags/mathjax/</link>
+      <link>https://yuki42.netlify.com/tags/mathjax/</link>
       <pubDate>Thu, 15 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/mathjax/</guid>
+      <guid>https://yuki42.netlify.com/tags/mathjax/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Ocaml</title>
-      <link>https://yuki67.github.io/tags/ocaml/</link>
+      <link>https://yuki42.netlify.com/tags/ocaml/</link>
       <pubDate>Wed, 13 Dec 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/ocaml/</guid>
+      <guid>https://yuki42.netlify.com/tags/ocaml/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Opengl</title>
-      <link>https://yuki67.github.io/tags/opengl/</link>
+      <link>https://yuki42.netlify.com/tags/opengl/</link>
       <pubDate>Mon, 20 Nov 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/opengl/</guid>
+      <guid>https://yuki42.netlify.com/tags/opengl/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Python</title>
-      <link>https://yuki67.github.io/tags/python/</link>
+      <link>https://yuki42.netlify.com/tags/python/</link>
       <pubDate>Tue, 22 Aug 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/python/</guid>
+      <guid>https://yuki42.netlify.com/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Shell</title>
-      <link>https://yuki67.github.io/tags/shell/</link>
+      <link>https://yuki42.netlify.com/tags/shell/</link>
       <pubDate>Tue, 09 Jan 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/shell/</guid>
+      <guid>https://yuki42.netlify.com/tags/shell/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Ubuntu</title>
-      <link>https://yuki67.github.io/tags/ubuntu/</link>
+      <link>https://yuki42.netlify.com/tags/ubuntu/</link>
       <pubDate>Mon, 05 Feb 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/ubuntu/</guid>
+      <guid>https://yuki42.netlify.com/tags/ubuntu/</guid>
       <description></description>
     </item>
     
     <item>
       <title>about</title>
-      <link>https://yuki67.github.io/tags/about/</link>
+      <link>https://yuki42.netlify.com/tags/about/</link>
       <pubDate>Tue, 13 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/about/</guid>
+      <guid>https://yuki42.netlify.com/tags/about/</guid>
       <description>このサイトがどのように作られているかについてのメモです。</description>
     </item>
     
     <item>
       <title>その他</title>
-      <link>https://yuki67.github.io/tags/%E3%81%9D%E3%81%AE%E4%BB%96/</link>
+      <link>https://yuki42.netlify.com/tags/%E3%81%9D%E3%81%AE%E4%BB%96/</link>
       <pubDate>Thu, 09 Nov 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/%E3%81%9D%E3%81%AE%E4%BB%96/</guid>
+      <guid>https://yuki42.netlify.com/tags/%E3%81%9D%E3%81%AE%E4%BB%96/</guid>
       <description></description>
     </item>
     
     <item>
       <title>コード置き場</title>
-      <link>https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/</link>
+      <link>https://yuki42.netlify.com/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/</link>
       <pubDate>Fri, 02 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/</guid>
+      <guid>https://yuki42.netlify.com/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/</guid>
       <description>作ったプログラムとその解説です。</description>
     </item>
     
     <item>
       <title>ノート</title>
-      <link>https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/</link>
+      <link>https://yuki42.netlify.com/tags/%E3%83%8E%E3%83%BC%E3%83%88/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/</guid>
+      <guid>https://yuki42.netlify.com/tags/%E3%83%8E%E3%83%BC%E3%83%88/</guid>
       <description>勉強しながら書いたノートです。</description>
     </item>
     
     <item>
       <title>メモ</title>
-      <link>https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/</link>
+      <link>https://yuki42.netlify.com/tags/%E3%83%A1%E3%83%A2/</link>
       <pubDate>Sun, 18 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/</guid>
+      <guid>https://yuki42.netlify.com/tags/%E3%83%A1%E3%83%A2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>本</title>
-      <link>https://yuki67.github.io/tags/%E6%9C%AC/</link>
+      <link>https://yuki42.netlify.com/tags/%E6%9C%AC/</link>
       <pubDate>Sun, 03 Sep 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/tags/%E6%9C%AC/</guid>
+      <guid>https://yuki42.netlify.com/tags/%E6%9C%AC/</guid>
       <description></description>
     </item>
     

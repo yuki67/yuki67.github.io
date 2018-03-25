@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Opengl on yuki&#39;s blog</title>
-    <link>https://yuki67.github.io/tags/opengl/</link>
+    <link>https://yuki42.netlify.com/tags/opengl/</link>
     <description>Recent content in Opengl on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Mon, 20 Nov 2017 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki67.github.io/tags/opengl/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki42.netlify.com/tags/opengl/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ビットマップをOpenGLで描画する</title>
-      <link>https://yuki67.github.io/post/cuda_bitmap/</link>
+      <link>https://yuki42.netlify.com/post/cuda_bitmap/</link>
       <pubDate>Mon, 20 Nov 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki67.github.io/post/cuda_bitmap/</guid>
+      <guid>https://yuki42.netlify.com/post/cuda_bitmap/</guid>
       <description>&lt;p&gt;cudaでビットマップを作って、それをOpenGLを使ってウィンドウ上に表示したい。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
