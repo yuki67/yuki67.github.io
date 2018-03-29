@@ -267,10 +267,204 @@
   
 
 
-  <p><a href="https://orgmode.org/">org mode</a> とは emacs 付属の軽量マークアップ言語で、 markdown や ReStructuredText の親戚にあたる。
-非常に多機能であり、他の軽量マークアップ言語にある機能 (リンク・表・箇条書き・\(\LaTeX\)など) は全て行える。
-以下の個別ページでは org mode の機能のうちこのサイトを作るときに使っているものを解説する。</p>
+  <p><a href="https://orgmode.org/">org-mode</a> とは emacs 付属の軽量マークアップ言語で、 markdown や ReStructuredText の親戚にあたる。</p>
 
+<p>このページには org-mode の基本的な機能をまとめた。</p>
+
+<p></p>
+
+<h2 id="リンク">リンク</h2>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">これは [[https://www.google.co.jp/][リンク]] です</code></pre></div>
+<p>と書くと</p>
+
+<div class="exa">
+  <div></div>
+
+<p>これは <a href="https://www.google.co.jp/">リンク</a> です。</p>
+
+<p></div></p>
+
+<p>となる。</p>
+
+<p>リンクを挿入するコマンドとして <code>C-c C-l</code> (<code>org-insert-link</code>) がある。</p>
+
+<p>ウェブのリンクだけではなく画像のリンクなども同じように貼れる</p>
+
+<h2 id="表">表</h2>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">| x |  y |
+|--------|
+| 1 |  1 |
+| 2 |  4 |
+| 3 |  9 |</code></pre></div>
+<p>と書くと</p>
+
+<div class="exa">
+  <div></div>
+
+<table>
+<thead>
+<tr>
+<th>x</th>
+<th>y</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>4</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+
+<p></div></p>
+
+<p>となる。</p>
+
+<p>emacs の org-mode エディタには表を編集する機能があり、 &ldquo;|&rdquo; を書いてから <code>Tab</code> でいい感じに表をアラインできる。</p>
+
+<h2 id="文字の装飾">文字の装飾</h2>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">通常のテキスト \\
++打ち消し線+ \\
+_下線_ \\
+*太字* \\
+/斜体/ \\
+~source code~ \\</code></pre></div>
+<p>と書くと</p>
+
+<div class="exa">
+  <div></div>
+
+<p>通常のテキスト <br />
+<del>打ち消し線</del> <br />
+<span class="underline">下線</span> <br />
+<strong>太字</strong> <br />
+<em>斜体</em> <br />
+<code>source code</code> <br /></p>
+
+<p></div></p>
+
+<p>となる。</p>
+
+<h2 id="latex">LaTeX</h2>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">数式 \(e = mc^{2}\) を含んだ文章</code></pre></div>
+<p>とかくと</p>
+
+<div class="exa">
+  <div></div>
+
+<p>数式 \(e = mc^{2}\) を含んだ文章</p>
+
+<p></div></p>
+
+<p>となる。</p>
+
+<p>中央寄せするには</p>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">\[ y = f(x) \]</code></pre></div>
+<p>とすれば</p>
+
+<div class="exa">
+  <div></div>
+
+<p>\[ y = f(x) \]</p>
+
+<p></div></p>
+
+<p>となる。</p>
+
+<p>この他に align, array, matrix などの LaTeX の環境も使える。
+この場合は <code>\[ ... \]</code> で環境を囲む必要はなく、
+テキスト中に <code>begin{env} ... end{env}</code> といきなり書いても LaTeX のコードだと認識される。</p>
+
+<p>文章中の LaTeX コードは <code>C-c C-x C-l</code> (<code>org-toggle-latex-fragment</code>) で画像に変換できる。</p>
+
+
+<figure>
+    
+        <img src="https://yuki42.netlify.com/ox-hugo/ss.png" alt="Figure 1: org-toggle-latex-fragment を実行した後のエディタ" />
+    
+    
+    <figcaption>
+        <p>
+        Figure 1: org-toggle-latex-fragment を実行した後のエディタ
+        
+            
+        
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+<h2 id="箇条書き">箇条書き</h2>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">- 項目1
+
+  項目1の説明
+
+- 項目2
+
+  項目3の説明
+
+- 項目3
+
+  項目3の説明</code></pre></div>
+<p>と書くと</p>
+
+<div class="exa">
+  <div></div>
+
+<ul>
+<li><p>項目1</p>
+
+<p>項目1の説明</p></li>
+
+<li><p>項目2</p>
+
+<p>項目3の説明</p></li>
+
+<li><p>項目3</p>
+
+<p>項目3の説明</p></li>
+</ul>
+
+<p></div></p>
+
+<p>となる。</p>
+
+<h2 id="ソースコード">ソースコード</h2>
+<div class="highlight"><pre class="chroma"><code class="language-nil" data-lang="nil">#+BEGIN_SRC python
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fact(n - 1)
+
+# 6! を出力する
+print(fact(6))
+#+END_SRC</code></pre></div>
+<p>と書くと</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fact</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fact</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 6! を出力する</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fact</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span></code></pre></div>
+<p>となる。</p>
+
+<p><code>org-src-fontify-natively</code> を <code>t</code> にすればエディタ上でもシンタックスハイライトが行われる。
+また <code>C-c '</code> (<code>org-edit-special</code>) で言語にあったメジャーモードを使ってソースコードを編集できる。</p>
 
   
 <div class="prev-next-post pure-g">

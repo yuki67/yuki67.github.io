@@ -45,7 +45,8 @@ code, .chroma {
 .lemma,
 .fact,
 .def,
-.proof {
+.proof,
+.exa {
     margin-top: 0.8em;
     position: relative;
     padding: 0.8em 0.8em 0.8em 1.5em;
@@ -64,7 +65,7 @@ code, .chroma {
  }
 
 
-.chroma {
+.chroma, .exa {
     margin-top: 0px;
     border-left: 4px solid #86ad72;
 }
@@ -112,4 +113,9 @@ code, .chroma {
 .proof:before {
     content: "証明" attr(description);
     font-weight: bold;
+}
+
+/* 下線 */
+.underline {
+    text-decoration : underline
 }

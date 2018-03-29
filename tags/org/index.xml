@@ -29,7 +29,11 @@
       <pubDate>Thu, 08 Mar 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki42.netlify.com/post/org-mode/</guid>
-      <description>org mode とは emacs 付属の軽量マークアップ言語で、 markdown や ReStructuredText の親戚にあたる。 非常に多機能であり、他の軽量マークアップ言語にある機能 (リンク・表・箇条書き・\(\LaTeX\)など) は全て行える。 以下の個別ページでは org mode の機能のうちこのサイトを作るときに使っているものを解説する。</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://orgmode.org/&#34;&gt;org-mode&lt;/a&gt; とは emacs 付属の軽量マークアップ言語で、 markdown や ReStructuredText の親戚にあたる。&lt;/p&gt;
+
+&lt;p&gt;このページには org-mode の基本的な機能をまとめた。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -7574,7 +7574,6 @@
 
     function copy_value(range, desc, prefix) {
 	var x = range["value"];
-	console.log("こんにちは、世界");
 	desc["textContent"] = "" + (String(prefix) + ("" + (String(x) + "")));
 	return /* () */0;
     }
