@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.37.1" />
 
-  <title>Org &middot; yuki&#39;s blog</title>
+  <title>ox-hugo &middot; yuki&#39;s blog</title>
 
   
   
@@ -35,8 +35,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-  <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki42.netlify.com/tags/org/index.xml" />
   
 
   
@@ -124,10 +122,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://yuki42.netlify.com/tags/org/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -230,35 +224,123 @@
 
 
 <div class="header">
-  <h1>Org</h1>
+  <h1>ox-hugo</h1>
+  <h2></h2>
 </div>
 <div class="content">
+
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-03-30
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
   
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki42.netlify.com/tags/about">
+          about
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
 
   
-      <h2>2018-3</h2>
-      <ul>
-      
-          <li>
-  <time>
-    
-        2018-03-13
-    
-    </time> - <a href="https://yuki42.netlify.com/post/org-babel/">org-babel</a>
-</li>
 
-      
-          <li>
-  <time>
-    
-        2018-03-08
-    
-    </time> - <a href="https://yuki42.netlify.com/post/org-mode/">org-modeの概要</a>
-</li>
 
-      
-      </ul>
+  <p><a href="https://github.com/kaushalmodi/ox-hugo">ox-hugo</a> は emacs のパッケージだ。
+org-mode の文章を Hugo に対応した markdown にエクスポートすることができ、このサイトの記事を書くのに使われている。</p>
+
+<p></p>
+
+<p>ox-hugo の特徴として、一つの記事が一つのファイルではなく一つのサブツリーに対応しているという点がある。
+一つの org-mode ファイルの中にいくつも記事を書き、記事ごとにタイトルやタグを設定してエクスポートすることができる。
+記事を書いている途中で過去の記事を確認したり手直しすることが簡単に行えるので都合がいい。</p>
+
+<p>このサイトは一つの大きな(現在7000行ぐらい) org-mode ファイルからできていて、一つ一つの記事はサブツリーに対応している。</p>
+
+
+<figure>
+    
+        <img src="https://yuki42.netlify.com/ox-hugo/ss.png" alt="Figure 1: このサイトのもとになる org-mode ファイル (一部)" width="100%" />
+    
+    
+    <figcaption>
+        <p>
+        Figure 1: このサイトのもとになる org-mode ファイル (一部)
+        
+            
+        
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+<p>ox-hugo は紹介文が &ldquo;A <strong>carefully crafted</strong> Org exporter back-end for Hugo&rdquo; となっているだけあって、
+かゆいところに手が届く機能が揃っている。例えば</p>
+
+<ul>
+<li>org-mode で記事を TODO にするとエクスポートされたとき <code>draft=true</code> となる</li>
+<li>org-mode のタグが hugo のタグになる</li>
+<li>記事ごとに tag 以外の taxonomies (layout, categories など) を設定できる</li>
+<li>記事ごとにエクスポート先のフォルダ名とファイル名を決められる</li>
+<li>org-mode のファイルを保存するたびに自動でエクスポートが行われる</li>
+</ul>
+
+<p>がある。</p>
+
+<p>加えて ox-hugo のソースコードは大して長くないので、
+気に入らない部分があれば好きに改造していける。
+自分が施した変更は<a href="https://github.com/yuki67/dotemacs#ox-hugo">ここ</a>から見れる。</p>
+
+<h2 id="参考資料">参考資料</h2>
+
+<p><a href="https://github.com/kaushalmodi/ox-hugo">GitHub - kaushalmodi/ox-hugo: A carefully crafted Org exporter back-end for Hugo</a></p>
+
+<p><a href="https://github.com/yuki67/dotemacs#ox-hugo">GitHub - yuki67/dotemacs: My emacs configuration.</a></p>
+
   
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://yuki42.netlify.com/post/hugo_cpp_highlight/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki42.netlify.com/post/hugo_cpp_highlight/">Hugo の C&#43;&#43; 用 シンタックスハイライトを直す</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
 </div>
 
 </div>

@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Tue, 13 Mar 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 30 Mar 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki42.netlify.com/tags/about/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ox-hugo</title>
+      <link>https://yuki42.netlify.com/post/ox-hugo/</link>
+      <pubDate>Fri, 30 Mar 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki42.netlify.com/post/ox-hugo/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/kaushalmodi/ox-hugo&#34;&gt;ox-hugo&lt;/a&gt; は emacs のパッケージだ。
+org-mode の文章を Hugo に対応した markdown にエクスポートすることができ、このサイトの記事を書くのに使われている。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>org-babel</title>
@@ -24,7 +36,7 @@
     </item>
     
     <item>
-      <title>org-modeの概要</title>
+      <title>org-mode</title>
       <link>https://yuki42.netlify.com/post/org-mode/</link>
       <pubDate>Thu, 08 Mar 2018 00:00:00 +0900</pubDate>
       

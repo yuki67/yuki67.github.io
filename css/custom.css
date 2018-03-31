@@ -39,6 +39,10 @@ code, .chroma {
     margin: 0;
 }
 
+figcaption > p {
+    margin: 0;
+}
+
 /* ソースコード, 定理, 命題, 事実, 証明, 定理 */
 .chroma,
 .theorem,
