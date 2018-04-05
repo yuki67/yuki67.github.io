@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Fri, 02 Mar 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 05 Apr 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki42.netlify.com/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>任意精度有理数の実装 in C&#43;&#43;</title>
+      <link>https://yuki42.netlify.com/post/big_fraction/</link>
+      <pubDate>Thu, 05 Apr 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki42.netlify.com/post/big_fraction/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://yuki42.netlify.com/post/bigint/&#34;&gt;前の記事&lt;/a&gt; で作った &lt;code&gt;BigInt&lt;/code&gt; クラスが上手く動くことを確かめるために有理数クラスを作って動かした。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>BigIntの実装 in C&#43;&#43;</title>
