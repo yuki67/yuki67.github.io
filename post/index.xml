@@ -7,10 +7,44 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Thu, 05 Apr 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 07 Apr 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki42.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>小数型を有理数に変換する in C&#43;&#43;</title>
+      <link>https://yuki42.netlify.com/post/float_to_fraction/</link>
+      <pubDate>Sat, 07 Apr 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki42.netlify.com/post/float_to_fraction/</guid>
+      <description>&lt;p&gt;IEEE 754 方式の浮動小数点数ではビット列がある有理数をちょうど表す。&lt;/p&gt;
+
+&lt;p&gt;例えば倍精度の場合、&lt;/p&gt;
+
+&lt;p&gt;\begin{align*}
+\text{s}
+\ \text{e}_{11} \text{e}_{10} \ldots \text{e}_{1}
+\ \text{s}_{52} \text{s}_{51} \ldots \text{s}_{1}
+\end{align*}&lt;/p&gt;
+
+&lt;p&gt;というビット列が&lt;/p&gt;
+
+&lt;p&gt;\begin{align*}
+(-1)^{\text{s}}
+(1.\text{s}_{52} \text{s}_{51} \ldots \text{s}_{1})_{2}
+\times 2^{(\text{e}_{11} \text{e}_{10} \ldots \text{e}_{1})_{2} - 1023}
+\end{align*}&lt;/p&gt;
+
+&lt;p&gt;という有理数を表す。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://yuki42.netlify.com/post/constexpr/&#34;&gt;前の記事&lt;/a&gt;で浮動小数点数を扱うクラスを作り、&lt;a href=&#34;https://yuki42.netlify.com/post/big_fraction/&#34;&gt;別の記事&lt;/a&gt;で任意精度の有理数クラスを作ったので、
+この２つを組み合わせれば浮動小数点数が表す有理数を計算することができる。&lt;/p&gt;
+
+&lt;p&gt;浮動小数点数を扱うクラスを拡張してこの処理を実装した。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>任意精度有理数の実装 in C&#43;&#43;</title>
