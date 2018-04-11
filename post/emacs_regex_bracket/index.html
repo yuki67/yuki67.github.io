@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.37.1" />
 
-  <title>yuki&#39;s blog</title>
+  <title>emacs の正規表現で (&#34;[&#34;, &#34;]&#34; 以外の1文字) を表現する &middot; yuki&#39;s blog</title>
 
   
   
@@ -36,8 +36,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-      <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki42.netlify.com/index.xml" />
   
 
   
@@ -128,10 +126,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://yuki42.netlify.com/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -234,25 +228,17 @@
 
 
 <div class="header">
-  <h1>yuki&#39;s blog</h1>
+  <h1>emacs の正規表現で (&#34;[&#34;, &#34;]&#34; 以外の1文字) を表現する</h1>
   <h2></h2>
 </div>
-
 <div class="content">
-  
-    <article>
-  <header>
-    <h2>
-      <a href="https://yuki42.netlify.com/post/montecarlo_integral/">
-        モンテカルロ積分
-      </a>
-    </h2>
-    <div class="post-meta">
+
+  <div class="post-meta">
   <span>
     <i class="fa fa-calendar fa-fw"></i>
     <time>
       
-        2017-08-12
+        2018-04-11
       
     </time>
   </span>
@@ -264,15 +250,15 @@
       <span>
       <i class="fa fa-tags fa-fw"></i>
       
-        <a class="post-taxonomy-tag" href="https://yuki42.netlify.com/tags/python">
-          Python
+        <a class="post-taxonomy-tag" href="https://yuki42.netlify.com/tags/emacs">
+          emacs
         </a>
         
           &nbsp;&#47;
         
       
-        <a class="post-taxonomy-tag" href="https://yuki42.netlify.com/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
+        <a class="post-taxonomy-tag" href="https://yuki42.netlify.com/tags/%E3%83%A1%E3%83%A2">
+          メモ
         </a>
         
       
@@ -281,95 +267,69 @@
   
 </div>
 
-  </header>
-
-
-  <p>
-    <p>積分</p>
-
-<p>\[
-\int_0^{10} e^{-x^2}dx = 0.886227&hellip;
-\]</p>
-
-<p>を、計算で求めることを考える。</p>
-
-<p></p>
-  </p>
 
   
-  <footer>
-    <a href="https://yuki42.netlify.com/post/montecarlo_integral/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
+
+
+  <p></p>
+
+<p>emacsの <code>M-C-%</code> (<code>query-replace-regexp</code>) で</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">a</span><span class="p">[</span><span class="n">index_i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+<p>のような文章を</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">a</span><span class="p">(</span><span class="n">index_i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+<p>文章に変換したいことがあった。</p>
+
+<p>このとき置換のクエリを <code>\[\([^[]]*\)\] -&gt; (\1)</code> としても上手く行かない。
+なぜなら <code>[^[]]</code> という正規表現が表すのは (&rdquo;<code>[</code>&ldquo;以外の1文字 + &ldquo;<code>]</code>&rdquo;) であって、
+こちらの意図する (&rdquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字) とは異なっているからだ。</p>
+
+<p>じゃあエスケープすればいいだろうと思って <code>[^\[\]]</code> としてもこれも上手く行かない。
+<code>[]</code> の中にある文字はエスケープされるので、
+この正規表現が表すのは (&rdquo;<code>\</code>&rdquo;, &ldquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字) だからだ。</p>
+
+<p>解決法は<a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.html">マニュアル</a>にあった。
+emacs の正規表現では <code>[...]</code> 中の最初の文字が &ldquo;<code>[</code>&rdquo; だった場合はエスケープされるとのことなので、
+(&rdquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字)を表す正規表現は <code>[^][]</code> となる。</p>
+
+<p>よって、冒頭の変換を行うクエリは <code>\[\([^][*\)\] -&gt; (\1)</code> となる。</p>
+
+<h2 id="参考資料">参考資料</h2>
+
+<p><a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.html">Regexp Special - GNU Emacs Lisp Reference Manual</a></p>
 
   
-    <article>
-  <header>
-    <h2>
-      <a href="https://yuki42.netlify.com/post/hazimemasita/">
-        nikolaでブログはじめました
-      </a>
-    </h2>
-    <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2017-08-11
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
     
+    <a href="https://yuki42.netlify.com/post/float_to_fraction/"><i class="fa fa-chevron-left"></i></a>
     
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki42.netlify.com/tags/%E3%81%9D%E3%81%AE%E4%BB%96">
-          その他
-        </a>
-        
-      
-    </span>
+  </div>
+  <div class="pure-u-10-24">
     
+    <nav class="prev">
+      <a href="https://yuki42.netlify.com/post/float_to_fraction/">小数型を有理数に変換する in C&#43;&#43;</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
   
 </div>
 
-  </header>
 
-
-  <p>
-    <p>(今はnikolaを使っておらず、Hugoに移行した。)</p>
-
-<p></p>
-  </p>
-
-  
-  <footer>
-    <a href="https://yuki42.netlify.com/post/hazimemasita/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-  
-
-
-<nav class="pagination" role="pagination">
-  
-  <a href="https://yuki42.netlify.com/page/3/"><i class="fa fa-chevron-left"></i></a>
-  
-  <span>&nbsp;4 / 4&nbsp;</span>
-  
-  <i class="fa fa-chevron-right"></i>
-  
-</nav>
-
-
-</div>
 
 </div>
 </div>
