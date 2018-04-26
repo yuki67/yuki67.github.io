@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kindle on yuki&#39;s blog</title>
-    <link>https://yuki42.netlify.com/tags/kindle/</link>
+    <link>https://yuki67.github.io/tags/kindle/</link>
     <description>Recent content in Kindle on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Sun, 28 Jan 2018 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki42.netlify.com/tags/kindle/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki67.github.io/tags/kindle/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Ubuntu 17.10 で Kindle for PC を使う</title>
-      <link>https://yuki42.netlify.com/post/kindle_for_ubuntu/</link>
+      <link>https://yuki67.github.io/post/kindle_for_ubuntu/</link>
       <pubDate>Sun, 28 Jan 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/kindle_for_ubuntu/</guid>
+      <guid>https://yuki67.github.io/post/kindle_for_ubuntu/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     

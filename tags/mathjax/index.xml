@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Mathjax on yuki&#39;s blog</title>
-    <link>https://yuki42.netlify.com/tags/mathjax/</link>
+    <link>https://yuki67.github.io/tags/mathjax/</link>
     <description>Recent content in Mathjax on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Thu, 15 Mar 2018 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki42.netlify.com/tags/mathjax/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki67.github.io/tags/mathjax/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>MathJax 数式内のフォントを変更する</title>
-      <link>https://yuki42.netlify.com/post/mathjax_font/</link>
+      <link>https://yuki67.github.io/post/mathjax_font/</link>
       <pubDate>Thu, 15 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/mathjax_font/</guid>
+      <guid>https://yuki67.github.io/post/mathjax_font/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     

@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hugo on yuki&#39;s blog</title>
-    <link>https://yuki42.netlify.com/tags/hugo/</link>
+    <link>https://yuki67.github.io/tags/hugo/</link>
     <description>Recent content in Hugo on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Sun, 18 Mar 2018 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki42.netlify.com/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki67.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Hugo の C&#43;&#43; 用 シンタックスハイライトを直す</title>
-      <link>https://yuki42.netlify.com/post/hugo_cpp_highlight/</link>
+      <link>https://yuki67.github.io/post/hugo_cpp_highlight/</link>
       <pubDate>Sun, 18 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/hugo_cpp_highlight/</guid>
+      <guid>https://yuki67.github.io/post/hugo_cpp_highlight/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     

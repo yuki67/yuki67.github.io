@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ocaml on yuki&#39;s blog</title>
-    <link>https://yuki42.netlify.com/tags/ocaml/</link>
+    <link>https://yuki67.github.io/tags/ocaml/</link>
     <description>Recent content in Ocaml on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Wed, 13 Dec 2017 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki42.netlify.com/tags/ocaml/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki67.github.io/tags/ocaml/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>MinCamlをjbuilderでビルドする</title>
-      <link>https://yuki42.netlify.com/post/mincaml_jbuilder/</link>
+      <link>https://yuki67.github.io/post/mincaml_jbuilder/</link>
       <pubDate>Wed, 13 Dec 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/mincaml_jbuilder/</guid>
+      <guid>https://yuki67.github.io/post/mincaml_jbuilder/</guid>
       <description>&lt;p&gt;org-modeで書いて&lt;a href=&#34;http://e-yuki67.hatenablog.com/entry/2017/12/13/215123&#34;&gt;はてな&lt;/a&gt;に公開したものを貼る。&lt;/p&gt;
 
 &lt;p&gt;文章さえ書けばはてなに移すのは楽だろうと思ったが、画像をアップロードしたりリンクを張り替えたりするのは結構な手間だったので次からはやめよう。&lt;/p&gt;
@@ -27,10 +27,10 @@
     
     <item>
       <title>hello bucklescript!</title>
-      <link>https://yuki42.netlify.com/post/hello_buckle/</link>
+      <link>https://yuki67.github.io/post/hello_buckle/</link>
       <pubDate>Sun, 24 Sep 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/hello_buckle/</guid>
+      <guid>https://yuki67.github.io/post/hello_buckle/</guid>
       <description>&lt;p&gt;bucklescriptを使うとOCamlを使ってjavascriptが書けると聞いたので試した。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -38,10 +38,10 @@
     
     <item>
       <title>オートマトン in OCaml</title>
-      <link>https://yuki42.netlify.com/post/automaton/</link>
+      <link>https://yuki67.github.io/post/automaton/</link>
       <pubDate>Sun, 17 Sep 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/automaton/</guid>
+      <guid>https://yuki67.github.io/post/automaton/</guid>
       <description>&lt;p&gt;前にpythonでやったことをOCamlでやったのでまとめた。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>

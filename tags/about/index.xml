@@ -2,31 +2,33 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>about on yuki&#39;s blog</title>
-    <link>https://yuki42.netlify.com/tags/about/</link>
+    <link>https://yuki67.github.io/tags/about/</link>
     <description>Recent content in about on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Mon, 02 Apr 2018 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki42.netlify.com/tags/about/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki67.github.io/tags/about/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>org-reveal</title>
-      <link>https://yuki42.netlify.com/post/org-reveal/</link>
+      <link>https://yuki67.github.io/post/org-reveal/</link>
       <pubDate>Mon, 02 Apr 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/org-reveal/</guid>
-      <description>&lt;p&gt;&lt;/p&gt;</description>
+      <guid>https://yuki67.github.io/post/org-reveal/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/yjwen/org-reveal&#34;&gt;org-reveal&lt;/a&gt; を使うと org-mode でスライドを書くことができる。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>ox-hugo</title>
-      <link>https://yuki42.netlify.com/post/ox-hugo/</link>
+      <link>https://yuki67.github.io/post/ox-hugo/</link>
       <pubDate>Fri, 30 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/ox-hugo/</guid>
+      <guid>https://yuki67.github.io/post/ox-hugo/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/kaushalmodi/ox-hugo&#34;&gt;ox-hugo&lt;/a&gt; は emacs のパッケージだ。
 org-mode の文章を Hugo に対応した markdown にエクスポートすることができ、このサイトの記事を書くのに使われている。&lt;/p&gt;
 
@@ -35,10 +37,10 @@ org-mode の文章を Hugo に対応した markdown にエクスポートする�
     
     <item>
       <title>org-babel</title>
-      <link>https://yuki42.netlify.com/post/org-babel/</link>
+      <link>https://yuki67.github.io/post/org-babel/</link>
       <pubDate>Tue, 13 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/org-babel/</guid>
+      <guid>https://yuki67.github.io/post/org-babel/</guid>
       <description>&lt;p&gt;org mode には org-babel という機能があり、orgファイルに書いたソースコードをその場で実行できる。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -46,10 +48,10 @@ org-mode の文章を Hugo に対応した markdown にエクスポートする�
     
     <item>
       <title>org-mode</title>
-      <link>https://yuki42.netlify.com/post/org-mode/</link>
+      <link>https://yuki67.github.io/post/org-mode/</link>
       <pubDate>Thu, 08 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/org-mode/</guid>
+      <guid>https://yuki67.github.io/post/org-mode/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://orgmode.org/&#34;&gt;org-mode&lt;/a&gt; とは emacs 付属の軽量マークアップ言語で、 markdown や ReStructuredText の親戚にあたる。&lt;/p&gt;
 
 &lt;p&gt;このページには org-mode の基本的な機能をまとめた。&lt;/p&gt;
@@ -59,18 +61,17 @@ org-mode の文章を Hugo に対応した markdown にエクスポートする�
     
     <item>
       <title>全体像</title>
-      <link>https://yuki42.netlify.com/post/org-md-hugo/</link>
+      <link>https://yuki67.github.io/post/org-md-hugo/</link>
       <pubDate>Sat, 03 Mar 2018 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/org-md-hugo/</guid>
+      <guid>https://yuki67.github.io/post/org-md-hugo/</guid>
       <description>&lt;p&gt;このサイトは&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://orgmode.org/&#34;&gt;org mode&lt;/a&gt; で書いた文章を&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/kaushalmodi/ox-hugo&#34;&gt;ox-hugo&lt;/a&gt; で markdown に変換し&lt;/li&gt;
 &lt;li&gt;markdown から &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; で静的サイトを作成し&lt;/li&gt;
-&lt;li&gt;静的サイトを &lt;a href=&#34;https://gitlab.com/&#34;&gt;GitLab&lt;/a&gt; のプライベートリポジトリに置き&lt;/li&gt;
-&lt;li&gt;そのリポジトリを &lt;a href=&#34;https://www.netlify.com/&#34;&gt;Netlify&lt;/a&gt; で公開する&lt;/li&gt;
+&lt;li&gt;そのリポジトリを github pages で公開する&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;という手順で作られている。&lt;/p&gt;

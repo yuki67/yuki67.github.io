@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>その他 on yuki&#39;s blog</title>
-    <link>https://yuki42.netlify.com/tags/%E3%81%9D%E3%81%AE%E4%BB%96/</link>
+    <link>https://yuki67.github.io/tags/%E3%81%9D%E3%81%AE%E4%BB%96/</link>
     <description>Recent content in その他 on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Thu, 09 Nov 2017 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki42.netlify.com/tags/%E3%81%9D%E3%81%AE%E4%BB%96/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki67.github.io/tags/%E3%81%9D%E3%81%AE%E4%BB%96/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>hugoに移行した</title>
-      <link>https://yuki42.netlify.com/post/to_hugo/</link>
+      <link>https://yuki67.github.io/post/to_hugo/</link>
       <pubDate>Thu, 09 Nov 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/to_hugo/</guid>
+      <guid>https://yuki67.github.io/post/to_hugo/</guid>
       <description>&lt;p&gt;前からhugoというスタティックサイトジェネレータが気になっていて試してみたりもしたのが、
 org-modeで記事が書けると公式で言われている割にほとんど使い物にならず、移行はしていなかった。&lt;/p&gt;
 
@@ -32,10 +32,10 @@ org-modeで記事が書けると公式で言われている割にほとんど使
     
     <item>
       <title>nikolaでブログはじめました</title>
-      <link>https://yuki42.netlify.com/post/hazimemasita/</link>
+      <link>https://yuki67.github.io/post/hazimemasita/</link>
       <pubDate>Fri, 11 Aug 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/hazimemasita/</guid>
+      <guid>https://yuki67.github.io/post/hazimemasita/</guid>
       <description>&lt;p&gt;(今はnikolaを使っておらず、Hugoに移行した。)&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>

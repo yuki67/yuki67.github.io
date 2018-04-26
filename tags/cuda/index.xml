@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cuda on yuki&#39;s blog</title>
-    <link>https://yuki42.netlify.com/tags/cuda/</link>
+    <link>https://yuki67.github.io/tags/cuda/</link>
     <description>Recent content in Cuda on yuki&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
     <lastBuildDate>Sun, 03 Dec 2017 00:00:00 +0900</lastBuildDate>
     
-	<atom:link href="https://yuki42.netlify.com/tags/cuda/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yuki67.github.io/tags/cuda/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>CudaとOpenGLを連携させてアニメーションを描画する</title>
-      <link>https://yuki42.netlify.com/post/cuda_animation/</link>
+      <link>https://yuki67.github.io/post/cuda_animation/</link>
       <pubDate>Sun, 03 Dec 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/cuda_animation/</guid>
+      <guid>https://yuki67.github.io/post/cuda_animation/</guid>
       <description>&lt;p&gt;CUDAを使って毎フレーム画像を更新したいが、いちいち画像をCPUに送り返している暇がないときに。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -25,10 +25,10 @@
     
     <item>
       <title>Cudaプログラムの実行時間測定</title>
-      <link>https://yuki42.netlify.com/post/cuda_time/</link>
+      <link>https://yuki67.github.io/post/cuda_time/</link>
       <pubDate>Fri, 24 Nov 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/cuda_time/</guid>
+      <guid>https://yuki67.github.io/post/cuda_time/</guid>
       <description>&lt;p&gt;Cuda入門に出てきた関数をクラスにまとめたので、コピペ用に。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
@@ -36,10 +36,10 @@
     
     <item>
       <title>ビットマップをOpenGLで描画する</title>
-      <link>https://yuki42.netlify.com/post/cuda_bitmap/</link>
+      <link>https://yuki67.github.io/post/cuda_bitmap/</link>
       <pubDate>Mon, 20 Nov 2017 00:00:00 +0900</pubDate>
       
-      <guid>https://yuki42.netlify.com/post/cuda_bitmap/</guid>
+      <guid>https://yuki67.github.io/post/cuda_bitmap/</guid>
       <description>&lt;p&gt;cudaでビットマップを作って、それをOpenGLを使ってウィンドウ上に表示したい。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
