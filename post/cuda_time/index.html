@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="generator" content="Hugo 0.40.1" />
 
   <title>Cudaプログラムの実行時間測定 &middot; yuki&#39;s blog</title>
 
@@ -49,8 +49,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    "HTML-CSS": {
-    undefinedFamily: "sans-serif"
+  "HTML-CSS": {
+       availableFonts: ["TeX"],
+       undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
   }
   });
   </script>
@@ -293,8 +294,8 @@
     <span class="p">(</span><span class="n">call</span><span class="p">);</span>                                                                    \
     <span class="n">cudaError_t</span> <span class="n">err</span> <span class="o">=</span> <span class="n">cudaGetLastError</span><span class="p">();</span>                                      \
     <span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">!=</span> <span class="n">cudaSuccess</span><span class="p">)</span> <span class="p">{</span>                                                  \
-      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;error in file &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">__FILE__</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34; line at &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">__LINE__</span>     \
-                <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">cudaGetErrorString</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>               \
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in file &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">__FILE__</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; line at &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">__LINE__</span>     \
+                <span class="o">&lt;&lt;</span> <span class="s">&#34;: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">cudaGetErrorString</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>               \
       <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>                                                                 \
     <span class="p">}</span>                                                                          \
   <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -326,7 +327,7 @@
 </span><span class="c1"></span>    <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaEventSynchronize</span><span class="p">(</span><span class="n">end</span><span class="p">));</span>
     <span class="kt">float</span> <span class="n">elapsed</span><span class="p">;</span>
     <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaEventElapsedTime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">elapsed</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">));</span>
-    <span class="n">printf</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;elapsed: %f ms</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;elapsed: %f ms</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">);</span>
   <span class="p">}</span>
   <span class="kt">void</span> <span class="n">stop_and_report</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">stop</span><span class="p">();</span>

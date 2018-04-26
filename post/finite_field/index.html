@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="generator" content="Hugo 0.40.1" />
 
   <title>有限体の実装 in C&#43;&#43; &middot; yuki&#39;s blog</title>
 
@@ -49,8 +49,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    "HTML-CSS": {
-    undefinedFamily: "sans-serif"
+  "HTML-CSS": {
+       availableFonts: ["TeX"],
+       undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
   }
   });
   </script>
@@ -376,8 +377,8 @@
 </span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="kt">int</span> <span class="n">P</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">FiniteField</span> <span class="p">{</span>
   <span class="c1">// Pが素数なことを確認
-</span><span class="c1"></span>  <span class="k">static_assert</span><span class="p">(</span><span class="n">P</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="sa"></span><span class="s">&#34;P in not prime&#34;</span><span class="p">);</span>
-  <span class="k">static_assert</span><span class="p">(</span><span class="n">is_prime</span><span class="p">(</span><span class="n">P</span><span class="p">),</span> <span class="sa"></span><span class="s">&#34;P is not prime.&#34;</span><span class="p">);</span>
+</span><span class="c1"></span>  <span class="k">static_assert</span><span class="p">(</span><span class="n">P</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#34;P in not prime&#34;</span><span class="p">);</span>
+  <span class="k">static_assert</span><span class="p">(</span><span class="n">is_prime</span><span class="p">(</span><span class="n">P</span><span class="p">),</span> <span class="s">&#34;P is not prime.&#34;</span><span class="p">);</span>
 
  <span class="k">private</span><span class="o">:</span>
   <span class="kt">int</span> <span class="n">m_val</span><span class="p">;</span>
@@ -393,7 +394,7 @@
 
   <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="n">inv</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">m_val</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;division by zero&#34;</span><span class="p">);</span>
+      <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&#34;division by zero&#34;</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">inverses</span><span class="p">[</span><span class="n">m_val</span><span class="p">];</span>
   <span class="p">}</span>
@@ -483,7 +484,7 @@
     <span class="n">assert</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">.</span><span class="n">inv</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// この演算は定数時間で終わる
 </span><span class="c1"></span>  <span class="p">}</span>
 
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;OK&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;OK&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>

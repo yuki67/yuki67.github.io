@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Sat, 07 Apr 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 26 Apr 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki42.netlify.com/tags/cpp/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>clang&#43;&#43;-5.0 を入れたのに C&#43;&#43;17 が有効にならない</title>
+      <link>https://yuki42.netlify.com/post/clang&#43;&#43;_no_cpp17/</link>
+      <pubDate>Thu, 26 Apr 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki42.netlify.com/post/clang&#43;&#43;_no_cpp17/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>小数型を有理数に変換する in C&#43;&#43;</title>

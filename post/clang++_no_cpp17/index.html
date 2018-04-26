@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.40.1" />
 
-  <title>Emacs &middot; yuki&#39;s blog</title>
+  <title>clang&#43;&#43;-5.0 を入れたのに C&#43;&#43;17 が有効にならない &middot; yuki&#39;s blog</title>
 
   
   
@@ -36,8 +36,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-      <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki42.netlify.com/tags/emacs/index.xml" />
   
 
   
@@ -129,10 +127,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://yuki42.netlify.com/tags/emacs/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -235,27 +229,102 @@
 
 
 <div class="header">
-  <h1>Emacs</h1>
+  <h1>clang&#43;&#43;-5.0 を入れたのに C&#43;&#43;17 が有効にならない</h1>
+  <h2></h2>
 </div>
 <div class="content">
-  
 
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-04-26
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
   
-      <h2>2018-4</h2>
-      <ul>
-      
-          <li>
-  <time>
+  
     
-        2018-04-11
     
-    </time> - <a href="https://yuki42.netlify.com/post/emacs_regex_bracket/">emacs の正規表現で (&#34;[&#34;, &#34;]&#34; 以外の1文字) を表現する</a>
-</li>
-
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
       
-      </ul>
+        <a class="post-taxonomy-tag" href="https://yuki42.netlify.com/tags/cpp">
+          cpp
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki42.netlify.com/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
   
 </div>
+
+
+  
+
+
+  <p></p>
+
+<p>タイトルの通りで、 <code>std::is_arithmetic_v</code> を含むコードを <code>clang++-5.0</code> でコンパイルしたらエラーが出た。
+clang はバージョン 5.0 で<a href="https://clang.llvm.org/cxx_status.html">C++17 に対応している</a>はずなのにおかしい。</p>
+
+<p>原因は C++ の標準ライブラリが C++17 に対応していないことにあった。
+clang++ はデフォルトだと標準ライブラリとして libstdc++ を用いるが、
+このバージョンが自分の環境だと 5.4 で C++17 に対応していなかった。</p>
+
+<p>というわけで新しい libstdc++ を入れたら直った。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt update
+sudo apt install libstdc++-8-dev</code></pre></div>
+<p>標準ライブラリとして llvm の libc++ を使う手もあるが、
+ppa が用意されていないためインストールがめんどくさいのでやめた。</p>
+
+<h2 id="参考資料">参考資料</h2>
+
+<p><a href="https://clang.llvm.org/cxx_status.html">Clang - C++17, C++14, C++11 and C++98 Status</a></p>
+
+<p><a href="https://stackoverflow.com/questions/24342312/clang-seems-to-use-the-gcc-libraries">c++ - clang seems to use the gcc libraries - Stack Overflow</a></p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://yuki42.netlify.com/post/emacs_regex_bracket/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki42.netlify.com/post/emacs_regex_bracket/">emacs の正規表現で (&#34;[&#34;, &#34;]&#34; 以外の1文字) を表現する</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+</div>
+
+
 
 </div>
 </div>

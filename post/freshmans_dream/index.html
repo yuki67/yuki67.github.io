@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="generator" content="Hugo 0.40.1" />
 
   <title>一年生の夢の実装 in C&#43;&#43; &middot; yuki&#39;s blog</title>
 
@@ -49,8 +49,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    "HTML-CSS": {
-    undefinedFamily: "sans-serif"
+  "HTML-CSS": {
+       availableFonts: ["TeX"],
+       undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
   }
   });
   </script>
@@ -408,11 +409,11 @@
 
     <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="n">lhs</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">print_zero</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34; + &#34;</span><span class="p">;</span>
+      <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; + &#34;</span><span class="p">;</span>
       <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="n">lhs</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
       <span class="p">}</span>
-      <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;x&#34;</span><span class="p">;</span>
+      <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;x&#34;</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="n">rhs</span><span class="p">;</span>
@@ -420,11 +421,11 @@
 
     <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">lhs</span><span class="p">.</span><span class="n">degree</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">print_zero</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34; + &#34;</span><span class="p">;</span>
+        <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; + &#34;</span><span class="p">;</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
           <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
         <span class="p">}</span>
-        <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;x^&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">;</span>
+        <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;x^&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">;</span>
       <span class="p">}</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">rhs</span><span class="p">;</span>
@@ -453,19 +454,19 @@
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
   <span class="c1">// 位数が 2, 3, 11, 101, 8192 の場合について確認する
 </span><span class="c1"></span>  <span class="k">using</span> <span class="n">P2</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;&gt;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;In F2, (1 + x)^2 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P2</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;In F2, (1 + x)^2 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P2</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
 
   <span class="k">using</span> <span class="n">P3</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;&gt;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;In F3, (1 + x)^3 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P3</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;In F3, (1 + x)^3 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P3</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
 
   <span class="k">using</span> <span class="n">P11</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">11</span><span class="o">&gt;&gt;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;In F11, (1 + x)^11 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P11</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;In F11, (1 + x)^11 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P11</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
 
   <span class="k">using</span> <span class="n">P101</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">101</span><span class="o">&gt;&gt;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;In F101, (1 + x)^101 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P101</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;In F101, (1 + x)^101 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P101</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
 
   <span class="k">using</span> <span class="n">P8291</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">8291</span><span class="o">&gt;&gt;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;In F8291, (1 + x)^8291 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P8291</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">8291</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;In F8291, (1 + x)^8291 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P8291</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">8291</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
 
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>

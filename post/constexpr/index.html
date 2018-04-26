@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="generator" content="Hugo 0.40.1" />
 
   <title>C&#43;&#43;のconstexpr &middot; yuki&#39;s blog</title>
 
@@ -49,8 +49,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    "HTML-CSS": {
-    undefinedFamily: "sans-serif"
+  "HTML-CSS": {
+       availableFonts: ["TeX"],
+       undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
   }
   });
   </script>
@@ -307,7 +308,7 @@
   <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">y</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
   <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">y</span><span class="o">&gt;</span> <span class="n">arr4</span><span class="p">;</span>
 
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;OK&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;OK&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>
@@ -426,20 +427,20 @@
 </span><span class="c1"></span>  <span class="n">Single</span> <span class="n">f</span><span class="p">(</span><span class="mf">1234.567</span><span class="p">);</span>
   <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bit_sign</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
   <span class="c1">// to_string()をしてから比較をしてもいいが、Single::w_all()などを使うためにあえてそのまま比較する
-</span><span class="c1"></span>  <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_all</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_all</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;01000100100110100101001000100101&#34;</span><span class="p">));</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_exp</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_exp</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;10001001&#34;</span><span class="p">));</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_sig</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_sig</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;00110100101001000100101&#34;</span><span class="p">));</span>
+</span><span class="c1"></span>  <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_all</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_all</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&#34;01000100100110100101001000100101&#34;</span><span class="p">));</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_exp</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_exp</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&#34;10001001&#34;</span><span class="p">));</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_sig</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_sig</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&#34;00110100101001000100101&#34;</span><span class="p">));</span>
 
   <span class="n">Double</span> <span class="n">d</span><span class="p">(</span><span class="o">-</span><span class="mf">12345678.90123456</span><span class="p">);</span>
   <span class="n">assert</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">bit_sign</span><span class="p">()</span> <span class="o">==</span> <span class="nb">true</span><span class="p">);</span>
   <span class="n">assert</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">bits_all</span><span class="p">()</span> <span class="o">==</span>
-         <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">w_all</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;1100000101100111100011000010100111011100110101101110100111011100&#34;</span><span class="p">));</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">w_all</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&#34;1100000101100111100011000010100111011100110101101110100111011100&#34;</span><span class="p">));</span>
   <span class="n">assert</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">bits_exp</span><span class="p">()</span> <span class="o">==</span>
-         <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">w_exp</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;10000010110&#34;</span><span class="p">));</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">w_exp</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&#34;10000010110&#34;</span><span class="p">));</span>
   <span class="n">assert</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">bits_sig</span><span class="p">()</span> <span class="o">==</span>
-         <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">w_sig</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;0111100011000010100111011100110101101110100111011100&#34;</span><span class="p">));</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">w_sig</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&#34;0111100011000010100111011100110101101110100111011100&#34;</span><span class="p">));</span>
 
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;OK&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;OK&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>

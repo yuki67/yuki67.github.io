@@ -4,10 +4,14 @@ body {
 }
 
 /* 本文の章タイトルの下に線を引く */
-.content h2, h3, h4, h5, h6 {
+.content h2 {
     font-weight: bold;
     padding-bottom: 0.2em;
     border-bottom: 1px solid #aaa;
+}
+
+.content h3, h4, h5, h6 {
+    font-weight: bold;
 }
 
 /* 表 */

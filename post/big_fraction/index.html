@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="generator" content="Hugo 0.40.1" />
 
   <title>任意精度有理数の実装 in C&#43;&#43; &middot; yuki&#39;s blog</title>
 
@@ -49,8 +49,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    "HTML-CSS": {
-    undefinedFamily: "sans-serif"
+  "HTML-CSS": {
+       availableFonts: ["TeX"],
+       undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
   }
   });
   </script>
@@ -330,7 +331,7 @@
         <span class="n">m_numer</span><span class="p">(</span><span class="n">numerator</span> <span class="o">&lt;</span> <span class="mi">0l</span> <span class="o">?</span> <span class="o">-</span><span class="nl">numerator</span> <span class="p">:</span> <span class="n">numerator</span><span class="p">),</span>
         <span class="n">m_denom</span><span class="p">(</span><span class="n">denominator</span> <span class="o">&lt;</span> <span class="mi">0l</span> <span class="o">?</span> <span class="o">-</span><span class="nl">denominator</span> <span class="p">:</span> <span class="n">denominator</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">denominator</span> <span class="o">==</span> <span class="mi">0l</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;denominator must not be 0.&#34;</span><span class="p">);</span>
+      <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&#34;denominator must not be 0.&#34;</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">m_numer</span> <span class="o">==</span> <span class="mi">0l</span><span class="p">)</span> <span class="p">{</span>
       <span class="n">m_denom</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
@@ -388,7 +389,7 @@
 
   <span class="k">friend</span> <span class="n">Fraction</span> <span class="k">operator</span><span class="o">/</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">rhs</span> <span class="o">==</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;Fraction::operator/ : devision by zero.&#34;</span><span class="p">);</span>
+      <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&#34;Fraction::operator/ : devision by zero.&#34;</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span> <span class="o">==</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
       <span class="k">return</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
@@ -460,9 +461,9 @@
       <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">();</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
       <span class="k">if</span> <span class="p">(</span><span class="n">rhs</span><span class="p">.</span><span class="n">is_negative</span><span class="p">())</span> <span class="p">{</span>
-        <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;-&#34;</span><span class="p">;</span>
+        <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;-&#34;</span><span class="p">;</span>
       <span class="p">}</span>
-      <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34; / &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">();</span>
+      <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; / &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">();</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">os</span><span class="p">;</span>
   <span class="p">}</span>

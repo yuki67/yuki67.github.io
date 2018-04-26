@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="generator" content="Hugo 0.40.1" />
 
   <title>Hugo の C&#43;&#43; 用 シンタックスハイライトを直す &middot; yuki&#39;s blog</title>
 
@@ -49,8 +49,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    "HTML-CSS": {
-    undefinedFamily: "sans-serif"
+  "HTML-CSS": {
+       availableFonts: ["TeX"],
+       undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
   }
   });
   </script>
@@ -296,12 +297,12 @@
 
 <figure>
     
-        <img src="https://yuki42.netlify.com/ox-hugo/result.png" alt="Figure 2: 出力されるソースコード" />
+        <img src="https://yuki42.netlify.com/ox-hugo/result.png" alt="Figure 2: 出力されたソースコード" />
     
     
     <figcaption>
         <p>
-        Figure 2: 出力されるソースコード
+        Figure 2: 出力されたソースコード
         
             
         
@@ -328,6 +329,10 @@
 <p>でできる。</p>
 
 <p>しばらくすれば Hugo が chroma の最新版を使うようになるとは思うが、それまではこれで。</p>
+
+<h2 id="追記">追記</h2>
+
+<p>最新の Hugo では<a href="https://github.com/gohugoio/hugo/commit/904a3d9ddf523d452d04d0b5814503e0ff17bd2e#diff-836546cc53507f6b2d581088903b1785L13">直った</a>ことを確認した。</p>
 
   
 <div class="prev-next-post pure-g">

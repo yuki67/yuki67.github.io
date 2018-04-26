@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="generator" content="Hugo 0.40.1" />
 
   <title>MathJax 数式内のフォントを変更する &middot; yuki&#39;s blog</title>
 
@@ -49,8 +49,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    "HTML-CSS": {
-    undefinedFamily: "sans-serif"
+  "HTML-CSS": {
+       availableFonts: ["TeX"],
+       undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
   }
   });
   </script>
@@ -294,14 +295,17 @@
 
 
 <p>日本語(正確には「デフォルトのフォントに含まれていない文字」)に使うフォントを指定するコードを入れれば解決できる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/x-mathjax-config&#34;</span><span class="p"></span><span class="p">&gt;</span>
+<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/x-mathjax-config&#34;</span><span class="p">&gt;</span>
   <span class="nx">MathJax</span><span class="p">.</span><span class="nx">Hub</span><span class="p">.</span><span class="nx">Config</span><span class="p">({</span>
   <span class="s2">&#34;HTML-CSS&#34;</span><span class="o">:</span> <span class="p">{</span>
     <span class="nx">undefinedFamily</span><span class="o">:</span> <span class="s2">&#34;&#39;Raleway&#39;, Helvetica, Arial, sans-serif&#34;</span>
   <span class="p">}</span>
   <span class="p">});</span>
-<span class="p">&lt;</span><span class="p">/</span><span class="nt">script</span><span class="p">&gt;</span></code></pre></div>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span></code></pre></div>
 <p>以下は使用例。</p>
+
+<div class="exa">
+  <div></div>
 
 <p>数式外の文章</p>
 
@@ -309,6 +313,23 @@
 y = x 数式内の文章
 \end{align*}</p>
 
+<p></div></p>
+
+<h2 id="追記">追記</h2>
+
+<p>上の設定でうまく行ったと思ったのだが、しばらくして確認したら数式内のひらがなのフォントだけおかしくなった。</p>
+
+<p>MathJax がデフォルトで使おうする STIX フォントにひらがな用のフォントが存在するのが原因なので、以下のようにして STIX フォントを使わないように設定すれば回避できる。</p>
+<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/x-mathjax-config&#34;</span><span class="p">&gt;</span>
+  <span class="nx">MathJax</span><span class="p">.</span><span class="nx">Hub</span><span class="p">.</span><span class="nx">Config</span><span class="p">({</span>
+  <span class="s2">&#34;HTML-CSS&#34;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="c1">// デフォルトが [&#34;STIX&#34;,&#34;TeX&#34;] なのを変更
+</span><span class="c1"></span>    <span class="c1">// [] にしても良い
+</span><span class="c1"></span>    <span class="nx">availableFonts</span><span class="o">:</span> <span class="p">[</span><span class="s2">&#34;TeX&#34;</span><span class="p">],</span>
+    <span class="nx">undefinedFamily</span><span class="o">:</span> <span class="s2">&#34;&#39;Raleway&#39;, Helvetica, Arial, sans-serif&#34;</span>
+  <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span></code></pre></div>
 <h2 id="参考資料">参考資料</h2>
 
 <p><a href="http://docs.mathjax.org/en/latest/options/output-processors/HTML-CSS.html?highlight=undefined%20family">The HTML-CSS output processor — MathJax 2.7 documentation</a></p>

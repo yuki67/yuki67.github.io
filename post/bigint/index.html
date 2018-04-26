@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="generator" content="Hugo 0.40.1" />
 
   <title>BigIntの実装 in C&#43;&#43; &middot; yuki&#39;s blog</title>
 
@@ -49,8 +49,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    "HTML-CSS": {
-    undefinedFamily: "sans-serif"
+  "HTML-CSS": {
+       availableFonts: ["TeX"],
+       undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
   }
   });
   </script>
@@ -305,8 +306,8 @@
 <span class="p">}</span>
 
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;fact(100) = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">fact</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;fib(1000) = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">fib</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;fact(100) = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">fact</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;fib(1000) = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">fib</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">fact(100) = 93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000
@@ -434,7 +435,7 @@ a + b &amp;\geq 2^{32} \\<br />
 <p>実際のコードでは「この2つの数を足したらオーバーフローするか?」ではなく「この2つの数を足した結果オーバーフローが起こったか?」が必要になったので、次の事実を使った。</p>
 
 <div class="fact">
-<div></div>
+  <div></div>
 
 <p><code>uint32_t</code> 型の変数 <code>a</code>, <code>b</code> について、 <code>a += b</code> を実行したとする。この加算でオーバーフローが発生したかどうかは</p>
 
@@ -442,11 +443,12 @@ a + b &amp;\geq 2^{32} \\<br />
 a &lt; b
 \end{align*}</p>
 
-<p>を調べれば分かる。
-</div></p>
+<p>を調べれば分かる。</p>
+
+<p></div></p>
 
 <div class="proof">
-<div></div>
+  <div></div>
 
 <p><code>a += b</code> を実行する前の <code>a</code>, <code>b</code> の値を \(A, B\) とする。</p>
 
@@ -477,8 +479,9 @@ a &amp;= A + B \mod 2^{32} \\<br />
 a - b = A \geq 0
 \end{align*}</p>
 
-<p>が成り立つ。
-</div></p>
+<p>が成り立つ。</p>
+
+<p></div></p>
 
 <p>コードでは以下のようになった。</p>
 <div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
@@ -758,7 +761,7 @@ a - b = A \geq 0
 <span class="p">}</span>
 
 <span class="n">BigUInt</span> <span class="n">BigUInt</span><span class="o">::</span><span class="k">operator</span><span class="o">-</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">invalid_argument</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;unary - of BigUInt&#34;</span><span class="p">);</span>
+  <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">invalid_argument</span><span class="p">(</span><span class="s">&#34;unary - of BigUInt&#34;</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">BigUInt</span><span class="o">::</span><span class="k">operator</span><span class="o">++</span><span class="p">()</span> <span class="p">{</span>
@@ -896,7 +899,7 @@ a - b = A \geq 0
 </span><span class="c1"></span><span class="k">static</span> <span class="n">BigUInt</span> <span class="n">divmod</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">dividend</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">divisor</span><span class="p">)</span> <span class="p">{</span>
 
   <span class="k">if</span> <span class="p">(</span><span class="n">divisor</span><span class="p">.</span><span class="n">is_zero</span><span class="p">())</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">invalid_argument</span><span class="p">(</span><span class="sa"></span><span class="s">&#34;BigUInt : division by zero.&#34;</span><span class="p">);</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">invalid_argument</span><span class="p">(</span><span class="s">&#34;BigUInt : division by zero.&#34;</span><span class="p">);</span>
   <span class="p">}</span>
 
   <span class="k">if</span> <span class="p">(</span><span class="n">dividend</span> <span class="o">&lt;</span> <span class="n">divisor</span><span class="p">)</span> <span class="p">{</span>
@@ -1084,7 +1087,7 @@ a - b = A \geq 0
 <span class="n">BigInt</span><span class="o">::</span><span class="n">BigInt</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_sign</span><span class="p">(</span><span class="n">sign</span><span class="p">),</span> <span class="n">m_abs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{}</span>
 
 <span class="n">BigInt</span><span class="o">::</span><span class="n">BigInt</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">str</span><span class="p">)</span>
-    <span class="o">:</span> <span class="n">m_sign</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sa"></span><span class="sc">&#39;-&#39;</span><span class="p">),</span> <span class="n">m_abs</span><span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">m_sign</span><span class="p">,</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="n">m_sign</span><span class="p">))</span> <span class="p">{}</span>
+    <span class="o">:</span> <span class="n">m_sign</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;-&#39;</span><span class="p">),</span> <span class="n">m_abs</span><span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">m_sign</span><span class="p">,</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="n">m_sign</span><span class="p">))</span> <span class="p">{}</span>
 
 <span class="n">BigInt</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">of_big_uint</span><span class="p">(</span><span class="n">BigUInt</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">BigInt</span> <span class="n">temp</span><span class="p">;</span>
@@ -1263,7 +1266,7 @@ a - b = A \geq 0
 
 <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">rhs</span><span class="p">.</span><span class="n">is_negative</span><span class="p">())</span> <span class="p">{</span>
-    <span class="n">lhs</span> <span class="o">&lt;&lt;</span> <span class="sa"></span><span class="s">&#34;-&#34;</span><span class="p">;</span>
+    <span class="n">lhs</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;-&#34;</span><span class="p">;</span>
   <span class="p">}</span>
   <span class="n">lhs</span> <span class="o">&lt;&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
   <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>

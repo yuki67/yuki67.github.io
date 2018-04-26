@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="generator" content="Hugo 0.40.1" />
 
   <title>emacs の正規表現で (&#34;[&#34;, &#34;]&#34; 以外の1文字) を表現する &middot; yuki&#39;s blog</title>
 
@@ -49,8 +49,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    "HTML-CSS": {
-    undefinedFamily: "sans-serif"
+  "HTML-CSS": {
+       availableFonts: ["TeX"],
+       undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
   }
   });
   </script>
@@ -290,7 +291,7 @@
 この正規表現が表すのは (&rdquo;<code>\</code>&rdquo;, &ldquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字) だからだ。</p>
 
 <p>解決法は<a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.html">マニュアル</a>にあった。
-emacs の正規表現では <code>[...]</code> 中の最初の文字が &ldquo;<code>[</code>&rdquo; だった場合はエスケープされるとのことなので、
+emacs の正規表現では <code>[...]</code> 中の最初の文字が &ldquo;<code>]</code>&rdquo; だった場合はエスケープされるとのことなので、
 (&rdquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字)を表す正規表現は <code>[^][]</code> となる。</p>
 
 <p>よって、冒頭の変換を行うクエリは <code>\[\([^][*\)\] -&gt; (\1)</code> となる。</p>
@@ -318,8 +319,14 @@ emacs の正規表現では <code>[...]</code> 中の最初の文字が &ldquo;<
   </div>
   <div class="pure-u-10-24">
     
+    <nav class="next">
+      <a href="https://yuki42.netlify.com/post/clang&#43;&#43;_no_cpp17/">clang&#43;&#43;-5.0 を入れたのに C&#43;&#43;17 が有効にならない</a>
+    </nav>
+    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://yuki42.netlify.com/post/clang&#43;&#43;_no_cpp17/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
