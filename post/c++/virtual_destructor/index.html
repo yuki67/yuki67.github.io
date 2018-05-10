@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.40.1" />
+
+  <title>virtual なデストラクタ &middot; yuki&#39;s blog</title>
+
+  
+  
+  <link rel="stylesheet" href="https://yuki67.github.io/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+          <link rel="stylesheet" href="https://yuki67.github.io/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+
+  <!--[if gt IE 8]><!-->
+          <link rel="stylesheet" href="https://yuki67.github.io/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+          <link rel="stylesheet" href="https://yuki67.github.io/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+          <link rel="stylesheet" href="https://yuki67.github.io/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://yuki67.github.io/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+
+  <link rel="shortcut icon" href="https://yuki67.github.io/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+       availableFonts: ["TeX"],
+       undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
+  }
+  });
+  </script>
+
+  
+  <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+  <link rel="stylesheet" href="https://yuki67.github.io/css/pygments.css">
+
+</head>
+
+
+  <body>
+    <div id="layout">
+      
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://yuki67.github.io/">yuki's blog</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/"><i class='fa fa-home fa-fw'></i>Home</a>
+        
+        </li>
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>Post</a>
+        
+        </li>
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Code</a>
+        
+        </li>
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/tags/about/"><i class='fa fa-edit fa-fw'></i>About</a>
+        
+        </li>
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/"><i class='fa fa-sticky-note fa-fw'></i>Memo</a>
+        
+        </li>
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/"><i class='fa fa-book fa-fw'></i>Note</a>
+        
+        </li>
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tag</a>
+        
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/yfkutydt" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/yuki67" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>by yuki</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+      <div id="main">
+
+
+<div class="header">
+  <h1>virtual なデストラクタ</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-04-29
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="tags/cpp">
+          cpp
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="tags/%E3%83%8E%E3%83%BC%E3%83%88">
+          ノート
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  
+
+
+  <p>基底クラスへのポインタを <code>delete</code> する場合、基底クラスのデストラクタが <code>virtual</code> でないと派生クラスのデストラクタが呼ばれない。</p>
+
+<p></p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">struct</span> <span class="n">Base_Non_Virtual</span> <span class="p">{</span>
+  <span class="o">~</span><span class="n">Base_Non_Virtual</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;~Base_Non_Virtual()</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nl">Derived_Non_Virtual</span> <span class="p">:</span> <span class="n">Base_Non_Virtual</span> <span class="p">{</span>
+  <span class="o">~</span><span class="n">Derived_Non_Virtual</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;~Derived_Non_Virtual()</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">Base_Virtual</span> <span class="p">{</span>
+  <span class="k">virtual</span> <span class="o">~</span><span class="n">Base_Virtual</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;~Base_Virtual()</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nl">Derived_Virtual</span> <span class="p">:</span> <span class="n">Base_Virtual</span> <span class="p">{</span>
+  <span class="o">~</span><span class="n">Derived_Virtual</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;~Derived_Virtual()</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Base_Non_Virtual</span> <span class="o">*</span><span class="n">ptr1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Derived_Non_Virtual</span><span class="p">();</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;deleting Base_Non_Virtual* value that points to Derived_Non_Virtual value</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="k">delete</span> <span class="n">ptr1</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">Base_Virtual</span> <span class="o">*</span><span class="n">ptr2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Derived_Virtual</span><span class="p">();</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;deleting Base_Virtual* value that points to Derived_Virtual value</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="k">delete</span> <span class="n">ptr2</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">deleting Base_Non_Virtual* value that points to Derived_Non_Virtual value
+~Base_Non_Virtual()
+
+deleting Base_Virtual* value that points to Derived_Virtual value
+~Derived_Virtual()
+~Base_Virtual()</code></pre></div>
+<h2 id="参考">参考</h2>
+
+<p><a href="https://stackoverflow.com/questions/461203/when-to-use-virtual-destructors">c++ - When to use virtual destructors? - Stack Overflow</a></p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://yuki67.github.io/post/c&#43;&#43;/order_of_destructor/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/c&#43;&#43;/order_of_destructor/">デストラクタの呼ばれる順番</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+</div>
+
+</div>
+</div>
+<script src="https://yuki67.github.io/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-107335237-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.40.1" />
+
+  <title>octave が emacs でハングする &middot; yuki&#39;s blog</title>
+
+  
+  
+  <link rel="stylesheet" href="https://yuki67.github.io/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+          <link rel="stylesheet" href="https://yuki67.github.io/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+
+  <!--[if gt IE 8]><!-->
+          <link rel="stylesheet" href="https://yuki67.github.io/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+          <link rel="stylesheet" href="https://yuki67.github.io/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+          <link rel="stylesheet" href="https://yuki67.github.io/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://yuki67.github.io/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+
+  <link rel="shortcut icon" href="https://yuki67.github.io/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  "HTML-CSS": {
+       availableFonts: ["TeX"],
+       undefinedFamily: "'Raleway', Helvetica, Arial, sans-serif"
+  }
+  });
+  </script>
+
+  
+  <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
+  <link rel="stylesheet" href="https://yuki67.github.io/css/pygments.css">
+
+</head>
+
+
+  <body>
+    <div id="layout">
+      
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://yuki67.github.io/">yuki's blog</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/"><i class='fa fa-home fa-fw'></i>Home</a>
+        
+        </li>
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/post/"><i class='fa fa-list fa-fw'></i>Post</a>
+        
+        </li>
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/"><i class='fa fa-terminal fa-fw'></i>Code</a>
+        
+        </li>
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/tags/about/"><i class='fa fa-edit fa-fw'></i>About</a>
+        
+        </li>
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/"><i class='fa fa-sticky-note fa-fw'></i>Memo</a>
+        
+        </li>
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/"><i class='fa fa-book fa-fw'></i>Note</a>
+        
+        </li>
+      
+        
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="https://yuki67.github.io/tags/"><i class='fa fa-tags fa-fw'></i>Tag</a>
+        
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/yfkutydt" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/yuki67" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small>by yuki</small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+      <div id="main">
+
+
+<div class="header">
+  <h1>octave が emacs でハングする</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-05-08
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="tags/emacs">
+          emacs
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="tags/octave">
+          octave
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  
+
+
+  
+
+<h2 id="問題">問題</h2>
+
+<p>Ubuntu 16.04 で emacs 25.3 から octave 4.0 を使おうとするとハングする (org-babel から実行しても実行が終わらない)。</p>
+
+<h2 id="解決法">解決法</h2>
+
+<p>octave を最新版 (4.4) にしたら直った。最新版は ppa にないので手元でビルドした。</p>
+
+<h2 id="備考">備考</h2>
+
+<p>octave の最新版をビルドするときにライブラリが足りないという警告がいくつか出るのでパッケージをインストールして対処したが、
+以下の警告は最後まで残った。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">configure: WARNING: SUNDIALS IDA library not configured with IDAKLU, ode15i and ode15s will not support the sparse Jacobian feature</code></pre></div>
+<p>今は <code>ode15</code> コマンドを使わないのでほっておいたが、後で必要になるかもしれない。</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://yuki67.github.io/post/clang&#43;&#43;_no_cpp17/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/clang&#43;&#43;_no_cpp17/">clang&#43;&#43;-5.0 を入れたのに C&#43;&#43;17 が有効にならない</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="https://yuki67.github.io/post/autoload_undefined_function/">Autoloading failed to define function … が出る</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://yuki67.github.io/post/autoload_undefined_function/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+</div>
+
+</div>
+</div>
+<script src="https://yuki67.github.io/js/ui.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-107335237-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+
+
+
+
+</body>
+</html>
+

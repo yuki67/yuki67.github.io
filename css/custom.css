@@ -125,5 +125,21 @@ figcaption > p {
 
 /* 下線 */
 .underline {
-    text-decoration : underline
+    text-decoration : underline;
+}
+
+/* "list" layout */
+.list-table,
+.list-date,
+.list-link,
+.list-tags {
+    min-width: 100%;
+    white-space: nowrap;
+    border: none;
+    padding-bottom: 0px;
+    padding-left: 0px;
+}
+
+.list-date {
+    width: 100px;
 }

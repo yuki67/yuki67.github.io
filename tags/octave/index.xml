@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Octave on yuki&#39;s blog</title>
+    <link>https://yuki67.github.io/tags/octave/</link>
+    <description>Recent content in Octave on yuki&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <copyright>by yuki</copyright>
+    <lastBuildDate>Tue, 08 May 2018 00:00:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://yuki67.github.io/tags/octave/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>octave が emacs でハングする</title>
+      <link>https://yuki67.github.io/post/octave_hangs_on_emacs/</link>
+      <pubDate>Tue, 08 May 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/octave_hangs_on_emacs/</guid>
+      <description>問題 Ubuntu 16.04 で emacs 25.3 から octave 4.0 を使おうとするとハングする (org-babel から実行しても実行が終わらない)。
+解決法 octave を最新版 (4.4) にしたら直った。最新版は ppa にないので手元でビルドした。
+備考 octave の最新版をビルドするときにライブラリが足りないという警告がいくつか出るのでパッケージをインストールして対処したが、 以下の警告は最後まで残った。
+configure: WARNING: SUNDIALS IDA library not configured with IDAKLU, ode15i and ode15s will not support the sparse Jacobian feature 今は ode15 コマンドを使わないのでほっておいたが、後で必要になるかもしれない。</description>
+    </item>
+    
+  </channel>
+</rss>

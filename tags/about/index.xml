@@ -18,9 +18,7 @@
       <pubDate>Mon, 02 Apr 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/post/org-reveal/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/yjwen/org-reveal&#34;&gt;org-reveal&lt;/a&gt; を使うと org-mode でスライドを書くことができる。&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>.underline { text-decoration: underline; }   if( window.location.search.match( /print-pdf/gi ) ) { var link = document.createElement( &#39;link&#39; ); link.rel = &#39;stylesheet&#39;; link.type = &#39;text/css&#39;; link.href = &#39;/reveal.js/css/print/pdf.css&#39;; document.getElementsByTagName( &#39;head&#39; )[0].appendChild( link ); }   Org-reveal  org-mode でスライドがかける    基本  org-mode の 1サブツリー = 1ページ  サブツリーを多めにして書けばそのまま読めるスライドになる    基本的な機能  試す    遅延表示 こんな ふうに 一つづつ 出せる    リンク  Google org-mode のものがそのまま使える    箇条書き  普通に 使える 遅延表示にも対応     ソースコード  htmlize.</description>
     </item>
     
     <item>

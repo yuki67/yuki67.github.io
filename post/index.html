@@ -61,7 +61,7 @@
   
   <link rel="stylesheet" href="https://yuki67.github.io/css/custom.css">
   <link rel="stylesheet" href="https://yuki67.github.io/css/pygments.css">
-  
+
 </head>
 
 
@@ -107,13 +107,13 @@
       
         
           <li class="pure-menu-item">
-            <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/"><i class='fa fa-book fa-fw'></i>Memo</a>
+            <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/"><i class='fa fa-sticky-note fa-fw'></i>Memo</a>
         
         </li>
       
         
           <li class="pure-menu-item">
-            <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/"><i class='fa fa-sticky-note fa-fw'></i>Note</a>
+            <a class="pure-menu-link" href="https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/"><i class='fa fa-book fa-fw'></i>Note</a>
         
         </li>
       
@@ -238,347 +238,585 @@
   <h1>All Posts</h1>
 </div>
 <div class="content">
-  <p>全ての記事のリスト</p>
+  <p>全ての記事をそのまま表示している。</p>
+
+<p>とても重くなってしまっているかもしれない。</p>
+
+  
+    <article>
+  <h2>
+    <a href="https://yuki67.github.io/post/autoload_undefined_function/">
+      Autoloading failed to define function … が出る
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-05-09
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="tags/emacs">
+          emacs
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
 
 
   
-      <h2>2018-4</h2>
-      <ul>
+
+<h2 id="症状">症状</h2>
+
+<p>emacs でいつも使っているキーボードバインディングを使おうとすると <code>Autoloading failed to define function HOGE</code> と出て実行できない。</p>
+
+<h2 id="原因">原因</h2>
+
+<p>パッケージのアップデートで <code>HOGE</code> 関数の名前が変更されていた。</p>
+
+<h2 id="解決法">解決法</h2>
+
+<p>呼び出す関数の名前を変える。</p>
+
+<h2 id="備考">備考</h2>
+
+<p>定義されていない関数を呼び出した場合、普通は <code>void-function HOGE</code> というおなじみのエラーが表示されるのですぐ分かるが、今回のエラーは初めて見たので解決に時間がかかった。</p>
+
+<p>今まで見なかったこのエラーが出た原因は <code>HOGE</code> のキーボードバインディングを <code>use-package</code> で定義していたことにあった。</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">use-package</span> <span class="nv">package-name</span>
+  <span class="nb">:bind</span>
+  <span class="p">(</span><span class="nb">:map</span> <span class="nv">global-map</span>
+        <span class="p">(</span><span class="s">&#34;KEY&#34;</span> <span class="o">.</span> <span class="nv">HOGE</span><span class="p">)))</span></code></pre></div>
+<p>とすると、 <code>KEY</code> を押したときに <code>HOGE</code> が autoload される。その結果エラーメッセージが見慣れないものになる。</p>
+
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
+    <a href="https://yuki67.github.io/post/octave_hangs_on_emacs/">
+      octave が emacs でハングする
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
       
-          <li>
-  <time>
+        2018-05-08
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
     
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="tags/emacs">
+          emacs
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="tags/octave">
+          octave
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  
+
+<h2 id="問題">問題</h2>
+
+<p>Ubuntu 16.04 で emacs 25.3 から octave 4.0 を使おうとするとハングする (org-babel から実行しても実行が終わらない)。</p>
+
+<h2 id="解決法">解決法</h2>
+
+<p>octave を最新版 (4.4) にしたら直った。最新版は ppa にないので手元でビルドした。</p>
+
+<h2 id="備考">備考</h2>
+
+<p>octave の最新版をビルドするときにライブラリが足りないという警告がいくつか出るのでパッケージをインストールして対処したが、
+以下の警告は最後まで残った。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">configure: WARNING: SUNDIALS IDA library not configured with IDAKLU, ode15i and ode15s will not support the sparse Jacobian feature</code></pre></div>
+<p>今は <code>ode15</code> コマンドを使わないのでほっておいたが、後で必要になるかもしれない。</p>
+
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
+    <a href="https://yuki67.github.io/post/clang&#43;&#43;_no_cpp17/">
+      clang&#43;&#43;-5.0 を入れたのに C&#43;&#43;17 が有効にならない
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
         2018-04-26
-    
-    </time> - <a href="https://yuki67.github.io/post/clang&#43;&#43;_no_cpp17/">clang&#43;&#43;-5.0 を入れたのに C&#43;&#43;17 が有効にならない</a>
-</li>
-
       
-          <li>
-  <time>
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
     
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="tags/cpp">
+          cpp
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p></p>
+
+<p>タイトルの通りで、 <code>std::is_arithmetic_v</code> を含むコードを <code>clang++-5.0</code> でコンパイルしたらエラーが出た。
+clang はバージョン 5.0 で<a href="https://clang.llvm.org/cxx_status.html">C++17 に対応している</a>はずなのにおかしい。</p>
+
+<p>原因は C++ の標準ライブラリが C++17 に対応していないことにあった。
+clang++ はデフォルトだと標準ライブラリとして libstdc++ を用いるが、
+このバージョンが自分の環境だと 5.4 で C++17 に対応していなかった。</p>
+
+<p>というわけで新しい libstdc++ を入れたら直った。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt update
+sudo apt install libstdc++-8-dev</code></pre></div>
+<p>標準ライブラリとして llvm の libc++ を使う手もあるが、
+ppa が用意されていないためインストールがめんどくさいのでやめた。</p>
+
+<h2 id="参考資料">参考資料</h2>
+
+<p><a href="https://clang.llvm.org/cxx_status.html">Clang - C++17, C++14, C++11 and C++98 Status</a></p>
+
+<p><a href="https://stackoverflow.com/questions/24342312/clang-seems-to-use-the-gcc-libraries">c++ - clang seems to use the gcc libraries - Stack Overflow</a></p>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
+    <a href="https://yuki67.github.io/post/emacs_regex_bracket/">
+      emacs の正規表現で (&#34;[&#34;, &#34;]&#34; 以外の1文字) を表現する
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
         2018-04-11
-    
-    </time> - <a href="https://yuki67.github.io/post/emacs_regex_bracket/">emacs の正規表現で (&#34;[&#34;, &#34;]&#34; 以外の1文字) を表現する</a>
-</li>
-
       
-          <li>
-  <time>
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
     
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="tags/emacs">
+          emacs
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p></p>
+
+<p>emacsの <code>M-C-%</code> (<code>query-replace-regexp</code>) で</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">a</span><span class="p">[</span><span class="n">index_i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+<p>のような文章を</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">a</span><span class="p">(</span><span class="n">index_i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+<p>文章に変換したいことがあった。</p>
+
+<p>このとき置換のクエリを <code>\[\([^[]]*\)\] -&gt; (\1)</code> としても上手く行かない。
+なぜなら <code>[^[]]</code> という正規表現が表すのは (&rdquo;<code>[</code>&ldquo;以外の1文字 + &ldquo;<code>]</code>&rdquo;) であって、
+こちらの意図する (&rdquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字) とは異なっているからだ。</p>
+
+<p>じゃあエスケープすればいいだろうと思って <code>[^\[\]]</code> としてもこれも上手く行かない。
+<code>[]</code> の中にある文字はエスケープされるので、
+この正規表現が表すのは (&rdquo;<code>\</code>&rdquo;, &ldquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字) だからだ。</p>
+
+<p>解決法は<a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.html">マニュアル</a>にあった。
+emacs の正規表現では <code>[...]</code> 中の最初の文字が &ldquo;<code>]</code>&rdquo; だった場合はエスケープされるとのことなので、
+(&rdquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字)を表す正規表現は <code>[^][]</code> となる。</p>
+
+<p>よって、冒頭の変換を行うクエリは <code>\[\([^][*\)\] -&gt; (\1)</code> となる。</p>
+
+<h2 id="参考資料">参考資料</h2>
+
+<p><a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.html">Regexp Special - GNU Emacs Lisp Reference Manual</a></p>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
+    <a href="https://yuki67.github.io/post/float_to_fraction/">
+      小数型を有理数に変換する in C&#43;&#43;
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
         2018-04-07
-    
-    </time> - <a href="https://yuki67.github.io/post/float_to_fraction/">小数型を有理数に変換する in C&#43;&#43;</a>
-</li>
-
       
-          <li>
-  <time>
-    
-        2018-04-05
-    
-    </time> - <a href="https://yuki67.github.io/post/big_fraction/">任意精度有理数の実装 in C&#43;&#43;</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2018-04-02
-    
-    </time> - <a href="https://yuki67.github.io/post/org-reveal/">org-reveal</a>
-</li>
-
-      
-      </ul>
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
   
-      <h2>2018-3</h2>
-      <ul>
-      
-          <li>
-  <time>
-    
-        2018-03-30
-    
-    </time> - <a href="https://yuki67.github.io/post/ox-hugo/">ox-hugo</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2018-03-18
-    
-    </time> - <a href="https://yuki67.github.io/post/hugo_cpp_highlight/">Hugo の C&#43;&#43; 用 シンタックスハイライトを直す</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2018-03-15
-    
-    </time> - <a href="https://yuki67.github.io/post/mathjax_font/">MathJax 数式内のフォントを変更する</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2018-03-13
-    
-    </time> - <a href="https://yuki67.github.io/post/org-babel/">org-babel</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2018-03-08
-    
-    </time> - <a href="https://yuki67.github.io/post/org-mode/">org-mode</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2018-03-03
-    
-    </time> - <a href="https://yuki67.github.io/post/org-md-hugo/">全体像</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2018-03-02
-    
-    </time> - <a href="https://yuki67.github.io/post/bigint/">BigIntの実装 in C&#43;&#43;</a>
-</li>
-
-      
-      </ul>
   
-      <h2>2018-2</h2>
-      <ul>
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
       
-          <li>
-  <time>
-    
-        2018-02-23
-    
-    </time> - <a href="https://yuki67.github.io/post/freshmans_dream/">一年生の夢の実装 in C&#43;&#43;</a>
-</li>
-
+        <a class="post-taxonomy-tag" href="tags/cpp">
+          cpp
+        </a>
+        
+          &nbsp;&#47;
+        
       
-          <li>
-  <time>
-    
-        2018-02-10
-    
-    </time> - <a href="https://yuki67.github.io/post/finite_field/">有限体の実装 in C&#43;&#43;</a>
-</li>
-
+        <a class="post-taxonomy-tag" href="tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
       
-          <li>
-  <time>
+    </span>
     
-        2018-02-07
-    
-    </time> - <a href="https://yuki67.github.io/post/constexpr/">C&#43;&#43;のconstexpr</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2018-02-05
-    
-    </time> - <a href="https://yuki67.github.io/post/ubuntu_bluetooth/">Ubuntu 17.10 で MDR-1000X を使う</a>
-</li>
-
-      
-      </ul>
   
-      <h2>2018-1</h2>
-      <ul>
-      
-          <li>
-  <time>
-    
-        2018-01-28
-    
-    </time> - <a href="https://yuki67.github.io/post/kindle_for_ubuntu/">Ubuntu 17.10 で Kindle for PC を使う</a>
-</li>
+</div>
 
-      
-          <li>
-  <time>
-    
-        2018-01-23
-    
-    </time> - <a href="https://yuki67.github.io/post/python_like_range/">Python風Rangeの実装 in C&#43;&#43;</a>
-</li>
 
-      
-          <li>
-  <time>
-    
-        2018-01-22
-    
-    </time> - <a href="https://yuki67.github.io/post/buttons_to_left/">Ubuntu 17.10で最大化/最小化ボタンを左へ移動する</a>
-</li>
+  <p>IEEE 754 方式の浮動小数点数ではビット列がある有理数をちょうど表す。</p>
 
-      
-          <li>
-  <time>
-    
-        2018-01-09
-    
-    </time> - <a href="https://yuki67.github.io/post/delete_old_files/">古いファイルを削除してファイルの数を一定にする</a>
-</li>
+<p>例えば倍精度の場合、</p>
 
-      
-      </ul>
+<p>\begin{align*}
+\text{s}
+\ \text{e}_{11} \text{e}_{10} \ldots \text{e}_{1}
+\ \text{s}_{52} \text{s}_{51} \ldots \text{s}_{1}
+\end{align*}</p>
+
+<p>というビット列が</p>
+
+<p>\begin{align*}
+(-1)^{\text{s}}
+(1.\text{s}_{52} \text{s}_{51} \ldots \text{s}_{1})_{2}
+\times 2^{(\text{e}_{11} \text{e}_{10} \ldots \text{e}_{1})_{2} - 1023}
+\end{align*}</p>
+
+<p>という有理数を表す。</p>
+
+<p><a href="https://yuki67.github.io/post/constexpr/"> 前の記事</a>で浮動小数点数を扱うクラスを作り、
+<a href="https://yuki67.github.io/post/big_fraction/"> 別の記事</a>で任意精度の有理数クラスを作ったので、
+この２つを組み合わせれば浮動小数点数が表す有理数を計算することができる。</p>
+
+<p>浮動小数点数を扱うクラスを拡張してこの処理を実装した。</p>
+
+<p></p>
+
+<p><div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 1:</span>
+  floating_point.hpp
+</div></p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;bitset&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;type_traits&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&#34;big_int.hpp&#34;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&#34;fraction.hpp&#34;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">FloatingPoint</span><span class="p">;</span>
+
+<span class="k">using</span> <span class="n">Single</span> <span class="o">=</span> <span class="n">FloatingPoint</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">Double</span> <span class="o">=</span> <span class="n">FloatingPoint</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span><span class="o">&gt;</span>
+<span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">false_v</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+
+<span class="c1">// FloatingPoint assumes that sign bit, exponent bits, and significand bits are
+</span><span class="c1">// in this order.
+</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">FloatingPoint</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="n">width_exp</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="mi">8</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="mi">11</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">assert</span><span class="p">(</span><span class="n">false_v</span><span class="o">&lt;&gt;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}();</span>
+
+  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="n">width_sig</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="mi">23</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="mi">52</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">assert</span><span class="p">(</span><span class="n">false_v</span><span class="o">&lt;&gt;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}();</span>
+
+  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="n">bias</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="mi">127</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="mi">1023</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">assert</span><span class="p">(</span><span class="n">false_v</span><span class="o">&lt;&gt;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}();</span>
+
+  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">width_exp</span> <span class="o">+</span> <span class="n">width_sig</span><span class="p">;</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">m_bits_all</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">m_bit_sign</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width_exp</span><span class="o">&gt;</span> <span class="n">m_bits_exp</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width_sig</span><span class="o">&gt;</span> <span class="n">m_bits_sig</span><span class="p">;</span>
+  <span class="n">T</span> <span class="n">m_val</span><span class="p">;</span>
+
+  <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">bits_of_val</span><span class="p">(</span><span class="n">T</span> <span class="n">val</span><span class="p">);</span>
+  <span class="k">static</span> <span class="n">T</span> <span class="nf">val_of_bits</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">bits</span><span class="p">);</span>
+
+  <span class="kt">void</span> <span class="nf">set_bits</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">m_bit_sign</span> <span class="o">=</span> <span class="n">m_bits_all</span><span class="p">[</span><span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">width_exp</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">m_bits_exp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_bits_all</span><span class="p">[</span><span class="n">width_sig</span> <span class="o">+</span> <span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">width_sig</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">m_bits_sig</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_bits_all</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">FloatingPoint</span><span class="p">(</span><span class="n">T</span> <span class="n">val</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_bits_all</span><span class="p">(</span><span class="n">bits_of_val</span><span class="p">(</span><span class="n">val</span><span class="p">)),</span> <span class="n">m_val</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">set_bits</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="n">FloatingPoint</span><span class="p">(</span><span class="kt">bool</span> <span class="n">sign</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width_exp</span><span class="o">&gt;</span> <span class="n">exp</span><span class="p">,</span>
+                <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width_sig</span><span class="o">&gt;</span> <span class="n">sig</span><span class="p">)</span>
+      <span class="o">:</span> <span class="n">m_bits_all</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">sign</span><span class="p">)</span> <span class="o">+</span> <span class="n">exp</span><span class="p">.</span><span class="n">to_string</span><span class="p">()</span> <span class="o">+</span> <span class="n">sig</span><span class="p">.</span><span class="n">to_string</span><span class="p">()),</span>
+        <span class="n">m_bit_sign</span><span class="p">(</span><span class="n">sign</span><span class="p">),</span>
+        <span class="n">m_bits_exp</span><span class="p">(</span><span class="n">exp</span><span class="p">),</span>
+        <span class="n">m_bits_sig</span><span class="p">(</span><span class="n">sig</span><span class="p">),</span>
+        <span class="n">m_val</span><span class="p">(</span><span class="n">val_of_bits</span><span class="p">(</span><span class="n">m_bits_all</span><span class="p">))</span> <span class="p">{}</span>
+
+  <span class="k">explicit</span> <span class="n">FloatingPoint</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">val</span><span class="p">)</span>
+      <span class="o">:</span> <span class="n">m_bits_all</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">m_val</span><span class="p">(</span><span class="n">val_of_bits</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span> <span class="p">{</span>
+    <span class="n">set_bits</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_val</span><span class="p">;</span> <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">bits_all</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_bits_all</span><span class="p">;</span> <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width_exp</span><span class="o">&gt;</span> <span class="n">bits_exp</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_bits_exp</span><span class="p">;</span> <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width_sig</span><span class="o">&gt;</span> <span class="n">bits_sig</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_bits_sig</span><span class="p">;</span> <span class="p">}</span>
+  <span class="kt">bool</span> <span class="n">bit_sign</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_bit_sign</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="c1">// assumes that width_sig &lt; 64 &amp;&amp; width_exp &lt; 64.
+</span><span class="c1"></span>  <span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span> <span class="n">to_fraction</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">m_bits_all</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">uint64_t</span> <span class="n">exp</span> <span class="o">=</span> <span class="n">m_bits_exp</span><span class="p">.</span><span class="n">to_ullong</span><span class="p">();</span>
+    <span class="n">uint64_t</span> <span class="n">sig</span> <span class="o">=</span> <span class="n">m_bits_sig</span><span class="p">.</span><span class="n">to_ullong</span><span class="p">();</span>
+    <span class="n">uint64_t</span> <span class="n">total_bias</span> <span class="o">=</span> <span class="n">bias</span> <span class="o">+</span> <span class="n">width_sig</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">exp</span> <span class="o">&gt;</span> <span class="n">total_bias</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">BigInt</span> <span class="n">a</span><span class="p">(</span><span class="n">sig</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1ul</span> <span class="o">&lt;&lt;</span> <span class="n">width_sig</span><span class="p">));</span>
+      <span class="n">BigInt</span> <span class="n">b</span> <span class="o">=</span> <span class="n">BigInt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">shift_left</span><span class="p">(</span><span class="n">exp</span> <span class="o">-</span> <span class="n">total_bias</span><span class="p">);</span>
+      <span class="k">return</span> <span class="n">m_bit_sign</span> <span class="o">?</span> <span class="o">-</span><span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">:</span> <span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">BigInt</span> <span class="n">numer</span><span class="p">(</span><span class="n">sig</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1ul</span> <span class="o">&lt;&lt;</span> <span class="n">width_sig</span><span class="p">));</span>
+      <span class="n">BigInt</span> <span class="n">denom</span> <span class="o">=</span> <span class="n">BigInt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">shift_left</span><span class="p">(</span><span class="n">total_bias</span> <span class="o">-</span> <span class="n">exp</span><span class="p">);</span>
+      <span class="k">return</span> <span class="n">m_bit_sign</span> <span class="o">?</span> <span class="o">-</span><span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span><span class="p">(</span><span class="n">numer</span><span class="p">,</span> <span class="n">denom</span><span class="p">)</span>
+                        <span class="o">:</span> <span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span><span class="p">(</span><span class="n">numer</span><span class="p">,</span> <span class="n">denom</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">FloatingPoint</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">FloatingPoint</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">rhs</span><span class="p">.</span><span class="n">bits_all</span><span class="p">()</span> <span class="o">==</span> <span class="n">lhs</span><span class="p">.</span><span class="n">bits_all</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">template</span> <span class="o">&lt;&gt;</span>
+<span class="kt">float</span> <span class="n">Single</span><span class="o">::</span><span class="n">val_of_bits</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">val</span><span class="p">.</span><span class="n">to_ulong</span><span class="p">();</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">);</span>
+  <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">float</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">template</span> <span class="o">&lt;&gt;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">Single</span><span class="o">::</span><span class="n">bits_of_val</span><span class="p">(</span><span class="kt">float</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">val</span><span class="p">);</span>
+  <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uint32_t</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">template</span> <span class="o">&lt;&gt;</span>
+<span class="kt">double</span> <span class="n">Double</span><span class="o">::</span><span class="n">val_of_bits</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">val</span><span class="p">.</span><span class="n">to_ullong</span><span class="p">();</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">);</span>
+  <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">double</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">template</span> <span class="o">&lt;&gt;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">Double</span><span class="o">::</span><span class="n">bits_of_val</span><span class="p">(</span><span class="kt">double</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">val</span><span class="p">);</span>
+  <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uint64_t</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>以下のように使える。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;floating_point.hpp&#34;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span>  <span class="o">&lt;&lt;</span> <span class="s">&#34;1234.567f = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">Single</span><span class="p">(</span><span class="mf">1234.567f</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;12345678.90123456 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">Double</span><span class="p">(</span><span class="mf">12345678.90123456</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;1.0e20f = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">Double</span><span class="p">(</span><span class="mf">1.0e20</span><span class="n">f</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;1.0e50 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">Double</span><span class="p">(</span><span class="mf">1.0e50</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">1234.567f = 10113573 / 8192
+12345678.90123456 = 1657008972741239 / 134217728
+1.0e20f = 100000002004087734272
+1.0e50 = 100000000000000007629769841091887003294964970946560</code></pre></div>
+<p>この答えがあっていることは出力された文字列をググれば分かる。
+Python の <code>Decimal</code> や Haskell の <code>toRational</code> の使用例が出てくるので多分あっているだろう。</p>
+
+<p>応用として、以下のようにすると減算で生じる桁落ち誤差を計算することができる。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;floating_point.hpp&#34;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="c1">// return the error that a - b will have.
+</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span> <span class="n">error_by_sub</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="n">T</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">exact</span> <span class="o">=</span> <span class="n">FloatingPoint</span><span class="p">(</span><span class="n">a</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">()</span> <span class="o">-</span> <span class="n">FloatingPoint</span><span class="p">(</span><span class="n">b</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">();</span>
+    <span class="k">return</span> <span class="n">exact</span> <span class="o">-</span> <span class="n">FloatingPoint</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;x = 1.3 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">Double</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in 1.3 - x      : &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">error_by_sub</span><span class="p">(</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>  <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in 12.3 - x     : &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">error_by_sub</span><span class="p">(</span><span class="mf">12.3</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>  <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in 123.3 - x    : &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">error_by_sub</span><span class="p">(</span><span class="mf">123.3</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>  <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in 123456.3 - x : &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">error_by_sub</span><span class="p">(</span><span class="mf">123456.3</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>  <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in 1.0e25 - x   : &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">error_by_sub</span><span class="p">(</span><span class="mf">1.0e25</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>  <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">x = 1.3 = 5854679515581645 / 4503599627370496
+error in 1.3 - x      : 0
+error in 12.3 - x     : 3 / 4503599627370496
+error in 123.3 - x    : -13 / 4503599627370496
+error in 123456.3 - x : 13107 / 4503599627370496
+error in 1.0e25 - x   : -5854679515581645 / 4503599627370496</code></pre></div>
+
+</article>
+
+    <br>
+    <br>
   
-      <h2>2017-12</h2>
-      <ul>
-      
-          <li>
-  <time>
-    
-        2017-12-13
-    
-    </time> - <a href="https://yuki67.github.io/post/mincaml_jbuilder/">MinCamlをjbuilderでビルドする</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2017-12-03
-    
-    </time> - <a href="https://yuki67.github.io/post/cuda_animation/">CudaとOpenGLを連携させてアニメーションを描画する</a>
-</li>
-
-      
-      </ul>
   
-      <h2>2017-11</h2>
-      <ul>
-      
-          <li>
-  <time>
-    
-        2017-11-24
-    
-    </time> - <a href="https://yuki67.github.io/post/cuda_time/">Cudaプログラムの実行時間測定</a>
-</li>
 
-      
-          <li>
-  <time>
-    
-        2017-11-20
-    
-    </time> - <a href="https://yuki67.github.io/post/cuda_bitmap/">ビットマップをOpenGLで描画する</a>
-</li>
 
-      
-          <li>
-  <time>
-    
-        2017-11-09
-    
-    </time> - <a href="https://yuki67.github.io/post/to_hugo/">hugoに移行した</a>
-</li>
-
-      
-      </ul>
+<nav class="pagination" role="pagination">
   
-      <h2>2017-9</h2>
-      <ul>
-      
-          <li>
-  <time>
-    
-        2017-09-24
-    
-    </time> - <a href="https://yuki67.github.io/post/hello_buckle/">hello bucklescript!</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2017-09-17
-    
-    </time> - <a href="https://yuki67.github.io/post/automaton/">オートマトン in OCaml</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2017-09-03
-    
-    </time> - <a href="https://yuki67.github.io/post/textbooks/">教科書</a>
-</li>
-
-      
-      </ul>
+  <i class="fa fa-chevron-left"></i>
   
-      <h2>2017-8</h2>
-      <ul>
-      
-          <li>
-  <time>
-    
-        2017-08-22
-    
-    </time> - <a href="https://yuki67.github.io/post/random_pick/">ランダムピック</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2017-08-17
-    
-    </time> - <a href="https://yuki67.github.io/post/perlin_noise/">パーリンノイズ</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2017-08-15
-    
-    </time> - <a href="https://yuki67.github.io/post/inverse_method/">逆関数法</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2017-08-12
-    
-    </time> - <a href="https://yuki67.github.io/post/montecarlo_integral/">モンテカルロ積分</a>
-</li>
-
-      
-          <li>
-  <time>
-    
-        2017-08-11
-    
-    </time> - <a href="https://yuki67.github.io/post/hazimemasita/">nikolaでブログはじめました</a>
-</li>
-
-      
-      </ul>
+  <span>&nbsp;1 / 7&nbsp;</span>
   
+  <a href="https://yuki67.github.io/post/page/2/"><i class="fa fa-chevron-right"></i></a>
+  
+</nav>
+
+
 </div>
 
 </div>

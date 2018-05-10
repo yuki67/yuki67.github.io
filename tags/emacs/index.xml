@@ -7,10 +7,36 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Wed, 11 Apr 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 09 May 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/tags/emacs/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Autoloading failed to define function … が出る</title>
+      <link>https://yuki67.github.io/post/autoload_undefined_function/</link>
+      <pubDate>Wed, 09 May 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/autoload_undefined_function/</guid>
+      <description>症状 emacs でいつも使っているキーボードバインディングを使おうとすると Autoloading failed to define function HOGE と出て実行できない。
+原因 パッケージのアップデートで HOGE 関数の名前が変更されていた。
+解決法 呼び出す関数の名前を変える。
+備考 定義されていない関数を呼び出した場合、普通は void-function HOGE というおなじみのエラーが表示されるのですぐ分かるが、今回のエラーは初めて見たので解決に時間がかかった。
+今まで見なかったこのエラーが出た原因は HOGE のキーボードバインディングを use-package で定義していたことにあった。
+(use-package package-name :bind (:map global-map (&amp;#34;KEY&amp;#34; . HOGE))) とすると、 KEY を押したときに HOGE が autoload される。その結果エラーメッセージが見慣れないものになる。</description>
+    </item>
+    
+    <item>
+      <title>octave が emacs でハングする</title>
+      <link>https://yuki67.github.io/post/octave_hangs_on_emacs/</link>
+      <pubDate>Tue, 08 May 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/octave_hangs_on_emacs/</guid>
+      <description>問題 Ubuntu 16.04 で emacs 25.3 から octave 4.0 を使おうとするとハングする (org-babel から実行しても実行が終わらない)。
+解決法 octave を最新版 (4.4) にしたら直った。最新版は ppa にないので手元でビルドした。
+備考 octave の最新版をビルドするときにライブラリが足りないという警告がいくつか出るのでパッケージをインストールして対処したが、 以下の警告は最後まで残った。
+configure: WARNING: SUNDIALS IDA library not configured with IDAKLU, ode15i and ode15s will not support the sparse Jacobian feature 今は ode15 コマンドを使わないのでほっておいたが、後で必要になるかもしれない。</description>
+    </item>
     
     <item>
       <title>emacs の正規表現で (&#34;[&#34;, &#34;]&#34; 以外の1文字) を表現する</title>

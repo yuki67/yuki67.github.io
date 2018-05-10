@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43; on yuki&#39;s blog</title>
+    <link>https://yuki67.github.io/post/c&#43;&#43;/</link>
+    <description>Recent content in C&#43;&#43; on yuki&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <copyright>by yuki</copyright>
+    <lastBuildDate>Sun, 29 Apr 2018 00:00:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://yuki67.github.io/post/c++/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>virtual なデストラクタ</title>
+      <link>https://yuki67.github.io/post/c&#43;&#43;/virtual_destructor/</link>
+      <pubDate>Sun, 29 Apr 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/c&#43;&#43;/virtual_destructor/</guid>
+      <description>&lt;p&gt;基底クラスへのポインタを &lt;code&gt;delete&lt;/code&gt; する場合、基底クラスのデストラクタが &lt;code&gt;virtual&lt;/code&gt; でないと派生クラスのデストラクタが呼ばれない。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>デストラクタの呼ばれる順番</title>
+      <link>https://yuki67.github.io/post/c&#43;&#43;/order_of_destructor/</link>
+      <pubDate>Sun, 29 Apr 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/c&#43;&#43;/order_of_destructor/</guid>
+      <description>&lt;p&gt;コンストラクタの逆、つまり&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;派生クラスが先、基底クラスは後&lt;/li&gt;
+&lt;li&gt;複数のクラスを継承する場合、継承宣言の最後から&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;の順番で呼ばれる。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

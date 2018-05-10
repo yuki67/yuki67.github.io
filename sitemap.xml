@@ -3,6 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://yuki67.github.io/post/autoload_undefined_function/</loc>
+    <lastmod>2018-05-09T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yuki67.github.io/post/octave_hangs_on_emacs/</loc>
+    <lastmod>2018-05-08T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yuki67.github.io/post/c&#43;&#43;/</loc>
+    <lastmod>2018-04-29T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yuki67.github.io/post/c&#43;&#43;/virtual_destructor/</loc>
+    <lastmod>2018-04-29T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yuki67.github.io/post/c&#43;&#43;/order_of_destructor/</loc>
+    <lastmod>2018-04-29T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://yuki67.github.io/post/clang&#43;&#43;_no_cpp17/</loc>
     <lastmod>2018-04-26T00:00:00+09:00</lastmod>
   </url>
@@ -169,12 +194,12 @@
   
   <url>
     <loc>https://yuki67.github.io/post/</loc>
-    <lastmod>2018-04-26T00:00:00+09:00</lastmod>
+    <lastmod>2018-05-09T00:00:00+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://yuki67.github.io/tags/cpp/</loc>
-    <lastmod>2018-04-26T00:00:00+09:00</lastmod>
+    <lastmod>2018-04-29T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -186,7 +211,7 @@
   
   <url>
     <loc>https://yuki67.github.io/tags/emacs/</loc>
-    <lastmod>2018-04-11T00:00:00+09:00</lastmod>
+    <lastmod>2018-05-09T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -221,6 +246,12 @@
   </url>
   
   <url>
+    <loc>https://yuki67.github.io/tags/octave/</loc>
+    <lastmod>2018-05-08T00:00:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://yuki67.github.io/tags/opengl/</loc>
     <lastmod>2017-11-20T00:00:00+09:00</lastmod>
     <priority>0</priority>
@@ -240,7 +271,7 @@
   
   <url>
     <loc>https://yuki67.github.io/tags/</loc>
-    <lastmod>2018-04-26T00:00:00+09:00</lastmod>
+    <lastmod>2018-04-29T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -257,7 +288,7 @@
   
   <url>
     <loc>https://yuki67.github.io/</loc>
-    <lastmod>2018-04-26T00:00:00+09:00</lastmod>
+    <lastmod>2018-05-09T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -274,11 +305,12 @@
   
   <url>
     <loc>https://yuki67.github.io/tags/%E3%83%8E%E3%83%BC%E3%83%88/</loc>
+    <lastmod>2018-04-29T00:00:00+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/</loc>
-    <lastmod>2018-04-26T00:00:00+09:00</lastmod>
+    <lastmod>2018-05-09T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
