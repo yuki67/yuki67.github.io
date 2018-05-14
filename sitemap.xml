@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://yuki67.github.io/post/octave_getting_started/</loc>
+    <lastmod>2018-05-14T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://yuki67.github.io/post/autoload_undefined_function/</loc>
     <lastmod>2018-05-09T00:00:00+09:00</lastmod>
   </url>
@@ -194,7 +199,7 @@
   
   <url>
     <loc>https://yuki67.github.io/post/</loc>
-    <lastmod>2018-05-09T00:00:00+09:00</lastmod>
+    <lastmod>2018-05-14T00:00:00+09:00</lastmod>
   </url>
   
   <url>
@@ -247,7 +252,7 @@
   
   <url>
     <loc>https://yuki67.github.io/tags/octave/</loc>
-    <lastmod>2018-05-08T00:00:00+09:00</lastmod>
+    <lastmod>2018-05-14T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -288,7 +293,7 @@
   
   <url>
     <loc>https://yuki67.github.io/</loc>
-    <lastmod>2018-05-09T00:00:00+09:00</lastmod>
+    <lastmod>2018-05-14T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -310,7 +315,7 @@
   
   <url>
     <loc>https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/</loc>
-    <lastmod>2018-05-09T00:00:00+09:00</lastmod>
+    <lastmod>2018-05-14T00:00:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   

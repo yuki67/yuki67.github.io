@@ -245,6 +245,109 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/octave_getting_started/">
+      octave でつまづいたところ
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-05-14
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/octave">
+          octave
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p>octave の本質的でない部分についてのメモ。</p>
+
+<table>
+<thead>
+<tr>
+<th>問題 / 疑問</th>
+<th>解決法 / 答え</th>
+<th>備考</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>立ち上がったグラフウィンドウが消せない</td>
+<td><code>close</code></td>
+<td><a href="https://octave.org/doc/v4.4.0/Manipulation-of-Plot-Windows.html">Manipulation of Plot Windows</a></td>
+</tr>
+
+<tr>
+<td>グラフの軸の縮尺が等しくない</td>
+<td><code>axis(&quot;equal&quot;)</code></td>
+<td><a href="https://octave.org/doc/v4.4.0/Axis-Configuration.html">Axis Configuration</a></td>
+</tr>
+
+<tr>
+<td>同じグラフに複数回プロットしたい</td>
+<td><code>hold on</code></td>
+<td><a href="https://octave.org/doc/v4.4.0/Manipulation-of-Plot-Windows.html">Manipulation of Plot Windows</a></td>
+</tr>
+
+<tr>
+<td>今読み込んでいる変数を表示させたい</td>
+<td><code>whos</code></td>
+<td><a href="https://octave.org/doc/v4.4.0/Status-of-Variables.html">Status of Variables</a></td>
+</tr>
+
+<tr>
+<td>for を回している変数でインデックスを取れない</td>
+<td><code>int32</code> にキャストする</td>
+<td>range が double 型の値を返すのが原因 <br> <a href="https://octave.org/doc/v4.4.0/Ranges.html">Ranges</a> <br> <a href="http://octave.org/doc/v4.4.0/Integer-Data-Types.html">Integer Data Types</a></td>
+</tr>
+
+<tr>
+<td><code>end</code> と <code>endfor</code> と <code>endif</code> とでなにか違うのか</td>
+<td>なにも違わない</td>
+<td>すべて <code>end</code> でも構わないが、使い分けたほうがいい <br> <a href="http://octave.org/doc/v4.4.0/Statements.html">Statements</a></td>
+</tr>
+
+<tr>
+<td>org-babel で関数を定義しようとするとエラーが出る</td>
+<td>src block に <code>:session</code> をつける</td>
+<td>インタラクティブモードでない場合、ファイル内と同じ名前と関数しか定義できない <br> <a href="https://octave.org/doc/v4.4.0/Function-Files.html">Function Files</a></td>
+</tr>
+</tbody>
+</table>
+
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/autoload_undefined_function/">
       Autoloading failed to define function … が出る
     </a>
@@ -266,14 +369,14 @@
       <span>
       <i class="fa fa-tags fa-fw"></i>
       
-        <a class="post-taxonomy-tag" href="tags/emacs">
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/emacs">
           emacs
         </a>
         
           &nbsp;&#47;
         
       
-        <a class="post-taxonomy-tag" href="tags/%E3%83%A1%E3%83%A2">
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
           メモ
         </a>
         
@@ -286,7 +389,7 @@
 
   
 
-<h2 id="症状">症状</h2>
+<h2 id="問題">問題</h2>
 
 <p>emacs でいつも使っているキーボードバインディングを使おうとすると <code>Autoloading failed to define function HOGE</code> と出て実行できない。</p>
 
@@ -338,21 +441,21 @@
       <span>
       <i class="fa fa-tags fa-fw"></i>
       
-        <a class="post-taxonomy-tag" href="tags/emacs">
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/emacs">
           emacs
         </a>
         
           &nbsp;&#47;
         
       
-        <a class="post-taxonomy-tag" href="tags/octave">
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/octave">
           octave
         </a>
         
           &nbsp;&#47;
         
       
-        <a class="post-taxonomy-tag" href="tags/%E3%83%A1%E3%83%A2">
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
           メモ
         </a>
         
@@ -409,14 +512,14 @@
       <span>
       <i class="fa fa-tags fa-fw"></i>
       
-        <a class="post-taxonomy-tag" href="tags/cpp">
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
           cpp
         </a>
         
           &nbsp;&#47;
         
       
-        <a class="post-taxonomy-tag" href="tags/%E3%83%A1%E3%83%A2">
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
           メモ
         </a>
         
@@ -477,14 +580,14 @@ ppa が用意されていないためインストールがめんどくさいの�
       <span>
       <i class="fa fa-tags fa-fw"></i>
       
-        <a class="post-taxonomy-tag" href="tags/emacs">
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/emacs">
           emacs
         </a>
         
           &nbsp;&#47;
         
       
-        <a class="post-taxonomy-tag" href="tags/%E3%83%A1%E3%83%A2">
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
           メモ
         </a>
         
@@ -528,281 +631,6 @@ emacs の正規表現では <code>[...]</code> 中の最初の文字が &ldquo;<
     <br>
     <br>
   
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/float_to_fraction/">
-      小数型を有理数に変換する in C&#43;&#43;
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-04-07
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="tags/cpp">
-          cpp
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>IEEE 754 方式の浮動小数点数ではビット列がある有理数をちょうど表す。</p>
-
-<p>例えば倍精度の場合、</p>
-
-<p>\begin{align*}
-\text{s}
-\ \text{e}_{11} \text{e}_{10} \ldots \text{e}_{1}
-\ \text{s}_{52} \text{s}_{51} \ldots \text{s}_{1}
-\end{align*}</p>
-
-<p>というビット列が</p>
-
-<p>\begin{align*}
-(-1)^{\text{s}}
-(1.\text{s}_{52} \text{s}_{51} \ldots \text{s}_{1})_{2}
-\times 2^{(\text{e}_{11} \text{e}_{10} \ldots \text{e}_{1})_{2} - 1023}
-\end{align*}</p>
-
-<p>という有理数を表す。</p>
-
-<p><a href="https://yuki67.github.io/post/constexpr/"> 前の記事</a>で浮動小数点数を扱うクラスを作り、
-<a href="https://yuki67.github.io/post/big_fraction/"> 別の記事</a>で任意精度の有理数クラスを作ったので、
-この２つを組み合わせれば浮動小数点数が表す有理数を計算することができる。</p>
-
-<p>浮動小数点数を扱うクラスを拡張してこの処理を実装した。</p>
-
-<p></p>
-
-<p><div class="src-block-caption">
-  <span class="src-block-number">Code Snippet 1:</span>
-  floating_point.hpp
-</div></p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;bitset&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;type_traits&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&#34;big_int.hpp&#34;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&#34;fraction.hpp&#34;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">FloatingPoint</span><span class="p">;</span>
-
-<span class="k">using</span> <span class="n">Single</span> <span class="o">=</span> <span class="n">FloatingPoint</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="k">using</span> <span class="n">Double</span> <span class="o">=</span> <span class="n">FloatingPoint</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">;</span>
-
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span><span class="o">&gt;</span>
-<span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">false_v</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-
-<span class="c1">// FloatingPoint assumes that sign bit, exponent bits, and significand bits are
-</span><span class="c1">// in this order.
-</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">FloatingPoint</span> <span class="p">{</span>
- <span class="k">public</span><span class="o">:</span>
-  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="n">width_exp</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="mi">8</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="mi">11</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">assert</span><span class="p">(</span><span class="n">false_v</span><span class="o">&lt;&gt;</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}();</span>
-
-  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="n">width_sig</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="mi">23</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="mi">52</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">assert</span><span class="p">(</span><span class="n">false_v</span><span class="o">&lt;&gt;</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}();</span>
-
-  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="n">bias</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="mi">127</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="kt">double</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="mi">1023</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">assert</span><span class="p">(</span><span class="n">false_v</span><span class="o">&lt;&gt;</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}();</span>
-
-  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">width_exp</span> <span class="o">+</span> <span class="n">width_sig</span><span class="p">;</span>
-
- <span class="k">private</span><span class="o">:</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">m_bits_all</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="n">m_bit_sign</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width_exp</span><span class="o">&gt;</span> <span class="n">m_bits_exp</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width_sig</span><span class="o">&gt;</span> <span class="n">m_bits_sig</span><span class="p">;</span>
-  <span class="n">T</span> <span class="n">m_val</span><span class="p">;</span>
-
-  <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">bits_of_val</span><span class="p">(</span><span class="n">T</span> <span class="n">val</span><span class="p">);</span>
-  <span class="k">static</span> <span class="n">T</span> <span class="nf">val_of_bits</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">bits</span><span class="p">);</span>
-
-  <span class="kt">void</span> <span class="nf">set_bits</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">m_bit_sign</span> <span class="o">=</span> <span class="n">m_bits_all</span><span class="p">[</span><span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">width_exp</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">m_bits_exp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_bits_all</span><span class="p">[</span><span class="n">width_sig</span> <span class="o">+</span> <span class="n">i</span><span class="p">];</span>
-    <span class="p">}</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">width_sig</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">m_bits_sig</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_bits_all</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
- <span class="k">public</span><span class="o">:</span>
-  <span class="n">FloatingPoint</span><span class="p">(</span><span class="n">T</span> <span class="n">val</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_bits_all</span><span class="p">(</span><span class="n">bits_of_val</span><span class="p">(</span><span class="n">val</span><span class="p">)),</span> <span class="n">m_val</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">set_bits</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="n">FloatingPoint</span><span class="p">(</span><span class="kt">bool</span> <span class="n">sign</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width_exp</span><span class="o">&gt;</span> <span class="n">exp</span><span class="p">,</span>
-                <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width_sig</span><span class="o">&gt;</span> <span class="n">sig</span><span class="p">)</span>
-      <span class="o">:</span> <span class="n">m_bits_all</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">sign</span><span class="p">)</span> <span class="o">+</span> <span class="n">exp</span><span class="p">.</span><span class="n">to_string</span><span class="p">()</span> <span class="o">+</span> <span class="n">sig</span><span class="p">.</span><span class="n">to_string</span><span class="p">()),</span>
-        <span class="n">m_bit_sign</span><span class="p">(</span><span class="n">sign</span><span class="p">),</span>
-        <span class="n">m_bits_exp</span><span class="p">(</span><span class="n">exp</span><span class="p">),</span>
-        <span class="n">m_bits_sig</span><span class="p">(</span><span class="n">sig</span><span class="p">),</span>
-        <span class="n">m_val</span><span class="p">(</span><span class="n">val_of_bits</span><span class="p">(</span><span class="n">m_bits_all</span><span class="p">))</span> <span class="p">{}</span>
-
-  <span class="k">explicit</span> <span class="n">FloatingPoint</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">val</span><span class="p">)</span>
-      <span class="o">:</span> <span class="n">m_bits_all</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">m_val</span><span class="p">(</span><span class="n">val_of_bits</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span> <span class="p">{</span>
-    <span class="n">set_bits</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_val</span><span class="p">;</span> <span class="p">}</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">bits_all</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_bits_all</span><span class="p">;</span> <span class="p">}</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width_exp</span><span class="o">&gt;</span> <span class="n">bits_exp</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_bits_exp</span><span class="p">;</span> <span class="p">}</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width_sig</span><span class="o">&gt;</span> <span class="n">bits_sig</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_bits_sig</span><span class="p">;</span> <span class="p">}</span>
-  <span class="kt">bool</span> <span class="n">bit_sign</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_bit_sign</span><span class="p">;</span> <span class="p">}</span>
-
-  <span class="c1">// assumes that width_sig &lt; 64 &amp;&amp; width_exp &lt; 64.
-</span><span class="c1"></span>  <span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span> <span class="n">to_fraction</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">m_bits_all</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">uint64_t</span> <span class="n">exp</span> <span class="o">=</span> <span class="n">m_bits_exp</span><span class="p">.</span><span class="n">to_ullong</span><span class="p">();</span>
-    <span class="n">uint64_t</span> <span class="n">sig</span> <span class="o">=</span> <span class="n">m_bits_sig</span><span class="p">.</span><span class="n">to_ullong</span><span class="p">();</span>
-    <span class="n">uint64_t</span> <span class="n">total_bias</span> <span class="o">=</span> <span class="n">bias</span> <span class="o">+</span> <span class="n">width_sig</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">exp</span> <span class="o">&gt;</span> <span class="n">total_bias</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">BigInt</span> <span class="n">a</span><span class="p">(</span><span class="n">sig</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1ul</span> <span class="o">&lt;&lt;</span> <span class="n">width_sig</span><span class="p">));</span>
-      <span class="n">BigInt</span> <span class="n">b</span> <span class="o">=</span> <span class="n">BigInt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">shift_left</span><span class="p">(</span><span class="n">exp</span> <span class="o">-</span> <span class="n">total_bias</span><span class="p">);</span>
-      <span class="k">return</span> <span class="n">m_bit_sign</span> <span class="o">?</span> <span class="o">-</span><span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">:</span> <span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">BigInt</span> <span class="n">numer</span><span class="p">(</span><span class="n">sig</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1ul</span> <span class="o">&lt;&lt;</span> <span class="n">width_sig</span><span class="p">));</span>
-      <span class="n">BigInt</span> <span class="n">denom</span> <span class="o">=</span> <span class="n">BigInt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">shift_left</span><span class="p">(</span><span class="n">total_bias</span> <span class="o">-</span> <span class="n">exp</span><span class="p">);</span>
-      <span class="k">return</span> <span class="n">m_bit_sign</span> <span class="o">?</span> <span class="o">-</span><span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span><span class="p">(</span><span class="n">numer</span><span class="p">,</span> <span class="n">denom</span><span class="p">)</span>
-                        <span class="o">:</span> <span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span><span class="p">(</span><span class="n">numer</span><span class="p">,</span> <span class="n">denom</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">FloatingPoint</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">FloatingPoint</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">rhs</span><span class="p">.</span><span class="n">bits_all</span><span class="p">()</span> <span class="o">==</span> <span class="n">lhs</span><span class="p">.</span><span class="n">bits_all</span><span class="p">();</span>
-  <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="k">template</span> <span class="o">&lt;&gt;</span>
-<span class="kt">float</span> <span class="n">Single</span><span class="o">::</span><span class="n">val_of_bits</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">auto</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">val</span><span class="p">.</span><span class="n">to_ulong</span><span class="p">();</span>
-  <span class="kt">char</span> <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">);</span>
-  <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">float</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="k">template</span> <span class="o">&lt;&gt;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">Single</span><span class="o">::</span><span class="n">bits_of_val</span><span class="p">(</span><span class="kt">float</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">char</span> <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">val</span><span class="p">);</span>
-  <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uint32_t</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="k">template</span> <span class="o">&lt;&gt;</span>
-<span class="kt">double</span> <span class="n">Double</span><span class="o">::</span><span class="n">val_of_bits</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">auto</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">val</span><span class="p">.</span><span class="n">to_ullong</span><span class="p">();</span>
-  <span class="kt">char</span> <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">temp</span><span class="p">);</span>
-  <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">double</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="k">template</span> <span class="o">&lt;&gt;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">width</span><span class="o">&gt;</span> <span class="n">Double</span><span class="o">::</span><span class="n">bits_of_val</span><span class="p">(</span><span class="kt">double</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">char</span> <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">val</span><span class="p">);</span>
-  <span class="k">return</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">uint64_t</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>以下のように使える。</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;floating_point.hpp&#34;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span>  <span class="o">&lt;&lt;</span> <span class="s">&#34;1234.567f = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">Single</span><span class="p">(</span><span class="mf">1234.567f</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;12345678.90123456 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">Double</span><span class="p">(</span><span class="mf">12345678.90123456</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;1.0e20f = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">Double</span><span class="p">(</span><span class="mf">1.0e20</span><span class="n">f</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;1.0e50 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">Double</span><span class="p">(</span><span class="mf">1.0e50</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">1234.567f = 10113573 / 8192
-12345678.90123456 = 1657008972741239 / 134217728
-1.0e20f = 100000002004087734272
-1.0e50 = 100000000000000007629769841091887003294964970946560</code></pre></div>
-<p>この答えがあっていることは出力された文字列をググれば分かる。
-Python の <code>Decimal</code> や Haskell の <code>toRational</code> の使用例が出てくるので多分あっているだろう。</p>
-
-<p>応用として、以下のようにすると減算で生じる桁落ち誤差を計算することができる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;floating_point.hpp&#34;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// return the error that a - b will have.
-</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span> <span class="n">error_by_sub</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="n">T</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">auto</span> <span class="n">exact</span> <span class="o">=</span> <span class="n">FloatingPoint</span><span class="p">(</span><span class="n">a</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">()</span> <span class="o">-</span> <span class="n">FloatingPoint</span><span class="p">(</span><span class="n">b</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">();</span>
-    <span class="k">return</span> <span class="n">exact</span> <span class="o">-</span> <span class="n">FloatingPoint</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">1.3</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;x = 1.3 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">Double</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">to_fraction</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in 1.3 - x      : &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">error_by_sub</span><span class="p">(</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>  <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in 12.3 - x     : &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">error_by_sub</span><span class="p">(</span><span class="mf">12.3</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>  <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in 123.3 - x    : &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">error_by_sub</span><span class="p">(</span><span class="mf">123.3</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>  <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in 123456.3 - x : &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">error_by_sub</span><span class="p">(</span><span class="mf">123456.3</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>  <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in 1.0e25 - x   : &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">error_by_sub</span><span class="p">(</span><span class="mf">1.0e25</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">)</span>  <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">x = 1.3 = 5854679515581645 / 4503599627370496
-error in 1.3 - x      : 0
-error in 12.3 - x     : 3 / 4503599627370496
-error in 123.3 - x    : -13 / 4503599627370496
-error in 123456.3 - x : 13107 / 4503599627370496
-error in 1.0e25 - x   : -5854679515581645 / 4503599627370496</code></pre></div>
-
-</article>
-
-    <br>
-    <br>
-  
   
 
 
@@ -810,7 +638,7 @@ error in 1.0e25 - x   : -5854679515581645 / 4503599627370496</code></pre></div>
   
   <i class="fa fa-chevron-left"></i>
   
-  <span>&nbsp;1 / 7&nbsp;</span>
+  <span>&nbsp;1 / 8&nbsp;</span>
   
   <a href="https://yuki67.github.io/post/page/2/"><i class="fa fa-chevron-right"></i></a>
   

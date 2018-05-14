@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.40.1" />
 
-  <title>Ubuntu 17.10で最大化/最小化ボタンを左へ移動する &middot; yuki&#39;s blog</title>
+  <title>octave でつまづいたところ &middot; yuki&#39;s blog</title>
 
   
   
@@ -229,7 +229,7 @@
 
 
 <div class="header">
-  <h1>Ubuntu 17.10で最大化/最小化ボタンを左へ移動する</h1>
+  <h1>octave でつまづいたところ</h1>
   <h2></h2>
 </div>
 <div class="content">
@@ -239,7 +239,7 @@
     <i class="fa fa-calendar fa-fw"></i>
     <time>
       
-        2018-01-22
+        2018-05-14
       
     </time>
   </span>
@@ -251,8 +251,8 @@
       <span>
       <i class="fa fa-tags fa-fw"></i>
       
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ubuntu">
-          ubuntu
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/octave">
+          octave
         </a>
         
           &nbsp;&#47;
@@ -272,40 +272,74 @@
   
 
 
-  <p>これ↓</p>
+  <p>octave の本質的でない部分についてのメモ。</p>
 
+<table>
+<thead>
+<tr>
+<th>問題 / 疑問</th>
+<th>解決法 / 答え</th>
+<th>備考</th>
+</tr>
+</thead>
 
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/buttons.png" />
-    
-    
-</figure>
+<tbody>
+<tr>
+<td>立ち上がったグラフウィンドウが消せない</td>
+<td><code>close</code></td>
+<td><a href="https://octave.org/doc/v4.4.0/Manipulation-of-Plot-Windows.html">Manipulation of Plot Windows</a></td>
+</tr>
 
+<tr>
+<td>グラフの軸の縮尺が等しくない</td>
+<td><code>axis(&quot;equal&quot;)</code></td>
+<td><a href="https://octave.org/doc/v4.4.0/Axis-Configuration.html">Axis Configuration</a></td>
+</tr>
 
-<p></p>
+<tr>
+<td>同じグラフに複数回プロットしたい</td>
+<td><code>hold on</code></td>
+<td><a href="https://octave.org/doc/v4.4.0/Manipulation-of-Plot-Windows.html">Manipulation of Plot Windows</a></td>
+</tr>
 
-<p>Ubuntu 17.10 のデフォルトだと右にあるが、これだと左端にあるドッグとの相性が悪いので変えた。</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">gsettings <span class="nb">set</span> org.gnome.desktop.wm.preferences button-layout <span class="s1">&#39;close,maximize,minimize:&#39;</span></code></pre></div>
-<p>でできた。</p>
+<tr>
+<td>今読み込んでいる変数を表示させたい</td>
+<td><code>whos</code></td>
+<td><a href="https://octave.org/doc/v4.4.0/Status-of-Variables.html">Status of Variables</a></td>
+</tr>
 
-<p>参考:
-<a href="http://tipsonubuntu.com/2017/10/10/ubuntu-17-10-tip-move-window-buttons-min-max-close-left/">Ubuntu 17.10 Tip: Move Window Buttons &lsquo;min, max, close&rsquo; to Left</a></p>
+<tr>
+<td>for を回している変数でインデックスを取れない</td>
+<td><code>int32</code> にキャストする</td>
+<td>range が double 型の値を返すのが原因 <br> <a href="https://octave.org/doc/v4.4.0/Ranges.html">Ranges</a> <br> <a href="http://octave.org/doc/v4.4.0/Integer-Data-Types.html">Integer Data Types</a></td>
+</tr>
 
-<p>追記:
-gnome-tweak-tool からもできた。</p>
+<tr>
+<td><code>end</code> と <code>endfor</code> と <code>endif</code> とでなにか違うのか</td>
+<td>なにも違わない</td>
+<td>すべて <code>end</code> でも構わないが、使い分けたほうがいい <br> <a href="http://octave.org/doc/v4.4.0/Statements.html">Statements</a></td>
+</tr>
+
+<tr>
+<td>org-babel で関数を定義しようとするとエラーが出る</td>
+<td>src block に <code>:session</code> をつける</td>
+<td>インタラクティブモードでない場合、ファイル内と同じ名前と関数しか定義できない <br> <a href="https://octave.org/doc/v4.4.0/Function-Files.html">Function Files</a></td>
+</tr>
+</tbody>
+</table>
+
 
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="https://yuki67.github.io/post/delete_old_files/"><i class="fa fa-chevron-left"></i></a>
+    <a href="https://yuki67.github.io/post/autoload_undefined_function/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="https://yuki67.github.io/post/delete_old_files/">古いファイルを削除してファイルの数を一定にする</a>
+      <a href="https://yuki67.github.io/post/autoload_undefined_function/">Autoloading failed to define function … が出る</a>
     </nav>
     
   </div>
@@ -314,14 +348,8 @@ gnome-tweak-tool からもできた。</p>
   </div>
   <div class="pure-u-10-24">
     
-    <nav class="next">
-      <a href="https://yuki67.github.io/post/python_like_range/">Python風Rangeの実装 in C&#43;&#43;</a>
-    </nav>
-    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="https://yuki67.github.io/post/python_like_range/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

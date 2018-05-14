@@ -18,7 +18,7 @@
       <pubDate>Wed, 09 May 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/post/autoload_undefined_function/</guid>
-      <description>症状 emacs でいつも使っているキーボードバインディングを使おうとすると Autoloading failed to define function HOGE と出て実行できない。
+      <description>問題 emacs でいつも使っているキーボードバインディングを使おうとすると Autoloading failed to define function HOGE と出て実行できない。
 原因 パッケージのアップデートで HOGE 関数の名前が変更されていた。
 解決法 呼び出す関数の名前を変える。
 備考 定義されていない関数を呼び出した場合、普通は void-function HOGE というおなじみのエラーが表示されるのですぐ分かるが、今回のエラーは初めて見たので解決に時間がかかった。
