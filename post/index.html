@@ -245,6 +245,72 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/opengl_broken/">
+      OpenGL 関係のライブラリが壊れたときの対処
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-05-17
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/opengl">
+          OpenGL
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  
+
+<h2 id="問題">問題</h2>
+
+<p>glew とか GLFW とか NVidia のドライバとかを一通りインストールしたにもかかわらず OpenGL の hello world プログラムがコンパイルできない。</p>
+
+<h2 id="原因">原因</h2>
+
+<p>なぜか知らないがリンクに必要なオブジェクトファイルが削除され、シンボリックリンクをたどった先が存在しないファイルになっていた。</p>
+
+<h2 id="解決法">解決法</h2>
+
+<p><code>dpkg -S</code> コマンドでどのオブジェクトファイルがどのパッケージでインストールされたかを確認して、そのパッケージを <code>sudo apt install --reinstall</code> する。</p>
+
+<p>例えば</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ dpkg -S /usr/lib/x86_64-linux-gnu/mesa/libGL.so
+libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so</code></pre></div>
+<p>となる。</p>
+
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/octave_getting_started/">
       octave でつまづいたところ
     </a>
@@ -551,80 +617,6 @@ ppa が用意されていないためインストールがめんどくさいの�
 <p><a href="https://clang.llvm.org/cxx_status.html">Clang - C++17, C++14, C++11 and C++98 Status</a></p>
 
 <p><a href="https://stackoverflow.com/questions/24342312/clang-seems-to-use-the-gcc-libraries">c++ - clang seems to use the gcc libraries - Stack Overflow</a></p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/emacs_regex_bracket/">
-      emacs の正規表現で (&#34;[&#34;, &#34;]&#34; 以外の1文字) を表現する
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-04-11
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/emacs">
-          emacs
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p></p>
-
-<p>emacsの <code>M-C-%</code> (<code>query-replace-regexp</code>) で</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">a</span><span class="p">[</span><span class="n">index_i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-</code></pre></div>
-<p>のような文章を</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">a</span><span class="p">(</span><span class="n">index_i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
-</code></pre></div>
-<p>文章に変換したいことがあった。</p>
-
-<p>このとき置換のクエリを <code>\[\([^[]]*\)\] -&gt; (\1)</code> としても上手く行かない。
-なぜなら <code>[^[]]</code> という正規表現が表すのは (&rdquo;<code>[</code>&ldquo;以外の1文字 + &ldquo;<code>]</code>&rdquo;) であって、
-こちらの意図する (&rdquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字) とは異なっているからだ。</p>
-
-<p>じゃあエスケープすればいいだろうと思って <code>[^\[\]]</code> としてもこれも上手く行かない。
-<code>[]</code> の中にある文字はエスケープされるので、
-この正規表現が表すのは (&rdquo;<code>\</code>&rdquo;, &ldquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字) だからだ。</p>
-
-<p>解決法は<a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.html">マニュアル</a>にあった。
-emacs の正規表現では <code>[...]</code> 中の最初の文字が &ldquo;<code>]</code>&rdquo; だった場合はエスケープされるとのことなので、
-(&rdquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字)を表す正規表現は <code>[^][]</code> となる。</p>
-
-<p>よって、冒頭の変換を行うクエリは <code>\[\([^][*\)\] -&gt; (\1)</code> となる。</p>
-
-<h2 id="参考資料">参考資料</h2>
-
-<p><a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.html">Regexp Special - GNU Emacs Lisp Reference Manual</a></p>
 
 </article>
 

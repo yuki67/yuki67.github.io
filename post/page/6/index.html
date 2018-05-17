@@ -245,6 +245,187 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/cuda_animation/">
+      CudaとOpenGLを連携させてアニメーションを描画する
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2017-12-03
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cuda">
+          CUDA
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p>CUDAを使って毎フレーム画像を更新したいが、いちいち画像をCPUに送り返している暇がないときに。</p>
+
+<p></p>
+
+<p><a href="https://yuki67.github.io/post/cuda_bitmap/"> この前</a>に書いたのはCUDAカーネルでビットマップを作成し、それをOpenGLを使って表示させる方法だった。このときはGPUで作成したデータを <code>CudaMemcpy</code> でホストへ送り返し、更にこれを <code>glDrawPixels</code> を使ってGPUへ送り返すという二度手間を行っていた。</p>
+
+<p>CUDAとOpenGLを連携させる関数を使うと、データのやり取りをGPU内で完結させたまま同じことができる。データを送り返す必要がない分高速にできるので、アニメーションも可能になる。以下のようにすれば良い。</p>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#define GL_GLEXT_PROTOTYPES
+</span><span class="cp">#include</span> <span class="cpf">&lt;GL/freeglut.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;GL/freeglut_ext.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;GL/gl.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cuda_gl_interop.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cuda_runtime.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="c1">// cudaのエラー検出用マクロ
+</span><span class="c1"></span><span class="cp">#define EXIT_IF_FAIL(call)                                                     \
+</span><span class="cp"></span>  <span class="k">do</span> <span class="p">{</span>                                                                         \
+    <span class="p">(</span><span class="n">call</span><span class="p">);</span>                                                                    \
+    <span class="n">cudaError_t</span> <span class="n">err</span> <span class="o">=</span> <span class="n">cudaGetLastError</span><span class="p">();</span>                                      \
+    <span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">!=</span> <span class="n">cudaSuccess</span><span class="p">)</span> <span class="p">{</span>                                                  \
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in file &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">__FILE__</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; line at &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">__LINE__</span>     \
+                <span class="o">&lt;&lt;</span> <span class="s">&#34;: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">cudaGetErrorString</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>               \
+      <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>                                                                 \
+    <span class="p">}</span>                                                                          \
+  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1">// 画面の解像度
+</span><span class="c1"></span><span class="cp">#define WIDTH 1024
+</span><span class="cp">#define HEIGHT 1024
+</span><span class="cp"></span>
+<span class="c1">// pixel buffer object
+</span><span class="c1"></span><span class="n">GLuint</span> <span class="n">pbo</span><span class="p">;</span>
+
+<span class="c1">// フレームバッファの取得に使用
+</span><span class="c1"></span><span class="n">cudaGraphicsResource</span> <span class="o">*</span><span class="n">dev_resource</span><span class="p">;</span>
+
+<span class="c1">// 画面更新の間隔 (ms)
+</span><span class="c1"></span><span class="kt">int</span> <span class="n">interval</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
+
+<span class="c1">// カーネル関数: bitmapに適当に色を塗る
+</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">kernel</span><span class="p">(</span><span class="n">uchar4</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tick</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">gridDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+
+  <span class="c1">// 連続的になるように...
+</span><span class="c1"></span>  <span class="kt">float</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">tick</span> <span class="o">/</span> <span class="mf">60.0f</span> <span class="o">*</span> <span class="mf">2.0f</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">theta_x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mf">60.0f</span> <span class="o">*</span> <span class="mf">2.0f</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">theta_y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">/</span> <span class="mf">60.0f</span> <span class="o">*</span> <span class="mf">2.0f</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">r</span> <span class="o">=</span> <span class="n">fabs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">theta_x</span><span class="p">));</span>
+  <span class="kt">float</span> <span class="n">g</span> <span class="o">=</span> <span class="n">fabs</span><span class="p">(</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">theta_y</span><span class="p">));</span>
+  <span class="kt">float</span> <span class="n">b</span> <span class="o">=</span> <span class="n">fabs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">theta_x</span><span class="p">)</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">theta_y</span><span class="p">));</span>
+
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span><span class="p">].</span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="n">r</span> <span class="o">*</span> <span class="mi">255</span><span class="p">);</span>
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span><span class="p">].</span><span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="n">g</span> <span class="o">*</span> <span class="mi">255</span><span class="p">);</span>
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span><span class="p">].</span><span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="n">b</span> <span class="o">*</span> <span class="mi">255</span><span class="p">);</span>
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span><span class="p">].</span><span class="n">w</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 描画用コールバック
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">draw</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// ピクセルバッファオブジェクトがバインドされているので、サイズを指定するだけで良い
+</span><span class="c1"></span>  <span class="n">glDrawPixels</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">,</span> <span class="n">GL_RGBA</span><span class="p">,</span> <span class="n">GL_UNSIGNED_BYTE</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">glutSwapBuffers</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// 画面を更新するコールバック
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">update</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">static</span> <span class="kt">int</span> <span class="n">tick</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 今何フレーム目?
+</span><span class="c1"></span>  <span class="n">uchar4</span> <span class="o">*</span><span class="n">dev_bitmap</span><span class="p">;</span>
+  <span class="n">size_t</span> <span class="n">size</span><span class="p">;</span>
+
+  <span class="c1">// フレームバッファをマップしてアドレスを取得
+</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsMapResources</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dev_resource</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">));</span>
+  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsResourceGetMappedPointer</span><span class="p">((</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span><span class="o">&amp;</span><span class="n">dev_bitmap</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">,</span>
+                                                    <span class="n">dev_resource</span><span class="p">));</span>
+
+  <span class="c1">// カーネル関数を呼ぶ
+</span><span class="c1"></span>  <span class="n">dim3</span> <span class="n">threads</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>                <span class="c1">// 64スレッド/1グリッド
+</span><span class="c1"></span>  <span class="n">dim3</span> <span class="n">grids</span><span class="p">(</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mi">8</span><span class="p">,</span> <span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">8</span><span class="p">);</span> <span class="c1">// 各ピクセルに1スレッドが割り振られる
+</span><span class="c1"></span>  <span class="n">kernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">grids</span><span class="p">,</span> <span class="n">threads</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">dev_bitmap</span><span class="p">,</span> <span class="n">tick</span><span class="p">);</span>
+
+  <span class="c1">// カーネル関数の終了を待つ
+</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaDeviceSynchronize</span><span class="p">());</span>
+
+  <span class="c1">// リソースの開放
+</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsUnmapResources</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dev_resource</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">));</span>
+
+  <span class="c1">// ウィンドウの再描画を要求
+</span><span class="c1"></span>  <span class="n">glutPostRedisplay</span><span class="p">();</span>
+
+  <span class="c1">// interval msec後にまた呼び出す
+</span><span class="c1"></span>  <span class="n">glutTimerFunc</span><span class="p">(</span><span class="n">interval</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">tick</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="c1">// OpenGLの初期化
+</span><span class="c1"></span>  <span class="n">glutInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+  <span class="n">glutInitDisplayMode</span><span class="p">(</span><span class="n">GLUT_DOUBLE</span> <span class="o">|</span> <span class="n">GLUT_RGBA</span><span class="p">);</span>
+  <span class="n">glutInitWindowSize</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">);</span>
+  <span class="n">glutCreateWindow</span><span class="p">(</span><span class="s">&#34;animation&#34;</span><span class="p">);</span>
+
+  <span class="c1">// コールバックを指定
+</span><span class="c1"></span>  <span class="n">glutDisplayFunc</span><span class="p">(</span><span class="n">draw</span><span class="p">);</span>
+  <span class="n">glutTimerFunc</span><span class="p">(</span><span class="n">interval</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+  <span class="c1">// バッファを作成
+</span><span class="c1"></span>  <span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pbo</span><span class="p">);</span>
+  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_PIXEL_UNPACK_BUFFER</span><span class="p">,</span> <span class="n">pbo</span><span class="p">);</span>
+  <span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_PIXEL_UNPACK_BUFFER</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">char4</span><span class="p">)</span> <span class="o">*</span> <span class="n">WIDTH</span> <span class="o">*</span> <span class="n">HEIGHT</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span>
+               <span class="n">GL_DYNAMIC_DRAW</span><span class="p">);</span>
+
+  <span class="c1">// OpenGLのバッファをCudaと共有する設定
+</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsGLRegisterBuffer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dev_resource</span><span class="p">,</span> <span class="n">pbo</span><span class="p">,</span>
+                                            <span class="n">cudaGraphicsMapFlagsNone</span><span class="p">));</span>
+
+  <span class="n">glutMainLoop</span><span class="p">();</span>
+
+  <span class="c1">// リソースの開放(glutMainLoop()は返らないので、実際は呼ばれない)
+</span><span class="c1"></span>  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_PIXEL_UNPACK_BUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">glDeleteBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pbo</span><span class="p">);</span>
+  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGLUnregisterBufferObject</span><span class="p">(</span><span class="n">m_pbo</span><span class="p">));</span>
+  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsUnregisterResource</span><span class="p">(</span><span class="n">m_resource</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>nvcc anim.cu -run -lGL -lglut</code> で実行すると以下のようなアニメーションが表示される。</p>
+
+<div class="embed video-player">
+    <iframe class="youtube-player" type="text/html" width="640" height="385" src="https://www.youtube.com/embed/OtsbkUfnCHA" allowfullscreen frameborder="0">
+    </iframe>
+</div>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/cuda_time/">
       Cudaプログラムの実行時間測定
     </a>
@@ -663,330 +844,6 @@ org-modeで記事が書けると公式で言われている割にほとんど使
 <script src="https://yuki67.github.io/js/canvas.js"></script>
 
 <p>hello bucklescript!</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/automaton/">
-      オートマトン in OCaml
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2017-09-17
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ocaml">
-          OCaml
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>前にpythonでやったことをOCamlでやったのでまとめた。</p>
-
-<p></p>
-
-<p>このページの実行例は<a href="https://github.com/yuki67/AutomatonOcaml">このリポジトリ</a>のルートで <code>jbuilder utop src</code> で起動するutopで実行した。</p>
-
-<h2 id="作成-実行">作成・実行</h2>
-
-<p>作って&hellip;</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="k">let</span> <span class="n">dfa</span> <span class="o">=</span>
-  <span class="nn">DFA</span><span class="p">.</span><span class="n">cons</span>
-    <span class="o">[</span><span class="s2">&#34;0&#34;</span><span class="o">;</span> <span class="s2">&#34;1&#34;</span><span class="o">]</span>    <span class="c">(* アルファベット *)</span>
-    <span class="o">[(</span><span class="n">0</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span> <span class="c">(* 遷移関数 *)</span>
-     <span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span> <span class="c">(* (q, c, q&#39;) は「状態qでcを読むとq&#39;に遷移する」を意味する *)</span>
-     <span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
-     <span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">)]</span>
-    <span class="n">0</span>             <span class="c">(* 初期状態 *)</span>
-    <span class="o">[</span><span class="n">1</span><span class="o">];;</span>         <span class="c">(* 受理状態 *)</span>
-<span class="k">val</span> <span class="n">dfa</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span></code></pre></div>
-<p>走らせる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">run</span> <span class="n">dfa</span> <span class="s2">&#34;0001&#34;</span><span class="o">;;</span>
-<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">true</span>
-
-<span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">run</span> <span class="n">dfa</span> <span class="s2">&#34;0110&#34;</span><span class="o">;;</span>
-<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span>
-
-<span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">run</span> <span class="n">dfa</span> <span class="s2">&#34;&#34;</span><span class="o">;;</span>
-<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span></code></pre></div>
-<p>NFAでは空文字列Emptyと「その他全て」を意味するAnyOtherが使える</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="k">let</span> <span class="n">nfa</span> <span class="o">=</span>
-    <span class="k">let</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">,</span> <span class="n">4</span> <span class="k">in</span>
-    <span class="nn">NFA</span><span class="p">.</span><span class="n">cons</span> <span class="o">[</span><span class="s2">&#34;0&#34;</span><span class="o">;</span> <span class="s2">&#34;1&#34;</span><span class="o">;</span> <span class="s2">&#34;2&#34;</span><span class="o">]</span>
-      <span class="o">[(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="o">[</span><span class="n">a</span><span class="o">]);</span>         <span class="c">(* 遷移先は状態ではなく状態の集合になる *)</span>
-       <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="nc">AnyOther</span><span class="o">,</span> <span class="o">[</span><span class="n">b</span><span class="o">]);</span>
-       <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="o">[</span><span class="n">b</span><span class="o">]);</span>
-       <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nc">AnyOther</span><span class="o">,</span> <span class="o">[</span><span class="n">c</span><span class="o">]);</span>
-       <span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">&#34;2&#34;</span><span class="o">,</span> <span class="o">[</span><span class="n">c</span><span class="o">]);</span>
-       <span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span>    <span class="o">[</span><span class="n">a</span><span class="o">;</span><span class="n">b</span><span class="o">])]</span>
-      <span class="o">[</span><span class="n">a</span><span class="o">]</span>                          <span class="c">(* 初期状態も状態の集合*)</span>
-      <span class="o">[</span><span class="n">c</span><span class="o">];;</span>
-<span class="k">val</span> <span class="n">nfa</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
-
-<span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">nfa</span> <span class="s2">&#34;&#34;</span><span class="o">;;</span>
-<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span>
-
-<span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">nfa</span> <span class="s2">&#34;00&#34;</span><span class="o">;;</span>
-<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span>
-
- <span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">nfa</span> <span class="s2">&#34;10&#34;</span><span class="o">;;</span>
-<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">true</span>
-
-<span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">maton</span> <span class="s2">&#34;21012&#34;</span><span class="o">;;</span>
-<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">true</span>
-
-<span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">run</span> <span class="n">nfa</span> <span class="s2">&#34;011010001&#34;</span><span class="o">;;</span>
-<span class="o">-</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="bp">false</span></code></pre></div>
-<h2 id="遷移図の出力">遷移図の出力</h2>
-
-<p>Dot言語のソースコードを出力する関数がある。</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">print_dfa</span> <span class="n">dfa</span> <span class="n">string_of_int</span><span class="o">;;</span>
-<span class="n">digraph</span> <span class="n">finite_state_machine</span> <span class="o">{</span>
-<span class="n">rankdir</span><span class="o">=</span><span class="nc">LR</span>
-<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">point</span><span class="o">]</span> <span class="n">init</span>
-<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="n">2</span><span class="o">]</span>
-<span class="s2">&#34;1&#34;</span>
-<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="n">1</span><span class="o">]</span>
-<span class="n">init</span> <span class="o">-&gt;</span> <span class="s2">&#34;0&#34;</span>
-<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="n">1</span><span class="o">]</span>
-<span class="s2">&#34;0&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;0&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;0&#34;</span><span class="o">]</span>
-<span class="s2">&#34;0&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;1&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;1&#34;</span><span class="o">]</span>
-<span class="s2">&#34;1&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;0&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;0&#34;</span><span class="o">]</span>
-<span class="s2">&#34;1&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;1&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;1&#34;</span><span class="o">]</span>
-<span class="o">}</span></code></pre></div>
-<p>これをgraphvizでコンパイルすると、以下の画像が得られる。</p>
-
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/dfa.png" />
-    
-    
-</figure>
-
-
-<p>NFAでも同様。</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="n">print_nfa</span> <span class="n">nfa</span> <span class="n">string_of_int</span><span class="o">;;</span>
-<span class="n">digraph</span> <span class="n">finite_state_machine</span> <span class="o">{</span>
-<span class="n">rankdir</span><span class="o">=</span><span class="nc">LR</span>
-<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">point</span><span class="o">]</span> <span class="n">init</span>
-<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="n">2</span><span class="o">]</span>
-<span class="s2">&#34;3&#34;</span>
-<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="n">1</span><span class="o">];</span>
-<span class="n">init</span> <span class="o">-&gt;</span> <span class="s2">&#34;1&#34;</span>
-<span class="n">node</span> <span class="o">[</span><span class="n">shape</span> <span class="o">=</span> <span class="n">ellipse</span><span class="o">,</span> <span class="n">peripheries</span><span class="o">=</span><span class="n">1</span><span class="o">]</span>
-<span class="s2">&#34;1&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;1&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;0&#34;</span><span class="o">]</span>
-<span class="s2">&#34;1&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;2&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;other&#34;</span><span class="o">]</span>
-<span class="s2">&#34;2&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;2&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;1&#34;</span><span class="o">]</span>
-<span class="s2">&#34;2&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;3&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;other&#34;</span><span class="o">]</span>
-<span class="s2">&#34;3&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;3&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;2&#34;</span><span class="o">]</span>
-<span class="s2">&#34;3&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;1&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;ε&#34;</span><span class="o">]</span>
-<span class="s2">&#34;3&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;2&#34;</span> <span class="o">[</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&#34;ε&#34;</span><span class="o">]</span>
-<span class="o">}</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/nfa.png" />
-    
-    
-</figure>
-
-
-<h2 id="nfaのdfaへの変換">NFAのDFAへの変換</h2>
-
-<p>与えられたNFAを、認識する言語が同じDFAに変換するアルゴリズムを実装した。</p>
-
-<p>これだけ読んで分かるかどうかは微妙だが、ソースコードを張る。</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">to_dfa</span> <span class="o">=</span> <span class="k">fun</span> <span class="n">maton</span> <span class="o">-&gt;</span>
-  <span class="k">let</span> <span class="n">init</span> <span class="o">=</span> <span class="o">(</span><span class="n">saturate</span> <span class="n">maton</span> <span class="n">maton</span><span class="o">.</span><span class="n">initial</span><span class="o">)</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">finals</span> <span class="o">=</span>
-    <span class="k">if</span> <span class="n">anything_in_common</span> <span class="n">init</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span>
-    <span class="k">then</span> <span class="n">ref</span> <span class="o">[</span><span class="n">init</span><span class="o">]</span>
-    <span class="k">else</span> <span class="n">ref</span> <span class="bp">[]</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">trans</span> <span class="o">=</span> <span class="n">ref</span> <span class="bp">[]</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="k">rec</span> <span class="n">loop</span> <span class="n">searched</span> <span class="n">to_search</span> <span class="o">=</span>
-    <span class="k">match</span> <span class="n">to_search</span> <span class="k">with</span>
-    <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="bp">()</span>
-    <span class="o">|</span> <span class="n">state</span><span class="o">::</span><span class="n">tl</span> <span class="o">-&gt;</span>
-        <span class="k">let</span> <span class="n">nexts_triplet</span> <span class="o">=</span>
-          <span class="n">image</span> <span class="o">(</span><span class="k">fun</span> <span class="n">c</span> <span class="o">-&gt;</span> <span class="n">state</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">transit</span> <span class="n">maton</span> <span class="n">state</span> <span class="n">c</span><span class="o">)</span> <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span> <span class="k">in</span>
-        <span class="k">let</span> <span class="n">nexts</span> <span class="o">=</span> <span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(_,</span> <span class="o">_,</span> <span class="n">x</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">)</span> <span class="n">nexts_triplet</span> <span class="k">in</span>
-        <span class="n">trans</span> <span class="o">:=</span> <span class="n">nexts_triplet</span> <span class="o">@</span> <span class="o">!</span><span class="n">trans</span><span class="o">;</span>
-        <span class="n">finals</span> <span class="o">:=</span> <span class="n">nexts</span>
-                   <span class="o">|&gt;</span> <span class="n">filter</span> <span class="o">(</span><span class="n">anything_in_common</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">)</span>
-                   <span class="o">|&gt;</span> <span class="n">union</span> <span class="o">!</span><span class="n">finals</span><span class="o">;</span>
-        <span class="n">loop</span> <span class="o">(</span><span class="n">set_add</span> <span class="n">searched</span> <span class="n">state</span><span class="o">)</span> <span class="o">(</span><span class="n">union</span> <span class="n">tl</span> <span class="o">(</span><span class="n">diff</span> <span class="n">nexts</span> <span class="o">(</span><span class="n">state</span><span class="o">::</span><span class="n">searched</span><span class="o">)))</span>
-  <span class="k">in</span>
-  <span class="k">let</span> <span class="o">_</span> <span class="o">=</span> <span class="n">loop</span> <span class="bp">[]</span> <span class="o">[</span><span class="n">init</span><span class="o">]</span> <span class="k">in</span>
-  <span class="nn">DFA</span><span class="p">.</span><span class="n">cons</span> <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span> <span class="o">!</span><span class="n">trans</span> <span class="n">init</span> <span class="o">!</span><span class="n">finals</span></code></pre></div>
-<p>次のように使う。</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="k">let</span> <span class="n">nfa</span> <span class="o">=</span>
-    <span class="k">let</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">0</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">2</span> <span class="k">in</span>
-    <span class="nn">NFA</span><span class="p">.</span><span class="n">cons</span> <span class="o">[</span><span class="s2">&#34;0&#34;</span><span class="o">;</span> <span class="s2">&#34;1&#34;</span><span class="o">;</span> <span class="s2">&#34;2&#34;</span><span class="o">]</span>
-      <span class="o">[(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="o">[</span><span class="n">a</span><span class="o">]);</span>
-       <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span>    <span class="o">[</span><span class="n">b</span><span class="o">]);</span>
-       <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="o">[</span><span class="n">b</span><span class="o">]);</span>
-       <span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nc">Empty</span><span class="o">,</span>    <span class="o">[</span><span class="n">c</span><span class="o">]);</span>
-       <span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="nc">Char</span> <span class="s2">&#34;2&#34;</span><span class="o">,</span> <span class="o">[</span><span class="n">c</span><span class="o">])]</span>
-      <span class="o">[</span><span class="n">a</span><span class="o">]</span> <span class="o">[</span><span class="n">c</span><span class="o">]</span> <span class="o">;;</span>
-<span class="k">val</span> <span class="n">nfa</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
-
-<span class="o">#</span> <span class="k">let</span> <span class="n">dfa</span> <span class="o">=</span> <span class="o">(</span><span class="nn">NFA</span><span class="p">.</span><span class="n">to_dfa</span> <span class="n">nfa</span><span class="o">);;</span>
-<span class="k">val</span> <span class="n">dfa</span> <span class="o">:</span> <span class="kt">int</span> <span class="kt">list</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span></code></pre></div>
-<p>変換されたDFAの状態は元のNFAの状態の集合なので、
-<code>int NFA.t</code> を変換した <code>dfa</code> の型が <code>int list DFA.t</code> になっている。</p>
-
-<p>この <code>nfa</code> , <code>dfa</code> を画像にすると、変換がどう行われたのかが分かる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="nn">NFA</span><span class="p">.</span><span class="n">print_nfa</span> <span class="n">nfa</span> <span class="n">string_of_int</span><span class="o">;;</span>
-<span class="c">(* 出力される文字列をgraphvizで画像にしたものを張った。以下同じ。 *)</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/dfa_to_convert.png" />
-    
-    
-</figure>
-
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">print_dfa</span> <span class="n">dfa</span> <span class="o">(</span><span class="nn">ListExt</span><span class="p">.</span><span class="n">string_of_list</span> <span class="n">string_of_int</span><span class="o">)</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/dfa_converted.png" />
-    
-    
-</figure>
-
-
-<h2 id="dfaの最小化">DFAの最小化</h2>
-
-<p>Myhill–Nerodeの関係を使ったDFAの最小化アルゴリズムも実装した。</p>
-
-<p>コードはかなり長く、以下のようになる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">minimize</span> <span class="n">maton</span> <span class="o">=</span>
-  <span class="c">(* helper functions *)</span>
-  <span class="k">let</span> <span class="n">transitable_into</span> <span class="n">marked</span> <span class="o">(</span><span class="n">p</span><span class="o">,</span> <span class="n">q</span><span class="o">)</span> <span class="o">=</span>
-    <span class="n">exists</span>
-      <span class="o">(</span><span class="k">fun</span> <span class="n">c</span> <span class="o">-&gt;</span>
-         <span class="k">let</span> <span class="n">p&#39;</span><span class="o">,</span> <span class="n">q&#39;</span> <span class="o">=</span> <span class="n">transit</span> <span class="n">maton</span> <span class="n">p</span> <span class="n">c</span><span class="o">,</span> <span class="n">transit</span> <span class="n">maton</span> <span class="n">q</span> <span class="n">c</span> <span class="k">in</span>
-         <span class="n">mem</span> <span class="o">(</span><span class="n">p&#39;</span><span class="o">,</span> <span class="n">q&#39;</span><span class="o">)</span> <span class="n">marked</span> <span class="o">||</span> <span class="n">mem</span> <span class="o">(</span><span class="n">q&#39;</span><span class="o">,</span> <span class="n">p&#39;</span><span class="o">)</span> <span class="n">marked</span><span class="o">)</span>
-      <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">mark_initial_cond</span> <span class="o">(</span><span class="n">p</span><span class="o">,</span> <span class="n">q</span><span class="o">)</span> <span class="o">=</span>
-    <span class="o">(</span><span class="n">mem</span> <span class="n">p</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span> <span class="o">&amp;&amp;</span> <span class="n">not</span> <span class="o">(</span><span class="n">mem</span> <span class="n">q</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">))</span> <span class="o">||</span>
-    <span class="o">(</span><span class="n">not</span> <span class="o">(</span><span class="n">mem</span> <span class="n">p</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">mem</span> <span class="n">q</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">)</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">transitions_from</span> <span class="n">s</span> <span class="n">new_states</span> <span class="o">=</span>
-    <span class="k">let</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">find</span> <span class="o">(</span><span class="n">mem</span> <span class="n">s</span><span class="o">)</span> <span class="n">new_states</span>
-    <span class="ow">and</span> <span class="n">next</span> <span class="n">c</span> <span class="o">=</span> <span class="n">find</span> <span class="o">(</span><span class="n">mem</span> <span class="o">(</span><span class="n">transit</span> <span class="n">maton</span> <span class="n">s</span> <span class="n">c</span><span class="o">))</span> <span class="n">new_states</span> <span class="k">in</span>
-    <span class="o">(</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">c</span> <span class="o">-&gt;</span> <span class="n">origin</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">next</span> <span class="n">c</span><span class="o">)</span> <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span><span class="o">)</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">states</span> <span class="o">=</span> <span class="n">collect_states</span> <span class="n">maton</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="k">rec</span> <span class="n">loop</span> <span class="o">(</span><span class="n">marked</span><span class="o">,</span> <span class="n">unmarked</span><span class="o">)</span> <span class="o">=</span>
-    <span class="k">let</span> <span class="n">to_add</span> <span class="o">=</span> <span class="n">filter</span> <span class="o">(</span><span class="n">transitable_into</span> <span class="n">marked</span><span class="o">)</span> <span class="n">unmarked</span> <span class="k">in</span>
-    <span class="k">if</span> <span class="n">subset</span> <span class="n">to_add</span> <span class="n">marked</span> <span class="k">then</span> <span class="n">marked</span><span class="o">,</span> <span class="n">unmarked</span>
-    <span class="k">else</span> <span class="n">loop</span> <span class="o">((</span><span class="n">union</span> <span class="n">marked</span> <span class="n">to_add</span><span class="o">),</span> <span class="o">(</span><span class="n">diff</span> <span class="n">unmarked</span> <span class="n">to_add</span><span class="o">))</span> <span class="k">in</span>
-  <span class="k">let</span> <span class="n">connected_component</span> <span class="n">udgraph</span> <span class="n">v</span> <span class="o">=</span>
-    <span class="k">let</span> <span class="k">rec</span> <span class="n">loop</span> <span class="n">acc</span> <span class="o">=</span> <span class="k">function</span>
-      <span class="o">|</span> <span class="bp">[]</span> <span class="o">-&gt;</span> <span class="n">acc</span>
-      <span class="o">|</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">::</span> <span class="n">tl</span> <span class="k">when</span> <span class="n">x</span> <span class="o">=</span> <span class="n">v</span> <span class="o">||</span> <span class="n">y</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">loop</span> <span class="o">(</span><span class="n">union</span> <span class="n">acc</span> <span class="o">[</span><span class="n">x</span><span class="o">;</span> <span class="n">y</span><span class="o">])</span> <span class="n">tl</span>
-      <span class="o">|</span> <span class="o">_</span> <span class="o">::</span> <span class="n">tl</span> <span class="o">-&gt;</span> <span class="n">loop</span> <span class="n">acc</span> <span class="n">tl</span> <span class="k">in</span>
-    <span class="n">loop</span> <span class="o">[</span><span class="n">v</span><span class="o">]</span> <span class="n">udgraph</span> <span class="k">in</span>
-  <span class="c">(* main procedure *)</span>
-  <span class="c">(* (p, q) ∈ marked &lt;-&gt; p and q are distinguishable *)</span>
-  <span class="k">let</span> <span class="n">init_marked</span><span class="o">,</span> <span class="n">init_unmarked</span> <span class="o">=</span>
-    <span class="n">partition</span> <span class="n">mark_initial_cond</span> <span class="o">(</span><span class="n">original_pairs</span> <span class="n">states</span><span class="o">)</span> <span class="k">in</span>
-  <span class="c">(* saturate marked and unmarked *)</span>
-  <span class="c">(* &#34;marked ∩ unmarked = ∅&#34; stays true after loop *)</span>
-  <span class="k">let</span> <span class="n">marked</span><span class="o">,</span> <span class="n">unmarked</span> <span class="o">=</span> <span class="n">loop</span> <span class="o">(</span><span class="n">init_marked</span><span class="o">,</span> <span class="n">init_unmarked</span><span class="o">)</span> <span class="k">in</span>
-  <span class="c">(* calculate new states from marked and unmarked *)</span>
-  <span class="k">let</span> <span class="n">new_states</span> <span class="o">=</span>
-    <span class="n">fold_left_ignore</span>
-      <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="n">set</span> <span class="o">-&gt;</span> <span class="n">mem</span> <span class="n">s</span> <span class="n">set</span><span class="o">)</span> <span class="n">acc</span><span class="o">)</span>
-      <span class="c">(* largest undistinguishable set which contains s *)</span>
-      <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">connected_component</span> <span class="n">unmarked</span> <span class="n">s</span><span class="o">)</span> <span class="o">::</span> <span class="n">acc</span><span class="o">)</span>
-      <span class="bp">[]</span> <span class="n">states</span> <span class="k">in</span>
-  <span class="c">(* also calculate new transition from new_states *)</span>
-  <span class="k">let</span> <span class="n">new_trans</span> <span class="o">=</span>
-    <span class="n">fold_left_ignore</span>
-      <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">exists</span> <span class="o">(</span><span class="k">fun</span> <span class="o">(</span><span class="n">set</span><span class="o">,</span> <span class="o">_,</span> <span class="o">_)</span> <span class="o">-&gt;</span> <span class="n">mem</span> <span class="n">s</span> <span class="n">set</span><span class="o">)</span> <span class="n">acc</span><span class="o">)</span>
-      <span class="o">(</span><span class="k">fun</span> <span class="n">acc</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">transitions_from</span> <span class="n">s</span> <span class="n">new_states</span><span class="o">)</span> <span class="o">@</span> <span class="n">acc</span><span class="o">)</span>
-      <span class="bp">[]</span> <span class="n">states</span> <span class="k">in</span>
-  <span class="n">cons</span>
-    <span class="n">maton</span><span class="o">.</span><span class="n">alphabet</span>
-    <span class="n">new_trans</span>
-    <span class="c">(* note : exactly one element of new_states contains maton.inits *)</span>
-    <span class="o">(</span><span class="n">find</span> <span class="o">(</span><span class="n">mem</span> <span class="n">maton</span><span class="o">.</span><span class="n">inits</span><span class="o">)</span> <span class="n">new_states</span><span class="o">)</span>
-    <span class="o">(</span><span class="n">filter</span> <span class="o">(</span><span class="n">anything_in_common</span> <span class="n">maton</span><span class="o">.</span><span class="n">finals</span><span class="o">)</span> <span class="n">new_states</span><span class="o">)</span></code></pre></div>
-<p>使用例:</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="k">let</span> <span class="n">maton</span> <span class="o">=</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">cons</span> <span class="o">[</span><span class="s2">&#34;0&#34;</span><span class="o">;</span> <span class="s2">&#34;1&#34;</span><span class="o">]</span>
-      <span class="o">[(</span><span class="n">0</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span>
-       <span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">2</span><span class="o">);</span>
-       <span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
-       <span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">3</span><span class="o">);</span>
-       <span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">4</span><span class="o">);</span>
-       <span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
-       <span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">4</span><span class="o">);</span>
-       <span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
-       <span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">4</span><span class="o">);</span>
-       <span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
-       <span class="o">(</span><span class="n">5</span><span class="o">,</span> <span class="s2">&#34;0&#34;</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
-       <span class="o">(</span><span class="n">5</span><span class="o">,</span> <span class="s2">&#34;1&#34;</span><span class="o">,</span> <span class="n">5</span><span class="o">)]</span>
-      <span class="n">0</span> <span class="o">[</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">]</span> <span class="o">;;</span>
-<span class="k">val</span> <span class="n">maton</span> <span class="o">:</span> <span class="kt">int</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
-
-<span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">print_dfa</span> <span class="n">maton</span> <span class="n">string_of_int</span><span class="o">;;</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/dfa_to_minimize.png" />
-    
-    
-</figure>
-
-
-<p>これを最小化すると、</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="o">#</span> <span class="k">let</span> <span class="n">minimized</span> <span class="o">=</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">minimize</span> <span class="n">maton</span><span class="o">;;</span>
-<span class="k">val</span> <span class="n">minimized</span> <span class="o">:</span> <span class="kt">int</span> <span class="kt">list</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">abstr</span><span class="o">&gt;</span>
-
-<span class="o">#</span> <span class="nn">DFA</span><span class="p">.</span><span class="n">print_dfa</span> <span class="n">minimized</span> <span class="o">(</span><span class="nn">MyExt</span><span class="p">.</span><span class="nn">ListExt</span><span class="p">.</span><span class="n">string_of_list</span> <span class="n">string_of_int</span><span class="o">);;</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/dfa_minimized.png" />
-    
-    
-</figure>
-
-
-<p>となる。</p>
-
-<p>最小化されたDFAを見ると元のDFAのどの状態が同一視されているのかが分かる。</p>
 
 </article>
 

@@ -245,6 +245,80 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/emacs_regex_bracket/">
+      emacs の正規表現で (&#34;[&#34;, &#34;]&#34; 以外の1文字) を表現する
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-04-11
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/emacs">
+          emacs
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p></p>
+
+<p>emacsの <code>M-C-%</code> (<code>query-replace-regexp</code>) で</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">a</span><span class="p">[</span><span class="n">index_i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+<p>のような文章を</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">a</span><span class="p">(</span><span class="n">index_i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+<p>文章に変換したいことがあった。</p>
+
+<p>このとき置換のクエリを <code>\[\([^[]]*\)\] -&gt; (\1)</code> としても上手く行かない。
+なぜなら <code>[^[]]</code> という正規表現が表すのは (&rdquo;<code>[</code>&ldquo;以外の1文字 + &ldquo;<code>]</code>&rdquo;) であって、
+こちらの意図する (&rdquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字) とは異なっているからだ。</p>
+
+<p>じゃあエスケープすればいいだろうと思って <code>[^\[\]]</code> としてもこれも上手く行かない。
+<code>[]</code> の中にある文字はエスケープされるので、
+この正規表現が表すのは (&rdquo;<code>\</code>&rdquo;, &ldquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字) だからだ。</p>
+
+<p>解決法は<a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.html">マニュアル</a>にあった。
+emacs の正規表現では <code>[...]</code> 中の最初の文字が &ldquo;<code>]</code>&rdquo; だった場合はエスケープされるとのことなので、
+(&rdquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字)を表す正規表現は <code>[^][]</code> となる。</p>
+
+<p>よって、冒頭の変換を行うクエリは <code>\[\([^][*\)\] -&gt; (\1)</code> となる。</p>
+
+<h2 id="参考資料">参考資料</h2>
+
+<p><a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.html">Regexp Special - GNU Emacs Lisp Reference Manual</a></p>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/float_to_fraction/">
       小数型を有理数に変換する in C&#43;&#43;
     </a>
@@ -1378,114 +1452,6 @@ org-mode の文章を Hugo に対応した markdown にエクスポートする�
 <p><a href="https://github.com/kaushalmodi/ox-hugo">GitHub - kaushalmodi/ox-hugo: A carefully crafted Org exporter back-end for Hugo</a></p>
 
 <p><a href="https://github.com/yuki67/dotemacs#ox-hugo">GitHub - yuki67/dotemacs: My emacs configuration.</a></p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/hugo_cpp_highlight/">
-      Hugo の C&#43;&#43; 用 シンタックスハイライトを直す
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-03-18
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/hugo">
-          Hugo
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p></p>
-
-<p>Hugo で C++ のコードをシンタックスハイライトしたら誤った位置に改行が入っていた。</p>
-
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/source.png" alt="Figure 1: 入力したソースコード" />
-    
-    
-    <figcaption>
-        <p>
-        Figure 1: 入力したソースコード
-        
-            
-        
-        </p> 
-    </figcaption>
-    
-</figure>
-
-
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/result.png" alt="Figure 2: 出力されたソースコード" />
-    
-    
-    <figcaption>
-        <p>
-        Figure 2: 出力されたソースコード
-        
-            
-        
-        </p> 
-    </figcaption>
-    
-</figure>
-
-
-<p>調べたところ Hugo が使っているシンタックスハイライタ chroma の<a href="https://github.com/alecthomas/chroma/issues/124">バグ</a>であることが分かった。
-このバグは chroma の最新版(0.4.0)では直っていたので、 Hugo が最新版の chroma を使うようにしたところ直った。</p>
-
-<p>手順は簡単で、</p>
-
-<ul>
-<li><code>go get -v github.com/gohugoio/hugo</code></li>
-<li><code>git checkout v0.37.1</code></li>
-<li><code>Gopkg.toml</code> 内の chroma のバージョンを0.4.0に直す</li>
-<li><a href="https://github.com/magefile/mage">mage</a>をインストールする</li>
-<li><code>mage vendor</code></li>
-<li><code>mage install</code></li>
-</ul>
-
-<p>でできる。</p>
-
-<p>しばらくすれば Hugo が chroma の最新版を使うようになるとは思うが、それまではこれで。</p>
-
-<h2 id="追記">追記</h2>
-
-<p>最新の Hugo では<a href="https://github.com/gohugoio/hugo/commit/904a3d9ddf523d452d04d0b5814503e0ff17bd2e#diff-836546cc53507f6b2d581088903b1785L13">直った</a>ことを確認した。</p>
 
 </article>
 

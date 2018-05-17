@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Mon, 20 Nov 2017 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 17 May 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/tags/opengl/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>OpenGL 関係のライブラリが壊れたときの対処</title>
+      <link>https://yuki67.github.io/post/opengl_broken/</link>
+      <pubDate>Thu, 17 May 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/opengl_broken/</guid>
+      <description>問題 glew とか GLFW とか NVidia のドライバとかを一通りインストールしたにもかかわらず OpenGL の hello world プログラムがコンパイルできない。
+原因 なぜか知らないがリンクに必要なオブジェクトファイルが削除され、シンボリックリンクをたどった先が存在しないファイルになっていた。
+解決法 dpkg -S コマンドでどのオブジェクトファイルがどのパッケージでインストールされたかを確認して、そのパッケージを sudo apt install --reinstall する。
+例えば
+$ dpkg -S /usr/lib/x86_64-linux-gnu/mesa/libGL.so libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so となる。</description>
+    </item>
     
     <item>
       <title>ビットマップをOpenGLで描画する</title>
