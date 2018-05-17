@@ -18,9 +18,9 @@
       <pubDate>Sun, 29 Apr 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/post/c&#43;&#43;/virtual_destructor/</guid>
-      <description>基底クラスへのポインタを delete する場合、基底クラスのデストラクタが virtual でないと派生クラスのデストラクタが呼ばれない。
+      <description>&lt;p&gt;基底クラスへのポインタを &lt;code&gt;delete&lt;/code&gt; する場合、基底クラスのデストラクタが &lt;code&gt;virtual&lt;/code&gt; でないと派生クラスのデストラクタが呼ばれない。&lt;/p&gt;
 
-#include &amp;lt;iostream&amp;gt; struct Base_Non_Virtual { ~Base_Non_Virtual() { std::cout &amp;lt;&amp;lt; &amp;#34;~Base_Non_Virtual()\n&amp;#34;; } }; struct Derived_Non_Virtual : Base_Non_Virtual { ~Derived_Non_Virtual() { std::cout &amp;lt;&amp;lt; &amp;#34;~Derived_Non_Virtual()\n&amp;#34;; } }; struct Base_Virtual { virtual ~Base_Virtual() { std::cout &amp;lt;&amp;lt; &amp;#34;~Base_Virtual()\n&amp;#34;; } }; struct Derived_Virtual : Base_Virtual { ~Derived_Virtual() { std::cout &amp;lt;&amp;lt; &amp;#34;~Derived_Virtual()\n&amp;#34;; } }; int main() { Base_Non_Virtual *ptr1 = new Derived_Non_Virtual(); std::cout &amp;lt;&amp;lt; &amp;#34;deleting Base_Non_Virtual* value that points to Derived_Non_Virtual value\n&amp;#34;; delete ptr1; std::cout &amp;lt;&amp;lt; &amp;#34;\n&amp;#34;; Base_Virtual *ptr2 = new Derived_Virtual(); std::cout &amp;lt;&amp;lt; &amp;#34;deleting Base_Virtual* value that points to Derived_Virtual value\n&amp;#34;; delete ptr2; return 0; } deleting Base_Non_Virtual* value that points to Derived_Non_Virtual value ~Base_Non_Virtual() deleting Base_Virtual* value that points to Derived_Virtual value ~Derived_Virtual() ~Base_Virtual() 参考 c++ - When to use virtual destructors?</description>
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -29,10 +29,16 @@
       <pubDate>Sun, 29 Apr 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/post/c&#43;&#43;/order_of_destructor/</guid>
-      <description> コンストラクタの逆、つまり
- 派生クラスが先、基底クラスは後 複数のクラスを継承する場合、継承宣言の最後から  の順番で呼ばれる。
+      <description>&lt;p&gt;コンストラクタの逆、つまり&lt;/p&gt;
 
-#include &amp;lt;iostream&amp;gt; class Base1 { public: virtual ~Base1() { std::cout &amp;lt;&amp;lt; &amp;#34;~Base1()\n&amp;#34;; } }; class Base2 { public: virtual ~Base2() { std::cout &amp;lt;&amp;lt; &amp;#34;~Base2()\n&amp;#34;; } }; class Base3 { public: virtual ~Base3() { std::cout &amp;lt;&amp;lt; &amp;#34;~Base3()\n&amp;#34;; } }; class Derived123: Base1, Base2, Base3 { public: virtual ~Derived123() { std::cout &amp;lt;&amp;lt; &amp;#34;~Derived123()\n&amp;#34;; } }; class Derived321: Base3, Base2, Base1 { public: virtual ~Derived321() { std::cout &amp;lt;&amp;lt; &amp;#34;~Derived321()\n&amp;#34;; } }; class Derived312: Base3, Base1, Base2 { public: virtual ~Derived312() { std::cout &amp;lt;&amp;lt; &amp;#34;~Derived312()\n&amp;#34;; } }; int main() { auto ptr123 = new Derived123(); std::cout &amp;lt;&amp;lt; &amp;#34;deleting Derived123* value\n&amp;#34;; delete ptr123; std::cout &amp;lt;&amp;lt; &amp;#34;\n&amp;#34;; auto ptr321 = new Derived321(); std::cout &amp;lt;&amp;lt; &amp;#34;deleting Derived321* value\n&amp;#34;; delete ptr321; std::cout &amp;lt;&amp;lt; &amp;#34;\n&amp;#34;; auto ptr312 = new Derived312(); std::cout &amp;lt;&amp;lt; &amp;#34;deleting Derived312* value\n&amp;#34;; delete ptr312; return 0; } deleting Derived123* value ~Derived123() ~Base3() ~Base2() ~Base1() deleting Derived321* value ~Derived321() ~Base1() ~Base2() ~Base3() deleting Derived312* value ~Derived312() ~Base2() ~Base1() ~Base3() 参考  What is the order in which the destructors and the constructors are called in C++ - Stack Overflow c++ - Order of destruction in the case of multiple inheritance - Stack Overflow /li  </description>
+&lt;ul&gt;
+&lt;li&gt;派生クラスが先、基底クラスは後&lt;/li&gt;
+&lt;li&gt;複数のクラスを継承する場合、継承宣言の最後から&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;の順番で呼ばれる。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

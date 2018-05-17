@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.40.1" />
+  <meta name="generator" content="Hugo 0.40.3" />
 
   <title>virtual なデストラクタ &middot; yuki&#39;s blog</title>
 
@@ -272,9 +272,7 @@
   
 
 
-  
-
-<p>基底クラスへのポインタを <code>delete</code> する場合、基底クラスのデストラクタが <code>virtual</code> でないと派生クラスのデストラクタが呼ばれない。</p>
+  <p>基底クラスへのポインタを <code>delete</code> する場合、基底クラスのデストラクタが <code>virtual</code> でないと派生クラスのデストラクタが呼ばれない。</p>
 
 <p></p>
 <div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
@@ -322,8 +320,7 @@ deleting Base_Virtual* value that points to Derived_Virtual value
 ~Base_Virtual()</code></pre></div>
 <h2 id="参考">参考</h2>
 
-<p><a href="https://stackoverflow.com/questions/461203/when-to-use-virtual-destructors">c++ - When to use virtual destructors? - Stack Overflow</a></p>ow</a></p>
-
+<p><a href="https://stackoverflow.com/questions/461203/when-to-use-virtual-destructors">c++ - When to use virtual destructors? - Stack Overflow</a></p>
 
   
 <div class="prev-next-post pure-g">
