@@ -1204,7 +1204,7 @@ function f$8(param) {
 var partial_arg$10 = JsExt.Select[/* add_option */2];
 
 function f$9(param) {
-  return partial_arg$10("", 0, param);
+  return partial_arg$10("図形を選択", 0, param);
 }
 
 JsExt.Element[/* insertBefore */0](document.currentScript, (Curry._1(f$9, sel), Curry._1(f$8, sel), Curry._1(f$7, sel), Curry._1(f$6, sel), Curry._1(f$5, sel), Curry._1(f$4, sel), Curry._1(f$3, sel), sel));

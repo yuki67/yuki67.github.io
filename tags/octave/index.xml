@@ -19,7 +19,7 @@
       
       <guid>https://yuki67.github.io/post/octave_getting_started/</guid>
       <description>octave の本質的でない部分についてのメモ。
-   問題 / 疑問 解決法 / 答え 備考     立ち上がったグラフウィンドウが消せない close Manipulation of Plot Windows   グラフの軸の縮尺が等しくない axis(&amp;quot;equal&amp;quot;) Axis Configuration   同じグラフに複数回プロットしたい hold on Manipulation of Plot Windows   今読み込んでいる変数を表示させたい whos Status of Variables   for を回している変数でインデックスを取れない int32 にキャストする range が double 型の値を返すのが原因 Ranges Integer Data Types   end と endfor と endif とでなにか違うのか なにも違わない すべて end でも構わないが、使い分けたほうがいい Statements   org-babel で関数を定義しようとするとエラーが出る src block に :session をつける インタラクティブモードでない場合、ファイル内と同じ名前と関数しか定義できない Function Files    </description>
+   問題 / 疑問 解決法 / 答え 備考     立ち上がったグラフウィンドウが消せない close Manipulation of Plot Windows   グラフの軸の縮尺が等しくない axis(&amp;quot;equal&amp;quot;) Axis Configuration   同じグラフに複数回プロットしたい hold on Manipulation of Plot Windows   今読み込んでいる変数を表示させたい whos Status of Variables   for を回している変数でインデックスを取れない int32 にキャストする range が double 型の値を返すのが原因 Ranges Integer Data Types   end と endfor と endif とでなにか違うのか なにも違わない すべて end でも構わないが、使い分けたほうがいい Statements   org-babel で関数を定義しようとするとエラーが出る src block に :session をつける インタラクティブモードでない場合、ファイル内と同じ名前の関数しか定義できない Function Files    </description>
     </item>
     
     <item>

@@ -245,6 +245,97 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/ox-hugo/">
+      ox-hugo
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-03-30
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/about">
+          about
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p><a href="https://github.com/kaushalmodi/ox-hugo">ox-hugo</a> は emacs のパッケージだ。
+org-mode の文章を Hugo に対応した markdown にエクスポートすることができ、このサイトの記事を書くのに使われている。</p>
+
+<p></p>
+
+<p>ox-hugo の特徴として、一つの記事が一つのファイルではなく一つのサブツリーに対応しているという点がある。
+一つの org-mode ファイルの中にいくつも記事を書き、記事ごとにタイトルやタグを設定してエクスポートすることができる。
+記事を書いている途中で過去の記事を確認したり手直しすることが簡単に行えるので都合がいい。</p>
+
+<p>このサイトは一つの大きな(現在7000行ぐらい) org-mode ファイルからできていて、一つ一つの記事はサブツリーに対応している。</p>
+
+
+<figure>
+    
+        <img src="https://yuki67.github.io/ox-hugo/org-file-example.png" alt="Figure 1: このサイトのもとになる org-mode ファイル (一部)" width="100%" />
+    
+    
+    <figcaption>
+        <p>
+        Figure 1: このサイトのもとになる org-mode ファイル (一部)
+        
+            
+        
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+<p>ox-hugo は紹介文が &ldquo;A <strong>carefully crafted</strong> Org exporter back-end for Hugo&rdquo; となっているだけあって、
+かゆいところに手が届く機能が揃っている。例えば</p>
+
+<ul>
+<li>org-mode で記事を TODO にするとエクスポートされたとき <code>draft=true</code> となる</li>
+<li>org-mode のタグが hugo のタグになる</li>
+<li>記事ごとに tag 以外の taxonomies (layout, categories など) を設定できる</li>
+<li>記事ごとにエクスポート先のフォルダ名とファイル名を決められる</li>
+<li>org-mode のファイルを保存するたびに自動でエクスポートが行われる</li>
+</ul>
+
+<p>がある。</p>
+
+<p>加えて ox-hugo のソースコードは大して長くないので、
+気に入らない部分があれば好きに改造していける。
+自分が施した変更は<a href="https://github.com/yuki67/dotemacs#ox-hugo">ここ</a>から見れる。</p>
+
+<h2 id="参考資料">参考資料</h2>
+
+<p><a href="https://github.com/kaushalmodi/ox-hugo">GitHub - kaushalmodi/ox-hugo: A carefully crafted Org exporter back-end for Hugo</a></p>
+
+<p><a href="https://github.com/yuki67/dotemacs#ox-hugo">GitHub - yuki67/dotemacs: My emacs configuration.</a></p>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/hugo_cpp_highlight/">
       Hugo の C&#43;&#43; 用 シンタックスハイライトを直す
     </a>
@@ -773,68 +864,6 @@ print(fact(6))
 
 <p><code>org-src-fontify-natively</code> を <code>t</code> にすればエディタ上でもシンタックスハイライトが行われる。
 また <code>C-c '</code> (<code>org-edit-special</code>) で言語にあったメジャーモードを使ってソースコードを編集できる。</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/org-md-hugo/">
-      全体像
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-03-03
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/about">
-          about
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>このサイトは</p>
-
-<ul>
-<li><a href="https://orgmode.org/">org mode</a> で書いた文章を</li>
-<li><a href="https://github.com/kaushalmodi/ox-hugo">ox-hugo</a> で markdown に変換し</li>
-<li>markdown から <a href="https://gohugo.io/">Hugo</a> で静的サイトを作成し</li>
-<li>そのリポジトリを github pages で公開する</li>
-</ul>
-
-<p>という手順で作られている。</p>
-
-<p></p>
-
-<p>全体像を画像にまとめた。自分が直接編集するファイルを緑で塗った。</p>
-
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/zentai.png" />
-    
-    
-</figure>
 
 </article>
 
