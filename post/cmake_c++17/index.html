@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.40.3" />
 
-  <title>Ocaml &middot; yuki&#39;s blog</title>
+  <title>CMakeでC&#43;&#43;17が有効にならない &middot; yuki&#39;s blog</title>
 
   
   
@@ -36,8 +36,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-      <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki67.github.io/tags/ocaml/index.xml" />
   
 
   
@@ -129,10 +127,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://yuki67.github.io/tags/ocaml/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -235,153 +229,105 @@
 
 
 <div class="header">
-  <h1>Ocaml</h1>
+  <h1>CMakeでC&#43;&#43;17が有効にならない</h1>
+  <h2></h2>
 </div>
 <div class="content">
+
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-05-30
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
   
-  <table class="list-table">
-  
-      <tr>
-  <td class="list-date"><time>
-    
-      2018-05-19
-    
-  </time></td>
-  <td class="list-link"><a href="https://yuki67.github.io/post/bucklescript_paint/">Bucklescriptで書いたお絵かきプログラム</a></td>
-  <td class="list-tags">
   
     
     
+      <span>
       <i class="fa fa-tags fa-fw"></i>
       
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/javascript">
-          Javascript
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
+          cpp
         </a>
         
-           &nbsp;&#47;
+          &nbsp;&#47;
         
       
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ocaml">
-          OCaml
-        </a>
-        
-           &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
         </a>
         
       
+    </span>
     
   
-  </td>
-</tr>
+</div>
+
 
   
-      <tr>
-  <td class="list-date"><time>
-    
-      2017-12-13
-    
-  </time></td>
-  <td class="list-link"><a href="https://yuki67.github.io/post/mincaml_jbuilder/">MinCamlをjbuilderでビルドする</a></td>
-  <td class="list-tags">
-  
-    
-    
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ocaml">
-          OCaml
-        </a>
-        
-           &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    
-  
-  </td>
-</tr>
+
 
   
-      <tr>
-  <td class="list-date"><time>
-    
-      2017-09-24
-    
-  </time></td>
-  <td class="list-link"><a href="https://yuki67.github.io/post/hello_buckle/">hello bucklescript!</a></td>
-  <td class="list-tags">
-  
-    
-    
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/javascript">
-          Javascript
-        </a>
-        
-           &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ocaml">
-          OCaml
-        </a>
-        
-           &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    
-  
-  </td>
-</tr>
+
+<h2 id="問題">問題</h2>
+
+<p>CMake で <code>set_property(TARGET hoge PROPERTY CXX_STANDARD 17)</code> としても</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">CMake Error at CMakeLists.txt:16 (add_executable):
+  CXX_STANDARD is set to invalid value &#39;17&#39;</code></pre></div>
+<p>というエラーが出る。</p>
+
+<h2 id="原因">原因</h2>
+
+<p>ppaから入れたCMakeのバージョンが古かった。</p>
+
+<p>CMake 3.8 以上でないと <code>PROPERTY CXX_STANDARD</code> を17にすることができない。</p>
+
+<h2 id="解決法">解決法</h2>
+
+<p>CMakeをアップデートする。</p>
+
+<p>CMakeLists.txt に <code>cmake_minimum_required(VERSION 3.8)</code> を追加する。</p>
+
+<h2 id="参考">参考</h2>
+
+<p><a href="https://cmake.org/cmake/help/v3.7/prop_tgt/CXX_STANDARD.html">CXX_STANDARD — CMake 3.7.2 Documentation</a></p>
+
+<p><a href="https://cmake.org/cmake/help/v3.8/prop_tgt/CXX_STANDARD.html">CXX_STANDARD — CMake 3.8.2 Documentation</a></p>
+
 
   
-      <tr>
-  <td class="list-date"><time>
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
     
-      2017-09-17
+    <a href="https://yuki67.github.io/post/bucklescript_paint/"><i class="fa fa-chevron-left"></i></a>
     
-  </time></td>
-  <td class="list-link"><a href="https://yuki67.github.io/post/automaton/">オートマトン in OCaml</a></td>
-  <td class="list-tags">
-  
+  </div>
+  <div class="pure-u-10-24">
     
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/bucklescript_paint/">Bucklescriptで書いたお絵かきプログラム</a>
+    </nav>
     
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ocaml">
-          OCaml
-        </a>
-        
-           &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
     
-  
-  </td>
-</tr>
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
 
   
-  </table>
-  
-
 </div>
 
 </div>

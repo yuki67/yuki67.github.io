@@ -7,15 +7,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Thu, 17 May 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 30 May 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>CMakeでC&#43;&#43;17が有効にならない</title>
+      <link>https://yuki67.github.io/post/cmake_c&#43;&#43;17/</link>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/cmake_c&#43;&#43;17/</guid>
+      <description>問題 CMake で set_property(TARGET hoge PROPERTY CXX_STANDARD 17) としても
+CMake Error at CMakeLists.txt:16 (add_executable): CXX_STANDARD is set to invalid value &amp;#39;17&amp;#39; というエラーが出る。
+原因 ppaから入れたCMakeのバージョンが古かった。
+CMake 3.8 以上でないと PROPERTY CXX_STANDARD を17にすることができない。
+解決法 CMakeをアップデートする。
+CMakeLists.txt に cmake_minimum_required(VERSION 3.8) を追加する。
+参考 CXX_STANDARD — CMake 3.7.2 Documentation
+CXX_STANDARD — CMake 3.8.2 Documentation</description>
+    </item>
+    
+    <item>
       <title>Bucklescriptで書いたお絵かきプログラム</title>
       <link>https://yuki67.github.io/post/bucklescript_paint/</link>
-      <pubDate>Thu, 17 May 2018 00:00:00 +0900</pubDate>
+      <pubDate>Sat, 19 May 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/post/bucklescript_paint/</guid>
       <description>&lt;p&gt;前に書いたプログラムがそのままになっていたので供養。ソースコードはは &lt;a href=&#34;https://github.com/yuki67/ShapeOCaml&#34;&gt;ここ&lt;/a&gt; にある。&lt;/p&gt;

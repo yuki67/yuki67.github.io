@@ -245,6 +245,64 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/to_hugo/">
+      hugoに移行した
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2017-11-09
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%81%9D%E3%81%AE%E4%BB%96">
+          その他
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p>前からhugoというスタティックサイトジェネレータが気になっていて試してみたりもしたのが、
+org-modeで記事が書けると公式で言われている割にほとんど使い物にならず、移行はしていなかった。</p>
+
+<p>今回もう一度トライした結果ox-hugoという拡張機能がほぼ自分の思っていた通りのことをしてくれることが分かったので、
+思い切って移行した。ox-hugoがとても気が利いているので、移行はほぼコピペだけですんだ。</p>
+
+<p>記事を最近書いていないのに移項だけするのは気が引けたが、見栄えもよくなったし記事を書くのも
+かなり楽になったのでよしとしよう。</p>
+
+<p></p>
+
+<p>一つ不満点としてHugoがMarkdownファイル内の改行をまともに取り扱わないというのがある。
+上の文章では「記事を書くのも」と「かなり楽に」の間に半角スペースがあるが、これは
+私が意図したものではない。HugoがMarkdownをHTMLに変換するときに改行を単語の切れ目だと判断したために
+誤って挿入されたものだ。(この文章にもいくつか変な場所にスペースがある。)</p>
+
+<p>org-modeで改行を使わずに書けば問題は回避できるが、文章が書きづらくなるのでそのままにしている。
+極端に見栄えが悪くなるわけでもないし、そのうちHugoにも修正が入るだろう。</p>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/hello_buckle/">
       hello bucklescript!
     </a>
@@ -1081,258 +1139,6 @@ i y a v s r q e x g</code></pre></div>
 <p>要素数\(10+256=266\) の配列を確保するだけで\(256\times256\)のホワイトノイズを作れて嬉しい。</p>
 
 <p>各ピクセルに対する処理(関数を適用する、隣接ピクセルの平均を取る&hellip;)が増えればそれだけこの方法による利点は大きくなる。</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/perlin_noise/">
-      パーリンノイズ
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2017-08-17
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/python">
-          Python
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>書いたので。</p>
-
-<p></p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># モジュールのインポート</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">floor</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span></code></pre></div>
-<h2 id="シンプルなノイズ">シンプルなノイズ</h2>
-
-<p>格子点ごとにランダムに値を割り振って、一般の座標における値を線形補間で求めるノイズを考える。</p>
-
-<p>パーリンノイズのコードが多少複雑になるので、このノイズのコードもクラスを使って書く。
-なおランダムな値を格子点に割り振るときには {{{blog-post(<em>posts/random_pick</em>, この記事) で紹介したハッシュ法を使った。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">lerp</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span>
-
-<span class="k">class</span> <span class="nc">Simple</span><span class="p">():</span>
-    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
-    <span class="n">rand_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rand</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">256</span><span class="p">)):</span>
-      <span class="n">rand_index</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span>
-      <span class="n">rand_index</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">256</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">hash</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Simple</span><span class="o">.</span><span class="n">rand_index</span><span class="p">[</span><span class="n">Simple</span><span class="o">.</span><span class="n">rand_index</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span>
-
-    <span class="c1"># 点の周りの格子点の線形補間を求める</span>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="n">ix</span> <span class="o">=</span> <span class="n">floor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="mi">256</span>
-        <span class="n">iy</span> <span class="o">=</span> <span class="n">floor</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">%</span> <span class="mi">256</span>
-        <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">floor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">dy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">floor</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-        <span class="n">y0</span> <span class="o">=</span> <span class="n">lerp</span><span class="p">(</span><span class="n">Simple</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">Simple</span><span class="o">.</span><span class="nb">hash</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span>         <span class="n">iy</span><span class="p">)],</span>
-                  <span class="n">Simple</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">Simple</span><span class="o">.</span><span class="nb">hash</span><span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>     <span class="n">iy</span><span class="p">)],</span> <span class="n">dx</span><span class="p">)</span>
-        <span class="n">y1</span> <span class="o">=</span> <span class="n">lerp</span><span class="p">(</span><span class="n">Simple</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">Simple</span><span class="o">.</span><span class="nb">hash</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span>     <span class="n">iy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
-                  <span class="n">Simple</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">Simple</span><span class="o">.</span><span class="nb">hash</span><span class="p">(</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iy</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span> <span class="n">dx</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">lerp</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
-
-<span class="c1"># 画像の大きさは(512, 512)</span>
-<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span>
-<span class="n">canvas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
-<span class="c1"># 格子点を16個配置する</span>
-<span class="n">w</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">canvas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">Simple</span><span class="o">.</span><span class="n">noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">width</span><span class="p">)]</span>
-                   <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">height</span><span class="p">)])</span>
-
-<span class="c1"># matplotlibを使って表示</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">)</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/simple_noise.png" />
-    
-    
-</figure>
-
-
-<p>この場合、元になった格子が目立ってノイズっぽくならない。</p>
-
-<h2 id="パーリンノイズ">パーリンノイズ</h2>
-
-<p>パーリンノイズを使うと自然なノイズを高速に作れる。</p>
-
-<p>パーリンノイズの工夫を挙げると</p>
-
-<ul>
-<li>格子点に割り振るのは重みではなく勾配ベクトル \(\vec{a}_{ij}\)</li>
-<li>格子点の重みは固定ではなく、計算している座標 \((x, y)\) から求める
-
-<ul>
-<li>\(noise(x, y)\) 計算するとき、格子点 \(i, j\) の重みは \((i-x, j-x) \cdot \vec{a}_{ij}\)</li>
-</ul></li>
-<li>格子の端で値が急に変化するのを避けるために、\((x, y)\)の小数部分を <code>fade</code> 関数にかけてから線形補間をする</li>
-</ul>
-
-<p>がある。勾配ベクトルとの内積使って重みを求めることで格子点の周りでも値が散らばるようになり、ノイズが自然になる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Perlin</span><span class="p">():</span>
-    <span class="n">slopes</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">256</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">rand_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rand</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">256</span><span class="p">)):</span>
-      <span class="n">rand_index</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span>
-      <span class="n">rand_index</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">256</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">hash</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
-        <span class="c1"># 前提条件: 0 &lt;= i, j &lt;= 256</span>
-        <span class="k">return</span> <span class="n">Perlin</span><span class="o">.</span><span class="n">rand_index</span><span class="p">[</span><span class="n">Perlin</span><span class="o">.</span><span class="n">rand_index</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">fade</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">5</span> <span class="o">-</span> <span class="mi">15</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">weight</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
-        <span class="c1"># 格子点(ix, iy)に対する(ix + dx, iy + dy)の重みを求める</span>
-        <span class="n">ix</span> <span class="o">%=</span> <span class="mi">256</span>
-        <span class="n">iy</span> <span class="o">%=</span> <span class="mi">256</span>
-        <span class="n">ax</span><span class="p">,</span> <span class="n">ay</span> <span class="o">=</span> <span class="n">Perlin</span><span class="o">.</span><span class="n">slopes</span><span class="p">[</span><span class="n">Perlin</span><span class="o">.</span><span class="nb">hash</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">)]</span>
-        <span class="k">return</span> <span class="n">ax</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">+</span> <span class="n">ay</span> <span class="o">*</span> <span class="n">dy</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="n">ix</span> <span class="o">=</span> <span class="n">floor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">iy</span> <span class="o">=</span> <span class="n">floor</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-        <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">floor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">dy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">floor</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-
-        <span class="c1"># 重みを求める</span>
-        <span class="n">w00</span> <span class="o">=</span> <span class="n">Perlin</span><span class="o">.</span><span class="n">weight</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span>     <span class="n">iy</span><span class="p">,</span>   <span class="n">dx</span>  <span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
-        <span class="n">w10</span> <span class="o">=</span> <span class="n">Perlin</span><span class="o">.</span><span class="n">weight</span><span class="p">(</span><span class="n">ix</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>   <span class="n">iy</span><span class="p">,</span> <span class="n">dx</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>   <span class="n">dy</span><span class="p">)</span>
-        <span class="n">w01</span> <span class="o">=</span> <span class="n">Perlin</span><span class="o">.</span><span class="n">weight</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span>   <span class="n">iy</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>   <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">w11</span> <span class="o">=</span> <span class="n">Perlin</span><span class="o">.</span><span class="n">weight</span><span class="p">(</span><span class="n">ix</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">iy</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">dx</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-
-        <span class="c1"># 小数部分を変換する</span>
-        <span class="n">wx</span> <span class="o">=</span> <span class="n">Perlin</span><span class="o">.</span><span class="n">fade</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span>
-        <span class="n">wy</span> <span class="o">=</span> <span class="n">Perlin</span><span class="o">.</span><span class="n">fade</span><span class="p">(</span><span class="n">dy</span><span class="p">)</span>
-
-        <span class="c1"># 線形補間して返す</span>
-        <span class="n">y0</span> <span class="o">=</span> <span class="n">lerp</span><span class="p">(</span><span class="n">w00</span><span class="p">,</span> <span class="n">w10</span><span class="p">,</span> <span class="n">wx</span><span class="p">)</span>
-        <span class="n">y1</span> <span class="o">=</span> <span class="n">lerp</span><span class="p">(</span><span class="n">w01</span><span class="p">,</span> <span class="n">w11</span><span class="p">,</span> <span class="n">wx</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">lerp</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">wy</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="c1"># 値域を[0, 1]に戻す</span>
-
-
-<span class="c1"># 画像の大きさは512x512</span>
-<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span>
-<span class="n">canvas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
-<span class="c1"># 格子点を16個配置する</span>
-<span class="n">w</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">canvas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">Perlin</span><span class="o">.</span><span class="n">noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">width</span><span class="p">)]</span>
-                   <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">height</span><span class="p">)])</span>
-
-<span class="c1"># matplotlibを使って表示</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">)</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/perlin.png" />
-    
-    
-</figure>
-
-
-<p>計算に用いた格子がどこにあるのか分からなくなって、ノイズらしいノイズになる。</p>
-
-<p><code>fade</code> 関数もプロットしておく。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">fade</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;fade(x)&#34;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">fig</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/fade.png" />
-    
-    
-</figure>
-
-
-<p>この関数は \(x = 0, 1\) で一階、二階の微分係数が0になる。
-そのため、値を隣の格子と滑らかにつなげることができる。</p>
-
-<p>画像を作るときの <code>w</code> の値を変化させればノイズの粗さを変えることができる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
-
-<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span>
-<span class="n">canvas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">product</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]):</span>
-  <span class="c1"># wの値を2のべきにする</span>
-  <span class="n">w</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span>
-  <span class="n">canvas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">Perlin</span><span class="o">.</span><span class="n">noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-                      <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">width</span><span class="p">)]</span>
-                     <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">height</span><span class="p">)])</span>
-  <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&#34;w = &#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">w</span><span class="p">))</span>
-  <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">)</span>
-<span class="n">fig</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/perlin_noise_variations.png" />
-    
-    
-</figure>
-
-
-<p><code>w</code> の値にかかわらずそれらしいノイズが生成されている。</p>
-
-<p>Ken Perlinの元論文を読むと勾配ベクトルを整数のみにして高速化する方法や
-パーリンノイズを元にして別のノイズを作る方法も乗っているがこれはまた今度にする。</p>
-
-<h2 id="参考文献">参考文献</h2>
-
-<p>Physically Based Rendering, Third Edition, 10.6.1 &ldquo;Perlin Noise&rdquo;</p>
-
-<p><a href="http://ai2-s2-pdfs.s3.amazonaws.com/e04d/7772b91a83a901408eb0876bbb7814b1d4b5.pdf">http://ai2-s2-pdfs.s3.amazonaws.com/e04d/7772b91a83a901408eb0876bbb7814b1d4b5.pdf</a></p>
-
-<p><a href="http://mrl.nyu.edu/~perlin/noise/">http://mrl.nyu.edu/~perlin/noise/</a></p>
 
 </article>
 

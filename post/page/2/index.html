@@ -245,6 +245,77 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/octave_hangs_on_emacs/">
+      octave が emacs でハングする
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-05-08
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/emacs">
+          emacs
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/octave">
+          octave
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  
+
+<h2 id="問題">問題</h2>
+
+<p>Ubuntu 16.04 で emacs 25.3 から octave 4.0 を使おうとするとハングする (org-babel から実行しても実行が終わらない)。</p>
+
+<h2 id="解決法">解決法</h2>
+
+<p>octave を最新版 (4.4) にしたら直った。最新版は ppa にないので手元でビルドした。</p>
+
+<h2 id="備考">備考</h2>
+
+<p>octave の最新版をビルドするときにライブラリが足りないという警告がいくつか出るのでパッケージをインストールして対処したが、
+以下の警告は最後まで残った。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">configure: WARNING: SUNDIALS IDA library not configured with IDAKLU, ode15i and ode15s will not support the sparse Jacobian feature</code></pre></div>
+<p>今は <code>ode15</code> コマンドを使わないのでほっておいたが、後で必要になるかもしれない。</p>
+
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/clang&#43;&#43;_no_cpp17/">
       clang&#43;&#43;-5.0 を入れたのに C&#43;&#43;17 が有効にならない
     </a>
@@ -933,502 +1004,6 @@ error in 1.0e25 - x   : -5854679515581645 / 4503599627370496</code></pre></div>
 
 <p>この答えがあっているかどうかは出力結果をググるとなんとなく分かる。
 同じ計算をしたサイトが出てくるので、多分あっているだろう。</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/org-reveal/">
-      org-reveal
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-04-02
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/about">
-          about
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p><style type="text/css">
-.underline { text-decoration: underline; }
-</style>
-<link rel="stylesheet" href="https://yuki67.github.io/reveal.js/css/reveal.css"/></p>
-
-<p><link rel="stylesheet" href="https://yuki67.github.io/reveal.js/css/theme/white.css" id="theme"/></p>
-
-<p><link rel="stylesheet" href="css/extra.css"/></p>
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = '/reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
-</script>
-<div class="reveal" style="padding-bottom: 100%">
-<div class="slides">
-<section>
-<section id="slide-org9e8e115">
-<h2 id="org9e8e115">Org-reveal</h2>
-<p>
-org-mode でスライドがかける
-</p>
-
-</section>
-</section>
-<section>
-<section id="slide-orgaacf8f4">
-<h3 id="orgaacf8f4">基本</h3>
-<p>
-org-mode の 1サブツリー = 1ページ
-</p>
-
-<p>
-サブツリーを多めにして書けばそのまま読めるスライドになる
-</p>
-
-</section>
-</section>
-<section>
-<section id="slide-org4fc0614">
-<h3 id="org4fc0614">基本的な機能</h3>
-<p>
-試す
-</p>
-
-</section>
-</section>
-<section>
-<section id="slide-org5d1c2cb">
-<h3 id="org5d1c2cb">遅延表示</h3>
-<p class="fragment">
-こんな
-</p>
-
-<p class="fragment">
-ふうに
-</p>
-
-<p class="fragment">
-一つづつ
-</p>
-
-<p class="fragment">
-出せる
-</p>
-
-</section>
-</section>
-<section>
-<section id="slide-org5a44b7b">
-<h3 id="org5a44b7b">リンク</h3>
-<p>
-<a href="https://www.google.co.jp/">Google</a>
-</p>
-
-<p class="fragment">
-org-mode のものがそのまま使える
-</p>
-
-</section>
-</section>
-<section>
-<section id="slide-orgc600d58">
-<h3 id="orgc600d58">箇条書き</h3>
-<ul>
-<li>普通に</li>
-<li>使える</li>
-<li class="fragment">遅延表示にも対応</li>
-
-</ul>
-
-</section>
-</section>
-<section>
-<section id="slide-org3389581">
-<h3 id="org3389581">ソースコード</h3>
-<p>
-htmlize.el によって emacs と同じハイライトになる。
-</p>
-
-<div class="org-src-container">
-
-<pre  class="src src-C++"><span style="color: #d18aff;">#include</span> <span style="color: #dd0000; font-weight: bold;">&lt;</span><span style="color: #ff4ea3;">iostream</span><span style="color: #dd0000; font-weight: bold;">&gt;</span>
-
-<span style="color: #00d7af;">int</span> <span style="color: #ffd700;">main</span><span style="color: #dd0000; font-weight: bold;">()</span> <span style="color: #dd0000; font-weight: bold;">{</span>
-  <span style="color: #5fafd7;">std</span>::cout &lt;&lt; <span style="color: #ff4ea3;">"hello world"</span> &lt;&lt; <span style="color: #5fafd7;">std</span>::endl;
-  <span style="color: #a1db00;">return</span> 0;
-<span style="color: #dd0000; font-weight: bold;">}</span>
-</pre>
-</div>
-
-<p class="fragment">
-(かなり嬉しい)
-</p>
-
-</section>
-</section>
-<section>
-<section id="slide-orgfe09436">
-<h3 id="orgfe09436">数式</h3>
-<p>
-MathJax が使える
-</p>
-
-<div data-fragment-index="1" class="fragment">
-\begin{align*}
-\sin^{2} x + \cos^{2}  x = 1
-\end{align*}
-
-</div>
-
-</section>
-</section>
-<section>
-<section id="slide-orgbdddbd0" data-background="#123456" data-background-transition="slide">
-<h3 id="orgbdddbd0">背景画像の変更</h3>
-<p>
-ここでは色を指定
-</p>
-
-<p class="fragment">
-(画像も指定できるけど、いい画像がなかった。)
-</p>
-
-</section>
-</section>
-<section>
-<section id="slide-org3c49637">
-<h3 id="org3c49637">Hack</h3>
-<p>
-スライドを埋め込めるようにする
-</p>
-
-<p class="fragment">
-org-reveal.el をちょっといじれば OK
-</p>
-
-</section>
-</section>
-<section>
-<section id="slide-org0e16e9b">
-<h3 id="org0e16e9b">Hack</h3>
-<p>
-埋め込んだスライドをフルスクリーンに切り替える
-</p>
-
-<p data-fragment-index="1" class="fragment">
-左下のボタンから
-</p>
-
-<p data-fragment-index="2" class="fragment">
-ちょっと javasctipt をかけば OK
-</p>
-
-<p data-fragment-index="2" class="fragment">
-本文にソースあり
-</p>
-</section>
-</section>
-</div>
-</div>
-<script src="https://yuki67.github.io/reveal.js/lib/js/head.min.js"></script>
-<script src="https://yuki67.github.io/reveal.js/js/reveal.js"></script>
-
-<script>
-// Full list of configuration options available here:
-// https://github.com/hakimel/reveal.js#configuration
-Reveal.initialize({
-
-controls: true,
-progress: true,
-history: false,
-center: false,
-slideNumber: 'c',
-rollingLinks: false,
-keyboard: true,
-mouseWheel: false,
-
-overview: true,
-width: "100%",
-height: "100%",
-margin: 0,
-minScale: 1,
-maxScale: 1,
-
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
-transitionSpeed: 'default',
-multiplex: {
-    secret: '', // null if client
-    id: '', // id, obtained from socket.io server
-    url: '' // Location of socket.io server
-},
-
-// Optional libraries used to extend on reveal.js
-dependencies: [
- { src: '/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
- { src: '/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: '/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: '/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: '/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
-});
-</script>
-
-<script src="https://yuki67.github.io/js/slide.js"></script>
-
-<p><input id="fullScreenFlag" type=checkbox> full screen</p>
-
-<p><a href="https://github.com/yjwen/org-reveal">org-reveal</a> を使うと org-mode でスライドを書くことができる。</p>
-
-<p>埋め込んだスライドのフルスクリーンを切り替えるためのjavascript</p>
-<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span>
-    <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nb">document</span><span class="p">,</span> <span class="nx">Reveal</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-            <span class="kd">function</span> <span class="nx">save</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">elem</span><span class="p">.</span><span class="nx">oldCssText</span> <span class="o">=</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">cssText</span><span class="p">;</span>
-            <span class="p">}</span>
-            <span class="kd">function</span> <span class="nx">hide</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&#34;none&#34;</span><span class="p">;</span>
-            <span class="p">}</span>
-            <span class="kd">function</span> <span class="nx">adjust</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">padding</span> <span class="o">=</span> <span class="s2">&#34;0px&#34;</span><span class="p">;</span>
-                <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">margin</span> <span class="o">=</span> <span class="s2">&#34;0px&#34;</span><span class="p">;</span>
-                <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">maxWidth</span> <span class="o">=</span> <span class="s2">&#34;none&#34;</span><span class="p">;</span>
-            <span class="p">}</span>
-            <span class="kd">function</span> <span class="nx">restore</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">cssText</span> <span class="o">=</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">oldCssText</span><span class="p">;</span>
-                <span class="k">delete</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">oldCssText</span><span class="p">;</span>
-            <span class="p">}</span>
-            <span class="kd">function</span> <span class="nx">forEach</span><span class="p">(</span><span class="nx">collection</span><span class="p">,</span> <span class="nx">f</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">collection</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="nx">f</span><span class="p">(</span><span class="nx">collection</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-
-            <span class="c1">// to delete
-</span><span class="c1"></span>            <span class="kd">var</span> <span class="nx">header</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s2">&#34;header&#34;</span><span class="p">);</span>
-            <span class="kd">var</span> <span class="nx">post_meta</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s2">&#34;post-meta&#34;</span><span class="p">);</span>
-            <span class="kd">var</span> <span class="nx">prev_next_post</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s2">&#34;prev-next-post&#34;</span><span class="p">);</span>
-            <span class="kd">var</span> <span class="nx">content</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s2">&#34;content&#34;</span><span class="p">);</span>
-            <span class="kd">var</span> <span class="nx">menu</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;menu&#34;</span><span class="p">);</span>
-
-            <span class="c1">// to adjust
-</span><span class="c1"></span>            <span class="kd">var</span> <span class="nx">reveal</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s2">&#34;reveal&#34;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
-            <span class="kd">var</span> <span class="nx">main</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;main&#34;</span><span class="p">);</span>
-            <span class="kd">var</span> <span class="nx">layout</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;layout&#34;</span><span class="p">);</span>
-
-            <span class="c1">// save current css texts. (ugly, but works.)
-</span><span class="c1"></span>            <span class="nx">forEach</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="nx">save</span><span class="p">);</span>
-            <span class="nx">forEach</span><span class="p">(</span><span class="nx">post_meta</span><span class="p">,</span> <span class="nx">save</span><span class="p">);</span>
-            <span class="nx">forEach</span><span class="p">(</span><span class="nx">prev_next_post</span><span class="p">,</span> <span class="nx">save</span><span class="p">);</span>
-            <span class="nx">forEach</span><span class="p">(</span><span class="nx">content</span><span class="p">,</span> <span class="nx">save</span><span class="p">);</span>
-            <span class="nx">save</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
-            <span class="nx">save</span><span class="p">(</span><span class="nx">main</span><span class="p">);</span>
-            <span class="nx">save</span><span class="p">(</span><span class="nx">reveal</span><span class="p">);</span>
-            <span class="nx">save</span><span class="p">(</span><span class="nx">layout</span><span class="p">);</span>
-
-            <span class="c1">// this checkbox will be provided in posts.
-</span><span class="c1"></span>            <span class="c1">// for example &#34;&lt;input id=&#34;fullScreenFlag&#34;&gt; full screen&#34;
-</span><span class="c1"></span>            <span class="kd">var</span> <span class="nx">checkbox</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;fullScreenFlag&#34;</span><span class="p">);</span>
-            <span class="kd">var</span> <span class="nx">to_fullscreen</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-                <span class="nx">forEach</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="nx">hide</span><span class="p">);</span>
-                <span class="nx">forEach</span><span class="p">(</span><span class="nx">post_meta</span><span class="p">,</span> <span class="nx">hide</span><span class="p">);</span>
-                <span class="nx">forEach</span><span class="p">(</span><span class="nx">prev_next_post</span><span class="p">,</span> <span class="nx">hide</span><span class="p">);</span>
-                <span class="nx">forEach</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="nx">adjust</span><span class="p">);</span>
-                <span class="nx">forEach</span><span class="p">(</span><span class="nx">post_meta</span><span class="p">,</span> <span class="nx">adjust</span><span class="p">);</span>
-                <span class="nx">forEach</span><span class="p">(</span><span class="nx">prev_next_post</span><span class="p">,</span> <span class="nx">adjust</span><span class="p">);</span>
-                <span class="nx">forEach</span><span class="p">(</span><span class="nx">content</span><span class="p">,</span> <span class="nx">adjust</span><span class="p">);</span>
-                <span class="nx">hide</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
-                <span class="nx">adjust</span><span class="p">(</span><span class="nx">main</span><span class="p">);</span>
-                <span class="nx">adjust</span><span class="p">(</span><span class="nx">layout</span><span class="p">);</span>
-                <span class="nx">reveal</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">cssText</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
-                <span class="nx">reveal</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="s2">&#34;100vh&#34;</span><span class="p">;</span>
-            <span class="p">}</span>
-            <span class="kd">var</span> <span class="nx">to_windowed</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-                <span class="nx">forEach</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="nx">restore</span><span class="p">);</span>
-                <span class="nx">forEach</span><span class="p">(</span><span class="nx">post_meta</span><span class="p">,</span> <span class="nx">restore</span><span class="p">);</span>
-                <span class="nx">forEach</span><span class="p">(</span><span class="nx">prev_next_post</span><span class="p">,</span> <span class="nx">restore</span><span class="p">);</span>
-                <span class="nx">forEach</span><span class="p">(</span><span class="nx">content</span><span class="p">,</span> <span class="nx">restore</span><span class="p">);</span>
-                <span class="nx">restore</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
-                <span class="nx">restore</span><span class="p">(</span><span class="nx">main</span><span class="p">);</span>
-                <span class="nx">restore</span><span class="p">(</span><span class="nx">reveal</span><span class="p">);</span>
-                <span class="nx">restore</span><span class="p">(</span><span class="nx">layout</span><span class="p">);</span>
-                <span class="nx">Reveal</span><span class="p">.</span><span class="nx">layout</span><span class="p">();</span>
-            <span class="p">}</span>
-            <span class="nx">checkbox</span><span class="p">.</span><span class="nx">onchange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nx">checkbox</span><span class="p">.</span><span class="nx">checked</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="nx">to_fullscreen</span><span class="p">();</span>
-                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                    <span class="nx">to_windowed</span><span class="p">();</span>
-                <span class="p">}</span>
-            <span class="p">};</span>
-        <span class="p">}</span>
-    <span class="p">})(</span><span class="nb">document</span><span class="p">,</span> <span class="nx">Reveal</span><span class="p">);</span>
-</code></pre></div>
-<p>このスライドのもとになった org-mode ソース</p>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">org-mode でスライドがかける
-
-** 基本
-
-org-mode の 1サブツリー = 1ページ
-
-サブツリーを多めにして書けばそのまま読めるスライドになる
-
-** 基本的な機能
-
-試す
-
-** 遅延表示
-
-#+ATTR_REVEAL: :frag t
-こんな
-
-#+ATTR_REVEAL: :frag t
-ふうに
-
-#+ATTR_REVEAL: :frag t
-一つづつ
-
-#+ATTR_REVEAL: :frag t
-出せる
-
-** リンク
-
-[[https://www.google.co.jp/][Google]]
-
-#+ATTR_REVEAL: :frag t
-org-mode のものがそのまま使える
-
-** 箇条書き
-
-#+ATTR_REVEAL: :frag (none none t)
-- 普通に
-- 使える
-- 遅延表示にも対応
-
-** 表
-
-| 名前 | スコア |
-|------+--------|
-| 田中 |     10 |
-| 佐藤 |     15 |
-| 斎藤 |      5 |
-
-#+ATTR_REVEAL: :frag t :frag_idx 1
-アラインには追加の css が必要
-
-#+ATTR_REVEAL: :frag t :frag_idx 1
-#+BEGIN_SRC css
-.reveal .org-left {
-    text-align: left;
-}
-
-.reveal .org-right {
-    text-align: right;
-}
-#+END_SRC
-
-** ソースコード
-
-htmlize.el によって emacs と同じハイライトになる。
-
-#+BEGIN_SRC C++
-#include &lt;iostream&gt;
-
-int main() {
-  std::cout &lt;&lt; &#34;hello world&#34; &lt;&lt; std::endl;
-  return 0;
-}
-#+END_SRC
-
-#+ATTR_REVEAL: :frag t
-(かなり嬉しい)
-
-** 数式
-
-MathJax が使える
-
-#+ATTR_REVEAL: :frag t :frag_idx 1
-\begin{align*}
-\sin^{2} x + \cos^{2}  x = 1
-\end{align*}
-
-** 画像
-
-例: ditaa
-
-#+ATTR_REVEAL: :frag t
-#+BEGIN_SRC ditaa :file org-reveal/org-reveal-example.png :exports result :eval no-export
-+--------------------------------+
-| /--------\ process  /--------\ |
-| | data A +---------&gt;| data B | |
-| \--------/          \--------/ |
-+--------------------------------+
-#+END_SRC
-
-#+ATTR_REVEAL: :frag t
-#+RESULTS:
-[[file:/org-reveal/org-reveal-example.png]]
-
-** 背景画像の変更
-:PROPERTIES:
-:REVEAL_BACKGROUND: #123456
-:REVEAL_BACKGROUND_TRANS: slide
-:END:
-
-ここでは色を指定
-
-#+ATTR_REVEAL: :frag t
-(画像も指定できるけど、いい画像がなかった。)
-
-** Hack
-
-スライドを埋め込めるようにする
-
-#+ATTR_REVEAL: :frag t
-org-reveal.el をちょっといじれば OK
-
-** Hack
-
-埋め込んだスライドをフルスクリーンに切り替える
-
-#+ATTR_REVEAL: :frag t :frag_idx 1
-左下のボタンから
-
-#+ATTR_REVEAL: :frag t :frag_idx 2
-ちょっと javasctipt をかけば OK
-
-#+ATTR_REVEAL: :frag t :frag_idx 2
-本文にソースあり</code></pre></div>
 
 </article>
 

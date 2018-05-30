@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Thu, 17 May 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 19 May 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Bucklescriptで書いたお絵かきプログラム</title>
       <link>https://yuki67.github.io/post/bucklescript_paint/</link>
-      <pubDate>Thu, 17 May 2018 00:00:00 +0900</pubDate>
+      <pubDate>Sat, 19 May 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/post/bucklescript_paint/</guid>
       <description>&lt;p&gt;前に書いたプログラムがそのままになっていたので供養。ソースコードはは &lt;a href=&#34;https://github.com/yuki67/ShapeOCaml&#34;&gt;ここ&lt;/a&gt; にある。&lt;/p&gt;

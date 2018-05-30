@@ -245,6 +245,64 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/delete_old_files/">
+      古いファイルを削除してファイルの数を一定にする
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-01-09
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/shell">
+          shell
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p>ログの整理で使った。</p>
+
+<p></p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 古いファイルを削除してファイルの数を一定にする
+</span><span class="c1"></span><span class="nv">n</span><span class="o">=</span><span class="sb">`</span>ls -l <span class="p">|</span> wc -l<span class="sb">`</span>
+<span class="nv">m</span><span class="o">=</span><span class="k">$((</span>n-100<span class="k">))</span> <span class="c1"># 100個残す
+</span><span class="c1"></span><span class="k">if</span> <span class="o">[</span> <span class="nv">$m</span> -gt <span class="m">0</span> <span class="o">]</span> <span class="p">;</span>
+    <span class="k">then</span> ls -rt <span class="p">|</span> head -n <span class="nv">$m</span> <span class="p">|</span> xargs rm<span class="p">;</span> <span class="c1"># 古い方から消す
+</span><span class="c1"></span>    <span class="k">else</span> true<span class="p">;</span> <span class="c1"># 何もしない
+</span><span class="c1"></span><span class="k">fi</span></code></pre></div>
+<p>ワンライナーでは無理かな?</p>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/mincaml_jbuilder/">
       MinCamlをjbuilderでビルドする
     </a>
@@ -945,64 +1003,6 @@ elapsed: <span class="m">0</span>.017344 ms</code></pre></div>
 
 
 <p>らくちん。</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/to_hugo/">
-      hugoに移行した
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2017-11-09
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%81%9D%E3%81%AE%E4%BB%96">
-          その他
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>前からhugoというスタティックサイトジェネレータが気になっていて試してみたりもしたのが、
-org-modeで記事が書けると公式で言われている割にほとんど使い物にならず、移行はしていなかった。</p>
-
-<p>今回もう一度トライした結果ox-hugoという拡張機能がほぼ自分の思っていた通りのことをしてくれることが分かったので、
-思い切って移行した。ox-hugoがとても気が利いているので、移行はほぼコピペだけですんだ。</p>
-
-<p>記事を最近書いていないのに移項だけするのは気が引けたが、見栄えもよくなったし記事を書くのも
-かなり楽になったのでよしとしよう。</p>
-
-<p></p>
-
-<p>一つ不満点としてHugoがMarkdownファイル内の改行をまともに取り扱わないというのがある。
-上の文章では「記事を書くのも」と「かなり楽に」の間に半角スペースがあるが、これは
-私が意図したものではない。HugoがMarkdownをHTMLに変換するときに改行を単語の切れ目だと判断したために
-誤って挿入されたものだ。(この文章にもいくつか変な場所にスペースがある。)</p>
-
-<p>org-modeで改行を使わずに書けば問題は回避できるが、文章が書きづらくなるのでそのままにしている。
-極端に見栄えが悪くなるわけでもないし、そのうちHugoにも修正が入るだろう。</p>
 
 </article>
 
