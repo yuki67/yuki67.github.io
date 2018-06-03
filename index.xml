@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Wed, 30 May 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 31 May 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>std::random_device を使うと valgrind が落ちる</title>
+      <link>https://yuki67.github.io/post/valgrind_random_device/</link>
+      <pubDate>Thu, 31 May 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/valgrind_random_device/</guid>
+      <description>環境 valgrind 3.11, clang++ 5.0
+問題 #include &amp;lt;iostream&amp;gt;#include &amp;lt;random&amp;gt; int main() { std::random_device rd; std::cout &amp;lt;&amp;lt; rd() &amp;lt;&amp;lt; std::endl; return 0; }  上記のコードはコンパイルすれば普通に実行できるが、 valgrind から実行すると valgrind が落ちる。
+$ clang++ test.cpp -std=c++17 $ ./a.out 1240201163 $ /usr/bin/valgrind ./a.out ==13508== Memcheck, a memory error detector ==13508== Copyright (C) 2002-2015, and GNU GPL&amp;#39;d, by Julian Seward et al. ==13508== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info ==13508== Command: .</description>
+    </item>
     
     <item>
       <title>CMakeでC&#43;&#43;17が有効にならない</title>

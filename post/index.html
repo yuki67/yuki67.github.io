@@ -221,11 +221,16 @@
 
   <div>
   <div class="small-print">
+    
+    <small>
+      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" />
+      </a><br />
+      Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. </small><br/>
+    
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small><br/>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small><br/>
     <small>by yuki</small>
-  </div>
-  <div class="small-print">
-    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
-    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
   </div>
 </div>
 
@@ -242,6 +247,99 @@
 
 <p>とても重くなってしまっているかもしれない。</p>
 
+  
+    <article>
+  <h2>
+    <a href="https://yuki67.github.io/post/valgrind_random_device/">
+      std::random_device を使うと valgrind が落ちる
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-05-31
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  
+
+<h2 id="環境">環境</h2>
+
+<p>valgrind 3.11, clang++ 5.0</p>
+
+<h2 id="問題">問題</h2>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;random&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">random_device</span> <span class="n">rd</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">rd</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>上記のコードはコンパイルすれば普通に実行できるが、 valgrind から実行すると valgrind が落ちる。</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">$ clang++ test.cpp -std=c++17
+$ ./a.out
+1240201163
+$ /usr/bin/valgrind ./a.out
+==13508== Memcheck, a memory error detector
+==13508== Copyright (C) 2002-2015, and GNU GPL&#39;d, by Julian Seward et al.
+==13508== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==13508== Command: ./a.out
+==13508==
+vex amd64-&gt;IR: unhandled instruction bytes: 0xF 0xC7 0xF0 0x89 0x6 0xF 0x42 0xC1
+vex amd64-&gt;IR:   REX=0 REX.W=0 REX.R=0 REX.X=0 REX.B=0
+vex amd64-&gt;IR:   VEX=0 VEX.L=0 VEX.nVVVV=0x0 ESC=0F
+vex amd64-&gt;IR:   PFX.66=0 PFX.F2=0 PFX.F3=0
+==13508== valgrind: Unrecognised instruction at address 0x4ef67a5.
+==13508==    at 0x4EF67A5: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==13508==    by 0x4EF6941: std::random_device::_M_getval() (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==13508==    by 0x401AD4: std::random_device::operator()() (in /tmp/a.out)
+==13508==    by 0x4018A2: main (in /tmp/a.out)
+...
+illegal instruction (core dumped)</code></pre></div>
+<h2 id="原因">原因</h2>
+
+<p><a href="https://bugs.kde.org/show_bug.cgi?id=353370">valgrindのバグ</a></p>
+
+<h2 id="解決法">解決法</h2>
+
+<p>valgrindを3.13に更新する。</p>
+
+<h2 id="参考">参考</h2>
+
+<p><a href="https://bugs.kde.org/show_bug.cgi?id=353370">353370 – RDRAND amd64-&gt;IR: unhandled instruction bytes: 0x48 0xF 0xC7 0xF0 0x72 0x4 0xFF 0xC9</a></p>
+
+<p><a href="https://stackoverflow.com/questions/37032339/valgrind-unrecognised-instruction">c++ - Valgrind Unrecognised instruction - Stack Overflow</a></p>
+
+<p><a href="https://courses.cs.washington.edu/courses/cse326/05wi/valgrind-doc/mc_techdocs.html">The design and implementation of Valgrind</a></p>
+
+
+</article>
+
+    <br>
+    <br>
   
     <article>
   <h2>
@@ -557,78 +655,6 @@ libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so</code></pre></div
 </tr>
 </tbody>
 </table>
-
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/autoload_undefined_function/">
-      Autoloading failed to define function … が出る
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-05-09
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/emacs">
-          emacs
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  
-
-<h2 id="問題">問題</h2>
-
-<p>emacs でいつも使っているキーボードバインディングを使おうとすると <code>Autoloading failed to define function HOGE</code> と出て実行できない。</p>
-
-<h2 id="原因">原因</h2>
-
-<p>パッケージのアップデートで <code>HOGE</code> 関数の名前が変更されていた。</p>
-
-<h2 id="解決法">解決法</h2>
-
-<p>呼び出す関数の名前を変える。</p>
-
-<h2 id="備考">備考</h2>
-
-<p>定義されていない関数を呼び出した場合、普通は <code>void-function HOGE</code> というおなじみのエラーが表示されるのですぐ分かるが、今回のエラーは初めて見たので解決に時間がかかった。</p>
-
-<p>今まで見なかったこのエラーが出た原因は <code>HOGE</code> のキーボードバインディングを <code>use-package</code> で定義していたことにあった。</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">use-package</span> <span class="nv">package-name</span>
-  <span class="nb">:bind</span>
-  <span class="p">(</span><span class="nb">:map</span> <span class="nv">global-map</span>
-        <span class="p">(</span><span class="s">&#34;KEY&#34;</span> <span class="o">.</span> <span class="nv">HOGE</span><span class="p">)))</span></code></pre></div>
-<p>とすると、 <code>KEY</code> を押したときに <code>HOGE</code> が autoload される。その結果エラーメッセージが見慣れないものになる。</p>
 
 
 </article>

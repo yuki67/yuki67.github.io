@@ -221,11 +221,16 @@
 
   <div>
   <div class="small-print">
+    
+    <small>
+      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" />
+      </a><br />
+      Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. </small><br/>
+    
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small><br/>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small><br/>
     <small>by yuki</small>
-  </div>
-  <div class="small-print">
-    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
-    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
   </div>
 </div>
 
@@ -242,6 +247,78 @@
 
 <p>とても重くなってしまっているかもしれない。</p>
 
+  
+    <article>
+  <h2>
+    <a href="https://yuki67.github.io/post/autoload_undefined_function/">
+      Autoloading failed to define function … が出る
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-05-09
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/emacs">
+          emacs
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  
+
+<h2 id="問題">問題</h2>
+
+<p>emacs でいつも使っているキーボードバインディングを使おうとすると <code>Autoloading failed to define function HOGE</code> と出て実行できない。</p>
+
+<h2 id="原因">原因</h2>
+
+<p>パッケージのアップデートで <code>HOGE</code> 関数の名前が変更されていた。</p>
+
+<h2 id="解決法">解決法</h2>
+
+<p>呼び出す関数の名前を変える。</p>
+
+<h2 id="備考">備考</h2>
+
+<p>定義されていない関数を呼び出した場合、普通は <code>void-function HOGE</code> というおなじみのエラーが表示されるのですぐ分かるが、今回のエラーは初めて見たので解決に時間がかかった。</p>
+
+<p>今まで見なかったこのエラーが出た原因は <code>HOGE</code> のキーボードバインディングを <code>use-package</code> で定義していたことにあった。</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">use-package</span> <span class="nv">package-name</span>
+  <span class="nb">:bind</span>
+  <span class="p">(</span><span class="nb">:map</span> <span class="nv">global-map</span>
+        <span class="p">(</span><span class="s">&#34;KEY&#34;</span> <span class="o">.</span> <span class="nv">HOGE</span><span class="p">)))</span></code></pre></div>
+<p>とすると、 <code>KEY</code> を押したときに <code>HOGE</code> が autoload される。その結果エラーメッセージが見慣れないものになる。</p>
+
+
+</article>
+
+    <br>
+    <br>
   
     <article>
   <h2>
@@ -725,285 +802,6 @@ error in 12.3 - x     : 3 / 4503599627370496
 error in 123.3 - x    : -13 / 4503599627370496
 error in 123456.3 - x : 13107 / 4503599627370496
 error in 1.0e25 - x   : -5854679515581645 / 4503599627370496</code></pre></div>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/big_fraction/">
-      任意精度有理数の実装 in C&#43;&#43;
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-04-05
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
-          cpp
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p><a href="https://yuki67.github.io/post/bigint/"> 前の記事</a>で作った <code>BigInt</code> クラスが上手く動くことを確かめるために有理数クラスを作って動かした。</p>
-
-<p></p>
-
-<h2 id="作る">作る</h2>
-
-<p>有理数クラスをテンプレート化して作る。</p>
-
-<p><div class="src-block-caption">
-  <span class="src-block-number">Code Snippet 1:</span>
-  fraction.hpp
-</div></p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;ostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;stdexcept&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="n">T</span> <span class="n">gcd_calc</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="n">T</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">T</span> <span class="n">c</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">%</span> <span class="n">a</span><span class="p">;</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span> <span class="o">=</span> <span class="n">int64_t</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">Fraction</span> <span class="p">{</span>
- <span class="k">private</span><span class="o">:</span>
-  <span class="c1">// 0 is always represented with &#34;+0 / 1&#34;
-</span><span class="c1"></span>  <span class="kt">bool</span> <span class="n">m_sign</span><span class="p">;</span>
-  <span class="n">T</span> <span class="n">m_numer</span><span class="p">;</span>
-  <span class="n">T</span> <span class="n">m_denom</span><span class="p">;</span>
-
-  <span class="n">Fraction</span><span class="p">(</span><span class="kt">bool</span> <span class="n">sign</span><span class="p">,</span> <span class="n">T</span> <span class="n">numerator</span><span class="p">,</span> <span class="n">T</span> <span class="n">denominator</span><span class="p">)</span>
-      <span class="o">:</span> <span class="n">m_sign</span><span class="p">(</span><span class="n">sign</span><span class="p">),</span> <span class="n">m_numer</span><span class="p">(</span><span class="n">numerator</span><span class="p">),</span> <span class="n">m_denom</span><span class="p">(</span><span class="n">denominator</span><span class="p">)</span> <span class="p">{}</span>
-
-  <span class="kt">void</span> <span class="n">reduce</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">auto</span> <span class="n">gcd</span> <span class="o">=</span> <span class="n">gcd_calc</span><span class="p">(</span><span class="n">m_numer</span><span class="p">,</span> <span class="n">m_denom</span><span class="p">);</span>
-    <span class="n">m_numer</span> <span class="o">/=</span> <span class="n">gcd</span><span class="p">;</span>
-    <span class="n">m_denom</span> <span class="o">/=</span> <span class="n">gcd</span><span class="p">;</span>
-  <span class="p">}</span>
-
- <span class="k">public</span><span class="o">:</span>
-  <span class="n">T</span> <span class="n">numerator</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_numer</span><span class="p">;</span> <span class="p">}</span>
-  <span class="n">T</span> <span class="n">denominator</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_denom</span><span class="p">;</span> <span class="p">}</span>
-  <span class="n">T</span> <span class="n">sign</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_sign</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
-  <span class="kt">bool</span> <span class="n">is_zero</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_numer</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
-  <span class="kt">bool</span> <span class="n">is_positive</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="o">!</span><span class="n">is_zero</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">is_negative</span><span class="p">();</span> <span class="p">}</span>
-  <span class="kt">bool</span> <span class="n">is_negative</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_sign</span><span class="p">;</span> <span class="p">}</span>
-
-  <span class="n">Fraction</span><span class="p">()</span> <span class="o">:</span> <span class="n">Fraction</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{}</span>
-
-  <span class="n">Fraction</span><span class="p">(</span><span class="n">T</span> <span class="n">numerator</span><span class="p">,</span> <span class="n">T</span> <span class="n">denominator</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-      <span class="o">:</span> <span class="n">m_sign</span><span class="p">(</span><span class="n">numerator</span> <span class="o">!=</span> <span class="mi">0l</span> <span class="o">&amp;&amp;</span> <span class="p">((</span><span class="n">numerator</span> <span class="o">&gt;</span> <span class="mi">0l</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="n">denominator</span> <span class="o">&gt;</span> <span class="mi">0l</span><span class="p">))),</span>
-        <span class="n">m_numer</span><span class="p">(</span><span class="n">numerator</span> <span class="o">&lt;</span> <span class="mi">0l</span> <span class="o">?</span> <span class="o">-</span><span class="nl">numerator</span> <span class="p">:</span> <span class="n">numerator</span><span class="p">),</span>
-        <span class="n">m_denom</span><span class="p">(</span><span class="n">denominator</span> <span class="o">&lt;</span> <span class="mi">0l</span> <span class="o">?</span> <span class="o">-</span><span class="nl">denominator</span> <span class="p">:</span> <span class="n">denominator</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">denominator</span> <span class="o">==</span> <span class="mi">0l</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&#34;denominator must not be 0.&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">m_numer</span> <span class="o">==</span> <span class="mi">0l</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">m_denom</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">reduce</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="n">Fraction</span> <span class="n">inv</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">m_sign</span><span class="p">,</span> <span class="n">m_denom</span><span class="p">,</span> <span class="n">m_numer</span><span class="p">);</span> <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="n">Fraction</span> <span class="k">operator</span><span class="o">-</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">frac</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">frac</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">==</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">frac</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">Fraction</span><span class="p">(</span><span class="o">!</span><span class="n">frac</span><span class="p">.</span><span class="n">m_sign</span><span class="p">,</span> <span class="n">frac</span><span class="p">.</span><span class="n">numerator</span><span class="p">(),</span> <span class="n">frac</span><span class="p">.</span><span class="n">denominator</span><span class="p">());</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="n">Fraction</span> <span class="k">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span> <span class="o">==</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">rhs</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">rhs</span> <span class="o">==</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">gcd</span> <span class="o">=</span> <span class="n">gcd_calc</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">(),</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">());</span>
-    <span class="k">auto</span> <span class="n">denom</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">()</span> <span class="o">/</span> <span class="n">gcd</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">();</span>
-    <span class="k">auto</span> <span class="n">numer</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">*</span> <span class="n">lhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">denom</span> <span class="o">/</span> <span class="n">lhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">())</span> <span class="o">+</span>
-                 <span class="n">rhs</span><span class="p">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">denom</span> <span class="o">/</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">());</span>
-    <span class="k">return</span> <span class="nf">Fraction</span><span class="p">(</span><span class="n">numer</span><span class="p">,</span> <span class="n">denom</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="n">Fraction</span> <span class="k">operator</span><span class="o">-</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span> <span class="o">==</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="o">-</span><span class="n">rhs</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">rhs</span> <span class="o">==</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">gcd</span> <span class="o">=</span> <span class="n">gcd_calc</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">(),</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">());</span>
-    <span class="k">auto</span> <span class="n">denom</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">()</span> <span class="o">/</span> <span class="n">gcd</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">();</span>
-    <span class="k">auto</span> <span class="n">numer</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">*</span> <span class="n">lhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">denom</span> <span class="o">/</span> <span class="n">lhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">())</span> <span class="o">-</span>
-                 <span class="n">rhs</span><span class="p">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">denom</span> <span class="o">/</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">());</span>
-    <span class="k">return</span> <span class="nf">Fraction</span><span class="p">(</span><span class="n">numer</span><span class="p">,</span> <span class="n">denom</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="n">Fraction</span> <span class="k">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span> <span class="o">==</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">||</span> <span class="n">rhs</span> <span class="o">==</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">auto</span> <span class="n">gcd1</span> <span class="o">=</span> <span class="n">gcd_calc</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">(),</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">());</span>
-    <span class="k">auto</span> <span class="n">gcd2</span> <span class="o">=</span> <span class="n">gcd_calc</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">(),</span> <span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">());</span>
-    <span class="k">auto</span> <span class="n">numer</span> <span class="o">=</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">/</span> <span class="n">gcd1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">/</span> <span class="n">gcd2</span><span class="p">);</span>
-    <span class="k">auto</span> <span class="n">denom</span> <span class="o">=</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">()</span> <span class="o">/</span> <span class="n">gcd2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">()</span> <span class="o">/</span> <span class="n">gcd1</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nf">Fraction</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">!=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_sign</span><span class="p">,</span> <span class="n">numer</span><span class="p">,</span> <span class="n">denom</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="n">Fraction</span> <span class="k">operator</span><span class="o">/</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">rhs</span> <span class="o">==</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&#34;Fraction::operator/ : devision by zero.&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span> <span class="o">==</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">lhs</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">.</span><span class="n">inv</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="n">Fraction</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">*</span><span class="k">this</span> <span class="o">=</span> <span class="o">*</span><span class="k">this</span> <span class="o">+</span> <span class="n">other</span><span class="p">;</span>
-    <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">Fraction</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">-=</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">*</span><span class="k">this</span> <span class="o">=</span> <span class="o">*</span><span class="k">this</span> <span class="o">-</span> <span class="n">other</span><span class="p">;</span>
-    <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">Fraction</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*=</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">*</span><span class="k">this</span> <span class="o">=</span> <span class="o">*</span><span class="k">this</span> <span class="o">*</span> <span class="n">other</span><span class="p">;</span>
-    <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">Fraction</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">/=</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="p">{</span>
-    <span class="o">*</span><span class="k">this</span> <span class="o">=</span> <span class="o">*</span><span class="k">this</span> <span class="o">/</span> <span class="n">other</span><span class="p">;</span>
-    <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">&amp;&amp;</span>
-           <span class="n">lhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">()</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">lhs</span><span class="p">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">.</span><span class="n">sign</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="n">lhs</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">is_negative</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">is_positive</span><span class="p">())</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">is_positive</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">is_negative</span><span class="p">())</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">*</span> <span class="n">lhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">()</span> <span class="o">&lt;</span>
-           <span class="n">lhs</span><span class="p">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">*</span> <span class="n">lhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">()</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">is_negative</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">is_positive</span><span class="p">())</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">is_positive</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">is_negative</span><span class="p">())</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">*</span> <span class="n">lhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">()</span> <span class="o">&gt;</span>
-           <span class="n">lhs</span><span class="p">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">*</span> <span class="n">lhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">()</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">lhs</span> <span class="o">==</span> <span class="n">rhs</span> <span class="o">||</span> <span class="n">lhs</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">lhs</span> <span class="o">==</span> <span class="n">rhs</span> <span class="o">||</span> <span class="n">lhs</span> <span class="o">&gt;</span> <span class="n">rhs</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">os</span><span class="p">,</span> <span class="k">const</span> <span class="n">Fraction</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">();</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">rhs</span><span class="p">.</span><span class="n">is_negative</span><span class="p">())</span> <span class="p">{</span>
-        <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;-&#34;</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="n">os</span> <span class="o">&lt;&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">numerator</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; / &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">denominator</span><span class="p">();</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">os</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">};</span>
-</code></pre></div>
-<h2 id="動かす">動かす</h2>
-
-<p>この有理クラスを使って、級数</p>
-
-<p>\begin{align*}
-\frac{\pi}{4} = 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} \cdots
-\end{align*}</p>
-
-<p>を任意精度で計算する。</p>
-
-<p><code>BigInt</code> の実装が上手く行っていれば、以下のコードで正しく計算ができるはずだ。</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&#34;fraction.hpp&#34;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&#34;big_int.hpp&#34; // 前の記事を参照</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">using</span> <span class="n">Frac</span> <span class="o">=</span> <span class="n">Fraction</span><span class="o">&lt;</span><span class="n">BigInt</span><span class="o">&gt;</span><span class="p">;</span>
-  <span class="n">Frac</span> <span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">sum</span> <span class="o">+=</span> <span class="n">Frac</span><span class="p">(</span><span class="n">BigInt</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">BigInt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="n">sum</span> <span class="o">-=</span> <span class="n">Frac</span><span class="p">(</span><span class="n">BigInt</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">BigInt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">sum</span><span class="p">;</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>このプログラムのコンパイルは無事通り、結果は</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">8252079759413970386664454687621174435983101115012912631997769614579677862845786070667088 / 2635106162757236442495826303084698495565581115509040892412867358728390766099042109898375</code></pre></div>
-<p>となる。</p>
-
-<p>この答えがあっているかどうかは出力結果をググるとなんとなく分かる。
-同じ計算をしたサイトが出てくるので、多分あっているだろう。</p>
 
 </article>
 

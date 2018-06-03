@@ -159,3 +159,8 @@ code:before {
     top: 0;
     right: 0;
 }
+
+.small-print {
+    position: absolute;
+    bottom: 0;
+}

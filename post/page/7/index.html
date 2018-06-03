@@ -221,11 +221,16 @@
 
   <div>
   <div class="small-print">
+    
+    <small>
+      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" />
+      </a><br />
+      Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. </small><br/>
+    
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small><br/>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small><br/>
     <small>by yuki</small>
-  </div>
-  <div class="small-print">
-    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
-    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
   </div>
 </div>
 
@@ -242,6 +247,164 @@
 
 <p>とても重くなってしまっているかもしれない。</p>
 
+  
+    <article>
+  <h2>
+    <a href="https://yuki67.github.io/post/cuda_bitmap/">
+      ビットマップをOpenGLで描画する
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2017-11-20
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/opengl">
+          OpenGL
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cuda">
+          CUDA
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p>cudaでビットマップを作って、それをOpenGLを使ってウィンドウ上に表示したい。</p>
+
+<p></p>
+
+<p>プログラムでビットマップを作っても、それを表示させるのがめんどくさいことがある。これまでpythonでビットマップを作ったときには <code>matplotlib.pyplot.imshow()</code> を使ってきたが、c++とcudaを使ったときにはどうすればよくわからなかった。ppm画像に書き出してもいいが、いちいち画像エディタを開くのはめんどくさい。</p>
+
+<p>openGLにはビットマップを描画するglDrawPixels()関数がある。これを使えば、cudaでビットマップを作成 -&gt; OpenGLで描画、という流れが同じプログラム内で行える。</p>
+
+<p>次のプログラムは簡単なビットマップを作ってそれをOpenGLで表示する。</p>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;GL/gl.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;GL/glut.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cuda_runtime.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="cp">#define WIDTH 512
+</span><span class="cp">#define HEIGHT 512
+</span><span class="cp">#define IMAGE_SIZE_IN_BYTE (4 * WIDTH * HEIGHT)
+</span><span class="cp"></span>
+<span class="c1">// エラー用マクロ
+</span><span class="c1"></span><span class="cp">#define EXIT_IF_FAIL(call)                                                     \
+</span><span class="cp"></span>  <span class="k">do</span> <span class="p">{</span>                                                                         \
+    <span class="n">cudaError_t</span> <span class="n">retval</span> <span class="o">=</span> <span class="n">call</span><span class="p">;</span>                                                 \
+    <span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">!=</span> <span class="n">cudaSuccess</span><span class="p">)</span> <span class="p">{</span>                                               \
+      <span class="n">printf</span><span class="p">(</span><span class="s">&#34;error in file %s line at %d: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">__FILE__</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span>          \
+             <span class="n">cudaGetErrorString</span><span class="p">(</span><span class="n">retval</span><span class="p">));</span>                                      \
+      <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>                                                                 \
+    <span class="p">}</span>                                                                          \
+  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1">// グローバルのデータ(へのポインタ)をまとめたもの
+</span><span class="c1"></span><span class="k">struct</span> <span class="n">DataBlock</span> <span class="p">{</span>
+  <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">;</span>
+  <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">dev_bitmap</span><span class="p">;</span>
+  <span class="k">static</span> <span class="n">DataBlock</span> <span class="o">*</span><span class="nf">get_data</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="n">DataBlock</span> <span class="n">g_data</span><span class="p">;</span>
+    <span class="k">return</span> <span class="o">&amp;</span><span class="n">g_data</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// カーネル関数: bitmapに適当に色を塗る
+</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">kernel</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">gridDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mi">255</span><span class="p">));</span>
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="p">(</span><span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">255</span><span class="p">));</span>
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">WIDTH</span> <span class="o">+</span> <span class="n">HEIGHT</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span><span class="p">);</span>
+  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// 描画用コールバック
+</span><span class="c1"></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">draw</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">DataBlock</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="o">::</span><span class="n">get_data</span><span class="p">();</span>
+  <span class="n">glClearColor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">);</span>
+  <span class="n">glDrawPixels</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">,</span> <span class="n">GL_RGBA</span><span class="p">,</span> <span class="n">GL_UNSIGNED_BYTE</span><span class="p">,</span> <span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">);</span>
+  <span class="n">glFlush</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="n">DataBlock</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="o">::</span><span class="n">get_data</span><span class="p">();</span>
+
+  <span class="c1">// ビットマップをデバイス/ホストに確保
+</span><span class="c1"></span>  <span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">unsigned</span> <span class="kt">char</span><span class="p">[</span><span class="n">IMAGE_SIZE_IN_BYTE</span><span class="p">];</span>
+  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">dev_bitmap</span><span class="p">,</span> <span class="n">IMAGE_SIZE_IN_BYTE</span><span class="p">));</span>
+
+  <span class="n">dim3</span> <span class="n">threads</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>                <span class="c1">// 16x16 スレッド per グリッド
+</span><span class="c1"></span>  <span class="n">dim3</span> <span class="n">grids</span><span class="p">(</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mi">16</span><span class="p">,</span> <span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">16</span><span class="p">);</span> <span class="c1">// グリッドの数はthreadsとDIMから求まる
+</span><span class="c1"></span>
+  <span class="c1">// カーネル呼び出し
+</span><span class="c1"></span>  <span class="n">kernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">grids</span><span class="p">,</span> <span class="n">threads</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">dev_bitmap</span><span class="p">);</span>
+  <span class="c1">// 出来上がったビットマップをホストへコピー
+</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">,</span> <span class="n">data</span><span class="o">-&gt;</span><span class="n">dev_bitmap</span><span class="p">,</span> <span class="n">IMAGE_SIZE_IN_BYTE</span><span class="p">,</span>
+                          <span class="n">cudaMemcpyDeviceToHost</span><span class="p">));</span>
+  <span class="c1">// メモリの開放
+</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaFree</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">dev_bitmap</span><span class="p">));</span>
+
+  <span class="c1">// 画像の描画
+</span><span class="c1"></span>  <span class="n">glutInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+  <span class="n">glutInitDisplayMode</span><span class="p">(</span><span class="n">GLUT_SINGLE</span> <span class="o">|</span> <span class="n">GLUT_RGBA</span><span class="p">);</span>
+  <span class="n">glutInitWindowSize</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">);</span>
+  <span class="n">glutCreateWindow</span><span class="p">(</span><span class="s">&#34;bitmap&#34;</span><span class="p">);</span>
+  <span class="n">glutDisplayFunc</span><span class="p">(</span><span class="n">draw</span><span class="p">);</span>
+  <span class="n">glutMainLoop</span><span class="p">();</span>
+
+  <span class="c1">// メモリの開放
+</span><span class="c1"></span>  <span class="n">free</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>nvcc --run main.cu -lGL -lglut</code> とすれば以下のウィンドウが出力される。</p>
+
+
+<figure>
+    
+        <img src="https://yuki67.github.io/ox-hugo/window.png" />
+    
+    
+</figure>
+
+
+<p>らくちん。</p>
+
+</article>
+
+    <br>
+    <br>
   
     <article>
   <h2>
@@ -925,220 +1088,6 @@ org-modeで記事が書けると公式で言われている割にほとんど使
 <ul>
 <li>斎藤 正彦 (1966), <a href="http://www.utp.or.jp/book/b302039.html">線型代数入門</a>, 東京大学出版会</li>
 </ul>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/random_pick/">
-      ランダムピック
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2017-08-22
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/python">
-          Python
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>整数の組 \((i, j)\) に対してランダムな整数を割り振りたい。
-それも、全ての組について乱数を保存することなく割り振りたい。</p>
-
-<p></p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># モジュールのインポート</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">floor</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&#34;figure.figsize&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span></code></pre></div>
-<h2 id="失敗例">失敗例</h2>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">_random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">not_random_pick</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">_random</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">256</span><span class="p">]</span></code></pre></div>
-<p>こうすると \(random\_pick(i, j) = random\_pick(i - 1, j + 1)\) が成り立ってしまうので値がランダムにならない。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">canvas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">not_random_pick</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">canvas</span> <span class="o">/</span> <span class="mi">256</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">)</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/not_random.png" />
-    
-    
-</figure>
-
-
-<p>プロットすると全くランダムでないのがよく分かる。</p>
-
-<h2 id="成功例">成功例</h2>
-
-<p>\(random\_pick(i, j) = random\_pick(i - 1, j + 1)\) が成り立つのがまずいので、以下のように <code>_random</code> から値を二回取り出すようにすれば良い。</p>
-
-<p><code>_random[x]</code> と <code>_random[x+1]</code> には関連がないので、 <code>random_pick(i, j)</code> の返り値もランダムになる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">_random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">random_pick</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">_random</span><span class="p">[(</span><span class="n">_random</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">256</span><span class="p">]</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">canvas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">random_pick</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">canvas</span> <span class="o">/</span> <span class="mi">256</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">)</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/random_pick.png" />
-    
-    
-</figure>
-
-
-<h2 id="工夫">工夫</h2>
-
-<h3 id="mod演算無し">mod演算無し</h3>
-
-<p><code>_random</code> から値を取り出すときに <code>(_random[i] + j) % 256</code> が配列の大きさを超えないようにモジュロ演算をしているが、
-<code>_random</code> に入っている値 と <code>j</code> には制限があるので、 <code>_random</code> の長さを大きくすることでモジュロ演算を省くことができる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">_random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="nb">int</span><span class="p">)</span> <span class="c1"># 512 = (_random[x]の最大値) + (jの最大値)</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">256</span><span class="p">)):</span>
-    <span class="n">_random</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
-    <span class="n">_random</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">256</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
-
-<span class="k">def</span> <span class="nf">random_pick</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">_random</span><span class="p">[</span><span class="n">_random</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span>
-
-<span class="n">canvas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">random_pick</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">canvas</span> <span class="o">/</span> <span class="mi">256</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">)</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/random_pick_no_modulo.png" />
-    
-    
-</figure>
-
-
-<h3 id="高次元化">高次元化</h3>
-
-<p>高次元でも「 <code>_random</code> から引いてきた値に引数を足してまた <code>_random</code> から引く」を繰り返せば同じことができる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">_random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">random_pick_higher_order</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
-    <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
-        <span class="n">ans</span> <span class="o">=</span> <span class="n">_random</span><span class="p">[(</span><span class="n">ans</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="mi">256</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">ans</span>
-
-
-<span class="c1"># 3次元でやる</span>
-<span class="n">canvas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[[</span><span class="n">random_pick_higher_order</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)]</span>
-                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)])</span>
-<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax0</span><span class="p">,</span> <span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
-<span class="c1"># 適当に切ってプロットする</span>
-<span class="n">ax0</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">canvas</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">32</span><span class="p">]</span> <span class="o">/</span> <span class="mi">256</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">canvas</span><span class="p">[:,</span> <span class="mi">63</span><span class="p">,</span> <span class="p">:]</span> <span class="o">/</span> <span class="mi">256</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">canvas</span><span class="p">[</span><span class="mi">157</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">/</span> <span class="mi">256</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">)</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/random_pick_higher_order.png" />
-    
-    
-</figure>
-
-
-<h3 id="返り値を整数以外にする">返り値を整数以外にする</h3>
-
-<p><code>random_picker</code> の返り値を使って別の配列から引くようにすれば任意のオブジェクトを返すようにできる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">_alphabets</span> <span class="o">=</span> <span class="s2">&#34;abcdefghijklmnopqrstuvwxyz&#34;</span>
-<span class="n">_random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">26</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">random_pick_alphabet</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">_alphabets</span><span class="p">[</span><span class="n">_random</span><span class="p">[(</span><span class="n">_random</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">26</span><span class="p">]</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">26</span><span class="p">]]</span>
-
-<span class="n">canvas</span> <span class="o">=</span> <span class="p">[[</span><span class="n">random_pick_alphabet</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
-<span class="k">for</span> <span class="n">xs</span> <span class="ow">in</span> <span class="n">canvas</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&#34; &#34;</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">)</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">g j w s e f b p c t
-m b t l u y e v a n
-o e n w x q u c g h
-j u h t k s x a m r
-b x r n i l k g o d
-e k d h z w i m j p
-u i p r f t z o b v
-x z v d y n f j e c
-k f c p q h y b u a
-i y a v s r q e x g</code></pre></div>
-<h2 id="まとめ">まとめ</h2>
-
-<p>クラスにまとめる。</p>
-
-<p>このクラスはコンストラクタの引数として配列を受け取り、
-インスタンスに関数呼び出しをするとその配列の要素がランダムに返る。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">RandomPicker</span><span class="p">():</span>
-    <span class="c1"># とりあえず256としておいて、必要ならば後で更新する</span>
-    <span class="c1"># 256のままだと picker(10, 0) = picker(266, 256) となる</span>
-    <span class="n">random_size</span> <span class="o">=</span> <span class="mi">256</span>
-    <span class="n">random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">random_size</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">arg_max</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="c1"># arg_maxには予想される引数の最大値を渡す</span>
-        <span class="c1"># 予想できない/ランダム性がそれほど必要ない 場合はデフォルトのままでいい</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">base</span> <span class="o">=</span> <span class="n">base</span>
-        <span class="n">arg_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">base</span><span class="p">),</span> <span class="n">arg_max</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">arg_max</span> <span class="o">&gt;</span> <span class="n">RandomPicker</span><span class="o">.</span><span class="n">random_size</span><span class="p">:</span>
-            <span class="n">RandomPicker</span><span class="o">.</span><span class="n">random_size</span> <span class="o">=</span> <span class="n">arg_max</span>
-            <span class="n">RandomPicker</span><span class="o">.</span><span class="n">random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">arg_max</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="n">ans</span> <span class="o">=</span> <span class="n">RandomPicker</span><span class="o">.</span><span class="n">random</span><span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="n">RandomPicker</span><span class="o">.</span><span class="n">random_size</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)):</span>
-            <span class="n">ans</span> <span class="o">=</span> <span class="n">RandomPicker</span><span class="o">.</span><span class="n">random</span><span class="p">[(</span><span class="n">ans</span> <span class="o">+</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">%</span> <span class="n">RandomPicker</span><span class="o">.</span><span class="n">random_size</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">[</span><span class="n">ans</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="p">)]</span></code></pre></div>
-<p>次のように使う。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">picker</span> <span class="o">=</span> <span class="n">RandomPicker</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">canvas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[(</span><span class="n">picker</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)]</span>
-                   <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">)</span></code></pre></div>
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/random_pick_class.png" />
-    
-    
-</figure>
-
-
-<p>要素数\(10+256=266\) の配列を確保するだけで\(256\times256\)のホワイトノイズを作れて嬉しい。</p>
-
-<p>各ピクセルに対する処理(関数を適用する、隣接ピクセルの平均を取る&hellip;)が増えればそれだけこの方法による利点は大きくなる。</p>
 
 </article>
 

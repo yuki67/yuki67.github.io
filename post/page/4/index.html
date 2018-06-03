@@ -221,11 +221,16 @@
 
   <div>
   <div class="small-print">
+    
+    <small>
+      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" />
+      </a><br />
+      Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. </small><br/>
+    
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small><br/>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small><br/>
     <small>by yuki</small>
-  </div>
-  <div class="small-print">
-    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
-    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
   </div>
 </div>
 
@@ -242,6 +247,88 @@
 
 <p>とても重くなってしまっているかもしれない。</p>
 
+  
+    <article>
+  <h2>
+    <a href="https://yuki67.github.io/post/org-babel/">
+      org-babel
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-03-13
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/about">
+          about
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p>org mode には org-babel という機能があり、orgファイルに書いたソースコードをその場で実行できる。</p>
+
+<p></p>
+
+<p>例えば org mode のファイルに python のソースコードを</p>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+BEGIN_SRC python :results output verbatim :exports both :eval no-export
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fact(n - 1)
+
+# 6! を出力する
+print(fact(6))
+#+END_SRC</code></pre></div>
+<p>というふうに書いたとする。
+この状態からカーソルをソースコードの中に移動させて <code>C-c C-c</code> とすると python コードの実行され、以下のように実行結果が挿入される。</p>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+BEGIN_SRC python :results output verbatim :exports both :eval no-export
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fact(n - 1)
+
+# 6! を出力する
+print(fact(6))
+#+END_SRC
+
+#+RESULTS:
+: 720</code></pre></div>
+<p>この部分をエクスポートすると、</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fact</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fact</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 6! を出力する</span>
+<span class="k">print</span><span class="p">(</span><span class="n">fact</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">720</code></pre></div>
+<p>となる。</p>
+
+<p>org-babel は python の他にも<a href="https://orgmode.org/manual/Languages.html">様々な言語</a>に対応しているので、コードを含んだ文章を書くのが楽になる。</p>
+
+</article>
+
+    <br>
+    <br>
   
     <article>
   <h2>
@@ -1835,270 +1922,6 @@ In F11, (1 + x)^11 = 1 + x^11
 In F101, (1 + x)^101 = 1 + x^101
 In F8291, (1 + x)^8291 = 1 + x^8291</code></pre></div>
 <p><code>P8291{1, 1}.pow(8291)</code> の計算には５秒程度の時間がかかった。</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/finite_field/">
-      有限体の実装 in C&#43;&#43;
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-02-10
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
-          cpp
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>※ 位数が素数である場合に限る</p>
-
-<p></p>
-
-<h2 id="概要">概要</h2>
-
-<p>C++の練習として、有限体を実装した。</p>
-
-<h2 id="数学">数学</h2>
-
-<p>そんなに高度なことはやっていないので、事実だけ書く。</p>
-
-<ul>
-<li>\(p\) を素数とすると、 \(\text{mod} \ p\) の演算について \(\{0,1,2,\ldots p-1\}\) は体をなす。</li>
-<li>体 \(\{0,1,2,\ldots p-1\}\) の加算、減算、乗算の定義は明らか。</li>
-<li>除算は逆元との乗算として定義する。</li>
-<li>0以外の任意の元の逆元は <a href="https://ja.wikipedia.org/wiki/%25E3%2583%25A6%25E3%2583%25BC%25E3%2582%25AF%25E3%2583%25AA%25E3%2583%2583%25E3%2583%2589%25E3%2581%25AE%25E4%25BA%2592%25E9%2599%25A4%25E6%25B3%2595#%25E6%258B%25A1%25E5%25BC%25B5%25E3%2581%2595%25E3%2582%258C%25E3%2581%259F%25E4%25BA%2592%25E9%2599%25A4%25E6%25B3%2595">拡張されたユークリッドの互除法</a> を使って求めることができる。</li>
-</ul>
-
-<h2 id="実装">実装</h2>
-
-<p>実装では次のことに注意した。</p>
-
-<ul>
-<li>逆元を除算のたびに計算するのは無駄なので、逆元の表をクラスの <code>static</code> 変数として保持する</li>
-<li>逆元の表を毎回の実行の冒頭で求めるのも無駄なので、 <code>constexpr</code> を使ってコンパイル時に求める</li>
-<li>体の位数によってサイズの変わる逆元の表を <code>constexpr</code> にするために体の位数をテンプレート化する。</li>
-<li>体の位数は素数でなことを <code>static_assert</code> で確かめる</li>
-<li>適切なコンストラクタとキャスト演算子を整備することで体の元と数リテラル間の自然な演算ができるようにする</li>
-</ul>
-
-<p><div class="src-block-caption">
-  <span class="src-block-number">Code Snippet 1:</span>
-  finite_field.hpp
-</div></p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;array&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;ostream&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// x * x &gt; p である x を返す
-</span><span class="c1">// あまり賢くない
-</span><span class="c1"></span><span class="k">constexpr</span> <span class="kt">int</span> <span class="nf">isqrt</span><span class="p">(</span><span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(;</span> <span class="n">i</span> <span class="o">*</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// p は素数か?
-</span><span class="c1"></span><span class="k">constexpr</span> <span class="kt">bool</span> <span class="nf">is_prime</span><span class="p">(</span><span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">isqrt</span><span class="p">(</span><span class="n">i</span><span class="p">);</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// i mod a を返す
-</span><span class="c1"></span><span class="k">constexpr</span> <span class="kt">int</span> <span class="nf">mod_pos</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">rem</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="n">a</span><span class="p">;</span> <span class="c1">// i &lt; 0 だと rem &lt; 0
-</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">rem</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">rem</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">rem</span> <span class="o">+</span> <span class="n">a</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// 拡張ユークリッド法でax + by = gcd(p, a) を満たす(x, y)を求める
-</span><span class="c1"></span><span class="k">constexpr</span> <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">ext_euclid</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">r1</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">x1</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">x2</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">y1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">y2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">r2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">r3</span> <span class="o">=</span> <span class="n">r1</span> <span class="o">%</span> <span class="n">r2</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">q</span> <span class="o">=</span> <span class="n">r1</span> <span class="o">/</span> <span class="n">r2</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">x3</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">-</span> <span class="n">q</span> <span class="o">*</span> <span class="n">x2</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">y1</span> <span class="o">-</span> <span class="n">q</span> <span class="o">*</span> <span class="n">y2</span><span class="p">;</span>
-    <span class="n">r1</span> <span class="o">=</span> <span class="n">r2</span><span class="p">;</span>
-    <span class="n">r2</span> <span class="o">=</span> <span class="n">r3</span><span class="p">;</span>
-    <span class="n">x1</span> <span class="o">=</span> <span class="n">x2</span><span class="p">;</span>
-    <span class="n">x2</span> <span class="o">=</span> <span class="n">x3</span><span class="p">;</span>
-    <span class="n">y1</span> <span class="o">=</span> <span class="n">y2</span><span class="p">;</span>
-    <span class="n">y2</span> <span class="o">=</span> <span class="n">y3</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="p">{</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">};</span>
-<span class="p">}</span>
-
-<span class="c1">// arr[i] * i = 1 (mod P) となる arr を返す
-</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="kt">int</span> <span class="n">P</span><span class="o">&gt;</span>
-<span class="k">constexpr</span> <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">P</span><span class="o">&gt;</span> <span class="n">construct_inverses</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">P</span><span class="o">&gt;</span> <span class="n">arr</span> <span class="o">=</span> <span class="p">{};</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">P</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ext_euclid</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">P</span><span class="p">).</span><span class="n">first</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">arr</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// 位数Pの有限体を表す (Pは素数)
-</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="kt">int</span> <span class="n">P</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">FiniteField</span> <span class="p">{</span>
-  <span class="c1">// Pが素数なことを確認
-</span><span class="c1"></span>  <span class="k">static_assert</span><span class="p">(</span><span class="n">P</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#34;P in not prime&#34;</span><span class="p">);</span>
-  <span class="k">static_assert</span><span class="p">(</span><span class="n">is_prime</span><span class="p">(</span><span class="n">P</span><span class="p">),</span> <span class="s">&#34;P is not prime.&#34;</span><span class="p">);</span>
-
- <span class="k">private</span><span class="o">:</span>
-  <span class="kt">int</span> <span class="n">m_val</span><span class="p">;</span>
-  <span class="c1">// コンパイル時に計算される逆元の表
-</span><span class="c1"></span>  <span class="k">constexpr</span> <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">P</span><span class="o">&gt;</span> <span class="n">inverses</span> <span class="o">=</span> <span class="n">construct_inverses</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span><span class="p">();</span>
-
- <span class="k">public</span><span class="o">:</span>
-  <span class="n">FiniteField</span><span class="p">()</span> <span class="o">:</span> <span class="n">m_val</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{}</span>
-  <span class="n">FiniteField</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">val</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_val</span><span class="p">(</span><span class="n">mod_pos</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">P</span><span class="p">))</span> <span class="p">{}</span>
-
-  <span class="c1">// このexplicitを抜くと恐ろしい量のエラーが出る
-</span><span class="c1"></span>  <span class="k">explicit</span> <span class="k">operator</span> <span class="kt">int</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_val</span><span class="p">;</span> <span class="p">}</span>
-
-  <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="n">inv</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">m_val</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&#34;division by zero&#34;</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">inverses</span><span class="p">[</span><span class="n">m_val</span><span class="p">];</span>
-  <span class="p">}</span>
-
-  <span class="c1">// 以下は演算子のオーバーロード
-</span><span class="c1"></span>  <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="k">operator</span><span class="o">-</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span><span class="p">(</span><span class="n">P</span> <span class="o">-</span> <span class="n">m_val</span><span class="p">);</span> <span class="p">}</span>
-
-  <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">m_val</span> <span class="o">=</span> <span class="n">mod_pos</span><span class="p">(</span><span class="n">m_val</span> <span class="o">+</span> <span class="n">other</span><span class="p">.</span><span class="n">m_val</span><span class="p">,</span> <span class="n">P</span><span class="p">);</span>
-    <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">-=</span><span class="p">(</span><span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">m_val</span> <span class="o">=</span> <span class="n">mod_pos</span><span class="p">(</span><span class="n">m_val</span> <span class="o">-</span> <span class="n">other</span><span class="p">.</span><span class="n">m_val</span><span class="p">,</span> <span class="n">P</span><span class="p">);</span>
-    <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*=</span><span class="p">(</span><span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">m_val</span> <span class="o">=</span> <span class="n">mod_pos</span><span class="p">(</span><span class="n">m_val</span> <span class="o">*</span> <span class="n">other</span><span class="p">.</span><span class="n">m_val</span><span class="p">,</span> <span class="n">P</span><span class="p">);</span>
-    <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">/=</span><span class="p">(</span><span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="o">*</span><span class="k">this</span> <span class="o">*=</span> <span class="n">other</span><span class="p">.</span><span class="n">inv</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="c1">// friendにして型の昇格を暗黙に行う
-</span><span class="c1"></span>  <span class="k">friend</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="k">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span>
-                                  <span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_val</span> <span class="o">+</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_val</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="k">operator</span><span class="o">-</span><span class="p">(</span><span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span>
-                                  <span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_val</span> <span class="o">-</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_val</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="k">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span>
-                                  <span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_val</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_val</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="k">operator</span><span class="o">/</span><span class="p">(</span><span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span>
-                                  <span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">lhs</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">.</span><span class="n">inv</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_val</span> <span class="o">==</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_val</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_val</span> <span class="o">!=</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_val</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="k">friend</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">,</span>
-                                  <span class="k">const</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="n">P</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_val</span><span class="p">;</span>
-    <span class="k">return</span> <span class="n">rhs</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">};</span>
-</code></pre></div>
-<p>以下のように使える。なお <code>constexpr</code> で複雑なことを行うので、コンパイルには c++17 の機能が必要になる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;finite_field.hpp&#34;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="k">using</span> <span class="n">F17</span> <span class="o">=</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">17</span><span class="o">&gt;</span><span class="p">;</span>
-<span class="k">using</span> <span class="n">F8191</span> <span class="o">=</span> <span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">8191</span><span class="o">&gt;</span><span class="p">;</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">F17</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
-
-  <span class="c1">// 四則演算
-</span><span class="c1"></span>  <span class="n">assert</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">7</span><span class="p">);</span> <span class="c1">// 右辺を F17(7) とする必要はない
-</span><span class="c1"></span>  <span class="n">assert</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">12</span><span class="p">);</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">7</span><span class="p">);</span>
-
-  <span class="c1">// リテラルとの四則演算
-</span><span class="c1"></span>  <span class="n">assert</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">20</span> <span class="o">==</span> <span class="mi">7</span><span class="p">);</span> <span class="c1">// 型変換(昇格)は暗黙に行われる
-</span><span class="c1"></span>  <span class="n">assert</span><span class="p">(</span><span class="mi">4</span> <span class="o">-</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
-  <span class="n">assert</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">==</span> <span class="n">F17</span><span class="p">(</span><span class="mi">12</span><span class="p">));</span>
-
-  <span class="c1">// 逆元
-</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">8191</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">F8191</span> <span class="n">x</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-    <span class="n">assert</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">.</span><span class="n">inv</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// この演算は定数時間で終わる
-</span><span class="c1"></span>  <span class="p">}</span>
-
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;OK&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>
-</code></pre></div>
 
 </article>
 

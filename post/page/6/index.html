@@ -221,11 +221,16 @@
 
   <div>
   <div class="small-print">
+    
+    <small>
+      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" />
+      </a><br />
+      Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. </small><br/>
+    
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small><br/>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small><br/>
     <small>by yuki</small>
-  </div>
-  <div class="small-print">
-    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
-    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
   </div>
 </div>
 
@@ -242,6 +247,75 @@
 
 <p>とても重くなってしまっているかもしれない。</p>
 
+  
+    <article>
+  <h2>
+    <a href="https://yuki67.github.io/post/buttons_to_left/">
+      Ubuntu 17.10で最大化/最小化ボタンを左へ移動する
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-01-22
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ubuntu">
+          ubuntu
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p>これ↓</p>
+
+
+<figure>
+    
+        <img src="https://yuki67.github.io/ox-hugo/buttons.png" />
+    
+    
+</figure>
+
+
+<p></p>
+
+<p>Ubuntu 17.10 のデフォルトだと右にあるが、これだと左端にあるドッグとの相性が悪いので変えた。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">gsettings <span class="nb">set</span> org.gnome.desktop.wm.preferences button-layout <span class="s1">&#39;close,maximize,minimize:&#39;</span></code></pre></div>
+<p>でできた。</p>
+
+<p>参考:
+<a href="http://tipsonubuntu.com/2017/10/10/ubuntu-17-10-tip-move-window-buttons-min-max-close-left/">Ubuntu 17.10 Tip: Move Window Buttons &lsquo;min, max, close&rsquo; to Left</a></p>
+
+<p>追記:
+gnome-tweak-tool からもできた。</p>
+
+</article>
+
+    <br>
+    <br>
   
     <article>
   <h2>
@@ -845,164 +919,6 @@ val print_foo : Format.formatter -&gt; foo -&gt; unit = &lt;fun&gt;
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ nvcc -run main.cu
 elapsed: <span class="m">0</span>.017344 ms</code></pre></div>
 <p>c++のことをよく知らないのでクラスの作り方に自信がないが、今のところ特に問題なく使えている。</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/cuda_bitmap/">
-      ビットマップをOpenGLで描画する
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2017-11-20
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/opengl">
-          OpenGL
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cuda">
-          CUDA
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>cudaでビットマップを作って、それをOpenGLを使ってウィンドウ上に表示したい。</p>
-
-<p></p>
-
-<p>プログラムでビットマップを作っても、それを表示させるのがめんどくさいことがある。これまでpythonでビットマップを作ったときには <code>matplotlib.pyplot.imshow()</code> を使ってきたが、c++とcudaを使ったときにはどうすればよくわからなかった。ppm画像に書き出してもいいが、いちいち画像エディタを開くのはめんどくさい。</p>
-
-<p>openGLにはビットマップを描画するglDrawPixels()関数がある。これを使えば、cudaでビットマップを作成 -&gt; OpenGLで描画、という流れが同じプログラム内で行える。</p>
-
-<p>次のプログラムは簡単なビットマップを作ってそれをOpenGLで表示する。</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;GL/gl.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;GL/glut.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cuda_runtime.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="cp">#define WIDTH 512
-</span><span class="cp">#define HEIGHT 512
-</span><span class="cp">#define IMAGE_SIZE_IN_BYTE (4 * WIDTH * HEIGHT)
-</span><span class="cp"></span>
-<span class="c1">// エラー用マクロ
-</span><span class="c1"></span><span class="cp">#define EXIT_IF_FAIL(call)                                                     \
-</span><span class="cp"></span>  <span class="k">do</span> <span class="p">{</span>                                                                         \
-    <span class="n">cudaError_t</span> <span class="n">retval</span> <span class="o">=</span> <span class="n">call</span><span class="p">;</span>                                                 \
-    <span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">!=</span> <span class="n">cudaSuccess</span><span class="p">)</span> <span class="p">{</span>                                               \
-      <span class="n">printf</span><span class="p">(</span><span class="s">&#34;error in file %s line at %d: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">__FILE__</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span>          \
-             <span class="n">cudaGetErrorString</span><span class="p">(</span><span class="n">retval</span><span class="p">));</span>                                      \
-      <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>                                                                 \
-    <span class="p">}</span>                                                                          \
-  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1">// グローバルのデータ(へのポインタ)をまとめたもの
-</span><span class="c1"></span><span class="k">struct</span> <span class="n">DataBlock</span> <span class="p">{</span>
-  <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">;</span>
-  <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">dev_bitmap</span><span class="p">;</span>
-  <span class="k">static</span> <span class="n">DataBlock</span> <span class="o">*</span><span class="nf">get_data</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">static</span> <span class="n">DataBlock</span> <span class="n">g_data</span><span class="p">;</span>
-    <span class="k">return</span> <span class="o">&amp;</span><span class="n">g_data</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="c1">// カーネル関数: bitmapに適当に色を塗る
-</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">kernel</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">gridDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
-
-  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mi">255</span><span class="p">));</span>
-  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="p">(</span><span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">255</span><span class="p">));</span>
-  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">WIDTH</span> <span class="o">+</span> <span class="n">HEIGHT</span><span class="p">)</span> <span class="o">/</span> <span class="mi">255</span><span class="p">);</span>
-  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// 描画用コールバック
-</span><span class="c1"></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">DataBlock</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="o">::</span><span class="n">get_data</span><span class="p">();</span>
-  <span class="n">glClearColor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
-  <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">);</span>
-  <span class="n">glDrawPixels</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">,</span> <span class="n">GL_RGBA</span><span class="p">,</span> <span class="n">GL_UNSIGNED_BYTE</span><span class="p">,</span> <span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">);</span>
-  <span class="n">glFlush</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-  <span class="n">DataBlock</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">DataBlock</span><span class="o">::</span><span class="n">get_data</span><span class="p">();</span>
-
-  <span class="c1">// ビットマップをデバイス/ホストに確保
-</span><span class="c1"></span>  <span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">unsigned</span> <span class="kt">char</span><span class="p">[</span><span class="n">IMAGE_SIZE_IN_BYTE</span><span class="p">];</span>
-  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">dev_bitmap</span><span class="p">,</span> <span class="n">IMAGE_SIZE_IN_BYTE</span><span class="p">));</span>
-
-  <span class="n">dim3</span> <span class="n">threads</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>                <span class="c1">// 16x16 スレッド per グリッド
-</span><span class="c1"></span>  <span class="n">dim3</span> <span class="n">grids</span><span class="p">(</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mi">16</span><span class="p">,</span> <span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">16</span><span class="p">);</span> <span class="c1">// グリッドの数はthreadsとDIMから求まる
-</span><span class="c1"></span>
-  <span class="c1">// カーネル呼び出し
-</span><span class="c1"></span>  <span class="n">kernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">grids</span><span class="p">,</span> <span class="n">threads</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">dev_bitmap</span><span class="p">);</span>
-  <span class="c1">// 出来上がったビットマップをホストへコピー
-</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">,</span> <span class="n">data</span><span class="o">-&gt;</span><span class="n">dev_bitmap</span><span class="p">,</span> <span class="n">IMAGE_SIZE_IN_BYTE</span><span class="p">,</span>
-                          <span class="n">cudaMemcpyDeviceToHost</span><span class="p">));</span>
-  <span class="c1">// メモリの開放
-</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaFree</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">dev_bitmap</span><span class="p">));</span>
-
-  <span class="c1">// 画像の描画
-</span><span class="c1"></span>  <span class="n">glutInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
-  <span class="n">glutInitDisplayMode</span><span class="p">(</span><span class="n">GLUT_SINGLE</span> <span class="o">|</span> <span class="n">GLUT_RGBA</span><span class="p">);</span>
-  <span class="n">glutInitWindowSize</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">);</span>
-  <span class="n">glutCreateWindow</span><span class="p">(</span><span class="s">&#34;bitmap&#34;</span><span class="p">);</span>
-  <span class="n">glutDisplayFunc</span><span class="p">(</span><span class="n">draw</span><span class="p">);</span>
-  <span class="n">glutMainLoop</span><span class="p">();</span>
-
-  <span class="c1">// メモリの開放
-</span><span class="c1"></span>  <span class="n">free</span><span class="p">(</span><span class="n">data</span><span class="o">-&gt;</span><span class="n">bitmap</span><span class="p">);</span>
-
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p><code>nvcc --run main.cu -lGL -lglut</code> とすれば以下のウィンドウが出力される。</p>
-
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/window.png" />
-    
-    
-</figure>
-
-
-<p>らくちん。</p>
 
 </article>
 
