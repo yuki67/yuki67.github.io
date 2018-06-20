@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.40.3" />
 
-  <title>All Posts &middot; yuki&#39;s blog</title>
+  <title>PAPI を使った &middot; yuki&#39;s blog</title>
 
   
   
@@ -36,8 +36,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-      <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki67.github.io/post/index.xml" />
   
 
   
@@ -129,10 +127,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://yuki67.github.io/post/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -240,20 +234,11 @@
 
 
 <div class="header">
-  <h1>All Posts</h1>
+  <h1>PAPI を使った</h1>
+  <h2></h2>
 </div>
 <div class="content">
-  <p>全ての記事をそのまま表示している。</p>
 
-<p>とても重くなってしまっているかもしれない。</p>
-
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/hello_papi/">
-      PAPI を使った
-    </a>
-  </h2>
   <div class="post-meta">
   <span>
     <i class="fa fa-calendar fa-fw"></i>
@@ -301,6 +286,9 @@
     
   
 </div>
+
+
+  
 
 
   
@@ -442,336 +430,34 @@ number_of_executed_instructions = 1200002473</code></pre></div>
 <p><a href="http://icl.utk.edu/papi/">PAPI</a></p>
 
 
-</article>
-
-    <br>
-    <br>
   
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/valgrind_random_device/">
-      std::random_device を使うと valgrind が落ちる
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-05-31
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
     
+    <a href="https://yuki67.github.io/post/valgrind_random_device/"><i class="fa fa-chevron-left"></i></a>
     
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
+  </div>
+  <div class="pure-u-10-24">
     
-  
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/valgrind_random_device/">std::random_device を使うと valgrind が落ちる</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
 </div>
 
 
-  
-
-<h2 id="環境">環境</h2>
-
-<p>valgrind 3.11, clang++ 5.0</p>
-
-<h2 id="問題">問題</h2>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;random&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">random_device</span> <span class="n">rd</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">rd</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>上記のコードはコンパイルすれば普通に実行できるが、 valgrind から実行すると valgrind が落ちる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">$ clang++ test.cpp -std=c++17
-$ ./a.out
-1240201163
-$ /usr/bin/valgrind ./a.out
-==13508== Memcheck, a memory error detector
-==13508== Copyright (C) 2002-2015, and GNU GPL&#39;d, by Julian Seward et al.
-==13508== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
-==13508== Command: ./a.out
-==13508==
-vex amd64-&gt;IR: unhandled instruction bytes: 0xF 0xC7 0xF0 0x89 0x6 0xF 0x42 0xC1
-vex amd64-&gt;IR:   REX=0 REX.W=0 REX.R=0 REX.X=0 REX.B=0
-vex amd64-&gt;IR:   VEX=0 VEX.L=0 VEX.nVVVV=0x0 ESC=0F
-vex amd64-&gt;IR:   PFX.66=0 PFX.F2=0 PFX.F3=0
-==13508== valgrind: Unrecognised instruction at address 0x4ef67a5.
-==13508==    at 0x4EF67A5: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
-==13508==    by 0x4EF6941: std::random_device::_M_getval() (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
-==13508==    by 0x401AD4: std::random_device::operator()() (in /tmp/a.out)
-==13508==    by 0x4018A2: main (in /tmp/a.out)
-...
-illegal instruction (core dumped)</code></pre></div>
-<h2 id="原因">原因</h2>
-
-<p><a href="https://bugs.kde.org/show_bug.cgi?id=353370">valgrindのバグ</a></p>
-
-<h2 id="解決法">解決法</h2>
-
-<p>valgrindを3.13に更新する。</p>
-
-<h2 id="参考">参考</h2>
-
-<p><a href="https://bugs.kde.org/show_bug.cgi?id=353370">353370 – RDRAND amd64-&gt;IR: unhandled instruction bytes: 0x48 0xF 0xC7 0xF0 0x72 0x4 0xFF 0xC9</a></p>
-
-<p><a href="https://stackoverflow.com/questions/37032339/valgrind-unrecognised-instruction">c++ - Valgrind Unrecognised instruction - Stack Overflow</a></p>
-
-<p><a href="https://courses.cs.washington.edu/courses/cse326/05wi/valgrind-doc/mc_techdocs.html">The design and implementation of Valgrind</a></p>
-
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/cmake_c&#43;&#43;17/">
-      CMakeでC&#43;&#43;17が有効にならない
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-05-30
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
-          cpp
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
 
   
-
-<h2 id="問題">問題</h2>
-
-<p>CMake で <code>set_property(TARGET hoge PROPERTY CXX_STANDARD 17)</code> としても</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">CMake Error at CMakeLists.txt:16 (add_executable):
-  CXX_STANDARD is set to invalid value &#39;17&#39;</code></pre></div>
-<p>というエラーが出る。</p>
-
-<h2 id="原因">原因</h2>
-
-<p>ppaから入れたCMakeのバージョンが古かった。</p>
-
-<p>CMake 3.8 以上でないと <code>PROPERTY CXX_STANDARD</code> を17にすることができない。</p>
-
-<h2 id="解決法">解決法</h2>
-
-<p>CMakeをアップデートする。</p>
-
-<p>CMakeLists.txt に <code>cmake_minimum_required(VERSION 3.8)</code> を追加する。</p>
-
-<h2 id="参考">参考</h2>
-
-<p><a href="https://cmake.org/cmake/help/v3.7/prop_tgt/CXX_STANDARD.html">CXX_STANDARD — CMake 3.7.2 Documentation</a></p>
-
-<p><a href="https://cmake.org/cmake/help/v3.8/prop_tgt/CXX_STANDARD.html">CXX_STANDARD — CMake 3.8.2 Documentation</a></p>
-
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/bucklescript_paint/">
-      Bucklescriptで書いたお絵かきプログラム
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-05-19
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/javascript">
-          Javascript
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ocaml">
-          OCaml
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>前に書いたプログラムがそのままになっていたので供養。ソースコードはは <a href="https://github.com/yuki67/ShapeOCaml">ここ</a> にある。</p>
-
-<p></p>
-
-<script src="https://yuki67.github.io/js/bundle.js"></script>
-
-<h2 id="解説">解説</h2>
-
-<p>デスクトップとブラウザ上で同じように動くグラフィカルなプログラムを作って見たかったので作った。</p>
-
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/ss.png" />
-    
-    
-</figure>
-
-
-<p>やりたいことはできた。</p>
-
-<p>絵を描くアルゴリズムは <a href="https://github.com/yuki67/Figure">前にpythonで実装したもの</a> を関数型っぽく書き直したものを使った。
-そのためこのリポジトリの README に貼ってある画像はすべて作れるはずだが、
-さすがに時間が無いので作り直しはしていない。</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/opengl_broken/">
-      OpenGL 関係のライブラリが壊れたときの対処
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-05-17
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/opengl">
-          OpenGL
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  
-
-<h2 id="問題">問題</h2>
-
-<p>glew とか GLFW とか NVidia のドライバとかを一通りインストールしたにもかかわらず OpenGL の hello world プログラムがコンパイルできない。</p>
-
-<h2 id="原因">原因</h2>
-
-<p>なぜか知らないがリンクに必要なオブジェクトファイルが削除され、シンボリックリンクをたどった先が存在しないファイルになっていた。</p>
-
-<h2 id="解決法">解決法</h2>
-
-<p><code>dpkg -S</code> コマンドでどのオブジェクトファイルがどのパッケージでインストールされたかを確認して、そのパッケージを <code>sudo apt install --reinstall</code> する。</p>
-
-<p>例えば</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ dpkg -S /usr/lib/x86_64-linux-gnu/mesa/libGL.so
-libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so</code></pre></div>
-<p>となる。</p>
-
-
-</article>
-
-    <br>
-    <br>
-  
-  
-
-
-<nav class="pagination" role="pagination">
-  
-  <i class="fa fa-chevron-left"></i>
-  
-  <span>&nbsp;1 / 9&nbsp;</span>
-  
-  <a href="https://yuki67.github.io/post/page/2/"><i class="fa fa-chevron-right"></i></a>
-  
-</nav>
-
-
 </div>
 
 </div>

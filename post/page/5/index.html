@@ -250,6 +250,257 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/freshmans_dream/">
+      一年生の夢の実装 in C&#43;&#43;
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-02-23
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
+          cpp
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p>式</p>
+
+<p>\begin{align*}
+(x + y)^{p} = x^{p} + y^{p}
+\end{align*}</p>
+
+<p>を一年生の夢 (<a href="https://en.wikipedia.org/wiki/Freshman%27s_dream">Freshman&rsquo;s dream</a>) という。</p>
+
+<p></p>
+
+<p>普通の多項式としてはこの式は間違っているが、 有限体上の多項式としてみれば合っている。
+つまり、 \(p\) を素数とすると</p>
+
+<p>\begin{align*}
+\forall x, y \in \mathbb{F}_{p}, \ (x + y)^{p} = x^{p} + y^{p}
+\end{align*}</p>
+
+<p>が成り立つ。</p>
+
+<p><a href="https://yuki67.github.io/post/finite_field/"> 前回の記事</a> で有限体を実装したので、その上に多項式を実装してこの事実を確かめるコードを書いた。</p>
+
+<h2 id="多項式">多項式</h2>
+
+<p>まず多項式を実装した。
+特に難しい部分はなかったが、
+次数が大きくなったときと係数が0か1のときに <code>operator&lt;&lt;</code> が破綻しないような工夫をした。
+また <code>operator+</code> と <code>operator+=</code> などでコードが使いまわせる部分についてはなるべく使いまわした。</p>
+
+<p><div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 1:</span>
+  polynomial.hpp
+</div></p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;initializer_list&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;ostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Coeff</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">Polynomial</span> <span class="p">{</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Coeff</span><span class="o">&gt;</span> <span class="n">m_coeffs</span><span class="p">;</span>
+  <span class="c1">// m_vec末尾の0を削除する
+</span><span class="c1"></span>  <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">delete_trailing_zeros</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">m_coeffs</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">m_coeffs</span><span class="p">[</span><span class="n">m_coeffs</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">m_coeffs</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+  <span class="p">}</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">static</span> <span class="kt">bool</span> <span class="n">print_zero</span><span class="p">;</span>
+
+  <span class="n">Polynomial</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Coeff</span><span class="o">&gt;</span> <span class="n">coeffs</span><span class="p">)</span>
+      <span class="o">:</span> <span class="n">m_coeffs</span><span class="p">(</span><span class="n">coeffs</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Coeff</span><span class="o">&gt;</span><span class="p">{</span><span class="mi">0</span><span class="p">}</span> <span class="o">:</span> <span class="n">coeffs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">delete_trailing_zeros</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="n">Polynomial</span><span class="p">()</span> <span class="o">:</span> <span class="n">m_coeffs</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Coeff</span><span class="o">&gt;</span><span class="p">{</span><span class="mi">0</span><span class="p">})</span> <span class="p">{}</span>
+
+  <span class="n">Polynomial</span><span class="p">(</span><span class="k">const</span> <span class="n">Coeff</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">)</span> <span class="o">:</span> <span class="n">Polynomial</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Coeff</span><span class="o">&gt;</span><span class="p">{</span><span class="n">c</span><span class="p">})</span> <span class="p">{}</span>
+
+  <span class="n">Polynomial</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">initializer_list</span><span class="o">&lt;</span><span class="n">Coeff</span><span class="o">&gt;</span> <span class="n">coeffs</span><span class="p">)</span>
+      <span class="o">:</span> <span class="n">Polynomial</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Coeff</span><span class="o">&gt;</span><span class="p">(</span><span class="n">coeffs</span><span class="p">))</span> <span class="p">{}</span>
+
+  <span class="n">size_t</span> <span class="n">degree</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_coeffs</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="n">Coeff</span> <span class="k">operator</span><span class="p">[](</span><span class="n">size_t</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_coeffs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="p">}</span>
+
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_coeffs</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_coeffs</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_coeffs</span> <span class="o">!=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_coeffs</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">m_coeffs</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">std</span><span class="o">::</span><span class="n">max</span><span class="p">(</span><span class="n">degree</span><span class="p">(),</span> <span class="n">other</span><span class="p">.</span><span class="n">degree</span><span class="p">()));</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="p">.</span><span class="n">degree</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">m_coeffs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">other</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">delete_trailing_zeros</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">-=</span><span class="p">(</span><span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">m_coeffs</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">std</span><span class="o">::</span><span class="n">max</span><span class="p">(</span><span class="n">degree</span><span class="p">(),</span> <span class="n">other</span><span class="p">.</span><span class="n">degree</span><span class="p">()));</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="p">.</span><span class="n">degree</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">m_coeffs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">other</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">delete_trailing_zeros</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*=</span><span class="p">(</span><span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">*</span><span class="k">this</span> <span class="o">=</span> <span class="o">*</span><span class="k">this</span> <span class="o">*</span> <span class="n">other</span><span class="p">;</span>
+    <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">friend</span> <span class="n">Polynomial</span> <span class="k">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="n">lhs</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">temp</span> <span class="o">+=</span> <span class="n">rhs</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">friend</span> <span class="n">Polynomial</span> <span class="k">operator</span><span class="o">-</span><span class="p">(</span><span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="n">lhs</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">temp</span> <span class="o">-=</span> <span class="n">rhs</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">friend</span> <span class="n">Polynomial</span> <span class="k">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Coeff</span><span class="o">&gt;</span> <span class="n">answer</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">degree</span><span class="p">()</span> <span class="o">+</span> <span class="n">rhs</span><span class="p">.</span><span class="n">degree</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">degree</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">lhs</span><span class="p">.</span><span class="n">degree</span><span class="p">();</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">answer</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">rhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">lhs</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">answer</span><span class="p">};</span>
+  <span class="p">}</span>
+
+  <span class="c1">// このイテレータは今回の例では使っていない
+</span><span class="c1"></span>  <span class="k">typename</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Coeff</span><span class="o">&gt;::</span><span class="n">const_iterator</span> <span class="n">begin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">m_coeffs</span><span class="p">.</span><span class="n">cbegin</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="k">typename</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Coeff</span><span class="o">&gt;::</span><span class="n">const_iterator</span> <span class="n">end</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">m_coeffs</span><span class="p">.</span><span class="n">cend</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="k">friend</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 次数が 0 or 1, 係数が 0 or 1 の場合でそれぞれ場合分けをしている
+</span><span class="c1"></span>    <span class="c1">// print_zero が true の場合にのみ係数の 0 が出力される
+</span><span class="c1"></span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="n">lhs</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="k">return</span> <span class="n">rhs</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="n">lhs</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">print_zero</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; + &#34;</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="n">lhs</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+      <span class="p">}</span>
+      <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;x&#34;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">rhs</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">lhs</span><span class="p">.</span><span class="n">degree</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">print_zero</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; + &#34;</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">rhs</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;x^&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">rhs</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">Polynomial</span> <span class="o">&amp;</span><span class="n">pow</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Polynomial</span> <span class="n">p</span><span class="p">{</span><span class="mi">1</span><span class="p">};</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">p</span> <span class="o">*=</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="o">*</span><span class="k">this</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+    <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="kt">bool</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">print_zero</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</code></pre></div>
+<h2 id="確認">確認</h2>
+
+<p>上の多項式クラスを使って以下のようにして１年生の夢が成り立つことを確かめた。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;finite_field.hpp&#34;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&#34;polynomial.hpp&#34;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// 位数が 2, 3, 11, 101, 8192 の場合について確認する
+</span><span class="c1"></span>  <span class="k">using</span> <span class="n">P2</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;In F2, (1 + x)^2 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P2</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+
+  <span class="k">using</span> <span class="n">P3</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;In F3, (1 + x)^3 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P3</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+
+  <span class="k">using</span> <span class="n">P11</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">11</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;In F11, (1 + x)^11 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P11</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+
+  <span class="k">using</span> <span class="n">P101</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">101</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;In F101, (1 + x)^101 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P101</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+
+  <span class="k">using</span> <span class="n">P8291</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">&lt;</span><span class="n">FiniteField</span><span class="o">&lt;</span><span class="mi">8291</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;In F8291, (1 + x)^8291 = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">P8291</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}.</span><span class="n">pow</span><span class="p">(</span><span class="mi">8291</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-nil" data-lang="nil">In F2, (1 + x)^2 = 1 + x^2
+In F3, (1 + x)^3 = 1 + x^3
+In F11, (1 + x)^11 = 1 + x^11
+In F101, (1 + x)^101 = 1 + x^101
+In F8291, (1 + x)^8291 = 1 + x^8291</code></pre></div>
+<p><code>P8291{1, 1}.pow(8291)</code> の計算には５秒程度の時間がかかった。</p>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/finite_field/">
       有限体の実装 in C&#43;&#43;
     </a>
@@ -865,387 +1116,6 @@
     <br>
     <br>
   
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/python_like_range/">
-      Python風Rangeの実装 in C&#43;&#43;
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-01-23
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
-          cpp
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>範囲forについて学んだので実装した。</p>
-
-<p></p>
-
-<h2 id="普通の-for">普通の for</h2>
-
-<p>STLコンテナはイテレーターを持つので、要素を順番に取る処理がfor文で書ける。</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;set&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
-  <span class="c1">// begin()とend()でイテレーターを取得し、for文の条件として使う
-</span><span class="c1"></span>  <span class="c1">// itrを定義するときの型はautoと書くのが普通
-</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">itr</span> <span class="o">!=</span> <span class="n">vec</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">itr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// イテレーターはコンテナの成分のポインタっぽく使える
-</span><span class="c1"></span>    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">itr</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-
-  <span class="c1">// vectorだけでなく他のコンテナでもほとんど同じように書ける
-</span><span class="c1"></span>  <span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">set</span><span class="p">{</span><span class="s">&#34;a&#34;</span><span class="p">,</span> <span class="s">&#34;b&#34;</span><span class="p">,</span> <span class="s">&#34;c&#34;</span><span class="p">};</span>
-  <span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">set</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">itr</span> <span class="o">!=</span> <span class="n">set</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">itr</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">itr</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++">
-</code></pre></div>
-<h2 id="範囲-for">範囲 for</h2>
-
-<p>C++11では同じ意味のfor文を次のように書ける。</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;set&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
-  <span class="c1">// 範囲 for
-</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">vec</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-
-  <span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">set</span><span class="p">{</span><span class="s">&#34;a&#34;</span><span class="p">,</span> <span class="s">&#34;b&#34;</span><span class="p">,</span> <span class="s">&#34;c&#34;</span><span class="p">};</span>
-  <span class="c1">// strを参照にしてstd::stringのコピーが起こらないようにする
-</span><span class="c1"></span>  <span class="c1">// さらにconstをつけてループ内でsetの内容が変わらないことを保証する
-</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="nl">str</span> <span class="p">:</span> <span class="n">set</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="mi">1</span>
-<span class="mi">2</span>
-<span class="mi">3</span>
-
-<span class="n">a</span>
-<span class="n">b</span>
-<span class="n">c</span>
-</code></pre></div>
-<h2 id="pythonのrange">pythonのrange</h2>
-
-<p>pythonには <code>range()</code> 関数があり、以下のように使える。</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-  <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="mi">3</span>
-<span class="mi">5</span>
-<span class="mi">7</span>
-<span class="mi">9</span></code></pre></div>
-<p>これをC++で実装する。</p>
-
-<h2 id="範囲-for-の展開">範囲 for の展開</h2>
-
-<p><a href="https://cpprefjp.github.io/lang/cpp11/range_based_for.html">リファレンス</a>によると、</p>
-<div class="highlight"><pre class="chroma"><code class="language-nil" data-lang="nil">for ( range_declaration : range_expression )
-  loop_statement</code></pre></div>
-<p>は以下のように展開される。</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="p">{</span>
-  <span class="k">auto</span> <span class="o">&amp;&amp;</span> <span class="n">__range</span> <span class="o">=</span> <span class="n">range_expression</span><span class="p">;</span>
-
-  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">__begin</span> <span class="o">=</span> <span class="n">begin</span><span class="p">(</span><span class="n">__range</span><span class="p">),</span> <span class="n">__end</span> <span class="o">=</span> <span class="n">end</span><span class="p">(</span><span class="n">__range</span><span class="p">);</span> <span class="n">__begin</span> <span class="o">!=</span> <span class="n">__end</span><span class="p">;</span> <span class="o">++</span><span class="n">__begin</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">range_declaration</span> <span class="o">=</span> <span class="o">*</span><span class="n">__begin</span><span class="p">;</span>
-    <span class="n">loop_statement</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<h2 id="範囲-for-に対応したクラス">範囲 for に対応したクラス</h2>
-
-<p>展開式を見ると、クラスを範囲 for に対応させるには適当な型のついた</p>
-
-<ul>
-<li>begin()</li>
-<li>end()</li>
-<li>operator!=</li>
-<li>operator++</li>
-<li>operator*</li>
-</ul>
-
-<p>があればいいことが分かる。</p>
-
-<h2 id="c-で実装">C++で実装</h2>
-
-<p>とりあえず最低限のものを実装する。</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">Range</span> <span class="p">{</span>
- <span class="k">private</span><span class="o">:</span>
-  <span class="n">T</span> <span class="n">m_value</span><span class="p">;</span>        <span class="c1">// 現在値
-</span><span class="c1"></span>  <span class="k">const</span> <span class="n">T</span> <span class="n">m_end</span><span class="p">;</span>    <span class="c1">// 終了値
-</span><span class="c1"></span>  <span class="k">const</span> <span class="n">T</span> <span class="n">m_stride</span><span class="p">;</span> <span class="c1">// ループ一回ごとに進む値
-</span><span class="c1"></span>
- <span class="k">public</span><span class="o">:</span>
-  <span class="c1">// コンストラクタ
-</span><span class="c1"></span>  <span class="n">Range</span><span class="p">(</span><span class="n">T</span> <span class="n">begin</span><span class="p">,</span> <span class="n">T</span> <span class="n">end</span><span class="p">,</span> <span class="n">T</span> <span class="n">stride</span><span class="p">)</span>
-      <span class="o">:</span> <span class="n">m_value</span><span class="p">(</span><span class="n">begin</span><span class="p">),</span> <span class="n">m_end</span><span class="p">(</span><span class="n">end</span><span class="p">),</span> <span class="n">m_stride</span><span class="p">(</span><span class="n">stride</span><span class="p">)</span> <span class="p">{}</span>
-  <span class="c1">// ゲッタ
-</span><span class="c1"></span>  <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span> <span class="p">}</span>
-  <span class="c1">// begin()の戻り値がforループの中で編集される
-</span><span class="c1"></span>  <span class="n">Range</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">begin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span> <span class="p">}</span>
-  <span class="c1">// end()の返り値との比較によってループから抜けるかどうかが判定される
-</span><span class="c1"></span>  <span class="c1">// begin()とend()は同じ型を持つ必要がある
-</span><span class="c1"></span>  <span class="k">const</span> <span class="n">Range</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">end</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">Range</span><span class="p">(</span><span class="n">m_end</span><span class="p">,</span> <span class="n">m_end</span><span class="p">,</span> <span class="n">m_end</span><span class="p">);</span> <span class="p">}</span>
-  <span class="c1">// operator!=(rhs) はforループから抜けてよいかどうかを返す
-</span><span class="c1"></span>  <span class="c1">// Rangeオブジェクトが異なるかどうかではない
-</span><span class="c1"></span>  <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">Range</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">m_stride</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">m_value</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">value</span><span class="p">()</span> <span class="o">:</span> <span class="n">m_value</span> <span class="o">&gt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
-  <span class="p">}</span>
-  <span class="c1">// m_valueを進める
-</span><span class="c1"></span>  <span class="kt">void</span> <span class="k">operator</span><span class="o">++</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_value</span> <span class="o">+=</span> <span class="n">m_stride</span><span class="p">;</span> <span class="p">}</span>
-  <span class="c1">// 現在の値を返す
-</span><span class="c1"></span>  <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span> <span class="p">}</span>
-<span class="p">};</span>
-
-
-<span class="c1">// 実際に使う
-</span><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">Range</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">})</span> <span class="p">{</span>
-    <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span> <span class="c1">// i = 0,3,6,9,12,15,18
-</span><span class="c1"></span>  <span class="p">}</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">sum</span> <span class="o">==</span> <span class="mi">63</span><span class="p">);</span>
-
-
-<span class="c1">// Rangeの使い回し
-</span><span class="c1"></span>  <span class="kt">float</span> <span class="n">sumd</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">const</span> <span class="n">Range</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">r</span><span class="p">{</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">5.3</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">};</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">double</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">double</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">sumd</span> <span class="o">+=</span> <span class="n">d</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">sumd</span> <span class="o">-=</span> <span class="n">d</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">fabs</span><span class="p">(</span><span class="n">sumd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-5</span><span class="p">);</span>
-
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;OK&#34;</span><span class="p">;</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>
-</code></pre></div>
-<p>とりあえずはこれで使える。</p>
-
-<h2 id="改善">改善</h2>
-
-<p>この実装にはいくつか問題がある。</p>
-
-<ul>
-<li>同じRangeオブジェクトのend()は常に同じ値しか返さないので、const参照を返したほうがいい。</li>
-<li>Rangeオブジェクトを作るたびに型を明示的に書かなければいけないのは面倒くさい。</li>
-</ul>
-
-<p>これを直す。</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">Range</span> <span class="p">{</span>
- <span class="k">private</span><span class="o">:</span>
-  <span class="c1">// Rangeとは別にクラスを作って、begin(), end()はこのクラスのオブジェクトを返すことにする
-</span><span class="c1"></span>  <span class="k">class</span> <span class="nc">Iterator</span> <span class="p">{</span>
-   <span class="c1">// 変数/メソッドは同じ
-</span><span class="c1"></span>   <span class="k">private</span><span class="o">:</span>
-    <span class="n">T</span> <span class="n">m_value</span><span class="p">;</span>
-    <span class="k">const</span> <span class="n">T</span> <span class="n">m_end</span><span class="p">;</span>
-    <span class="k">const</span> <span class="n">T</span> <span class="n">m_stride</span><span class="p">;</span>
-
-   <span class="k">public</span><span class="o">:</span>
-    <span class="n">Iterator</span><span class="p">(</span><span class="n">T</span> <span class="n">begin</span><span class="p">,</span> <span class="n">T</span> <span class="n">end</span><span class="p">,</span> <span class="n">T</span> <span class="n">stride</span><span class="p">)</span>
-        <span class="o">:</span> <span class="n">m_value</span><span class="p">(</span><span class="n">begin</span><span class="p">),</span> <span class="n">m_end</span><span class="p">(</span><span class="n">end</span><span class="p">),</span> <span class="n">m_stride</span><span class="p">(</span><span class="n">stride</span><span class="p">)</span> <span class="p">{}</span>
-    <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span> <span class="p">}</span>
-    <span class="kt">void</span> <span class="k">operator</span><span class="o">++</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_value</span> <span class="o">+=</span> <span class="n">m_stride</span><span class="p">;</span> <span class="p">}</span>
-    <span class="n">T</span> <span class="k">operator</span><span class="o">*</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span> <span class="p">}</span>
-    <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">Iterator</span> <span class="o">&amp;</span><span class="n">end</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">m_stride</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">m_value</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">.</span><span class="nl">m_end</span> <span class="p">:</span> <span class="n">m_value</span> <span class="o">&gt;</span> <span class="n">end</span><span class="p">.</span><span class="n">m_end</span><span class="p">;</span>
-    <span class="p">}</span>
-
-  <span class="p">};</span>
-
- <span class="k">private</span><span class="o">:</span>
-  <span class="c1">// Rangeが begin(), end() で返すのは
-</span><span class="c1"></span>  <span class="c1">// 常に同じIteratorオブジェクトなのでどちらもconstで問題ない
-</span><span class="c1"></span>  <span class="k">const</span> <span class="n">Iterator</span> <span class="n">m_begin</span><span class="p">,</span> <span class="n">m_end</span><span class="p">;</span>
-
- <span class="k">public</span><span class="o">:</span>
-  <span class="n">Range</span><span class="p">(</span><span class="n">T</span> <span class="n">begin</span><span class="p">,</span> <span class="n">T</span> <span class="n">end</span><span class="p">,</span> <span class="n">T</span> <span class="n">stride</span><span class="p">)</span>
-      <span class="o">:</span> <span class="n">m_begin</span><span class="p">{</span><span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">stride</span><span class="p">},</span> <span class="n">m_end</span><span class="p">{</span><span class="n">end</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">end</span><span class="p">}</span> <span class="p">{}</span>
-
-  <span class="c1">// begin() の戻り値は常に同じだが、for文の中で変更されるので値で帰す
-</span><span class="c1"></span>  <span class="n">Iterator</span> <span class="n">begin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_begin</span><span class="p">;</span> <span class="p">}</span>
-  <span class="c1">// end() の返り値は常に同じでfor文中で変更されることもないのでconst参照で返す
-</span><span class="c1"></span>  <span class="k">const</span> <span class="n">Iterator</span> <span class="o">&amp;</span><span class="n">end</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_end</span><span class="p">;</span> <span class="p">}</span>
-
-<span class="p">};</span>
-
-<span class="c1">// 関数テンプレートを使って型の明示を不要にする
-</span><span class="c1"></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="n">Range</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">range</span><span class="p">(</span><span class="n">T</span> <span class="n">begin</span><span class="p">,</span> <span class="n">T</span> <span class="n">end</span><span class="p">,</span> <span class="n">T</span> <span class="n">stride</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">{</span><span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">stride</span><span class="p">};</span>
-<span class="p">}</span>
-
-<span class="c1">// 実際に使う (一つ前のプログラムと同じ)
-</span><span class="c1"></span><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="p">{</span>
-    <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span> <span class="c1">// i = 0,3,6,9,12,15,18
-</span><span class="c1"></span>  <span class="p">}</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">sum</span> <span class="o">==</span> <span class="mi">63</span><span class="p">);</span>
-
-  <span class="c1">// Rangeの使い回し
-</span><span class="c1"></span>  <span class="kt">float</span> <span class="n">sumd</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">auto</span> <span class="n">r</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">5.3</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">);</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">double</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">double</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">sumd</span> <span class="o">+=</span> <span class="n">d</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">sumd</span> <span class="o">-=</span> <span class="n">d</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">fabs</span><span class="p">(</span><span class="n">sumd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-5</span><span class="p">);</span>
-
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;OK&#34;</span><span class="p">;</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>
-</code></pre></div>
-<p>だいぶpythonっぽくできる。 <code>range()</code> の引数を省略できるようにするのは簡単なので省略。</p>
-
-<h2 id="c-17">C++17</h2>
-
-<p>C++17 では範囲forの展開方法が変わり、begin()とend()の返り値の型が一致しなくても良くなっている。具体的には、C++11では</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="p">{</span>
-    <span class="k">auto</span> <span class="o">&amp;&amp;</span> <span class="n">__range</span> <span class="o">=</span> <span class="n">range_expression</span> <span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">__begin</span> <span class="o">=</span> <span class="n">begin_expr</span><span class="p">,</span> <span class="n">__end</span> <span class="o">=</span> <span class="n">end_expr</span><span class="p">;</span>
-            <span class="n">__begin</span> <span class="o">!=</span> <span class="n">__end</span><span class="p">;</span> <span class="o">++</span><span class="n">__begin</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">range_declaration</span> <span class="o">=</span> <span class="o">*</span><span class="n">__begin</span><span class="p">;</span>
-        <span class="n">loop_statement</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>だったものが</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="p">{</span>
-    <span class="k">auto</span> <span class="o">&amp;&amp;</span> <span class="n">__range</span> <span class="o">=</span> <span class="n">range_expression</span> <span class="p">;</span>
-    <span class="k">auto</span> <span class="n">__begin</span> <span class="o">=</span> <span class="n">begin_expr</span> <span class="p">;</span>
-    <span class="k">auto</span> <span class="n">__end</span> <span class="o">=</span> <span class="n">end_expr</span> <span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span> <span class="p">;</span> <span class="n">__begin</span> <span class="o">!=</span> <span class="n">__end</span><span class="p">;</span> <span class="o">++</span><span class="n">__begin</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">range_declaration</span> <span class="o">=</span> <span class="o">*</span><span class="n">__begin</span><span class="p">;</span>
-        <span class="n">loop_statement</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>に変わっている(<a href="http://en.cppreference.com/w/cpp/language/range-for">リファレンス</a>)。</p>
-
-<p>そのため、python風のrangeも簡潔に書ける。</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// python風range (C++17)
-</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">Range</span> <span class="p">{</span>
- <span class="k">private</span><span class="o">:</span>
-  <span class="n">T</span> <span class="n">m_value</span><span class="p">;</span>
-  <span class="k">const</span> <span class="n">T</span> <span class="n">m_end</span><span class="p">;</span>
-  <span class="k">const</span> <span class="n">T</span> <span class="n">m_stride</span><span class="p">;</span>
-
- <span class="k">public</span><span class="o">:</span>
-  <span class="n">Range</span><span class="p">(</span><span class="n">T</span> <span class="n">begin</span><span class="p">,</span> <span class="n">T</span> <span class="n">end</span><span class="p">,</span> <span class="n">T</span> <span class="n">stride</span><span class="p">)</span>
-      <span class="o">:</span>  <span class="n">m_value</span><span class="p">(</span><span class="n">begin</span><span class="p">),</span> <span class="n">m_end</span><span class="p">(</span><span class="n">end</span><span class="p">),</span> <span class="n">m_stride</span><span class="p">(</span><span class="n">stride</span><span class="p">)</span> <span class="p">{}</span>
-  <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span> <span class="p">}</span>
-  <span class="n">Range</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">begin</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span> <span class="p">}</span>
-  <span class="c1">// end()の返り値の型が変わる
-</span><span class="c1"></span>  <span class="n">T</span> <span class="n">end</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_end</span><span class="p">;</span> <span class="p">}</span>
-  <span class="c1">// operator!=の引数の型が変わる
-</span><span class="c1"></span>  <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">m_stride</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">m_value</span> <span class="o">&lt;</span> <span class="nl">value</span> <span class="p">:</span> <span class="n">m_value</span> <span class="o">&gt;</span> <span class="n">value</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="kt">void</span> <span class="k">operator</span><span class="o">++</span><span class="p">()</span> <span class="p">{</span> <span class="n">m_value</span> <span class="o">+=</span> <span class="n">m_stride</span><span class="p">;</span> <span class="p">}</span>
-  <span class="k">const</span> <span class="n">T</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span> <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="n">Range</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">range</span><span class="p">(</span><span class="n">T</span> <span class="n">begin</span><span class="p">,</span> <span class="n">T</span> <span class="n">end</span><span class="p">,</span> <span class="n">T</span> <span class="n">stride</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">{</span><span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">stride</span><span class="p">};</span>
-<span class="p">}</span>
-
-<span class="c1">// 実際に使う
-</span><span class="c1"></span><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="p">{</span>
-    <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">sum</span> <span class="o">==</span> <span class="mi">63</span><span class="p">);</span>
-
-  <span class="c1">// Rangeの使い回し
-</span><span class="c1"></span>  <span class="kt">float</span> <span class="n">sumd</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">auto</span> <span class="n">r</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">5.3</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">);</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">double</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">double</span> <span class="nl">d</span> <span class="p">:</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">sumd</span> <span class="o">+=</span> <span class="n">d</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="n">sumd</span> <span class="o">-=</span> <span class="n">d</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">assert</span><span class="p">(</span><span class="n">fabs</span><span class="p">(</span><span class="n">sumd</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-5</span><span class="p">);</span>
-
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;OK&#34;</span><span class="p">;</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>
-</code></pre></div>
-
-</article>
-
-    <br>
-    <br>
-  
   
 
 
@@ -1253,7 +1123,7 @@
   
   <a href="https://yuki67.github.io/post/page/4/"><i class="fa fa-chevron-left"></i></a>
   
-  <span>&nbsp;5 / 8&nbsp;</span>
+  <span>&nbsp;5 / 9&nbsp;</span>
   
   <a href="https://yuki67.github.io/post/page/6/"><i class="fa fa-chevron-right"></i></a>
   

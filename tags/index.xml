@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Wed, 30 May 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 20 Jun 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Cpp</title>
       <link>https://yuki67.github.io/tags/cpp/</link>
-      <pubDate>Wed, 30 May 2018 00:00:00 +0900</pubDate>
+      <pubDate>Wed, 20 Jun 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/tags/cpp/</guid>
       <description></description>
@@ -103,6 +103,15 @@
     </item>
     
     <item>
+      <title>Papi</title>
+      <link>https://yuki67.github.io/tags/papi/</link>
+      <pubDate>Wed, 20 Jun 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/tags/papi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Python</title>
       <link>https://yuki67.github.io/tags/python/</link>
       <pubDate>Tue, 22 Aug 2017 00:00:00 +0900</pubDate>
@@ -150,7 +159,7 @@
     <item>
       <title>コード置き場</title>
       <link>https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/</link>
-      <pubDate>Sat, 19 May 2018 00:00:00 +0900</pubDate>
+      <pubDate>Wed, 20 Jun 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/</guid>
       <description>作ったプログラムとその解説</description>
@@ -168,7 +177,7 @@
     <item>
       <title>メモ</title>
       <link>https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/</link>
-      <pubDate>Thu, 31 May 2018 00:00:00 +0900</pubDate>
+      <pubDate>Wed, 20 Jun 2018 00:00:00 +0900</pubDate>
       
       <guid>https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2/</guid>
       <description></description>

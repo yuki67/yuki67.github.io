@@ -7,10 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Sat, 19 May 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 20 Jun 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PAPI を使った</title>
+      <link>https://yuki67.github.io/post/hello_papi/</link>
+      <pubDate>Wed, 20 Jun 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/hello_papi/</guid>
+      <description>PAPI を使うと CPU のハードウェアカウンタを使って様々な値を測定できる。 例えば
+ 実行した命令の数 実行した浮動小数点演算の数 パイプラインがストールした回数 キャッシュヒット/ミス の回数 分岐予測の成功/失敗数  を測定できる。測定した値は FLOPS の測定なりパフォーマンスのチューニングに使える。
+適切に設定すれば CPU 以外のハードウェアのカウンタも読めるらしいが、使ってないのでよくわからない。
+インストール 昔はインストールするのにカーネルにパッチを当てる必要があったりして一苦労だったらしい (検索すると出てくる) が、 最新版の Linux カーネルであればインストールは ./configure; make; make install で済んだ。
+利用可能なイベントの確認 papi_avail で利用可能なイベントの一覧を確認できる。コンシューマ向けの CPU だと性能測定用のハードウェアカウンタがしょぼいようなので、インストールしたら必ず確認したほうがいい。
+自分の環境では以下のようになった。
+$ papi_avail Available PAPI preset and user defined events plus hardware information. -------------------------------------------------------------------------------- PAPI version : 5.6.1.0 Operating system : Linux 4.4.0-128-generic Vendor string and code : GenuineIntel (1, 0x1) Model string and code : Intel(R) Core(TM) i7-7700 CPU @ 3.</description>
+    </item>
     
     <item>
       <title>Bucklescriptで書いたお絵かきプログラム</title>
