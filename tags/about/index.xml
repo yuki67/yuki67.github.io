@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>org-reveal</title>
+      <title>org-reveal の概要</title>
       <link>https://yuki67.github.io/post/org-reveal/</link>
       <pubDate>Mon, 02 Apr 2018 00:00:00 +0900</pubDate>
       
@@ -22,7 +22,7 @@
     </item>
     
     <item>
-      <title>ox-hugo</title>
+      <title>ox-hugo の概要</title>
       <link>https://yuki67.github.io/post/ox-hugo/</link>
       <pubDate>Fri, 30 Mar 2018 00:00:00 +0900</pubDate>
       
@@ -34,7 +34,7 @@ org-mode の文章を Hugo に対応した markdown にエクスポートする�
     </item>
     
     <item>
-      <title>org-babel</title>
+      <title>org-babel の概要</title>
       <link>https://yuki67.github.io/post/org-babel/</link>
       <pubDate>Tue, 13 Mar 2018 00:00:00 +0900</pubDate>
       
@@ -45,7 +45,7 @@ org-mode の文章を Hugo に対応した markdown にエクスポートする�
     </item>
     
     <item>
-      <title>org-mode</title>
+      <title>org-mode の概要</title>
       <link>https://yuki67.github.io/post/org-mode/</link>
       <pubDate>Thu, 08 Mar 2018 00:00:00 +0900</pubDate>
       
@@ -58,7 +58,7 @@ org-mode の文章を Hugo に対応した markdown にエクスポートする�
     </item>
     
     <item>
-      <title>全体像</title>
+      <title>このサイトの全体像</title>
       <link>https://yuki67.github.io/post/org-md-hugo/</link>
       <pubDate>Sat, 03 Mar 2018 00:00:00 +0900</pubDate>
       

@@ -19,7 +19,7 @@
       
       <guid>https://yuki67.github.io/post/hello_papi/</guid>
       <description>PAPI を使うと CPU のハードウェアカウンタを使って様々な値を測定できる。 例えば
- 実行した命令の数 実行した浮動小数点演算の数 パイプラインがストールした回数 キャッシュヒット/ミス の回数 分岐予測の成功/失敗数  を測定できる。測定した値は FLOPS の測定なりパフォーマンスのチューニングに使える。
+ 実行した命令の数 実行した浮動小数点演算の数 パイプラインがストールした回数 キャッシュヒット/ミス の回数 分岐予測の成功/失敗数  を測定できる。測定した値は FLOPS の測定なりパフォーマンスのチューニングなりに使える。
 適切に設定すれば CPU 以外のハードウェアのカウンタも読めるらしいが、使ってないのでよくわからない。
 インストール 昔はインストールするのにカーネルにパッチを当てる必要があったりして一苦労だったらしい (検索すると出てくる) が、 最新版の Linux カーネルであればインストールは ./configure; make; make install で済んだ。
 利用可能なイベントの確認 papi_avail で利用可能なイベントの一覧を確認できる。コンシューマ向けの CPU だと性能測定用のハードウェアカウンタがしょぼいようなので、インストールしたら必ず確認したほうがいい。
@@ -179,7 +179,7 @@ configure: WARNING: SUNDIALS IDA library not configured with IDAKLU, ode15i and 
     </item>
     
     <item>
-      <title>org-reveal</title>
+      <title>org-reveal の概要</title>
       <link>https://yuki67.github.io/post/org-reveal/</link>
       <pubDate>Mon, 02 Apr 2018 00:00:00 +0900</pubDate>
       
@@ -188,7 +188,7 @@ configure: WARNING: SUNDIALS IDA library not configured with IDAKLU, ode15i and 
     </item>
     
     <item>
-      <title>ox-hugo</title>
+      <title>ox-hugo の概要</title>
       <link>https://yuki67.github.io/post/ox-hugo/</link>
       <pubDate>Fri, 30 Mar 2018 00:00:00 +0900</pubDate>
       
@@ -218,7 +218,7 @@ org-mode の文章を Hugo に対応した markdown にエクスポートする�
     </item>
     
     <item>
-      <title>org-babel</title>
+      <title>org-babel の概要</title>
       <link>https://yuki67.github.io/post/org-babel/</link>
       <pubDate>Tue, 13 Mar 2018 00:00:00 +0900</pubDate>
       
@@ -229,7 +229,7 @@ org-mode の文章を Hugo に対応した markdown にエクスポートする�
     </item>
     
     <item>
-      <title>org-mode</title>
+      <title>org-mode の概要</title>
       <link>https://yuki67.github.io/post/org-mode/</link>
       <pubDate>Thu, 08 Mar 2018 00:00:00 +0900</pubDate>
       
@@ -242,7 +242,7 @@ org-mode の文章を Hugo に対応した markdown にエクスポートする�
     </item>
     
     <item>
-      <title>全体像</title>
+      <title>このサイトの全体像</title>
       <link>https://yuki67.github.io/post/org-md-hugo/</link>
       <pubDate>Sat, 03 Mar 2018 00:00:00 +0900</pubDate>
       
