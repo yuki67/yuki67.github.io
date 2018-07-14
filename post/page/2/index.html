@@ -538,7 +538,7 @@
   <p></p>
 
 <p>タイトルの通りで、 <code>std::is_arithmetic_v</code> を含むコードを <code>clang++-5.0</code> でコンパイルしたらエラーが出た。
-clang はバージョン 5.0 で<a href="https://clang.llvm.org/cxx_status.html">C++17 に対応している</a>はずなのにおかしい。</p>
+clang はバージョン 5.0 で<a href="https://clang.llvm.org/cxx%5Fstatus.html">C++17 に対応している</a>はずなのにおかしい。</p>
 
 <p>原因は C++ の標準ライブラリが C++17 に対応していないことにあった。
 clang++ はデフォルトだと標準ライブラリとして libstdc++ を用いるが、
@@ -553,7 +553,7 @@ ppa が用意されていないためインストールがめんどくさいの�
 
 <h2 id="参考資料">参考資料</h2>
 
-<p><a href="https://clang.llvm.org/cxx_status.html">Clang - C++17, C++14, C++11 and C++98 Status</a></p>
+<p><a href="https://clang.llvm.org/cxx%5Fstatus.html">Clang - C++17, C++14, C++11 and C++98 Status</a></p>
 
 <p><a href="https://stackoverflow.com/questions/24342312/clang-seems-to-use-the-gcc-libraries">c++ - clang seems to use the gcc libraries - Stack Overflow</a></p>
 
@@ -621,7 +621,7 @@ ppa が用意されていないためインストールがめんどくさいの�
 <code>[]</code> の中にある文字はエスケープされるので、
 この正規表現が表すのは (&rdquo;<code>\</code>&rdquo;, &ldquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字) だからだ。</p>
 
-<p>解決法は<a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.html">マニュアル</a>にあった。
+<p>解決法は<a href="https://www.gnu.org/software/emacs/manual/html%5Fnode/elisp/Regexp-Special.html">マニュアル</a>にあった。
 emacs の正規表現では <code>[...]</code> 中の最初の文字が &ldquo;<code>]</code>&rdquo; だった場合はエスケープされるとのことなので、
 (&rdquo;<code>[</code>&rdquo;, &ldquo;<code>]</code>&rdquo; 以外の1文字)を表す正規表現は <code>[^][]</code> となる。</p>
 
@@ -629,7 +629,7 @@ emacs の正規表現では <code>[...]</code> 中の最初の文字が &ldquo;<
 
 <h2 id="参考資料">参考資料</h2>
 
-<p><a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Regexp-Special.html">Regexp Special - GNU Emacs Lisp Reference Manual</a></p>
+<p><a href="https://www.gnu.org/software/emacs/manual/html%5Fnode/elisp/Regexp-Special.html">Regexp Special - GNU Emacs Lisp Reference Manual</a></p>
 
 </article>
 

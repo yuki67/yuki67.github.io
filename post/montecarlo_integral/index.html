@@ -287,7 +287,7 @@
 
 <p></p>
 
-<p>(近似値は <a href="http://www.wolframalpha.com/input/?i%3Dint_0%255E10%2Be%255E-x**2">wolfram alpha</a> で計算した)</p>
+<p>(近似値は <a href="http://www.wolframalpha.com/input/?i%3Dint%5F0%255E10%2Be%255E-x**2">wolfram alpha</a> で計算した)</p>
 
 <p>まず被積分関数と答えを定義する。</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">exp</span>
@@ -469,7 +469,7 @@
 <p>このことを一般化すると、「被積分関数が大きい値を取るところから変数を多くとったほうが精度が上がる」ことが分かる。つまり、完全に一様な分布ではなくて被積分関数と似た分布から変数\(x\)をとって\(f(x)\)を求める方が望ましい。</p>
 
 <p>このことを実現するには、ある分布が与えられたときにその分布に従うような乱数を(無数に)出力する手続きが必要となるが、
-これは別の記事で書くことにする(<a href="https://yuki67.github.io/posts/inverse_method/"> 書きました</a>)。結論だけ書くと、「ある関数 \({\it pdf}(x)\)の不定積分とその逆関数が解析的に求まるならば、\(x\)が選ばれる確率が\({\it pdf}(x)\)に比例する乱数を一様乱数から作ることができる」となる。</p>
+これは別の記事で書くことにする(<a href="https://yuki67.github.io/posts/inverse%5Fmethod/"> 書きました</a>)。結論だけ書くと、「ある関数 \({\it pdf}(x)\)の不定積分とその逆関数が解析的に求まるならば、\(x\)が選ばれる確率が\({\it pdf}(x)\)に比例する乱数を一様乱数から作ることができる」となる。</p>
 
 <p>以下の例では変数が \(x \in [0, 10]\) の値を取る確率が \( {\it pdf}(x) = e^{-x} \) に比例するようにしている。ここで \(e^{-x}\) を選んだのは、この関数が被積分関数に似ていて、かつ不定積分とその逆関数が簡単に求まるからだ。</p>
 

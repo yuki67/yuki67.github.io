@@ -188,7 +188,7 @@ configure: WARNING: SUNDIALS IDA library not configured with IDAKLU, ode15i and 
 &lt;p&gt;という有理数を表す。&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://yuki67.github.io/post/constexpr/&#34;&gt; 前の記事&lt;/a&gt;で浮動小数点数を扱うクラスを作り、
-&lt;a href=&#34;https://yuki67.github.io/post/big_fraction/&#34;&gt; 別の記事&lt;/a&gt;で任意精度の有理数クラスを作ったので、
+&lt;a href=&#34;https://yuki67.github.io/post/big%5Ffraction/&#34;&gt; 別の記事&lt;/a&gt;で任意精度の有理数クラスを作ったので、
 この２つを組み合わせれば浮動小数点数が表す有理数を計算することができる。&lt;/p&gt;
 
 &lt;p&gt;浮動小数点数を扱うクラスを拡張してこの処理を実装した。&lt;/p&gt;
@@ -313,7 +313,7 @@ org-mode の文章を Hugo に対応した markdown にエクスポートする�
 (x + y)^{p} = x^{p} + y^{p}
 \end{align*}&lt;/p&gt;
 
-&lt;p&gt;を一年生の夢 (&lt;a href=&#34;https://en.wikipedia.org/wiki/Freshman%27s_dream&#34;&gt;Freshman&amp;rsquo;s dream&lt;/a&gt;) という。&lt;/p&gt;
+&lt;p&gt;を一年生の夢 (&lt;a href=&#34;https://en.wikipedia.org/wiki/Freshman%27s%5Fdream&#34;&gt;Freshman&amp;rsquo;s dream&lt;/a&gt;) という。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
     </item>

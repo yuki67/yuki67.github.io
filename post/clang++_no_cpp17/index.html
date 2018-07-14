@@ -280,7 +280,7 @@
   <p></p>
 
 <p>タイトルの通りで、 <code>std::is_arithmetic_v</code> を含むコードを <code>clang++-5.0</code> でコンパイルしたらエラーが出た。
-clang はバージョン 5.0 で<a href="https://clang.llvm.org/cxx_status.html">C++17 に対応している</a>はずなのにおかしい。</p>
+clang はバージョン 5.0 で<a href="https://clang.llvm.org/cxx%5Fstatus.html">C++17 に対応している</a>はずなのにおかしい。</p>
 
 <p>原因は C++ の標準ライブラリが C++17 に対応していないことにあった。
 clang++ はデフォルトだと標準ライブラリとして libstdc++ を用いるが、
@@ -295,7 +295,7 @@ ppa が用意されていないためインストールがめんどくさいの�
 
 <h2 id="参考資料">参考資料</h2>
 
-<p><a href="https://clang.llvm.org/cxx_status.html">Clang - C++17, C++14, C++11 and C++98 Status</a></p>
+<p><a href="https://clang.llvm.org/cxx%5Fstatus.html">Clang - C++17, C++14, C++11 and C++98 Status</a></p>
 
 <p><a href="https://stackoverflow.com/questions/24342312/clang-seems-to-use-the-gcc-libraries">c++ - clang seems to use the gcc libraries - Stack Overflow</a></p>
 
