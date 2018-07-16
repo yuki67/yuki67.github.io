@@ -250,6 +250,75 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/kindle_for_ubuntu/">
+      Ubuntu 17.10 で Kindle for PC を使う
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-01-28
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/kindle">
+          kindle
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ubuntu">
+          ubuntu
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p></p>
+
+<p><a href="https://www.winehq.org/">Wine</a> を使うと <a href="https://www.amazon.co.jp/gp/help/customer/display.html?nodeId=201245960">Kindle for PC</a> をUbuntuで使えると聞いたのでやってみたがエラーがたくさん出て手間取った。</p>
+
+<p>結論からいうと、Kindle for PCの最新版はインストールできない。そこで&rdquo;Kindle for PC older version&rdquo;などのワードでググって出てくる(オフィシャルでない)サイトから古いものを落とす必要がある。自分の環境では version 1.14.1 (build 43029) のインストーラを使ったらうまくいった。</p>
+
+<p>エラーの原因が分からなかったときにいろいろ試したので、次の要素も関係があるのかもしれない。自分はもう動くようになったので詳しく調べていない。</p>
+
+<ul>
+<li>Wine は最新版 (3.0) ではなくデフォルトで入っているppaのもの (2.0.2) を使った。</li>
+<li>Wine PREFIX を32ビットのもに変えた (<a href="https://askubuntu.com/questions/177192/how-do-i-create-a-32-bit-wine-prefix">参考</a>)</li>
+<li><code>winetricks allfonts</code> を実行した</li>
+</ul>
+
+<p><a href="https://read.amazon.co.jp/">Kindle Cloud Reader</a> がまともに使えるならこんなこともしなくて済むんだけどなぁ。</p>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/python_like_range/">
       Python風Rangeの実装 in C&#43;&#43;
     </a>
@@ -978,189 +1047,6 @@ val print_foo : Format.formatter -&gt; foo -&gt; unit = &lt;fun&gt;
 <p>これで <code>-O3</code> オプションを付けてコンパイルすれば最適化が有効になります。</p>
 
 <p>自分が書いたシミュレーターでは40%程度高速化しました。</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/cuda_animation/">
-      CudaとOpenGLを連携させてアニメーションを描画する
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2017-12-03
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cuda">
-          CUDA
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>CUDAを使って毎フレーム画像を更新したいが、いちいち画像をCPUに送り返している暇がないときに。</p>
-
-<p></p>
-
-<p><a href="https://yuki67.github.io/post/cuda%5Fbitmap/"> この前</a>に書いたのはCUDAカーネルでビットマップを作成し、それをOpenGLを使って表示させる方法だった。このときはGPUで作成したデータを <code>CudaMemcpy</code> でホストへ送り返し、更にこれを <code>glDrawPixels</code> を使ってGPUへ送り返すという二度手間を行っていた。</p>
-
-<p>CUDAとOpenGLを連携させる関数を使うと、データのやり取りをGPU内で完結させたまま同じことができる。データを送り返す必要がない分高速にできるので、アニメーションも可能になる。以下のようにすれば良い。</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#define GL_GLEXT_PROTOTYPES
-</span><span class="cp">#include</span> <span class="cpf">&lt;GL/freeglut.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;GL/freeglut_ext.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;GL/gl.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cuda_gl_interop.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cuda_runtime.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="c1">// cudaのエラー検出用マクロ
-</span><span class="c1"></span><span class="cp">#define EXIT_IF_FAIL(call)                                                 \
-</span><span class="cp"></span>  <span class="k">do</span> <span class="p">{</span>                                                                     \
-    <span class="p">(</span><span class="n">call</span><span class="p">);</span>                                                                \
-    <span class="n">cudaError_t</span> <span class="n">err</span> <span class="o">=</span> <span class="n">cudaGetLastError</span><span class="p">();</span>                                  \
-    <span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">!=</span> <span class="n">cudaSuccess</span><span class="p">)</span> <span class="p">{</span>                                              \
-      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;error in file &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">__FILE__</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; line at &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">__LINE__</span> \
-                <span class="o">&lt;&lt;</span> <span class="s">&#34;: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">cudaGetErrorString</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>           \
-      <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>                                                             \
-    <span class="p">}</span>                                                                      \
-  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1">// 画面の解像度
-</span><span class="c1"></span><span class="cp">#define WIDTH 1024
-</span><span class="cp">#define HEIGHT 1024
-</span><span class="cp"></span>
-<span class="c1">// pixel buffer object
-</span><span class="c1"></span><span class="n">GLuint</span> <span class="n">pbo</span><span class="p">;</span>
-
-<span class="c1">// フレームバッファの取得に使用
-</span><span class="c1"></span><span class="n">cudaGraphicsResource</span> <span class="o">*</span><span class="n">dev_resource</span><span class="p">;</span>
-
-<span class="c1">// 画面更新の間隔 (ms)
-</span><span class="c1"></span><span class="kt">int</span> <span class="n">interval</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
-
-<span class="c1">// カーネル関数: bitmapに適当に色を塗る
-</span><span class="c1"></span><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">kernel</span><span class="p">(</span><span class="n">uchar4</span> <span class="o">*</span><span class="n">bitmap</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tick</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">gridDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
-
-  <span class="c1">// 連続的になるように...
-</span><span class="c1"></span>  <span class="kt">float</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">tick</span> <span class="o">/</span> <span class="mf">60.0f</span> <span class="o">*</span> <span class="mf">2.0f</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">;</span>
-  <span class="kt">float</span> <span class="n">theta_x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mf">60.0f</span> <span class="o">*</span> <span class="mf">2.0f</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">;</span>
-  <span class="kt">float</span> <span class="n">theta_y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">/</span> <span class="mf">60.0f</span> <span class="o">*</span> <span class="mf">2.0f</span> <span class="o">*</span> <span class="n">M_PI</span><span class="p">;</span>
-  <span class="kt">float</span> <span class="n">r</span> <span class="o">=</span> <span class="n">fabs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">theta_x</span><span class="p">));</span>
-  <span class="kt">float</span> <span class="n">g</span> <span class="o">=</span> <span class="n">fabs</span><span class="p">(</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">theta_y</span><span class="p">));</span>
-  <span class="kt">float</span> <span class="n">b</span> <span class="o">=</span> <span class="n">fabs</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">theta_x</span><span class="p">)</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">+</span> <span class="n">theta_y</span><span class="p">));</span>
-
-  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span><span class="p">].</span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="n">r</span> <span class="o">*</span> <span class="mi">255</span><span class="p">);</span>
-  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span><span class="p">].</span><span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="n">g</span> <span class="o">*</span> <span class="mi">255</span><span class="p">);</span>
-  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span><span class="p">].</span><span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="p">)(</span><span class="n">b</span> <span class="o">*</span> <span class="mi">255</span><span class="p">);</span>
-  <span class="n">bitmap</span><span class="p">[</span><span class="n">offset</span><span class="p">].</span><span class="n">w</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// 描画用コールバック
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">draw</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// ピクセルバッファオブジェクトがバインドされているので、サイズを指定するだけで良い
-</span><span class="c1"></span>  <span class="n">glDrawPixels</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">,</span> <span class="n">GL_RGBA</span><span class="p">,</span> <span class="n">GL_UNSIGNED_BYTE</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="n">glutSwapBuffers</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="c1">// 画面を更新するコールバック
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">update</span><span class="p">(</span><span class="kt">int</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">static</span> <span class="kt">int</span> <span class="n">tick</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// 今何フレーム目?
-</span><span class="c1"></span>  <span class="n">uchar4</span> <span class="o">*</span><span class="n">dev_bitmap</span><span class="p">;</span>
-  <span class="n">size_t</span> <span class="n">size</span><span class="p">;</span>
-
-  <span class="c1">// フレームバッファをマップしてアドレスを取得
-</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsMapResources</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dev_resource</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">));</span>
-  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsResourceGetMappedPointer</span><span class="p">(</span>
-      <span class="p">(</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span><span class="o">&amp;</span><span class="n">dev_bitmap</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">,</span> <span class="n">dev_resource</span><span class="p">));</span>
-
-  <span class="c1">// カーネル関数を呼ぶ
-</span><span class="c1"></span>  <span class="n">dim3</span> <span class="n">threads</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>                 <span class="c1">// 64スレッド/1グリッド
-</span><span class="c1"></span>  <span class="n">dim3</span> <span class="n">grids</span><span class="p">(</span><span class="n">WIDTH</span> <span class="o">/</span> <span class="mi">8</span><span class="p">,</span> <span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">8</span><span class="p">);</span>  <span class="c1">// 各ピクセルに1スレッドが割り振られる
-</span><span class="c1"></span>  <span class="n">kernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">grids</span><span class="p">,</span> <span class="n">threads</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">dev_bitmap</span><span class="p">,</span> <span class="n">tick</span><span class="p">);</span>
-
-  <span class="c1">// カーネル関数の終了を待つ
-</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaDeviceSynchronize</span><span class="p">());</span>
-
-  <span class="c1">// リソースの開放
-</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsUnmapResources</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">dev_resource</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">));</span>
-
-  <span class="c1">// ウィンドウの再描画を要求
-</span><span class="c1"></span>  <span class="n">glutPostRedisplay</span><span class="p">();</span>
-
-  <span class="c1">// interval msec後にまた呼び出す
-</span><span class="c1"></span>  <span class="n">glutTimerFunc</span><span class="p">(</span><span class="n">interval</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="n">tick</span><span class="o">++</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-  <span class="c1">// OpenGLの初期化
-</span><span class="c1"></span>  <span class="n">glutInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
-  <span class="n">glutInitDisplayMode</span><span class="p">(</span><span class="n">GLUT_DOUBLE</span> <span class="o">|</span> <span class="n">GLUT_RGBA</span><span class="p">);</span>
-  <span class="n">glutInitWindowSize</span><span class="p">(</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">);</span>
-  <span class="n">glutCreateWindow</span><span class="p">(</span><span class="s">&#34;animation&#34;</span><span class="p">);</span>
-
-  <span class="c1">// コールバックを指定
-</span><span class="c1"></span>  <span class="n">glutDisplayFunc</span><span class="p">(</span><span class="n">draw</span><span class="p">);</span>
-  <span class="n">glutTimerFunc</span><span class="p">(</span><span class="n">interval</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-
-  <span class="c1">// バッファを作成
-</span><span class="c1"></span>  <span class="n">glGenBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pbo</span><span class="p">);</span>
-  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_PIXEL_UNPACK_BUFFER</span><span class="p">,</span> <span class="n">pbo</span><span class="p">);</span>
-  <span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_PIXEL_UNPACK_BUFFER</span><span class="p">,</span>
-               <span class="k">sizeof</span><span class="p">(</span><span class="n">char4</span><span class="p">)</span> <span class="o">*</span> <span class="n">WIDTH</span> <span class="o">*</span> <span class="n">HEIGHT</span><span class="p">,</span>
-               <span class="nb">NULL</span><span class="p">,</span>
-               <span class="n">GL_DYNAMIC_DRAW</span><span class="p">);</span>
-
-  <span class="c1">// OpenGLのバッファをCudaと共有する設定
-</span><span class="c1"></span>  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsGLRegisterBuffer</span><span class="p">(</span>
-      <span class="o">&amp;</span><span class="n">dev_resource</span><span class="p">,</span> <span class="n">pbo</span><span class="p">,</span> <span class="n">cudaGraphicsMapFlagsNone</span><span class="p">));</span>
-
-  <span class="n">glutMainLoop</span><span class="p">();</span>
-
-  <span class="c1">// リソースの開放(glutMainLoop()は返らないので、実際は呼ばれない)
-</span><span class="c1"></span>  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">GL_PIXEL_UNPACK_BUFFER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="n">glDeleteBuffers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pbo</span><span class="p">);</span>
-  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGLUnregisterBufferObject</span><span class="p">(</span><span class="n">pbo</span><span class="p">));</span>
-  <span class="n">EXIT_IF_FAIL</span><span class="p">(</span><span class="n">cudaGraphicsUnregisterResource</span><span class="p">(</span><span class="n">dev_resource</span><span class="p">));</span>
-<span class="p">}</span>
-</code></pre></div>
-<p><code>nvcc anim.cu -run -lGL -lglut</code> で実行すると以下のようなアニメーションが表示される。</p>
-
-<div class="embed video-player">
-    <iframe class="youtube-player" type="text/html" width="640" height="385" src="https://www.youtube.com/embed/OtsbkUfnCHA" allowfullscreen frameborder="0">
-    </iframe>
-</div>
 
 </article>
 

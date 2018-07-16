@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Tue, 22 Aug 2017 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 15 Jul 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ob-ipython で sympy を使うときに出力を綺麗にする</title>
+      <link>https://yuki67.github.io/post/ob-ipython_sympy/</link>
+      <pubDate>Sun, 15 Jul 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/ob-ipython_sympy/</guid>
+      <description>jupyter notebook で sympy を使うとセルの実行結果を Latex で表示してくれるので便利だが、 ob-ipython で sympy を使うとセルの実行結果の表示が jupyter notebook ほど便利でない。
+#+BEGIN_SRC ipython :session :exports both :results output raw drawer from sympy import * init_printing() x = symbols(&amp;#34;x&amp;#34;) eqn = Eq(x**2+3*x-4) print(latex(eqn)) #+END_SRC #+RESULTS: :RESULTS: x^{2} + 3 x - 4 = 0 :END:from sympy import * init_printing() x = symbols(&amp;#34;x&amp;#34;) eqn = Eq(x**2+3*x-4) print(latex(eqn)) x2 + 3 x - 4 = 0
+幸い org-babel には「src block の実行結果を別の src block に通して、その結果を元の src block の結果にする」 という機能があるので、その機能を使えばこの問題を回避できる。</description>
+    </item>
     
     <item>
       <title>ランダムピック</title>

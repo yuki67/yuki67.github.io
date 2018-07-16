@@ -53,11 +53,18 @@ figcaption > p {
 .lemma,
 .fact,
 .def,
-.proof,
-.exa {
+.proof{
     margin-top: 0.8em;
     position: relative;
     padding: 0.8em 0.8em 0.8em 1.5em;
+    box-sizing: border-box;
+    background: #f5f5f5;
+}
+
+.exa {
+    margin-top: 0.2em;
+    position: relative;
+    padding: 0.2em 0.2em 0.2em 1.0em;
     box-sizing: border-box;
     background: #f5f5f5;
 }

@@ -250,6 +250,151 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/ob-ipython_sympy/">
+      ob-ipython で sympy を使うときに出力を綺麗にする
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-07-15
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/python">
+          python
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/emacs">
+          emacs
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p>jupyter notebook で sympy を使うとセルの実行結果を Latex で表示してくれるので便利だが、
+ob-ipython で sympy を使うとセルの実行結果の表示が jupyter notebook ほど便利でない。</p>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+BEGIN_SRC ipython :session :exports both :results output raw drawer
+from sympy import *
+init_printing()
+
+x = symbols(&#34;x&#34;)
+eqn = Eq(x**2+3*x-4)
+print(latex(eqn))
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+x^{2} + 3 x - 4 = 0
+:END:</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">init_printing</span><span class="p">()</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&#34;x&#34;</span><span class="p">)</span>
+<span class="n">eqn</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">latex</span><span class="p">(</span><span class="n">eqn</span><span class="p">))</span></code></pre></div>
+<p>x<sup>2</sup> + 3 x - 4 = 0</p>
+
+<p>幸い org-babel には「src block の実行結果を別の src block に通して、その結果を元の src block の結果にする」
+という機能があるので、その機能を使えばこの問題を回避できる。</p>
+
+<p>引数付きの src block は emacs lisp だと書きやすいので、それを使って書く。
+とりあえず、sympy の出力にエスケープされたカッコをつけて MathJax のソースコードとして認識されるようにしてみる。</p>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+name: wrapper-latex
+#+begin_src emacs-lisp :var text=&#34;&#34; :exports none
+(concat &#34;\\(&#34; (replace-regexp-in-string &#34;\n$&#34; &#34;&#34; text) &#34;\\)\n&#34;)
+#+end_src
+
+#+HEADER: :session :exports both :results output drawer
+#+HEADER: :eval no-export :post wrapper-latex(text=*this*)
+#+BEGIN_SRC ipython
+x = symbols(&#34;x&#34;)
+y = symbols(&#34;y&#34;, cls=Function)
+
+eqn = Eq(y(x).diff(x), sin(x)*tan(y(x)))
+print(latex(eqn))
+#+END_SRC
+
+#+RESULTS:
+\(\frac{d}{d x} y{\left (x \right )} = \sin{\left (x \right )} \tan{\left (y{\left (x \right )} \right )}\)</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">x</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&#34;x&#34;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&#34;y&#34;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">Function</span><span class="p">)</span>
+
+<span class="n">eqn</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">tan</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">latex</span><span class="p">(</span><span class="n">eqn</span><span class="p">))</span></code></pre></div>
+<p>\(\frac{d}{d x} y{\left (x \right )} = \sin{\left (x \right )} \tan{\left (y{\left (x \right )} \right )}\)</p>
+
+<p>だいぶ良くなった。</p>
+
+<p>数式の最初に <code>\displaystyle</code> をいれ、さらに数式全体を special block で囲んで見やすくしてみる。</p>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+name: wrapper-latex2
+#+begin_src emacs-lisp :var text=&#34;&#34; :exports none
+(concat &#34;#+BEGIN_exa\n\\(\\displaystyle&#34;
+        (replace-regexp-in-string
+         &#34;# Out\\[.*\\]:\n: &#39;\\(.*\\)&#39;&#34;
+         &#34;\\1&#34;
+         text)
+        &#34;\\)\n#+END_exa&#34;)
+#+end_src
+
+#+HEADER: :session :exports both :results value raw
+#+HEADER: :eval no-export :post wrapper-latex2(text=*this*)
+#+BEGIN_SRC ipython
+x = symbols(&#34;x&#34;)
+y = symbols(&#34;y&#34;, cls=Function)
+
+eqn = Eq(y(x).diff(x), (x-2*y(x)+3)/(2*x+y(x)-4))
+latex(eqn)
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_exa
+\(\displaystyle\\frac{d}{d x} y{\\left (x \\right )} = \\frac{x - 2 y{\\left (x \\right )} + 3}{2 x + y{\\left (x \\right )} - 4}\)
+#+END_exa</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">x</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&#34;x&#34;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&#34;y&#34;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">Function</span><span class="p">)</span>
+
+<span class="n">eqn</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">-</span><span class="mi">4</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">latex</span><span class="p">(</span><span class="n">eqn</span><span class="p">))</span></code></pre></div>
+<div class="exa">
+  <div></div>
+
+<p>\(\displaystyle\frac{d}{d x} y{\left (x \right )} = \frac{x - 2 y{\left (x \right )} + 3}{2 x + y{\left (x \right )} - 4}\)</p>
+
+<p></div></p>
+
+<p>さらに src block を実行するたびに latex 要素を画像として表示するようにすれば、
+使い勝手が jupyter notebook にかなり近くなる。</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;org-babel-after-execute-hook</span> <span class="ss">&#39;org-toggle-latex-fragment</span><span class="p">)</span></code></pre></div>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/hello_papi/">
       PAPI を使った
     </a>
@@ -684,72 +829,6 @@ illegal instruction (core dumped)</code></pre></div>
 <p>絵を描くアルゴリズムは <a href="https://github.com/yuki67/Figure">前にpythonで実装したもの</a> を関数型っぽく書き直したものを使った。
 そのためこのリポジトリの README に貼ってある画像はすべて作れるはずだが、
 さすがに時間が無いので作り直しはしていない。</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/opengl_broken/">
-      OpenGL 関係のライブラリが壊れたときの対処
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-05-17
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/opengl">
-          OpenGL
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  
-
-<h2 id="問題">問題</h2>
-
-<p>glew とか GLFW とか NVidia のドライバとかを一通りインストールしたにもかかわらず OpenGL の hello world プログラムがコンパイルできない。</p>
-
-<h2 id="原因">原因</h2>
-
-<p>なぜか知らないがリンクに必要なオブジェクトファイルが削除され、シンボリックリンクをたどった先が存在しないファイルになっていた。</p>
-
-<h2 id="解決法">解決法</h2>
-
-<p><code>dpkg -S</code> コマンドでどのオブジェクトファイルがどのパッケージでインストールされたかを確認して、そのパッケージを <code>sudo apt install --reinstall</code> する。</p>
-
-<p>例えば</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ dpkg -S /usr/lib/x86_64-linux-gnu/mesa/libGL.so
-libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so</code></pre></div>
-<p>となる。</p>
-
 
 </article>
 

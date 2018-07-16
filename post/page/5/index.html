@@ -250,6 +250,1053 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/bigint/">
+      BigIntの実装 in C&#43;&#43;
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-03-02
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
+          cpp
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p>多倍長整数を実装できたのでまとめた。C++のいい練習になると思って始めたらかなり時間がかかった。</p>
+
+<p></p>
+
+<p>全体のコードはかなり長くなったので最後に載せた。</p>
+
+<h2 id="使用例">使用例</h2>
+
+<p>作ったクラスで何かできるかを最初に示す。
+<code>BigInt fact(BigInt)</code> と <code>BigInt fib(BigInt)</code> を <code>int</code> と同じ方法で定義し、 <code>operator&lt;&lt;</code> で出力している。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;big_int.hpp&#34;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="n">BigInt</span> <span class="nf">fact</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">else</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fact</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="nf">fib</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">BigInt</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">BigInt</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(;</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">;</span> <span class="o">--</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">BigInt</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;fact(100) = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">fact</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;fib(1000) = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">fib</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">fact(100) = 93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000
+fib(1000) = 70330367711422815821835254877183549770181269836358732742604905087154537118196933579742249494562611733487750449241765991088186363265450223647106012053374121273867339111198139373125598767690091902245245323403501</code></pre></div>
+<h2 id="実装したこと">実装したこと</h2>
+
+<p>使用例を動かすための最低限の関数を実装した。最終的なヘッダは</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="k">class</span> <span class="nc">BigInt</span> <span class="p">{</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="p">...(</span><span class="err">略</span><span class="p">)...</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">mt19937_64</span> <span class="n">random_engine</span><span class="p">;</span>
+  <span class="n">BigInt</span><span class="p">();</span>
+  <span class="n">BigInt</span><span class="p">(</span><span class="n">int32_t</span> <span class="n">i</span><span class="p">);</span>
+  <span class="n">BigInt</span><span class="p">(</span><span class="n">int64_t</span> <span class="n">i</span><span class="p">);</span>
+  <span class="n">BigInt</span><span class="p">(</span><span class="n">uint32_t</span> <span class="n">i</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+  <span class="n">BigInt</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+  <span class="n">BigInt</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">str</span><span class="p">);</span>
+
+  <span class="k">static</span> <span class="n">BigInt</span> <span class="nf">of_big_uint</span><span class="p">(</span><span class="n">BigUInt</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+  <span class="k">static</span> <span class="n">BigInt</span> <span class="nf">of_vector</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+  <span class="k">static</span> <span class="n">BigInt</span> <span class="nf">random</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="p">);</span>
+  <span class="n">uint64_t</span> <span class="nf">width</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="nf">sign</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="nf">is_zero</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="nf">is_positive</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="nf">is_negative</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigInt</span> <span class="nf">cshift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">shift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">);</span>
+  <span class="n">BigInt</span> <span class="nf">cshift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">shift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">);</span>
+  <span class="n">BigInt</span> <span class="nf">pow</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">exp</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">);</span>
+  <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">++</span><span class="p">();</span>
+  <span class="n">BigInt</span> <span class="k">operator</span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+  <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">--</span><span class="p">();</span>
+  <span class="n">BigInt</span> <span class="k">operator</span><span class="o">--</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+  <span class="n">BigInt</span> <span class="k">operator</span><span class="o">-</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">-=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">/=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">%=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">-</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">/</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">%</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>となった。</p>
+
+<p>実装する上でつまずいたところを書く。</p>
+
+<h2 id="符号と絶対値を分ける">符号と絶対値を分ける</h2>
+
+<p>符号のない多倍長整数を表すクラス <code>BigUInt</code> を作り、符号ありの多倍長整数を絶対値(<code>BigUInt</code>)と符号(<code>bool</code>)で表すことにした。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;big_uint.hpp&#34;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">class</span> <span class="nc">BigInt</span> <span class="p">{</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">bool</span> <span class="n">m_sign</span><span class="p">;</span>
+  <span class="n">BigUInt</span> <span class="n">m_abs</span><span class="p">;</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="p">...(</span><span class="err">略</span><span class="p">)...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>符号と絶対値を分ければ多くの演算は符号による場合分けによって符号なしの演算に帰着できる。例えば加算は</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 以下の &lt;, &gt;, +=, -=, + が全てBigUIntのものであることに注意
+</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_sign</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">+=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">&gt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">-=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">=</span> <span class="o">!</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span><span class="p">;</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">-</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">lhs</span> <span class="o">=</span> <span class="n">BigInt</span><span class="p">(</span><span class="mi">0ul</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>となる。</p>
+
+<p>固定長整数の場合には符号付き整数を2の補数で表現することで加算と減算の処理を同じにできる。
+しかし、多倍長整数の場合には2項演算子の2つのオペランドのビット長が通常異なるので、減算を加算と同じように行うことができない。そのため2の補数表現は使わなかった。</p>
+
+<h2 id="biguint-の基数を--2-32--とする"><code>BigUInt</code> の基数を \(2^{32}\) とする</h2>
+
+<p>C++では \(n\) ビット符号なし整数の演算は \(\mod 2^{n}\) 行われるので、
+\(2^{n}\)を基数にすると桁同士の演算で都合がいい。</p>
+
+<p>加えて多倍長整数の乗算では桁同士の乗算を桁あふれなく扱う必要があるので、 基数を \(2^{32}\) (型は <code>uint32_t</code>) とした。
+<code>uint64_t</code> を使えば <code>uint32_t</code> 同士の乗算を桁あふれなく扱うことができる。</p>
+<div class="highlight"><pre class="chroma"><code class="language-c++" data-lang="c++"><span class="k">class</span> <span class="nc">BigUInt</span> <span class="p">{</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">m_vec</span><span class="p">;</span>
+  <span class="p">...(</span><span class="err">略</span><span class="p">)...</span>
+<span class="p">};</span>
+</code></pre></div>
+<h2 id="オーバーフローの検出">オーバーフローの検出</h2>
+
+<p>多倍長整数の加算と減算ではキャリーを計算するためにオーバーフローを検出する必要がある。</p>
+
+<p><code>uint32_t</code> の変数 <code>a</code>, <code>b</code> を足したときにオーバーフローが起こるのは</p>
+
+<p>\begin{align*}
+a + b &amp;\geq 2^{32} \\<br />
+\iff \quad \quad a &amp;&gt; (2^{32} - 1) - b
+\end{align*}</p>
+
+<p>のときである。最後の式の右辺の減算ではオーバーフローは発生しないので、 <code>uint32_t</code> の演算だけを使ってオーバーフローの有無を調べることができる。</p>
+
+<p>実際のコードでは「この2つの数を足したらオーバーフローするか?」ではなく「この2つの数を足した結果オーバーフローが起こったか?」が必要になったので、次の事実を使った。</p>
+
+<div class="fact">
+  <div></div>
+
+<p><code>uint32_t</code> 型の変数 <code>a</code>, <code>b</code> について、 <code>a += b</code> を実行したとする。この加算でオーバーフローが発生したかどうかは</p>
+
+<p>\begin{align*}
+a &lt; b
+\end{align*}</p>
+
+<p>を調べれば分かる。</p>
+
+<p></div></p>
+
+<div class="proof">
+  <div></div>
+
+<p><code>a += b</code> を実行する前の <code>a</code>, <code>b</code> の値を \(A, B\) とする。</p>
+
+<p>オーバーフローが発生した場合には</p>
+
+<p>\begin{align*}
+a &amp;= A + B \mod 2^{32} \\<br />
+  &amp;= A + B - 2^{32}
+\end{align*}</p>
+
+<p>であり、</p>
+
+<p>\begin{align*}
+b - a = 2^{32} - a &gt; 0
+\end{align*}</p>
+
+<p>が成り立つ。
+オーバーフローが発生しなかった場合には</p>
+
+<p>\begin{align*}
+a &amp;= A + B \mod 2^{32} \\<br />
+  &amp;= A + B
+\end{align*}</p>
+
+<p>より</p>
+
+<p>\begin{align*}
+a - b = A \geq 0
+\end{align*}</p>
+
+<p>が成り立つ。</p>
+
+<p></div></p>
+
+<p>コードでは以下のようになった。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">uint32_t</span> <span class="n">carry</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">uint32_t</span> <span class="n">i</span><span class="p">;</span>
+
+  <span class="n">lhs</span><span class="p">.</span><span class="n">m_vec</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">max</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">width</span><span class="p">(),</span> <span class="n">rhs</span><span class="p">.</span><span class="n">width</span><span class="p">()));</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// lhs[i] += carry + lhs[i] を実行し、carryを更新する
+</span><span class="c1"></span>    <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">carry</span><span class="p">;</span>
+    <span class="n">carry</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">carry</span><span class="p">;</span>
+    <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">rhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">carry</span> <span class="o">|=</span> <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">(;</span> <span class="n">carry</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">lhs</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// lhs[i] += carry を実行し、carryを更新する
+</span><span class="c1"></span>    <span class="o">++</span><span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">carry</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">carry</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">carry</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>減算も似たような関係を使って書いた。</p>
+
+<h2 id="除算アルゴリズム">除算アルゴリズム</h2>
+
+<p>除算には <a href="https://www.amazon.co.jp/Computer-Programming-Seminumerical-algorithms-programming/dp/4756145434">TAOCP 2巻</a> の4.3.1項にあるアルゴリズムDを用いた。
+このアルゴリズム自体は何も間違っていないが、本に載っている前提条件が普通でないので少しハマった。</p>
+
+<p>具体的には、TAOCPでは \(m + n - 1\) 桁の整数を \(n - 1\) 桁の整数で割った商を \(m\) 桁としているが、
+一般には \(m + 1\) 桁になりうる。そして商の最初の桁についてはインデックスの特別扱いが必要になる。
+前提条件を読み間違えたせいでメモリリークが発生して大変だった。</p>
+
+<h2 id="効率">効率</h2>
+
+<p>効率をあまり意識して書いていないのと、乗算アルゴリズムが \(O(mn)\) なことがあって効率は全然良くない。
+冒頭で挙げた使用例は実行に1秒程度かかるが、 pythonインタープリタで同じコードを書いて実行すると一瞬で終わる(悲しい)。</p>
+
+<p>さらなる高速化の手段としては</p>
+
+<ul>
+<li>乗算アルゴリズムの変更 (<a href="https://en.wikipedia.org/wiki/Sch%C3%B6nhage%E2%80%93Strassen%5Falgorithm">Schönhage–Strassen algorithm</a>, <a href="https://en.wikipedia.org/wiki/Karatsuba%5Falgorithm">Karatsuba algorithm</a>)</li>
+<li>配列の要素として <code>uint32_t</code> ではなく <code>uint64_t</code> を使う</li>
+<li>アセンブリを書く(コンディションレジスタを使う / mulhi命令を(あれば)使う)</li>
+<li><code>operator&lt;&lt;</code> でバッファを使うようにする、あるいは <code>operator&lt;&lt;</code> を廃止する。</li>
+</ul>
+
+<p>が考えられる。必要になったらやる。</p>
+
+<h2 id="biguintクラス">BigUIntクラス</h2>
+
+<p>BigUIntクラスのヘッダと実装を載せる。</p>
+
+<p><div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 1:</span>
+  big_uint.hpp
+</div></p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#ifndef BIG_UINT_H
+</span><span class="cp">#define BIG_UINT_H
+</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;cstdint&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;ostream&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;random&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">class</span> <span class="nc">BigUInt</span> <span class="p">{</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">mt19937_64</span> <span class="n">random_engine</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">m_vec</span><span class="p">;</span>
+  <span class="n">BigUInt</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">);</span>
+  <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">delete_trailing_zeros</span><span class="p">();</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="n">BigUInt</span><span class="p">();</span>
+  <span class="n">BigUInt</span><span class="p">(</span><span class="n">int32_t</span> <span class="n">i</span><span class="p">);</span>
+  <span class="n">BigUInt</span><span class="p">(</span><span class="n">int64_t</span> <span class="n">i</span><span class="p">);</span>
+  <span class="n">BigUInt</span><span class="p">(</span><span class="n">uint32_t</span> <span class="n">i</span><span class="p">);</span>
+  <span class="n">BigUInt</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">);</span>
+  <span class="n">BigUInt</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">str</span><span class="p">);</span>
+  <span class="k">static</span> <span class="n">BigUInt</span> <span class="nf">of_vector</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">);</span>
+  <span class="k">static</span> <span class="n">BigUInt</span> <span class="nf">random</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="p">);</span>
+  <span class="n">uint64_t</span> <span class="nf">width</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="nf">is_zero</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigUInt</span> <span class="nf">cshift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">shift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">);</span>
+  <span class="n">BigUInt</span> <span class="nf">cshift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">shift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">);</span>
+  <span class="n">BigUInt</span> <span class="nf">pow</span><span class="p">(</span><span class="n">BigUInt</span> <span class="n">exp</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">);</span>
+  <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">++</span><span class="p">();</span>
+  <span class="n">BigUInt</span> <span class="k">operator</span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+  <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">--</span><span class="p">();</span>
+  <span class="n">BigUInt</span> <span class="k">operator</span><span class="o">--</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+  <span class="n">BigUInt</span> <span class="k">operator</span><span class="o">-</span><span class="p">();</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">-=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">/=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">%=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigUInt</span> <span class="k">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigUInt</span> <span class="k">operator</span><span class="o">-</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigUInt</span> <span class="k">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigUInt</span> <span class="k">operator</span><span class="o">/</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigUInt</span> <span class="k">operator</span><span class="o">%</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="cp">#endif </span><span class="cm">/* BIG_UINT_H */</span><span class="cp">
+</span><span class="cp"></span></code></pre></div>
+<p><div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 2:</span>
+  big_uint.cpp
+</div></p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;big_uint.hpp&#34;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;stdexcept&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="k">constexpr</span> <span class="kt">bool</span> <span class="n">bit_at</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">static_assert</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_arithmetic_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">a</span> <span class="o">&amp;</span> <span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// position of the highest non-zero bit.
+</span><span class="c1">// returns width of the argument type if a == 0.
+</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="k">constexpr</span> <span class="kt">unsigned</span> <span class="n">hnz</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">static_assert</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_unsigned_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">);</span>
+  <span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">digits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(;</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">bit_at</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">mt19937_64</span> <span class="n">BigUInt</span><span class="o">::</span><span class="n">random_engine</span><span class="p">((</span><span class="n">std</span><span class="o">::</span><span class="n">random_device</span><span class="p">())());</span>
+
+<span class="n">BigUInt</span><span class="o">::</span><span class="n">BigUInt</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_vec</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">delete_trailing_zeros</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">BigUInt</span><span class="o">::</span><span class="n">delete_trailing_zeros</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">width</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">m_vec</span><span class="p">[</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">m_vec</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span><span class="o">::</span><span class="n">BigUInt</span><span class="p">()</span> <span class="p">{}</span>
+
+<span class="n">BigUInt</span><span class="o">::</span><span class="n">BigUInt</span><span class="p">(</span><span class="n">int32_t</span> <span class="n">i</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_vec</span><span class="p">({</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">)})</span> <span class="p">{}</span>
+
+<span class="n">BigUInt</span><span class="o">::</span><span class="n">BigUInt</span><span class="p">(</span><span class="n">int64_t</span> <span class="n">i</span><span class="p">)</span> <span class="o">:</span> <span class="n">BigUInt</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">{}</span>
+
+<span class="n">BigUInt</span><span class="o">::</span><span class="n">BigUInt</span><span class="p">(</span><span class="n">uint32_t</span> <span class="n">i</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_vec</span><span class="p">({</span><span class="n">i</span><span class="p">})</span> <span class="p">{}</span>
+
+<span class="n">BigUInt</span><span class="o">::</span><span class="n">BigUInt</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">)</span>
+    <span class="o">:</span> <span class="n">m_vec</span><span class="p">({</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="mi">32</span><span class="p">)})</span> <span class="p">{</span>
+  <span class="n">delete_trailing_zeros</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span><span class="o">::</span><span class="n">BigUInt</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">str</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_vec</span><span class="p">({</span><span class="mi">0</span><span class="p">})</span> <span class="p">{</span>
+  <span class="n">BigUInt</span> <span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="n">BigUInt</span> <span class="nf">ten</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">UINT64_MAX</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">*</span><span class="k">this</span> <span class="o">+=</span> <span class="n">std</span><span class="o">::</span><span class="n">stoul</span><span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">base</span><span class="p">;</span>
+    <span class="n">base</span> <span class="o">*=</span> <span class="n">ten</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">delete_trailing_zeros</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">uint64_t</span> <span class="n">BigUInt</span><span class="o">::</span><span class="n">width</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_vec</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="p">}</span>
+
+<span class="k">const</span> <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="n">BigUInt</span><span class="o">::</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_vec</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="p">}</span>
+
+<span class="n">uint32_t</span> <span class="o">&amp;</span><span class="n">BigUInt</span><span class="o">::</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_vec</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="n">BigUInt</span><span class="o">::</span><span class="n">of_vector</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">BigUInt</span><span class="p">(</span><span class="n">vec</span><span class="p">);</span> <span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="n">BigUInt</span><span class="o">::</span><span class="n">random</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">i</span> <span class="p">:</span> <span class="n">vec</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">random_engine</span><span class="p">());</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">BigUInt</span><span class="p">(</span><span class="n">vec</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="n">BigUInt</span><span class="o">::</span><span class="n">is_zero</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">uint32_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">((</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="n">BigUInt</span><span class="o">::</span><span class="n">cshift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="n">BigUInt</span> <span class="n">temp</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">temp</span><span class="p">.</span><span class="n">shift_left</span><span class="p">(</span><span class="n">shamt</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">BigUInt</span><span class="o">::</span><span class="n">shift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">shamt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">const</span> <span class="n">uint64_t</span> <span class="n">shamt_quot</span> <span class="o">=</span> <span class="n">shamt</span> <span class="o">/</span> <span class="mi">32</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">uint64_t</span> <span class="n">shamt_rem</span> <span class="o">=</span> <span class="n">shamt</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
+  <span class="n">m_vec</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">width</span><span class="p">()</span> <span class="o">+</span> <span class="n">shamt_quot</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="n">uint64_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">shamt_rem</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// avoid undefined behavior by shifting 0 or 32.
+</span><span class="c1"></span>    <span class="k">for</span> <span class="p">(;</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">shamt_quot</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span> <span class="o">-</span> <span class="n">shamt_quot</span><span class="p">];</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">uint64_t</span> <span class="n">shamt_rem_inv</span> <span class="o">=</span> <span class="mi">32</span> <span class="o">-</span> <span class="n">shamt_rem</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(;</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">shamt_quot</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">auto</span> <span class="n">lower</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span> <span class="o">-</span> <span class="n">shamt_quot</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">shamt_rem_inv</span><span class="p">;</span>
+      <span class="k">auto</span> <span class="n">upper</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span> <span class="o">-</span> <span class="n">shamt_quot</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">shamt_rem</span><span class="p">;</span>
+      <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">lower</span> <span class="o">+</span> <span class="n">upper</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span><span class="o">--</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">shamt_rem</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">for</span> <span class="p">(;</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">UINT64_MAX</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">delete_trailing_zeros</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="n">BigUInt</span><span class="o">::</span><span class="n">cshift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="n">BigUInt</span> <span class="n">temp</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">temp</span><span class="p">.</span><span class="n">shift_right</span><span class="p">(</span><span class="n">shamt</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">BigUInt</span><span class="o">::</span><span class="n">shift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">shamt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">const</span> <span class="n">uint64_t</span> <span class="n">shamt_quot</span> <span class="o">=</span> <span class="n">shamt</span> <span class="o">/</span> <span class="mi">32</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">uint64_t</span> <span class="n">shamt_rem</span> <span class="o">=</span> <span class="n">shamt</span> <span class="o">%</span> <span class="mi">32</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">shamt_rem</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// avoid undefined behavior by shifting 0 or 32.
+</span><span class="c1"></span>    <span class="k">for</span> <span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="n">shamt_quot</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span> <span class="o">+</span> <span class="n">shamt_quot</span><span class="p">];</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">uint64_t</span> <span class="n">shamt_rem_inv</span> <span class="o">=</span> <span class="mi">32</span> <span class="o">-</span> <span class="n">shamt_rem</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="n">shamt_quot</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">auto</span> <span class="n">lower</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span> <span class="o">+</span> <span class="n">shamt_quot</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">shamt_rem</span><span class="p">;</span>
+      <span class="k">auto</span> <span class="n">upper</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span> <span class="o">+</span> <span class="n">shamt_quot</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">shamt_rem_inv</span><span class="p">;</span>
+      <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">lower</span> <span class="o">+</span> <span class="n">upper</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="n">shamt_quot</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">)[</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">shamt_rem</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">m_vec</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="n">shamt_quot</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nf">delete_trailing_zeros</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="n">BigUInt</span><span class="o">::</span><span class="k">operator</span><span class="o">-</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">invalid_argument</span><span class="p">(</span><span class="s">&#34;unary - of BigUInt&#34;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">BigUInt</span><span class="o">::</span><span class="k">operator</span><span class="o">++</span><span class="p">()</span> <span class="p">{</span>
+  <span class="o">*</span><span class="k">this</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="n">BigUInt</span><span class="o">::</span><span class="k">operator</span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+  <span class="o">*</span><span class="k">this</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">temp</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">BigUInt</span><span class="o">::</span><span class="k">operator</span><span class="o">--</span><span class="p">()</span> <span class="p">{</span>
+  <span class="o">*</span><span class="k">this</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="n">BigUInt</span><span class="o">::</span><span class="k">operator</span><span class="o">--</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+  <span class="o">*</span><span class="k">this</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">temp</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_vec</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_vec</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_vec</span> <span class="o">!=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_vec</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">width</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">width</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">UINT64_MAX</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">{</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">lhs</span> <span class="o">==</span> <span class="n">rhs</span> <span class="o">||</span> <span class="n">lhs</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">rhs</span> <span class="o">&lt;</span> <span class="n">lhs</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">rhs</span> <span class="o">&lt;=</span> <span class="n">lhs</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">uint32_t</span> <span class="n">carry</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">uint32_t</span> <span class="n">i</span><span class="p">;</span>
+
+  <span class="n">lhs</span><span class="p">.</span><span class="n">m_vec</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">max</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">width</span><span class="p">(),</span> <span class="n">rhs</span><span class="p">.</span><span class="n">width</span><span class="p">()));</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">carry</span><span class="p">;</span>
+    <span class="n">carry</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">carry</span><span class="p">;</span>
+    <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">rhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">carry</span> <span class="o">|=</span> <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">(;</span> <span class="n">carry</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">lhs</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">++</span><span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">carry</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">carry</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">carry</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="k">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">BigUInt</span> <span class="n">ans</span><span class="p">(</span><span class="n">lhs</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">ans</span> <span class="o">+=</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// if lhs &lt; rhs, result is undefined.
+</span><span class="c1"></span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">-=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">uint32_t</span> <span class="n">i</span><span class="p">;</span>
+  <span class="n">uint32_t</span> <span class="n">carry</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">carry</span><span class="p">;</span>
+    <span class="n">carry</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">UINT32_MAX</span> <span class="o">&amp;&amp;</span> <span class="n">carry</span> <span class="o">==</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">carry</span> <span class="o">|=</span> <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">rhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">(;</span> <span class="n">carry</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">lhs</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">--</span><span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">carry</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">UINT32_MAX</span> <span class="o">&amp;&amp;</span> <span class="n">carry</span> <span class="o">==</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">delete_trailing_zeros</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="k">operator</span><span class="o">-</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">BigUInt</span> <span class="n">ans</span><span class="p">(</span><span class="n">lhs</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">ans</span> <span class="o">-=</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="k">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">BigUInt</span> <span class="n">ans</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">lower</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">width</span><span class="p">());</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">upper</span><span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="n">uint32_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">uint32_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">lhs</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">upper</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="n">lower</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+      <span class="n">upper</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;&gt;</span> <span class="mi">32</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">ans</span> <span class="o">+=</span> <span class="p">(</span><span class="n">BigUInt</span><span class="p">(</span><span class="n">lower</span><span class="p">)</span> <span class="o">+</span> <span class="n">BigUInt</span><span class="p">(</span><span class="n">upper</span><span class="p">)).</span><span class="n">shift_left</span><span class="p">(</span><span class="mi">32</span> <span class="o">*</span> <span class="n">i</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">lhs</span> <span class="o">=</span> <span class="n">lhs</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// knuth&#39;s division algorithm D.
+</span><span class="c1">// returns quotient, modifing dividend to be remainder.
+</span><span class="c1"></span><span class="k">static</span> <span class="n">BigUInt</span> <span class="n">divmod</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">dividend</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">divisor</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">divisor</span><span class="p">.</span><span class="n">is_zero</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">invalid_argument</span><span class="p">(</span><span class="s">&#34;BigUInt : division by zero.&#34;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">dividend</span> <span class="o">&lt;</span> <span class="n">divisor</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// normalize dividend and divisor.
+</span><span class="c1"></span>  <span class="k">const</span> <span class="n">uint64_t</span> <span class="n">shamt</span> <span class="o">=</span> <span class="mi">31</span> <span class="o">-</span> <span class="n">hnz</span><span class="p">(</span><span class="n">divisor</span><span class="p">[</span><span class="n">divisor</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]);</span>
+  <span class="n">dividend</span><span class="p">.</span><span class="n">shift_left</span><span class="p">(</span><span class="n">shamt</span><span class="p">);</span>
+  <span class="k">const_cast</span><span class="o">&lt;</span><span class="n">BigUInt</span> <span class="o">&amp;&gt;</span><span class="p">(</span><span class="n">divisor</span><span class="p">).</span><span class="n">shift_left</span><span class="p">(</span><span class="n">shamt</span><span class="p">);</span>
+
+  <span class="n">uint64_t</span> <span class="n">div_msb</span> <span class="o">=</span> <span class="n">divisor</span><span class="p">[</span><span class="n">divisor</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+  <span class="n">uint64_t</span> <span class="n">div_ssb</span> <span class="o">=</span> <span class="n">divisor</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">divisor</span><span class="p">[</span><span class="n">divisor</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span><span class="p">];</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">ans</span><span class="p">;</span>
+  <span class="n">ans</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">dividend</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="n">divisor</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">ans</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">UINT64_MAX</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">uint64_t</span> <span class="n">upper</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">divisor</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">dividend</span><span class="p">.</span><span class="n">width</span><span class="p">())</span>
+                         <span class="o">?</span> <span class="n">dividend</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">divisor</span><span class="p">.</span><span class="n">width</span><span class="p">()]</span>
+                         <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">uint64_t</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">dividend</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">divisor</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="n">uint64_t</span> <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="n">upper</span> <span class="o">&lt;&lt;</span> <span class="mi">32</span><span class="p">)</span> <span class="o">+</span> <span class="n">lower</span><span class="p">;</span>
+    <span class="n">uint64_t</span> <span class="n">q</span> <span class="o">=</span> <span class="n">num</span> <span class="o">/</span> <span class="n">div_msb</span><span class="p">;</span>
+    <span class="n">uint64_t</span> <span class="n">r</span> <span class="o">=</span> <span class="n">num</span> <span class="o">%</span> <span class="n">div_msb</span><span class="p">;</span>
+    <span class="n">uint64_t</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">divisor</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="n">UINT32_MAX</span> <span class="o">&amp;&amp;</span>
+           <span class="p">(</span><span class="n">q</span> <span class="o">&gt;=</span> <span class="n">UINT32_MAX</span> <span class="o">||</span>
+            <span class="n">q</span> <span class="o">*</span> <span class="n">div_ssb</span> <span class="o">&gt;</span>
+                <span class="p">(</span><span class="n">r</span> <span class="o">&lt;&lt;</span> <span class="mi">32</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">idx</span> <span class="o">&lt;</span> <span class="n">dividend</span><span class="p">.</span><span class="n">width</span><span class="p">()</span> <span class="o">?</span> <span class="n">dividend</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">)))</span> <span class="p">{</span>
+      <span class="n">q</span><span class="o">--</span><span class="p">;</span>
+      <span class="n">r</span> <span class="o">+=</span> <span class="n">div_msb</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">BigUInt</span> <span class="n">sub</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="n">divisor</span><span class="p">).</span><span class="n">cshift_left</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="mi">32</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">dividend</span> <span class="o">&lt;</span> <span class="n">sub</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">q</span><span class="o">--</span><span class="p">;</span>
+      <span class="n">sub</span> <span class="o">-=</span> <span class="n">divisor</span><span class="p">.</span><span class="n">cshift_left</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="mi">32</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">q</span><span class="p">);</span>
+    <span class="n">dividend</span> <span class="o">-=</span> <span class="n">sub</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">const_cast</span><span class="o">&lt;</span><span class="n">BigUInt</span> <span class="o">&amp;&gt;</span><span class="p">(</span><span class="n">divisor</span><span class="p">).</span><span class="n">shift_right</span><span class="p">(</span><span class="n">shamt</span><span class="p">);</span>
+  <span class="n">dividend</span><span class="p">.</span><span class="n">shift_right</span><span class="p">(</span><span class="n">shamt</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">BigUInt</span><span class="o">::</span><span class="n">of_vector</span><span class="p">(</span><span class="n">ans</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="k">operator</span><span class="o">/</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="n">lhs</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nf">divmod</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">rhs</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">/=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">lhs</span> <span class="o">=</span> <span class="n">lhs</span> <span class="o">/</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="k">operator</span><span class="o">%</span><span class="p">(</span><span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">BigUInt</span> <span class="n">temp</span><span class="p">(</span><span class="n">lhs</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">temp</span> <span class="o">%=</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">%=</span><span class="p">(</span><span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">divmod</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigUInt</span> <span class="n">BigUInt</span><span class="o">::</span><span class="n">pow</span><span class="p">(</span><span class="n">BigUInt</span> <span class="n">exp</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="n">BigUInt</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(;</span> <span class="n">exp</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">--</span><span class="n">exp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">x</span> <span class="o">*=</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigUInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">BigUInt</span> <span class="n">base</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+  <span class="k">const</span> <span class="n">BigUInt</span> <span class="nf">ten</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+
+  <span class="k">while</span> <span class="p">(</span><span class="n">rhs</span> <span class="o">&gt;=</span> <span class="n">base</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">base</span> <span class="o">*=</span> <span class="n">ten</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">base</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">temp</span> <span class="o">%=</span> <span class="n">base</span><span class="p">;</span>
+    <span class="n">lhs</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">temp</span> <span class="o">/</span> <span class="p">(</span><span class="n">base</span> <span class="o">/=</span> <span class="n">ten</span><span class="p">))[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="bigintクラス">BigIntクラス</h2>
+
+<p>BigIntクラスのヘッダと実装を載せる。</p>
+
+<p><div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 3:</span>
+  big_int.hpp
+</div></p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#ifndef BITINT_H
+</span><span class="cp">#define BITINT_H
+</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&#34;big_uint.hpp&#34;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">class</span> <span class="nc">BigInt</span> <span class="p">{</span>
+ <span class="k">private</span><span class="o">:</span>
+  <span class="kt">bool</span> <span class="n">m_sign</span><span class="p">;</span>
+  <span class="n">BigUInt</span> <span class="n">m_abs</span><span class="p">;</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">mt19937_64</span> <span class="n">random_engine</span><span class="p">;</span>
+  <span class="n">BigInt</span><span class="p">();</span>
+  <span class="n">BigInt</span><span class="p">(</span><span class="n">int32_t</span> <span class="n">i</span><span class="p">);</span>
+  <span class="n">BigInt</span><span class="p">(</span><span class="n">int64_t</span> <span class="n">i</span><span class="p">);</span>
+  <span class="n">BigInt</span><span class="p">(</span><span class="n">uint32_t</span> <span class="n">i</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+  <span class="n">BigInt</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+  <span class="n">BigInt</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">str</span><span class="p">);</span>
+
+  <span class="k">static</span> <span class="n">BigInt</span> <span class="nf">of_big_uint</span><span class="p">(</span><span class="n">BigUInt</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+  <span class="k">static</span> <span class="n">BigInt</span> <span class="nf">of_vector</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+  <span class="k">static</span> <span class="n">BigInt</span> <span class="nf">random</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="p">);</span>
+  <span class="n">uint64_t</span> <span class="nf">width</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="nf">sign</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="nf">is_zero</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="nf">is_positive</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="nf">is_negative</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigInt</span> <span class="nf">cshift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">shift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">);</span>
+  <span class="n">BigInt</span> <span class="nf">cshift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">shift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">);</span>
+  <span class="n">BigInt</span> <span class="nf">pow</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">exp</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">);</span>
+  <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">++</span><span class="p">();</span>
+  <span class="n">BigInt</span> <span class="k">operator</span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+  <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">--</span><span class="p">();</span>
+  <span class="n">BigInt</span> <span class="k">operator</span><span class="o">--</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+  <span class="n">BigInt</span> <span class="k">operator</span><span class="o">-</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">-=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">/=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">%=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">-</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">/</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">BigInt</span> <span class="k">operator</span><span class="o">%</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+  <span class="k">friend</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="cp">#endif </span><span class="c1">// BITINT_H
+</span><span class="c1"></span></code></pre></div>
+<p><div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 4:</span>
+  big_int.cpp
+</div></p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;big_int.hpp&#34;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">const</span> <span class="n">uint32_t</span> <span class="o">&amp;</span><span class="n">BigInt</span><span class="o">::</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_abs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="p">}</span>
+
+<span class="n">uint32_t</span> <span class="o">&amp;</span><span class="n">BigInt</span><span class="o">::</span><span class="k">operator</span><span class="p">[](</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_abs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="p">}</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">mt19937_64</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">random_engine</span><span class="p">((</span><span class="n">std</span><span class="o">::</span><span class="n">random_device</span><span class="p">())());</span>
+
+<span class="n">BigInt</span><span class="o">::</span><span class="n">BigInt</span><span class="p">()</span> <span class="p">{}</span>
+
+<span class="n">BigInt</span><span class="o">::</span><span class="n">BigInt</span><span class="p">(</span><span class="n">int32_t</span> <span class="n">i</span><span class="p">)</span>
+    <span class="o">:</span> <span class="n">m_sign</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">),</span>
+      <span class="n">m_abs</span><span class="p">(</span><span class="n">m_sign</span> <span class="o">?</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">:</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">{}</span>
+
+<span class="n">BigInt</span><span class="o">::</span><span class="n">BigInt</span><span class="p">(</span><span class="n">int64_t</span> <span class="n">i</span><span class="p">)</span>
+    <span class="o">:</span> <span class="n">m_sign</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">),</span>
+      <span class="n">m_abs</span><span class="p">(</span><span class="n">m_sign</span> <span class="o">?</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">:</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">uint64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">{}</span>
+
+<span class="n">BigInt</span><span class="o">::</span><span class="n">BigInt</span><span class="p">(</span><span class="n">uint32_t</span> <span class="n">i</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_sign</span><span class="p">(</span><span class="n">sign</span><span class="p">),</span> <span class="n">m_abs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{}</span>
+
+<span class="n">BigInt</span><span class="o">::</span><span class="n">BigInt</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">i</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_sign</span><span class="p">(</span><span class="n">sign</span><span class="p">),</span> <span class="n">m_abs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">{}</span>
+
+<span class="n">BigInt</span><span class="o">::</span><span class="n">BigInt</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">str</span><span class="p">)</span>
+    <span class="o">:</span> <span class="n">m_sign</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="sc">&#39;-&#39;</span><span class="p">),</span> <span class="n">m_abs</span><span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">m_sign</span><span class="p">,</span> <span class="n">str</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">-</span> <span class="n">m_sign</span><span class="p">))</span> <span class="p">{}</span>
+
+<span class="n">BigInt</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">of_big_uint</span><span class="p">(</span><span class="n">BigUInt</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">BigInt</span> <span class="n">temp</span><span class="p">;</span>
+  <span class="n">temp</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">=</span> <span class="n">abs</span><span class="p">;</span>
+  <span class="n">temp</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">=</span> <span class="n">sign</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">temp</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">of_vector</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint32_t</span><span class="o">&gt;</span> <span class="n">abs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">sign</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">BigInt</span> <span class="n">temp</span><span class="p">;</span>
+  <span class="n">temp</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">=</span> <span class="n">BigUInt</span><span class="o">::</span><span class="n">of_vector</span><span class="p">(</span><span class="n">abs</span><span class="p">);</span>
+  <span class="n">temp</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">=</span> <span class="n">sign</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">temp</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">random</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">of_big_uint</span><span class="p">(</span><span class="n">BigUInt</span><span class="o">::</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">random_engine</span><span class="p">()</span> <span class="o">%</span> <span class="mi">2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">uint64_t</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">width</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_abs</span><span class="p">.</span><span class="n">width</span><span class="p">();</span> <span class="p">}</span>
+
+<span class="kt">bool</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">sign</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_sign</span><span class="p">;</span> <span class="p">}</span>
+<span class="kt">bool</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">is_zero</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_abs</span><span class="p">.</span><span class="n">is_zero</span><span class="p">();</span> <span class="p">}</span>
+<span class="kt">bool</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">is_positive</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="o">!</span><span class="n">m_sign</span><span class="p">;</span> <span class="p">}</span>
+<span class="kt">bool</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">is_negative</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_sign</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">cshift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">of_big_uint</span><span class="p">(</span><span class="n">m_abs</span><span class="p">.</span><span class="n">cshift_left</span><span class="p">(</span><span class="n">shamt</span><span class="p">),</span> <span class="n">m_sign</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">BigInt</span><span class="o">::</span><span class="n">shift_left</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">m_abs</span><span class="p">.</span><span class="n">shift_left</span><span class="p">(</span><span class="n">shamt</span><span class="p">);</span>
+  <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">cshift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">of_big_uint</span><span class="p">(</span><span class="n">m_abs</span><span class="p">.</span><span class="n">cshift_right</span><span class="p">(</span><span class="n">shamt</span><span class="p">),</span> <span class="n">m_sign</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">BigInt</span><span class="o">::</span><span class="n">shift_right</span><span class="p">(</span><span class="n">uint64_t</span> <span class="n">shamt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">m_abs</span><span class="p">.</span><span class="n">shift_right</span><span class="p">(</span><span class="n">shamt</span><span class="p">);</span>
+  <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">&amp;&amp;</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">!=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">||</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">!=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="n">BigInt</span><span class="o">::</span><span class="k">operator</span><span class="o">-</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">of_big_uint</span><span class="p">(</span><span class="n">m_abs</span><span class="p">,</span> <span class="o">!</span><span class="n">m_sign</span><span class="p">);</span> <span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">is_positive</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">is_negative</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">is_negative</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">is_positive</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">is_positive</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">is_positive</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">&gt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">lhs</span> <span class="o">==</span> <span class="n">rhs</span> <span class="o">||</span> <span class="n">lhs</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">rhs</span> <span class="o">&lt;</span> <span class="n">lhs</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="kt">bool</span> <span class="k">operator</span><span class="o">&gt;=</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">rhs</span> <span class="o">&lt;=</span> <span class="n">lhs</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">+=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">==</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_sign</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">+=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">&gt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">-=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">=</span> <span class="o">!</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span><span class="p">;</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">-</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">lhs</span> <span class="o">=</span> <span class="n">BigInt</span><span class="p">(</span><span class="mi">0ul</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="k">operator</span><span class="o">+</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">BigInt</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">ans</span> <span class="o">+=</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">-=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">!=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_sign</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">+=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">&gt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">-=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">=</span> <span class="o">!</span><span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span><span class="p">;</span>
+    <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">-</span> <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">lhs</span> <span class="o">=</span> <span class="n">BigInt</span><span class="p">(</span><span class="mi">0ul</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="k">operator</span><span class="o">-</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="n">lhs</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">temp</span> <span class="o">-=</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">*=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">*=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">!=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">sign</span><span class="p">();</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="k">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="n">lhs</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">temp</span> <span class="o">*=</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">/=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">/=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">!=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">sign</span><span class="p">();</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="k">operator</span><span class="o">/</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="n">lhs</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">temp</span> <span class="o">/=</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">%=</span><span class="p">(</span><span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">lhs</span><span class="p">.</span><span class="n">m_abs</span> <span class="o">%=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="n">lhs</span><span class="p">.</span><span class="n">m_sign</span> <span class="o">=</span> <span class="n">lhs</span><span class="p">.</span><span class="n">sign</span><span class="p">()</span> <span class="o">!=</span> <span class="n">rhs</span><span class="p">.</span><span class="n">sign</span><span class="p">();</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="k">operator</span><span class="o">%</span><span class="p">(</span><span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="n">lhs</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">temp</span> <span class="o">%=</span> <span class="n">rhs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">BigInt</span><span class="o">::</span><span class="k">operator</span><span class="o">++</span><span class="p">()</span> <span class="p">{</span>
+  <span class="o">*</span><span class="k">this</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="n">BigInt</span><span class="o">::</span><span class="k">operator</span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+  <span class="o">*</span><span class="k">this</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">temp</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">BigInt</span><span class="o">::</span><span class="k">operator</span><span class="o">--</span><span class="p">()</span> <span class="p">{</span>
+  <span class="o">*</span><span class="k">this</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="n">BigInt</span><span class="o">::</span><span class="k">operator</span><span class="o">--</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">auto</span> <span class="n">temp</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+  <span class="o">*</span><span class="k">this</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">temp</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">BigInt</span> <span class="n">BigInt</span><span class="o">::</span><span class="n">pow</span><span class="p">(</span><span class="n">BigInt</span> <span class="n">exp</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="n">BigInt</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(;</span> <span class="n">exp</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="o">--</span><span class="n">exp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">x</span> <span class="o">*=</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">BigInt</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">rhs</span><span class="p">.</span><span class="n">is_negative</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">lhs</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;-&#34;</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">lhs</span> <span class="o">&lt;&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">m_abs</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">lhs</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/freshmans_dream/">
       一年生の夢の実装 in C&#43;&#43;
     </a>
@@ -1041,75 +2088,6 @@ In F8291, (1 + x)^8291 = 1 + x^8291</code></pre></div>
 できるようになることがある。</p>
 
 <p>自動化するのは面倒くさいのでパス。</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/kindle_for_ubuntu/">
-      Ubuntu 17.10 で Kindle for PC を使う
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-01-28
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/kindle">
-          kindle
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ubuntu">
-          ubuntu
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p></p>
-
-<p><a href="https://www.winehq.org/">Wine</a> を使うと <a href="https://www.amazon.co.jp/gp/help/customer/display.html?nodeId=201245960">Kindle for PC</a> をUbuntuで使えると聞いたのでやってみたがエラーがたくさん出て手間取った。</p>
-
-<p>結論からいうと、Kindle for PCの最新版はインストールできない。そこで&rdquo;Kindle for PC older version&rdquo;などのワードでググって出てくる(オフィシャルでない)サイトから古いものを落とす必要がある。自分の環境では version 1.14.1 (build 43029) のインストーラを使ったらうまくいった。</p>
-
-<p>エラーの原因が分からなかったときにいろいろ試したので、次の要素も関係があるのかもしれない。自分はもう動くようになったので詳しく調べていない。</p>
-
-<ul>
-<li>Wine は最新版 (3.0) ではなくデフォルトで入っているppaのもの (2.0.2) を使った。</li>
-<li>Wine PREFIX を32ビットのもに変えた (<a href="https://askubuntu.com/questions/177192/how-do-i-create-a-32-bit-wine-prefix">参考</a>)</li>
-<li><code>winetricks allfonts</code> を実行した</li>
-</ul>
-
-<p><a href="https://read.amazon.co.jp/">Kindle Cloud Reader</a> がまともに使えるならこんなこともしなくて済むんだけどなぁ。</p>
 
 </article>
 
