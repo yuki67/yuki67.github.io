@@ -250,6 +250,74 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/clang&#43;&#43;_no_cpp17/">
+      clang&#43;&#43;-5.0 を入れたのに C&#43;&#43;17 が有効にならない
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-04-26
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
+          cpp
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p></p>
+
+<p>タイトルの通りで、 <code>std::is_arithmetic_v</code> を含むコードを <code>clang++-5.0</code> でコンパイルしたらエラーが出た。
+clang はバージョン 5.0 で<a href="https://clang.llvm.org/cxx%5Fstatus.html">C++17 に対応している</a>はずなのにおかしい。</p>
+
+<p>原因は C++ の標準ライブラリが C++17 に対応していないことにあった。
+clang++ はデフォルトだと標準ライブラリとして libstdc++ を用いるが、
+このバージョンが自分の環境だと 5.4 で C++17 に対応していなかった。</p>
+
+<p>というわけで新しい libstdc++ を入れたら直った。</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt update
+sudo apt install libstdc++-8-dev</code></pre></div>
+<p>標準ライブラリとして llvm の libc++ を使う手もあるが、
+ppa が用意されていないためインストールがめんどくさいのでやめた。</p>
+
+<h2 id="参考資料">参考資料</h2>
+
+<p><a href="https://clang.llvm.org/cxx%5Fstatus.html">Clang - C++17, C++14, C++11 and C++98 Status</a></p>
+
+<p><a href="https://stackoverflow.com/questions/24342312/clang-seems-to-use-the-gcc-libraries">c++ - clang seems to use the gcc libraries - Stack Overflow</a></p>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/emacs_regex_bracket/">
       emacs の正規表現で (&#34;[&#34;, &#34;]&#34; 以外の1文字) を表現する
     </a>
@@ -1366,97 +1434,6 @@ org-reveal.el をちょっといじれば OK
 
 #+ATTR_REVEAL: :frag t :frag_idx 2
 本文にソースあり</code></pre></div>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/ox-hugo/">
-      ox-hugo の概要
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-03-30
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/about">
-          about
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p><a href="https://github.com/kaushalmodi/ox-hugo">ox-hugo</a> は emacs のパッケージだ。
-org-mode の文章を Hugo に対応した markdown にエクスポートすることができ、このサイトの記事を書くのに使われている。</p>
-
-<p></p>
-
-<p>ox-hugo の特徴として、一つの記事が一つのファイルではなく一つのサブツリーに対応しているという点がある。
-一つの org-mode ファイルの中にいくつも記事を書き、記事ごとにタイトルやタグを設定してエクスポートすることができる。
-記事を書いている途中で過去の記事を確認したり手直しすることが簡単に行えるので都合がいい。</p>
-
-<p>このサイトは一つの大きな(現在7000行ぐらい) org-mode ファイルからできていて、一つ一つの記事はサブツリーに対応している。</p>
-
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/org-file-example.png" alt="Figure 1: このサイトのもとになる org-mode ファイル (一部)" width="100%" />
-    
-    
-    <figcaption>
-        <p>
-        Figure 1: このサイトのもとになる org-mode ファイル (一部)
-        
-            
-        
-        </p> 
-    </figcaption>
-    
-</figure>
-
-
-<p>ox-hugo は紹介文が &ldquo;A <strong>carefully crafted</strong> Org exporter back-end for Hugo&rdquo; となっているだけあって、
-かゆいところに手が届く機能が揃っている。例えば</p>
-
-<ul>
-<li>org-mode で記事を TODO にするとエクスポートされたとき <code>draft=true</code> となる</li>
-<li>org-mode のタグが hugo のタグになる</li>
-<li>記事ごとに tag 以外の taxonomies (layout, categories など) を設定できる</li>
-<li>記事ごとにエクスポート先のフォルダ名とファイル名を決められる</li>
-<li>org-mode のファイルを保存するたびに自動でエクスポートが行われる</li>
-</ul>
-
-<p>がある。</p>
-
-<p>加えて ox-hugo のソースコードは大して長くないので、
-気に入らない部分があれば好きに改造していける。
-自分が施した変更は<a href="https://github.com/yuki67/dotemacs#ox-hugo">ここ</a>から見れる。</p>
-
-<h2 id="参考資料">参考資料</h2>
-
-<p><a href="https://github.com/kaushalmodi/ox-hugo">GitHub - kaushalmodi/ox-hugo: A carefully crafted Org exporter back-end for Hugo</a></p>
-
-<p><a href="https://github.com/yuki67/dotemacs#ox-hugo">GitHub - yuki67/dotemacs: My emacs configuration.</a></p>
 
 </article>
 

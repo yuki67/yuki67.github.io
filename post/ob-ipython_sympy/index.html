@@ -284,7 +284,9 @@
   
 
 
-  <p>jupyter notebook で sympy を使うとセルの実行結果を Latex で表示してくれるので便利だが、
+  
+
+<p>jupyter notebook で sympy を使うとセルの実行結果を Latex で表示してくれるので便利だが、
 ob-ipython で sympy を使うとセルの実行結果の表示が jupyter notebook ほど便利でない。</p>
 <div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+BEGIN_SRC ipython :session :exports both :results output raw drawer
 from sympy import *
@@ -307,10 +309,10 @@ x^{2} + 3 x - 4 = 0
 <p>x<sup>2</sup> + 3 x - 4 = 0</p>
 
 <p>幸い org-babel には「src block の実行結果を別の src block に通して、その結果を元の src block の結果にする」
-という機能があるので、その機能を使えばこの問題を回避できる。</p>
+という機能があるので、その機能を使えばこの問題を回避した。</p>
 
-<p>引数付きの src block は emacs lisp だと書きやすいので、それを使って書く。
-とりあえず、sympy の出力にエスケープされたカッコをつけて MathJax のソースコードとして認識されるようにしてみる。</p>
+<p>引数付きの src block は emacs lisp だと書きやすいので、それを使って書いた。
+sympy の出力にエスケープされたカッコをつけて MathJax のソースコードとして認識されるようにした。</p>
 <div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+name: wrapper-latex
 #+begin_src emacs-lisp :var text=&#34;&#34; :exports none
 (concat &#34;\\(&#34; (replace-regexp-in-string &#34;\n$&#34; &#34;&#34; text) &#34;\\)\n&#34;)
@@ -336,7 +338,7 @@ print(latex(eqn))
 
 <p>だいぶ良くなった。</p>
 
-<p>数式の最初に <code>\displaystyle</code> をいれ、さらに数式全体を special block で囲んで見やすくしてみる。</p>
+<p>次に数式の最初に <code>\displaystyle</code> をいれ、さらに数式全体を special block で囲んで見やすくした。</p>
 <div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+name: wrapper-latex2
 #+begin_src emacs-lisp :var text=&#34;&#34; :exports none
 (concat &#34;#+BEGIN_exa\n\\(\\displaystyle&#34;
@@ -372,9 +374,13 @@ latex(eqn)
 
 <p></div></p>
 
-<p>さらに src block を実行するたびに latex 要素を画像として表示するようにすれば、
-使い勝手が jupyter notebook にかなり近くなる。</p>
+<p>さらに src block を実行するたびに latex 要素を画像として表示するようにした。
+使い勝手が jupyter notebook にかなり近くなった。</p>
 <div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;org-babel-after-execute-hook</span> <span class="ss">&#39;org-toggle-latex-fragment</span><span class="p">)</span></code></pre></div>
+<h2 id="参考">参考</h2>
+
+<p><a href="https://org-babel.readthedocs.io/en/latest/header-args/#post">Header arguments - Org Babel reference card</a></p>
+
 
   
 <div class="prev-next-post pure-g">
@@ -395,8 +401,14 @@ latex(eqn)
   </div>
   <div class="pure-u-10-24">
     
+    <nav class="next">
+      <a href="https://yuki67.github.io/post/stream_cpp/">無限ストリーム in C&#43;&#43;</a>
+    </nav>
+    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="https://yuki67.github.io/post/stream_cpp/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

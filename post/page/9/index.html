@@ -250,6 +250,279 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/inverse_method/">
+      逆関数法
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2017-08-15
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/python">
+          Python
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p>ある分布が与えられたときにその分布に従う乱数を生成することを考える。</p>
+
+<p></p>
+
+<h2 id="理論">理論</h2>
+
+<h3 id="事実">事実</h3>
+
+<p>確率分布\(X\)が確率密度関数\({\it pdf }(x)\)で与えられたとする。</p>
+
+<p>つまり、\(X\)から変数をランダムにとったとき\(x\)が選ばれる確率は\({\it pdf} (x)\)に比例し、かつ
+\[
+\int_{-\infty}^{\infty} {\it pdf }(x) dx = 1
+\]
+が成り立つとする。</p>
+
+<p>この仮定のもとで、\({\it pdf}(x)\)の累積分布関数(commulative distribution function)を
+\[
+{\it cdf}(x) = \int_{-\infty}^{x} {\it pdf }(x) dx
+\]
+とする。</p>
+
+<p>このとき、\(x\)を\([0, 1]\)の一様分布からとった変数とすると、\({\it cdf}^{-1}(x)\)は\(P\)に従う。
+言い換えると、\(Y\)を\([0, 1]\)の一様分布としたとき、\(X \sim {\it cdf}^{-1}(Y)\)が成り立つ。</p>
+
+<h3 id="証明">証明</h3>
+
+<p>\(x\)を\([0, 1]\)の一様分布からとった変数とすると、任意の\(a \in [0, 1]\)に対して
+\[
+P(x \le a) = a
+\]
+である。</p>
+
+<p>よって、与えられた\({\it pdf}(x)\)から計算した\({\it cdf}(x)\)について、
+\[
+P({\it cdf}^{-1}(x) \le {\it cdf}^{-1}(a)) = a
+\]
+が成り立つ。</p>
+
+<p>\({\it cdf}^{-1}(a) = y\)とすると、\(a = {\it cdf}(y)\)でもあるから
+\[
+P({\it cdf}^{-1}(x) \le y) = {\it cdf}(y)
+\]
+となる。</p>
+
+<p>\(\therefore\) \({\it cdf}^{-1}(x)\)は累積分布関数が\({\it cdf}\)であるような分布、すなわち\(X\)に従う。 \(\Box\)</p>
+
+<p>(私は確率論をきちんと学んでいないので、この証明がどれぐらい正しいのか知らない。)</p>
+
+<p>Physically Based Rendering, Third Edition の 753-754ページには、離散分布を使った直感的でわかりやすい説明が載っていた。</p>
+
+<h2 id="実装">実装</h2>
+
+<p>pythonでは <code>random.random()</code> を使うと \([0,1]\) の一様分布が得られるので、上で示した方法を使えば様々な分布に従う乱数を生成できる。実際にやってみる。</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># モジュールのインポート</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">log</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span></code></pre></div>
+<h3 id="一様分布">一様分布</h3>
+
+<p>\([a, b]\)の一様分布では \({\it pdf}(x)\) は (\(x \in [a,b]\) で)一定となる。</p>
+
+<p>\({\it pdf}(x)\)の定義から\( \int_{a}^{b} {\it pdf}(x) dx = 1\)が成り立つので
+\[
+{\it pdf}(x) = \frac{1}{b-a}
+\]
+となる。(本当は\(x \notin [a, b]\)のときも考えなくてはいけないが、 \({\it pdf}(x)=0\)であり \({\it cdf}(x)\)の形も自明なので省略することにする。以降の例でも同様。)</p>
+
+<p>これから、
+\[
+{\it cdf}(x) = \int_{-\infty}^{x} {\it pdf}(x) dx = \frac{x-a}{b-a}
+\]
+\[
+\therefore {\it cdf}^{-1} (x) = (b-a)x + a
+\]
+となる。</p>
+
+<p>これをコードにすると、以下のようになる。</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># [0, 1]の一様乱数を入力すると[a, b]の一様乱数を出力する関数を返す</span>
+<span class="k">def</span> <span class="nf">RNG_uniform</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">cdf_inv</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">a</span>
+    <span class="k">return</span> <span class="n">cdf_inv</span></code></pre></div>
+<p>グラフにプロットすれば、本当に関数の出力が一様乱数か確認できる。</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">))</span>
+<span class="c1"># a, bの値を変えて3つ描画する</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">RNG_uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30000</span><span class="p">)],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;[0, 5]&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">RNG_uniform</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">)(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30000</span><span class="p">)],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;[4, 6]&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">RNG_uniform</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30000</span><span class="p">)],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;[3, 10]&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span></code></pre></div>
+
+<figure>
+    
+        <img src="https://yuki67.github.io/ox-hugo/RNG_uniform.png" />
+    
+    
+</figure>
+
+
+<h3 id="it-pdf-x---が--x--に比例する分布">\({\it pdf}(x)\) が \(x\) に比例する分布</h3>
+
+<p>これはどのような分布かというと、変数 \(x\) を取ったとき\(x\) が \([0,1]\) に含まれる確率は \([1,2]\) に含まれる確率の半分となる分布である。</p>
+
+<p>このような分布で、変数の範囲が \([a, b]\)であるものを考える。</p>
+
+<p>\({\it pdf}(x) = cx\) とすると、\({\it pdf}(x)\) の条件
+\[\int_{-\infty}^{\infty} {\it pdf }(x) dx = 1\]
+から、
+\[\int_{a}^{b} cx dx = \frac{c}{2} (b^{2} - a^{2}) = 1\]
+\[\therefore c = \frac{2}{b^{2} - a^{2}}\]</p>
+
+<p>よって</p>
+
+<p>\begin{align}
+{\it cdf}(x) &amp; = \int_{-\infty}^{x} {\it pdf}(x) dx \\<br />
+             &amp; = \int_{a}^{x} \frac{2x}{b^{2} - a^{2}} dx \\<br />
+             &amp; = \frac{x^{2} - a^{2}}{b^{2} - a^{2}}
+\end{align}</p>
+
+<p>これより
+\[
+{\it cdf}^{-1}(x) = \sqrt{(b^{2} - a^{2}) x + b^{2}}
+\]</p>
+
+<p>これをコードにすると以下のようになる。</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># [0, 1]の一様乱数を入力するとpdf(x)=cx (a &lt; x &lt; b) な乱数を返す関数を返す</span>
+<span class="k">def</span> <span class="nf">RNG_linear</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">((</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+    <span class="k">return</span> <span class="n">func</span></code></pre></div>
+<p>同様にグラフにする。</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">))</span>
+<span class="c1"># a, bの値を変えて3つ描画する</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">RNG_linear</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30000</span><span class="p">)],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;[0, 6]&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">RNG_linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">)(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30000</span><span class="p">)],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;[2, 8]&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">RNG_linear</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">)(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30000</span><span class="p">)],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;[7, 10]&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span></code></pre></div>
+
+<figure>
+    
+        <img src="https://yuki67.github.io/ox-hugo/RNG_linear.png" />
+    
+    
+</figure>
+
+
+<p>ここまでの二つの例における \({\it cdf}^{-1}(x)\)の形を見比べればわかるとおり、これらの考え方は\({\it pdf}(x) = cx^{n}\) の場合に一般化することができる。</p>
+
+<h3 id="指数分布">指数分布</h3>
+
+<p>\({\it pdf}(x) = ce^{-kx}\) で、変数の範囲が \([a, b]\) とする。</p>
+
+<p>\({\it pdf}(x)\)の条件から
+\[\int_{a}^{b} ce^{-kx} dx = \frac{c}{k} (e^{-ka} - e^{-kb}) = 1\]
+\[\therefore c = \frac{k}{e^{-ka}-e^{-kb}}\]
+よって</p>
+
+<p>\begin{align}
+{\it cdf}(x) &amp; = \int_{a}^{x} \frac{k}{(e^{-ka} - e^{-kb})}e^{-kx} dx \\<br />
+             &amp; = \frac{e^{-ka}-e^{-kx}}{e^{-ka} - e^{-kb}}
+\end{align}</p>
+
+<p>\[\therefore {\it cdf}^{-1}(x) = - \frac{\log(e^{-ka} - (e^{-ka} - e^{-kb})x)}{k}\]</p>
+
+<p>コードは</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># [0, 1]の一様乱数を入力するとpdf(x)=ce^(-kx) (a &lt; x &lt; b) な乱数を返す関数を返す</span>
+<span class="k">def</span> <span class="nf">RNG_exp</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">k</span><span class="o">*</span><span class="n">a</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">k</span><span class="o">*</span><span class="n">a</span><span class="p">)</span> <span class="o">-</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">k</span><span class="o">*</span><span class="n">b</span><span class="p">)))</span> <span class="o">/</span> <span class="n">k</span>
+    <span class="k">return</span> <span class="n">func</span></code></pre></div>
+<p>グラフは</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">))</span>
+<span class="c1"># k, a, bの値を変えて3つ描画する</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">RNG_exp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30000</span><span class="p">)],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;k=1, [1, 10]&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">RNG_exp</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30000</span><span class="p">)],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;k=2, [1, 10]&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">RNG_exp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30000</span><span class="p">)],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;k=1, [1, 5]&#34;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span></code></pre></div>
+
+<figure>
+    
+        <img src="https://yuki67.github.io/ox-hugo/RNG_exp.png" />
+    
+    
+</figure>
+
+
+<p>なお前の式で\(k=1\), \(b = \infty\) とすると
+\[{\it cdf}^{-1}(x) = a \log(1-x)\]
+となってかなり簡単になる。</p>
+
+<h3 id="その他">その他</h3>
+
+<p>逆関数法を使って乱数が求められる分布は他にもあるが省略。</p>
+
+<p>逆関数法を使わないでも乱数が求められる分布もある。</p>
+
+<p>例えば、 \(X_{1}, \dots , X_{n}\) を \([a, b]\) の一様分布に従う変数としたとき
+\[ X = max(X_{1}, \dots, X_{n})\]
+とすると、 \(X\) は \({\it pdf(x) = cx^{n}}\) かつ \(X \in [a, b]\) な分布に従う。</p>
+
+<p>このことは</p>
+
+<p>\begin{align}
+P(X = x) &amp; = P(x_{1} \leq x \land , \dots , \land x_{n} \leq x) \\<br />
+         &amp; = \prod_{i=1}^{n} P(x_{i} \leq x) &amp; (\because x_{i} は独立) \\<br />
+         &amp; \sim \prod_{i=1}^{n} x &amp; (\because x_{i}は一様分布に従う) \\<br />
+         &amp; = x^{n}
+\end{align}</p>
+
+<p>からわかる。</p>
+
+<p>逆関数法を使わないで乱数を求める他の方法として、ボックスミュラー法がある。</p>
+
+<h2 id="参考文献">参考文献</h2>
+
+<p>Physically Based Rendering, Third Edition, Chapter13 &ldquo;Monte Carlo Integration&rdquo;</p>
+
+<p>Ray Tracing: The Rest Of Your Life (Ray Tracing Minibooks Book 3), Chapter2 &ldquo;One Dimentional MC Integral&rdquo;</p>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/montecarlo_integral/">
       モンテカルロ積分
     </a>

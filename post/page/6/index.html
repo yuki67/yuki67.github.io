@@ -250,6 +250,70 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/ubuntu_bluetooth/">
+      Ubuntu 17.10 で MDR-1000X を使う
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-02-05
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ubuntu">
+          ubuntu
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p></p>
+
+<p>MDR-1000X を bluetooth で Ubuntu に接続しても音が聞こえなかったが、 <code>pavucontrol</code> を使ったらできるようになった。</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt install pavucontrol</code></pre></div>
+<p>としてから</p>
+
+<ol>
+<li><code>pavucontrol</code> で起動</li>
+<li>設定タブからプロファイルを <code>High Fidelity Playback (A2DP Sink)</code> に変更</li>
+<li>Ubuntuのサウンド設定からサウンドの出力デバイスをMDR-1000Xに変える</li>
+</ol>
+
+<p>とするとできる。
+上手く行かないときは一度サウンド設定を他のデバイスにしてからMDR-1000Xに戻したり、音量を変えたりすると
+できるようになることがある。</p>
+
+<p>自動化するのは面倒くさいのでパス。</p>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/kindle_for_ubuntu/">
       Ubuntu 17.10 で Kindle for PC を使う
     </a>
@@ -819,234 +883,6 @@ gnome-tweak-tool からもできた。</p>
 </span><span class="c1"></span>    <span class="k">else</span> true<span class="p">;</span> <span class="c1"># 何もしない
 </span><span class="c1"></span><span class="k">fi</span></code></pre></div>
 <p>ワンライナーでは無理かな?</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/mincaml_jbuilder/">
-      MinCamlをjbuilderでビルドする
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2017-12-13
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ocaml">
-          OCaml
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>org-modeで書いて<a href="http://e-yuki67.hatenablog.com/entry/2017/12/13/215123">はてな</a>に公開したものを貼る。</p>
-
-<p>文章さえ書けばはてなに移すのは楽だろうと思ったが、画像をアップロードしたりリンクを張り替えたりするのは結構な手間だったので次からはやめよう。</p>
-
-<p></p>
-
-<p>(以下は元記事)</p>
-
-<p>この記事は<a href="https://adventar.org/calendars/2583">IS17er Advent Calendar 2017</a>の13日目の記事です。</p>
-
-<p><a href="https://github.com/janestreet/jbuilder">jbuilder</a>はOCaml用のビルドツールで、<a href="https://github.com/ocaml/ocamlbuild">OCamlbuild</a>や<a href="https://github.com/ocaml-omake/omake">OMake</a>, <a href="https://github.com/ocaml/oasis">OASIS</a>の親戚です。jbuilderを使うとOCamlを使って書いたプログラムのビルドが楽にできます。</p>
-
-<p>MinCamlをjbuilderでビルドするのを試したところうまく設定できたので、この記事ではその方法を書きます。</p>
-
-<p>フォークレポジトリは<a href="https://github.com/yuki67/min-caml">これ</a>です。</p>
-
-<h2 id="下準備">下準備</h2>
-
-<p>MinCamlのソースコードをダウンロードし、 <code>./to_x86</code> というスクリプトを実行しておきます。</p>
-
-<p>このコマンドがないとそもそもビルドができません。</p>
-
-<h2 id="jbuilderのインストール">jbuilderのインストール</h2>
-
-<p>opamから行えます。</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">opam install jbuilder</code></pre></div>
-<h2 id="jbuildの記述">jbuildの記述</h2>
-
-<p>OCamlMakefileを使うのに <code>Makefile</code> が必要なように、jbuilderを使うには <code>jbuild</code> が必要です。</p>
-
-<p>MinCamlと同じディレクトリに <code>jbuild</code> というファイルを作り、以下を記述します。
-このファイルの書き方はかなり特殊だと思うので、<a href="https://jbuilder.readthedocs.io/en/latest/">ドキュメント</a>を参照してください(自分でもこれであってるのかイマイチ自信がありません&hellip;)。</p>
-<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="nv">jbuild_version</span> <span class="mi">1</span><span class="p">)</span>
-
-<span class="c1">;lexer, parser はモジュール名</span>
-<span class="p">(</span><span class="nv">ocamllex</span> <span class="p">(</span><span class="nv">lexer</span><span class="p">))</span>
-<span class="p">(</span><span class="nv">ocamlyacc</span> <span class="p">(</span><span class="nv">parser</span><span class="p">))</span>
-
-<span class="p">(</span><span class="nv">library</span> <span class="c1">; 実行形式以外のモジュールを詰めたライブラリを作る</span>
- <span class="p">(</span><span class="c1">; トップモジュールの名前はMinCaml</span>
-  <span class="p">(</span><span class="nv">name</span>           <span class="nv">MinCaml</span><span class="p">)</span>
-  <span class="c1">; MinCamlモジュールに詰めるモジュールを書く</span>
-  <span class="c1">; 読み込むと入力を受け付け始めるMain, Anchor以外すべて</span>
-  <span class="c1">; &#34;:standard&#34;でこのフォルダにあるモジュールを表し、 &#34;\&#34;以降で除外するモジュールを選択している</span>
-  <span class="p">(</span><span class="nv">modules</span>        <span class="p">(</span><span class="ss">:standard</span> <span class="nv">\ main</span> <span class="nv">anchor</span><span class="p">))</span>
-  <span class="c1">; 依存している外部ライブラリ</span>
-  <span class="p">(</span><span class="nv">libraries</span>      <span class="p">(</span><span class="nv">str</span><span class="p">))</span>
-  <span class="c1">; cのスタブの名前(float.c)</span>
-  <span class="p">(</span><span class="nv">c_names</span>         <span class="p">(</span><span class="nv">float</span><span class="p">))))</span>
-
-<span class="p">(</span><span class="nv">executable</span> <span class="c1">; 実行形式</span>
- <span class="p">(</span><span class="c1">; 実行形式の名前</span>
-  <span class="p">(</span><span class="nv">name</span>           <span class="nv">main</span><span class="p">)</span>
-  <span class="c1">; Mainモジュールのみをコンパイルする</span>
-  <span class="p">(</span><span class="nv">modules</span>        <span class="nv">Main</span><span class="p">)</span>
-  <span class="c1">; 依存ライブラリ: 上で定義したMinCamlモジュール</span>
-  <span class="p">(</span><span class="nv">libraries</span>      <span class="p">(</span><span class="nv">MinCaml</span><span class="p">))))</span></code></pre></div>
-<p>各モジュール間の依存関係を書く必要はなく勝手に推論してくれます。もし依存関係にループがあった場合はどのようにループしているかを示してくれます。そのため新しいファイルを後から追加しても設定の変更は必要ありません。</p>
-
-<p>なお後述する <code>jbuilder utop</code> という機能を利用するために、「 <code>main.ml</code> と <code>anchor.ml</code> 以外のファイルをコンパイルしてライブラリ <code>MinCaml</code> を作り、そのライブラリを使って <code>main.ml</code> をコンパイルする」という、多少遠回りな方法を取りました。</p>
-
-<h2 id="main-dot-mlの編集">main.mlの編集</h2>
-
-<p><code>main.ml</code> が (同じディレクトリにある\*.mlファイルで定義されるモジュールではなく) <code>MinCaml</code> モジュール内のモジュールを使うように、 冒頭に <code>open MinCaml</code> を追加します。</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">open</span> <span class="nc">MinCaml</span> <span class="c">(* 追加 *)</span>
-
-<span class="c">(* 以下は同じ *)</span>
-<span class="k">let</span> <span class="n">limit</span> <span class="o">=</span> <span class="n">ref</span> <span class="n">1000</span>
-
-<span class="o">...</span></code></pre></div>
-<h2 id="ビルド">ビルド</h2>
-
-<p>以上の設定でビルドができるようになります。次のコマンドでビルドします。</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">jbuilder build main.exe</code></pre></div>
-<p>これで <code>main.ml</code> をコンパイルしたファイル <code>./_build/default/main.exe</code> が作られます。</p>
-
-<h2 id="jubuilder-utop-コマンド"><code>jubuilder utop</code> コマンド</h2>
-
-<p><code>jubuilder utop</code> コマンドを実行すると、そのフォルダの =jbuild=ファイルで定義されたライブラリのビルドが行われ、そのライブラリをロードしたutopが起動します。</p>
-
-<p>上のように `jbuild` を記述した上で `jbuilder utop` を実行すると以下のようになります。</p>
-
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/utop.png" />
-    
-    
-</figure>
-
-
-<p>ライブラリのロードが行われるので、 モジュール名 (画像では`MinCaml`)  を打つと補完が効きます。ソースコードの修正とデバッグを繰り返すときに便利です。</p>
-
-<p><code>main.ml</code> をコンパイルするのに <code>MinCaml</code> モジュールををわざわざ作った理由は、 <code>Main</code> モジュールがutopから読み込まれると標準入力を読み込み始めてしまうので除外する必要があったためです。</p>
-
-<h2 id="makfileと組み合わせる">Makfileと組み合わせる</h2>
-
-<p>もともとのMinCamlはMakefileを使ってテストをするようになっているので、jbuilderと結合させます。</p>
-<div class="highlight"><pre class="chroma"><code class="language-makefile" data-lang="makefile"><span class="nv">RESULT</span> <span class="o">=</span> min-caml
-<span class="nv">SRC</span>   <span class="o">=</span> <span class="k">$(</span>shell ls *.ml *.mli<span class="k">)</span>
-<span class="nv">TESTS</span> <span class="o">=</span> <span class="k">$(</span>shell ls test/*.ml <span class="p">|</span> grep -v toomanyargs<span class="k">)</span>
-<span class="nv">JBUILD_BUILD_PATH</span><span class="o">=</span>./_build/default
-
-<span class="nf">default</span><span class="o">:</span> <span class="k">$(</span><span class="nv">RESULT</span><span class="k">)</span>
-
-<span class="c"># jbuilderを使ったビルド
-</span><span class="c"></span><span class="nf">$(RESULT)</span><span class="o">:</span> <span class="k">$(</span><span class="nv">JBUILD_BUILD_PATH</span><span class="k">)</span>/<span class="n">main</span>.<span class="n">exe</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>
-        cp <span class="k">$(</span>JBUILD_BUILD_PATH<span class="k">)</span>/main.exe <span class="k">$(</span>RESULT<span class="k">)</span>
-
-<span class="nf">$(JBUILD_BUILD_PATH)/main.exe</span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>
-        jbuilder build main.exe
-
-<span class="c"># モジュールをすべてロードしたutopを起動する
-</span><span class="c"></span><span class="nf">utop</span><span class="o">:</span>
-        jbuilder utop
-
-<span class="c"># 以下同じ
-</span><span class="c"></span><span class="nf">do_test</span><span class="o">:</span> <span class="k">$(</span><span class="nv">TESTS</span>:%.<span class="nv">ml</span>=%.<span class="nv">cmp</span><span class="k">)</span>
-<span class="err">...</span>
-</code></pre></div>
-<p>これで `make`, `make do_test` が元のMinCamlと同じ意味で使えるようになり、  `make utop` でライブラリをロードしたutopが起動するようになります。</p>
-
-<p>jbuilderの紹介はここまでです。</p>
-
-<h2 id="その他ocaml小ネタ">その他OCaml小ネタ</h2>
-
-<p>思いついたものを書きます。</p>
-
-<h3 id="install-printer">install_printer</h3>
-
-<p>ocamlのREPLで <code>#install_printer hoge</code> とするとそれ以降プリント関数として使うことができます。</p>
-
-<p>具体的には</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"># type foo = A | B;;
-# let print_foo fmt = function ;; 型fooのプリント関数
-  | A -&gt; Format.fprintf fmt &#34;this is value A&#34;
-  | B -&gt; Format.fprintf fmt &#34;this is value B&#34;;;
-val print_foo : Format.formatter -&gt; foo -&gt; unit = &lt;fun&gt;
-# A;;  ; print_installする前
-- : foo = A
-# B;;
- - : foo = B
-# #install_printer print_foo;;
-# A;;  ;; print_installした後
-- : foo = this is value A
-# B;;
-- : foo = this is value B
-# (A, B);;  ;; 組み合わさっていてもOK
-- : foo * foo = (this is value A, this is value B)</code></pre></div>
-<p>とします。</p>
-
-<p>なおプリント関数の型が <code>t -&gt; unit</code> であっても動きますが、これは deprecated だそうです。(<a href="https://caml.inria.fr/pub/docs/manual-ocaml/toplevel.html">ソース</a>)</p>
-
-<h3 id="バックトレースの有効化">バックトレースの有効化</h3>
-
-<p>REPLで <code>Printexc.record_backtrace true</code> とすると例外が出たときにどこから出たのか教えてくれます。</p>
-
-<p>これがあればコンパイラをいじった結果 `Exception: Assert_failure` が全く予期しないところから生じても大丈夫です。</p>
-
-<h3 id="dot-ocamlinit"><code>.ocamlinit</code></h3>
-
-<p>ocamlのREPLは立ち上がるときに同じディレクトリにある =.ocamlinit=を読むので、ここに毎回実行する処理を書いておくと楽です。</p>
-
-<p>上のMinCamlでは</p>
-<div class="highlight"><pre class="chroma"><code class="language-ocaml" data-lang="ocaml"><span class="k">open</span> <span class="nc">MinCaml</span><span class="o">;;</span>
-<span class="c">(* エラーが出たときのバックトレースの有効化 *)</span>
-<span class="nn">Printexc</span><span class="p">.</span><span class="n">record_backtrace</span> <span class="bp">true</span><span class="o">;;</span>
-<span class="c">(* プリント関数の有効化*)</span>
-<span class="o">#</span><span class="n">install_printer</span> <span class="nn">Syntax</span><span class="p">.</span><span class="n">print</span>
-<span class="o">#</span><span class="n">install_printer</span> <span class="nn">KNormal</span><span class="p">.</span><span class="n">print</span>
-<span class="o">#</span><span class="n">install_printer</span> <span class="nn">Closure</span><span class="p">.</span><span class="n">print</span>
-<span class="o">#</span><span class="n">install_printer</span> <span class="nn">Asm</span><span class="p">.</span><span class="n">print</span></code></pre></div>
-<p>と書いています。</p>
-
-<h3 id="flambdaの有効化">flambdaの有効化</h3>
-
-<p>flambdaとはOCamlのネイティブコンパイラが持つ最適化機能の総称です。デフォルトの状態では(多分)有効化されないので、以下のコマンドで有効化されたコンパイラをビルドする必要があります。</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">opam switch <span class="m">4</span>.05.0+flambda</code></pre></div>
-<p>これで <code>-O3</code> オプションを付けてコンパイルすれば最適化が有効になります。</p>
-
-<p>自分が書いたシミュレーターでは40%程度高速化しました。</p>
 
 </article>
 

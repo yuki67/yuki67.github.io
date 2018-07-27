@@ -7,10 +7,24 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Sun, 15 Jul 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 16 Jul 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>無限ストリーム in C&#43;&#43;</title>
+      <link>https://yuki67.github.io/post/stream_cpp/</link>
+      <pubDate>Mon, 16 Jul 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/stream_cpp/</guid>
+      <description>SICP 3.5節 にある無限ストリームを C++ で実装した。 それを使ってフィボナッチ数列や素数、Aitken 加速などを実装できた。 ラムダ式とか auto とかをいい感じに使えた、と思う。 あとこの記事を描くのに noweb を使った文芸的プログラミングを初めて使った。
+実装 SICP では無限ストリームは car の値と cdr 部分のストリームを計算する関数の組として実装されている。 たとえばnから始まる整数を並べた無限ストリームは
+;; n から始まる整数ストリーム (define (integers-starting-from n) (cons-stream n (integers-starting-from (+ n 1)))) となる。
+これと同じように C++ でストリームを実装しようとするとすごく面倒臭くなる。 C++ にはラムダ式と auto を使って関数を定義するときには再帰が使えないという制限があるので、上の例と似た関数を
+// コンパイルできない auto integers_starting_from = [](auto n) {return cons(n, integers_starting_from(n + 1)); };  と定義することができず、型(いまの例なら std::functional&amp;lt;Stream&amp;lt;int&amp;gt;(int)&amp;gt; )を毎回書かなければならない。
+流石にこれは面倒臭すぎるので、ストリームを配列っぽく実装した。 T 型のストリームは第n項を計算する関数によって初期化され、 一度計算した値は std::unordered_map&amp;lt;size_t, T&amp;gt; に保存される。 さらに、第n項を計算するときに他の項の値を参照できるように、ストリームを初期化するときに与える 関数には自分自身 (*this) が引数として与えられる。</description>
+    </item>
     
     <item>
       <title>ob-ipython で sympy を使うときに出力を綺麗にする</title>
@@ -20,7 +34,7 @@
       <guid>https://yuki67.github.io/post/ob-ipython_sympy/</guid>
       <description>jupyter notebook で sympy を使うとセルの実行結果を Latex で表示してくれるので便利だが、 ob-ipython で sympy を使うとセルの実行結果の表示が jupyter notebook ほど便利でない。
 #+BEGIN_SRC ipython :session :exports both :results output raw drawer from sympy import * init_printing() x = symbols(&amp;#34;x&amp;#34;) eqn = Eq(x**2+3*x-4) print(latex(eqn)) #+END_SRC #+RESULTS: :RESULTS: x^{2} + 3 x - 4 = 0 :END:from sympy import * init_printing() x = symbols(&amp;#34;x&amp;#34;) eqn = Eq(x**2+3*x-4) print(latex(eqn)) x2 + 3 x - 4 = 0
-幸い org-babel には「src block の実行結果を別の src block に通して、その結果を元の src block の結果にする」 という機能があるので、その機能を使えばこの問題を回避できる。</description>
+幸い org-babel には「src block の実行結果を別の src block に通して、その結果を元の src block の結果にする」 という機能があるので、その機能を使えばこの問題を回避した。</description>
     </item>
     
     <item>

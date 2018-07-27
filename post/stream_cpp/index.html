@@ -6,7 +6,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.40.3" />
 
-  <title>All Posts &middot; yuki&#39;s blog</title>
+  <title>無限ストリーム in C&#43;&#43; &middot; yuki&#39;s blog</title>
 
   
   
@@ -36,8 +36,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-      <link rel="alternate" type="application/rss+xml" title="yuki&#39;s blog" href="https://yuki67.github.io/post/index.xml" />
   
 
   
@@ -129,10 +127,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="https://yuki67.github.io/post/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -240,20 +234,11 @@
 
 
 <div class="header">
-  <h1>All Posts</h1>
+  <h1>無限ストリーム in C&#43;&#43;</h1>
+  <h2></h2>
 </div>
 <div class="content">
-  <p>全ての記事をそのまま表示している。</p>
 
-<p>とても重くなってしまっているかもしれない。</p>
-
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/stream_cpp/">
-      無限ストリーム in C&#43;&#43;
-    </a>
-  </h2>
   <div class="post-meta">
   <span>
     <i class="fa fa-calendar fa-fw"></i>
@@ -287,6 +272,9 @@
     
   
 </div>
+
+
+  
 
 
   
@@ -656,540 +644,34 @@ x^{\prime}_{n} &amp;= x_{n} - \frac{(\Delta x_{n})^{2}}{\Delta^{2}x_{n}} \\<br /
 <p><a href="https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book-Z-H-24.html#%%5Fsec%5F3.5">Structure and Interpretation of Computer Programs</a></p>
 
 
-</article>
-
-    <br>
-    <br>
   
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/ob-ipython_sympy/">
-      ob-ipython で sympy を使うときに出力を綺麗にする
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-07-15
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
     
+    <a href="https://yuki67.github.io/post/ob-ipython_sympy/"><i class="fa fa-chevron-left"></i></a>
     
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/python">
-          python
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/emacs">
-          emacs
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
+  </div>
+  <div class="pure-u-10-24">
     
-  
+    <nav class="prev">
+      <a href="https://yuki67.github.io/post/ob-ipython_sympy/">ob-ipython で sympy を使うときに出力を綺麗にする</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
 </div>
 
 
-  
-
-<p>jupyter notebook で sympy を使うとセルの実行結果を Latex で表示してくれるので便利だが、
-ob-ipython で sympy を使うとセルの実行結果の表示が jupyter notebook ほど便利でない。</p>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+BEGIN_SRC ipython :session :exports both :results output raw drawer
-from sympy import *
-init_printing()
-
-x = symbols(&#34;x&#34;)
-eqn = Eq(x**2+3*x-4)
-print(latex(eqn))
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-x^{2} + 3 x - 4 = 0
-:END:</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">init_printing</span><span class="p">()</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&#34;x&#34;</span><span class="p">)</span>
-<span class="n">eqn</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">latex</span><span class="p">(</span><span class="n">eqn</span><span class="p">))</span></code></pre></div>
-<p>x<sup>2</sup> + 3 x - 4 = 0</p>
-
-<p>幸い org-babel には「src block の実行結果を別の src block に通して、その結果を元の src block の結果にする」
-という機能があるので、その機能を使えばこの問題を回避した。</p>
-
-<p>引数付きの src block は emacs lisp だと書きやすいので、それを使って書いた。
-sympy の出力にエスケープされたカッコをつけて MathJax のソースコードとして認識されるようにした。</p>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+name: wrapper-latex
-#+begin_src emacs-lisp :var text=&#34;&#34; :exports none
-(concat &#34;\\(&#34; (replace-regexp-in-string &#34;\n$&#34; &#34;&#34; text) &#34;\\)\n&#34;)
-#+end_src
-
-#+HEADER: :session :exports both :results output drawer
-#+HEADER: :eval no-export :post wrapper-latex(text=*this*)
-#+BEGIN_SRC ipython
-x = symbols(&#34;x&#34;)
-y = symbols(&#34;y&#34;, cls=Function)
-
-eqn = Eq(y(x).diff(x), sin(x)*tan(y(x)))
-print(latex(eqn))
-#+END_SRC
-
-#+RESULTS:
-\(\frac{d}{d x} y{\left (x \right )} = \sin{\left (x \right )} \tan{\left (y{\left (x \right )} \right )}\)</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">x</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&#34;x&#34;</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&#34;y&#34;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">Function</span><span class="p">)</span>
-
-<span class="n">eqn</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">tan</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">latex</span><span class="p">(</span><span class="n">eqn</span><span class="p">))</span></code></pre></div>
-<p>\(\frac{d}{d x} y{\left (x \right )} = \sin{\left (x \right )} \tan{\left (y{\left (x \right )} \right )}\)</p>
-
-<p>だいぶ良くなった。</p>
-
-<p>次に数式の最初に <code>\displaystyle</code> をいれ、さらに数式全体を special block で囲んで見やすくした。</p>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+name: wrapper-latex2
-#+begin_src emacs-lisp :var text=&#34;&#34; :exports none
-(concat &#34;#+BEGIN_exa\n\\(\\displaystyle&#34;
-        (replace-regexp-in-string
-         &#34;# Out\\[.*\\]:\n: &#39;\\(.*\\)&#39;&#34;
-         &#34;\\1&#34;
-         text)
-        &#34;\\)\n#+END_exa&#34;)
-#+end_src
-
-#+HEADER: :session :exports both :results value raw
-#+HEADER: :eval no-export :post wrapper-latex2(text=*this*)
-#+BEGIN_SRC ipython
-x = symbols(&#34;x&#34;)
-y = symbols(&#34;y&#34;, cls=Function)
-
-eqn = Eq(y(x).diff(x), (x-2*y(x)+3)/(2*x+y(x)-4))
-latex(eqn)
-#+END_SRC
-
-#+RESULTS:
-#+BEGIN_exa
-\(\displaystyle\\frac{d}{d x} y{\\left (x \\right )} = \\frac{x - 2 y{\\left (x \\right )} + 3}{2 x + y{\\left (x \\right )} - 4}\)
-#+END_exa</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">x</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&#34;x&#34;</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&#34;y&#34;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">Function</span><span class="p">)</span>
-
-<span class="n">eqn</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">-</span><span class="mi">4</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">latex</span><span class="p">(</span><span class="n">eqn</span><span class="p">))</span></code></pre></div>
-<div class="exa">
-  <div></div>
-
-<p>\(\displaystyle\frac{d}{d x} y{\left (x \right )} = \frac{x - 2 y{\left (x \right )} + 3}{2 x + y{\left (x \right )} - 4}\)</p>
-
-<p></div></p>
-
-<p>さらに src block を実行するたびに latex 要素を画像として表示するようにした。
-使い勝手が jupyter notebook にかなり近くなった。</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;org-babel-after-execute-hook</span> <span class="ss">&#39;org-toggle-latex-fragment</span><span class="p">)</span></code></pre></div>
-<h2 id="参考">参考</h2>
-
-<p><a href="https://org-babel.readthedocs.io/en/latest/header-args/#post">Header arguments - Org Babel reference card</a></p>
-
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/hello_papi/">
-      PAPI を使った
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-06-20
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/papi">
-          papi
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
-          cpp
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
-          コード置き場
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
 
   
-
-<p><a href="http://icl.utk.edu/papi/">PAPI</a> を使うと CPU のハードウェアカウンタを使って様々な値を測定できる。
-例えば</p>
-
-<ul>
-<li>実行した命令の数</li>
-<li>実行した浮動小数点演算の数</li>
-<li>パイプラインがストールした回数</li>
-<li>キャッシュヒット/ミス の回数</li>
-<li>分岐予測の成功/失敗数</li>
-</ul>
-
-<p>を測定できる。測定した値は FLOPS の測定なりパフォーマンスのチューニングなりに使える。</p>
-
-<p>適切に設定すれば CPU 以外のハードウェアのカウンタも読めるらしいが、使ってないのでよくわからない。</p>
-
-<h2 id="インストール">インストール</h2>
-
-<p>昔はインストールするのにカーネルにパッチを当てる必要があったりして一苦労だったらしい (検索すると出てくる) が、
-最新版の Linux カーネルであればインストールは <code>./configure; make; make install</code> で済んだ。</p>
-
-<h2 id="利用可能なイベントの確認">利用可能なイベントの確認</h2>
-
-<p><code>papi_avail</code> で利用可能なイベントの一覧を確認できる。コンシューマ向けの CPU だと性能測定用のハードウェアカウンタがしょぼいようなので、インストールしたら必ず確認したほうがいい。</p>
-
-<p>自分の環境では以下のようになった。</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">$ papi_avail
-Available PAPI preset and user defined events plus hardware information.
---------------------------------------------------------------------------------
-PAPI version             : 5.6.1.0
-Operating system         : Linux 4.4.0-128-generic
-Vendor string and code   : GenuineIntel (1, 0x1)
-Model string and code    : Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz (158, 0x9e)
-...
---------------------------------------------------------------------------------
-
-================================================================================
-  PAPI Preset Events
-================================================================================
-    Name        Code    Avail Deriv Description (Note)
-PAPI_L1_DCM  0x80000000  Yes   No   Level 1 data cache misses
-PAPI_L1_ICM  0x80000001  Yes   No   Level 1 instruction cache misses
-PAPI_L2_DCM  0x80000002  Yes   Yes  Level 2 data cache misses
-PAPI_L2_ICM  0x80000003  Yes   No   Level 2 instruction cache misses
-PAPI_L3_DCM  0x80000004  No    No   Level 3 data cache misses
-PAPI_L3_ICM  0x80000005  No    No   Level 3 instruction cache misses
-...
-PAPI_FML_INS 0x80000061  No    No   Floating point multiply instructions
-PAPI_FAD_INS 0x80000062  No    No   Floating point add instructions
-PAPI_FDV_INS 0x80000063  No    No   Floating point divide instructions
-PAPI_FSQ_INS 0x80000064  No    No   Floating point square root instructions
-PAPI_FNV_INS 0x80000065  No    No   Floating point inverse instructions
-PAPI_FP_OPS  0x80000066  No    No   Floating point operations
-PAPI_SP_OPS  0x80000067  Yes   Yes  Floating point operations; optimized to count scaled single precision vector operations
-PAPI_DP_OPS  0x80000068  Yes   Yes  Floating point operations; optimized to count scaled double precision vector operations
-PAPI_VEC_SP  0x80000069  Yes   Yes  Single precision vector/SIMD instructions
-PAPI_VEC_DP  0x8000006a  Yes   Yes  Double precision vector/SIMD instructions
-PAPI_REF_CYC 0x8000006b  Yes   No   Reference clock cycles
---------------------------------------------------------------------------------
-Of 108 possible events, 59 are available, of which 18 are derived.</code></pre></div>
-<p>出力の最終行から、全体の約半分 (59 / 108) のイベントしか測定できないことが分かる。</p>
-
-<p>なお <code>PAPI_FP_OPS</code> という浮動小数点演算の数を数えるための一番基本的なイベントが使えないことから、
-PAPI のサンプルコードやテストが上手く実行できなかった。
-浮動小数点演算の回数自体は <code>PAPI_DP_OPS</code> というイベントを使って測定できたのでよかったが、
-一番最初に実行するサンプルコードが segmantation fault で落ちるので原因の調査にかなり時間を食った。</p>
-
-<h2 id="使う">使う</h2>
-
-<p>以下のプログラムは浮動小数点演算の回数、CPU時間を計測し、そこから計算される GFLOPS と合わせて表示させた。
-それから実行された命令の数も計測して表示させている。</p>
-<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;papi.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">void</span> <span class="nf">print_papi_error</span><span class="p">(</span><span class="kt">int</span> <span class="n">error_num</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;PAPI error &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">error_num</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">PAPI_strerror</span><span class="p">(</span><span class="n">error_num</span><span class="p">)</span>
-            <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">retval</span><span class="p">;</span>
-  <span class="k">auto</span> <span class="n">a</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-
-  <span class="c1">// 測定するイベント
-</span><span class="c1"></span>  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">events</span> <span class="o">=</span> <span class="p">{</span><span class="n">PAPI_TOT_INS</span><span class="p">,</span> <span class="n">PAPI_DP_OPS</span><span class="p">};</span>
-  <span class="c1">// 測定結果を収める場所
-</span><span class="c1"></span>  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">long_long</span><span class="o">&gt;</span> <span class="n">values</span><span class="p">(</span><span class="n">events</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
-
-  <span class="c1">// カウンタをスタートさせる
-</span><span class="c1"></span>  <span class="c1">// events が多すぎる場合はここでエラーが出る
-</span><span class="c1"></span>  <span class="n">retval</span> <span class="o">=</span> <span class="n">PAPI_start_counters</span><span class="p">(</span><span class="n">events</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">events</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">!=</span> <span class="n">PAPI_OK</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">print_papi_error</span><span class="p">(</span><span class="n">retval</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="k">auto</span> <span class="n">cpu_time_begin_usec</span> <span class="o">=</span> <span class="n">PAPI_get_virt_usec</span><span class="p">();</span>
-  <span class="c1">// 浮動小数点演算を 10^8 回行う
-</span><span class="c1"></span>  <span class="c1">// 前後の命令が依存関係を持つので性能は出ない
-</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mf">1.e8</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">a</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">auto</span> <span class="n">cpu_time_end_usec</span> <span class="o">=</span> <span class="n">PAPI_get_virt_usec</span><span class="p">();</span>
-
-  <span class="c1">// カウンタの値を読む
-</span><span class="c1"></span>  <span class="c1">// 値を読んでもカウンタは止まらない
-</span><span class="c1"></span>  <span class="n">retval</span> <span class="o">=</span> <span class="n">PAPI_read_counters</span><span class="p">(</span><span class="n">values</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">events</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">retval</span> <span class="o">!=</span> <span class="n">PAPI_OK</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">print_papi_error</span><span class="p">(</span><span class="n">retval</span><span class="p">);</span>
-  <span class="p">}</span>
-
-  <span class="c1">// 測定結果の表示
-</span><span class="c1"></span>  <span class="k">auto</span> <span class="o">&amp;</span><span class="n">number_of_executed_instructions</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-  <span class="k">auto</span> <span class="o">&amp;</span><span class="n">number_of_floating_point_operation</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-  <span class="k">auto</span> <span class="n">elapsed_cpu_time_usec</span> <span class="o">=</span> <span class="n">cpu_time_end_usec</span> <span class="o">-</span> <span class="n">cpu_time_begin_usec</span><span class="p">;</span>
-  <span class="k">auto</span> <span class="n">GFLOPS</span> <span class="o">=</span> <span class="mf">1.e6</span> <span class="o">*</span> <span class="n">number_of_floating_point_operation</span> <span class="o">/</span> <span class="n">elapsed_cpu_time_usec</span><span class="p">;</span>
-
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;number_of_floating_point_operation = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">number_of_floating_point_operation</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;elapsed_cpu_time_usec = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">elapsed_cpu_time_usec</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;GFLOPS = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">GFLOPS</span> <span class="o">*</span> <span class="mf">1.e-9</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;number_of_executed_instructions = &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">number_of_executed_instructions</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
-
-  <span class="c1">// カウンタをクリア
-</span><span class="c1"></span>  <span class="n">PAPI_stop_counters</span><span class="p">(</span><span class="n">values</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">events</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
-<span class="p">}</span>
-</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">number_of_floating_point_operation = 100000000
-elapsed_cpu_time_usec = 264001
-GFLOPS = 0.378786
-number_of_executed_instructions = 1200002473</code></pre></div>
-<p>プログラムの出力のうち、 <code>number_of_floating_point_operation</code> だけは何回測っても変わらないという素晴らしい性質を持つ。他の値は測るたびに変わってしまう。</p>
-
-<h2 id="参考">参考</h2>
-
-<p><a href="http://icl.utk.edu/papi/">PAPI</a></p>
-
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/valgrind_random_device/">
-      std::random_device を使うと valgrind が落ちる
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-05-31
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  
-
-<h2 id="環境">環境</h2>
-
-<p>valgrind 3.11, clang++ 5.0</p>
-
-<h2 id="問題">問題</h2>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;random&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">random_device</span> <span class="n">rd</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">rd</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>上記のコードはコンパイルすれば普通に実行できるが、 valgrind から実行すると valgrind が落ちる。</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">$ clang++ test.cpp -std=c++17
-$ ./a.out
-1240201163
-$ /usr/bin/valgrind ./a.out
-==13508== Memcheck, a memory error detector
-==13508== Copyright (C) 2002-2015, and GNU GPL&#39;d, by Julian Seward et al.
-==13508== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
-==13508== Command: ./a.out
-==13508==
-vex amd64-&gt;IR: unhandled instruction bytes: 0xF 0xC7 0xF0 0x89 0x6 0xF 0x42 0xC1
-vex amd64-&gt;IR:   REX=0 REX.W=0 REX.R=0 REX.X=0 REX.B=0
-vex amd64-&gt;IR:   VEX=0 VEX.L=0 VEX.nVVVV=0x0 ESC=0F
-vex amd64-&gt;IR:   PFX.66=0 PFX.F2=0 PFX.F3=0
-==13508== valgrind: Unrecognised instruction at address 0x4ef67a5.
-==13508==    at 0x4EF67A5: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
-==13508==    by 0x4EF6941: std::random_device::_M_getval() (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
-==13508==    by 0x401AD4: std::random_device::operator()() (in /tmp/a.out)
-==13508==    by 0x4018A2: main (in /tmp/a.out)
-...
-illegal instruction (core dumped)</code></pre></div>
-<h2 id="原因">原因</h2>
-
-<p><a href="https://bugs.kde.org/show%5Fbug.cgi?id=353370">valgrindのバグ</a></p>
-
-<h2 id="解決法">解決法</h2>
-
-<p>valgrindを3.13に更新する。</p>
-
-<h2 id="参考">参考</h2>
-
-<p><a href="https://bugs.kde.org/show%5Fbug.cgi?id=353370">353370 – RDRAND amd64-&gt;IR: unhandled instruction bytes: 0x48 0xF 0xC7 0xF0 0x72 0x4 0xFF 0xC9</a></p>
-
-<p><a href="https://stackoverflow.com/questions/37032339/valgrind-unrecognised-instruction">c++ - Valgrind Unrecognised instruction - Stack Overflow</a></p>
-
-<p><a href="https://courses.cs.washington.edu/courses/cse326/05wi/valgrind-doc/mc%5Ftechdocs.html">The design and implementation of Valgrind</a></p>
-
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/cmake_c&#43;&#43;17/">
-      CMakeでC&#43;&#43;17が有効にならない
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-05-30
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
-          cpp
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  
-
-<h2 id="問題">問題</h2>
-
-<p>CMake で <code>set_property(TARGET hoge PROPERTY CXX_STANDARD 17)</code> としても</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">CMake Error at CMakeLists.txt:16 (add_executable):
-  CXX_STANDARD is set to invalid value &#39;17&#39;</code></pre></div>
-<p>というエラーが出る。</p>
-
-<h2 id="原因">原因</h2>
-
-<p>ppaから入れたCMakeのバージョンが古かった。</p>
-
-<p>CMake 3.8 以上でないと <code>PROPERTY CXX_STANDARD</code> を17にすることができない。</p>
-
-<h2 id="解決法">解決法</h2>
-
-<p>CMakeをアップデートする。</p>
-
-<p>CMakeLists.txt に <code>cmake_minimum_required(VERSION 3.8)</code> を追加する。</p>
-
-<h2 id="参考">参考</h2>
-
-<p><a href="https://cmake.org/cmake/help/v3.7/prop%5Ftgt/CXX%5FSTANDARD.html">CXX_STANDARD — CMake 3.7.2 Documentation</a></p>
-
-<p><a href="https://cmake.org/cmake/help/v3.8/prop%5Ftgt/CXX%5FSTANDARD.html">CXX_STANDARD — CMake 3.8.2 Documentation</a></p>
-
-
-</article>
-
-    <br>
-    <br>
-  
-  
-
-
-<nav class="pagination" role="pagination">
-  
-  <i class="fa fa-chevron-left"></i>
-  
-  <span>&nbsp;1 / 9&nbsp;</span>
-  
-  <a href="https://yuki67.github.io/post/page/2/"><i class="fa fa-chevron-right"></i></a>
-  
-</nav>
-
-
 </div>
 
 </div>

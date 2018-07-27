@@ -250,6 +250,84 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/bucklescript_paint/">
+      Bucklescriptで書いたお絵かきプログラム
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-05-19
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/javascript">
+          Javascript
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ocaml">
+          OCaml
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p>前に書いたプログラムがそのままになっていたので供養。ソースコードはは <a href="https://github.com/yuki67/ShapeOCaml">ここ</a> にある。</p>
+
+<p></p>
+
+<script src="https://yuki67.github.io/js/bundle.js"></script>
+
+<h2 id="解説">解説</h2>
+
+<p>デスクトップとブラウザ上で同じように動くグラフィカルなプログラムを作って見たかったので作った。</p>
+
+
+<figure>
+    
+        <img src="https://yuki67.github.io/ox-hugo/ss.png" />
+    
+    
+</figure>
+
+
+<p>やりたいことはできた。</p>
+
+<p>絵を描くアルゴリズムは <a href="https://github.com/yuki67/Figure">前にpythonで実装したもの</a> を関数型っぽく書き直したものを使った。
+そのためこのリポジトリの README に貼ってある画像はすべて作れるはずだが、
+さすがに時間が無いので作り直しはしていない。</p>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/opengl_broken/">
       OpenGL 関係のライブラリが壊れたときの対処
     </a>
@@ -554,74 +632,6 @@ libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so</code></pre></div
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">configure: WARNING: SUNDIALS IDA library not configured with IDAKLU, ode15i and ode15s will not support the sparse Jacobian feature</code></pre></div>
 <p>今は <code>ode15</code> コマンドを使わないのでほっておいたが、後で必要になるかもしれない。</p>
 
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/clang&#43;&#43;_no_cpp17/">
-      clang&#43;&#43;-5.0 を入れたのに C&#43;&#43;17 が有効にならない
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-04-26
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
-          cpp
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p></p>
-
-<p>タイトルの通りで、 <code>std::is_arithmetic_v</code> を含むコードを <code>clang++-5.0</code> でコンパイルしたらエラーが出た。
-clang はバージョン 5.0 で<a href="https://clang.llvm.org/cxx%5Fstatus.html">C++17 に対応している</a>はずなのにおかしい。</p>
-
-<p>原因は C++ の標準ライブラリが C++17 に対応していないことにあった。
-clang++ はデフォルトだと標準ライブラリとして libstdc++ を用いるが、
-このバージョンが自分の環境だと 5.4 で C++17 に対応していなかった。</p>
-
-<p>というわけで新しい libstdc++ を入れたら直った。</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-sudo apt update
-sudo apt install libstdc++-8-dev</code></pre></div>
-<p>標準ライブラリとして llvm の libc++ を使う手もあるが、
-ppa が用意されていないためインストールがめんどくさいのでやめた。</p>
-
-<h2 id="参考資料">参考資料</h2>
-
-<p><a href="https://clang.llvm.org/cxx%5Fstatus.html">Clang - C++17, C++14, C++11 and C++98 Status</a></p>
-
-<p><a href="https://stackoverflow.com/questions/24342312/clang-seems-to-use-the-gcc-libraries">c++ - clang seems to use the gcc libraries - Stack Overflow</a></p>
 
 </article>
 
