@@ -7,10 +7,26 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>by yuki</copyright>
-    <lastBuildDate>Mon, 16 Jul 2018 00:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 27 Jul 2018 00:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://yuki67.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MinCaml をブラウザで動かした</title>
+      <link>https://yuki67.github.io/post/mincaml_online/</link>
+      <pubDate>Fri, 27 Jul 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://yuki67.github.io/post/mincaml_online/</guid>
+      <description>デモはこのページの一番下にある。
+ソースコードは yuki67/MinCamlOnline にある。
+何をしたか 前の記事 で bucklescript を使って OCaml プログラムをブラウザ上で動かすというのをやった。 この記事で試したのはかなり小さいプログラムだったので、もう少し大きいプログラムでも上手く行くのかどうか気になり試した。
+もう少し大きいプログラムとして MinCaml を使った。 MicCaml なら自分もそれなりに中身を理解していて、プレーンの OCaml で書かれていることを知っているのでちょうどいいと思った。
+感想 MinCaml をブラウザ上で動かすために bucklescript を設定するのは思っていたよりも簡単だった。 ただ動かすだけなら ocamlyacc と ocamllex を設定して C で書かれていた一部のコードを OCaml で書きなおすだけで動くようになった。
+動くようにした後にテキストエリアやボタンを設定するのが多少手間だった。 ボタンが押されたときにコンパイルする関数を呼べるようにモジュールの構成を変える必要があったり、 MinCaml にコンパイル結果を文字列として返す関数が無かったのでそれも書いたりした。 これらの手間が生じたのは MinCaml がそのような用途のために書かれていないからであり、OCaml や bucklescript の問題ではない。
+変換された javascript プログラムは Parsing, Lexing, Format モジュールを含めて正しく動いた。 ただし、 Format.sprintf が常識的な長さの入力に対して Maximum call stack size exceeded を出して動かないことがあった (デモで mandelbrot をコンパイルするとエラーが出る)。 bucklescript の実装が原因だと思うが、対処する方法もわからないのでそのままにした。
+デモ Program  select program</description>
+    </item>
     
     <item>
       <title>無限ストリーム in C&#43;&#43;</title>

@@ -250,6 +250,114 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/mincaml_online/">
+      MinCaml をブラウザで動かした
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-07-27
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/javascript">
+          javascript
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/ocaml">
+          OCaml
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  
+
+<p>デモはこのページの一番下にある。</p>
+
+<p>ソースコードは <a href="https://github.com/yuki67/MinCamlOnline">yuki67/MinCamlOnline</a> にある。</p>
+
+<h2 id="何をしたか">何をしたか</h2>
+
+<p><a href="https://yuki67.github.iopost/bucklescript%5Fpaint/"> 前の記事</a> で bucklescript を使って OCaml プログラムをブラウザ上で動かすというのをやった。
+この記事で試したのはかなり小さいプログラムだったので、もう少し大きいプログラムでも上手く行くのかどうか気になり試した。</p>
+
+<p>もう少し大きいプログラムとして <a href="https://github.com/esumii/min-caml">MinCaml</a> を使った。 MicCaml なら自分もそれなりに中身を理解していて、プレーンの OCaml で書かれていることを知っているのでちょうどいいと思った。</p>
+
+<h2 id="感想">感想</h2>
+
+<p>MinCaml をブラウザ上で動かすために bucklescript を設定するのは思っていたよりも簡単だった。
+ただ動かすだけなら ocamlyacc と ocamllex を設定して
+C で書かれていた一部のコードを OCaml で書きなおすだけで動くようになった。</p>
+
+<p>動くようにした後にテキストエリアやボタンを設定するのが多少手間だった。
+ボタンが押されたときにコンパイルする関数を呼べるようにモジュールの構成を変える必要があったり、
+MinCaml にコンパイル結果を文字列として返す関数が無かったのでそれも書いたりした。
+これらの手間が生じたのは MinCaml がそのような用途のために書かれていないからであり、OCaml や bucklescript の問題ではない。</p>
+
+<p>変換された javascript プログラムは <code>Parsing</code>, <code>Lexing</code>, <code>Format</code> モジュールを含めて正しく動いた。
+ただし、 <code>Format.sprintf</code> が常識的な長さの入力に対して <code>Maximum call stack size exceeded</code> を出して動かないことがあった (デモで mandelbrot をコンパイルするとエラーが出る)。
+bucklescript の実装が原因だと思うが、対処する方法もわからないのでそのままにした。</p>
+
+<h2 id="デモ">デモ</h2>
+
+<p><h3>Program</h3>
+<input type="button" id="compile"></button>
+<select id="program_selector">select program</select><br>
+<textarea id="program"></textarea><br>
+<h3>After Type Checking</h3>
+<textarea id="syntax"></textarea><br>
+<h3>After K-normalization</h3>
+<textarea id="knormal"></textarea><br>
+<h3>After Alpha Conversion</h3>
+<textarea id="alpha"></textarea><br>
+<h3>After Optimization</h3>
+<textarea id="optimize"></textarea><br>
+<h3>After Closure Conversion</h3>
+<textarea id="closure"></textarea><br>
+<h3>Virtual Assembly Code</h3>
+<textarea id="virtual"></textarea><br>
+<h3>After Immediate Value Optimization</h3>
+<textarea id="simm"></textarea><br>
+<h3>After Register Allocation</h3>
+<textarea id="reg"></textarea><br>
+<h3>Final Output</h3>
+<textarea id="emit"></textarea><br>
+<script src="https://yuki67.github.io/js/mincaml_online.js"></script></p>
+
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/stream_cpp/">
       無限ストリーム in C&#43;&#43;
     </a>
@@ -1095,80 +1203,6 @@ illegal instruction (core dumped)</code></pre></div>
 <p><a href="https://stackoverflow.com/questions/37032339/valgrind-unrecognised-instruction">c++ - Valgrind Unrecognised instruction - Stack Overflow</a></p>
 
 <p><a href="https://courses.cs.washington.edu/courses/cse326/05wi/valgrind-doc/mc%5Ftechdocs.html">The design and implementation of Valgrind</a></p>
-
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/cmake_c&#43;&#43;17/">
-      CMakeでC&#43;&#43;17が有効にならない
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-05-30
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
-          cpp
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  
-
-<h2 id="問題">問題</h2>
-
-<p>CMake で <code>set_property(TARGET hoge PROPERTY CXX_STANDARD 17)</code> としても</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">CMake Error at CMakeLists.txt:16 (add_executable):
-  CXX_STANDARD is set to invalid value &#39;17&#39;</code></pre></div>
-<p>というエラーが出る。</p>
-
-<h2 id="原因">原因</h2>
-
-<p>ppaから入れたCMakeのバージョンが古かった。</p>
-
-<p>CMake 3.8 以上でないと <code>PROPERTY CXX_STANDARD</code> を17にすることができない。</p>
-
-<h2 id="解決法">解決法</h2>
-
-<p>CMakeをアップデートする。</p>
-
-<p>CMakeLists.txt に <code>cmake_minimum_required(VERSION 3.8)</code> を追加する。</p>
-
-<h2 id="参考">参考</h2>
-
-<p><a href="https://cmake.org/cmake/help/v3.7/prop%5Ftgt/CXX%5FSTANDARD.html">CXX_STANDARD — CMake 3.7.2 Documentation</a></p>
-
-<p><a href="https://cmake.org/cmake/help/v3.8/prop%5Ftgt/CXX%5FSTANDARD.html">CXX_STANDARD — CMake 3.8.2 Documentation</a></p>
 
 
 </article>

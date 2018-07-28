@@ -250,6 +250,80 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/cmake_c&#43;&#43;17/">
+      CMakeでC&#43;&#43;17が有効にならない
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-05-30
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
+          cpp
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
+          メモ
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  
+
+<h2 id="問題">問題</h2>
+
+<p>CMake で <code>set_property(TARGET hoge PROPERTY CXX_STANDARD 17)</code> としても</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">CMake Error at CMakeLists.txt:16 (add_executable):
+  CXX_STANDARD is set to invalid value &#39;17&#39;</code></pre></div>
+<p>というエラーが出る。</p>
+
+<h2 id="原因">原因</h2>
+
+<p>ppaから入れたCMakeのバージョンが古かった。</p>
+
+<p>CMake 3.8 以上でないと <code>PROPERTY CXX_STANDARD</code> を17にすることができない。</p>
+
+<h2 id="解決法">解決法</h2>
+
+<p>CMakeをアップデートする。</p>
+
+<p>CMakeLists.txt に <code>cmake_minimum_required(VERSION 3.8)</code> を追加する。</p>
+
+<h2 id="参考">参考</h2>
+
+<p><a href="https://cmake.org/cmake/help/v3.7/prop%5Ftgt/CXX%5FSTANDARD.html">CXX_STANDARD — CMake 3.7.2 Documentation</a></p>
+
+<p><a href="https://cmake.org/cmake/help/v3.8/prop%5Ftgt/CXX%5FSTANDARD.html">CXX_STANDARD — CMake 3.8.2 Documentation</a></p>
+
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/bucklescript_paint/">
       Bucklescriptで書いたお絵かきプログラム
     </a>
@@ -272,7 +346,7 @@
       <i class="fa fa-tags fa-fw"></i>
       
         <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/javascript">
-          Javascript
+          javascript
         </a>
         
           &nbsp;&#47;
@@ -560,77 +634,6 @@ libgl1-mesa-dev:amd64: /usr/lib/x86_64-linux-gnu/mesa/libGL.so</code></pre></div
   <span class="p">(</span><span class="nb">:map</span> <span class="nv">global-map</span>
         <span class="p">(</span><span class="s">&#34;KEY&#34;</span> <span class="o">.</span> <span class="nv">HOGE</span><span class="p">)))</span></code></pre></div>
 <p>とすると、 <code>KEY</code> を押したときに <code>HOGE</code> が autoload される。その結果エラーメッセージが見慣れないものになる。</p>
-
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/octave_hangs_on_emacs/">
-      octave が emacs でハングする
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-05-08
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/emacs">
-          emacs
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/octave">
-          octave
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  
-
-<h2 id="問題">問題</h2>
-
-<p>Ubuntu 16.04 で emacs 25.3 から octave 4.0 を使おうとするとハングする (org-babel から実行しても実行が終わらない)。</p>
-
-<h2 id="解決法">解決法</h2>
-
-<p>octave を最新版 (4.4) にしたら直った。最新版は ppa にないので手元でビルドした。</p>
-
-<h2 id="備考">備考</h2>
-
-<p>octave の最新版をビルドするときにライブラリが足りないという警告がいくつか出るのでパッケージをインストールして対処したが、
-以下の警告は最後まで残った。</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">configure: WARNING: SUNDIALS IDA library not configured with IDAKLU, ode15i and ode15s will not support the sparse Jacobian feature</code></pre></div>
-<p>今は <code>ode15</code> コマンドを使わないのでほっておいたが、後で必要になるかもしれない。</p>
 
 
 </article>

@@ -250,6 +250,226 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/constexpr/">
+      C&#43;&#43;のconstexpr
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-02-07
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/cpp">
+          cpp
+        </a>
+        
+          &nbsp;&#47;
+        
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">
+          コード置き場
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p></p>
+
+<h2 id="概要">概要</h2>
+
+<p>C++では関数や式に <code>constexpr</code> をつけることで、その値をコンパイル時に計算するようにコンパイラに指示できる。
+コンパイル時に計算された constexpr 式の値はリテラルやテンプレート変数と同じように使用できる。例えば、</p>
+
+<ul>
+<li>他のテンプレートに渡す</li>
+<li>配列の大きさの宣言に使う</li>
+<li>他のconstexprを作る</li>
+</ul>
+
+<p>が行える。</p>
+
+<p>以下は確認例。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;array&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="c1">// この関数は(可能ならば)コンパイル時に計算が行われる
+</span><span class="c1"></span><span class="k">constexpr</span> <span class="kt">int</span> <span class="nf">add</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// constexprはテンプレートの引数に使える
+</span><span class="c1"></span>  <span class="c1">// add()の宣言からconstexprを削除するとコンパイルエラーになる
+</span><span class="c1"></span>  <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">arr1</span><span class="p">;</span>
+  <span class="c1">// 配列も確保できる
+</span><span class="c1"></span>  <span class="kt">int</span> <span class="n">arr2</span><span class="p">[</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)];</span>
+
+  <span class="c1">// constexprを使って別のconstexprを定義できる
+</span><span class="c1"></span>  <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">y</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">y</span><span class="o">&gt;</span> <span class="n">arr4</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;OK&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>
+</code></pre></div>
+<p>上の例では <code>add()</code> 関数が簡単なので <code>constexpr</code> によるありがたみが薄く、
+テンプレート変数を使っても同じことができそうに見えるが、
+<code>constexpr</code> を使ったほう簡潔で、通常の関数と同じ記法で書くことができる分うれしい。
+関数が複雑になった場合(例えば <code>fact()</code> <code>pow()</code> <code>log2()</code> など) にはありがたみが増す。</p>
+
+<h2 id="使用例">使用例</h2>
+
+<p>いい使用例を思いついたので書く。</p>
+
+<h3 id="仕様">仕様</h3>
+
+<p>浮動小数点数のビット表現を表現するクラスを作りたい。
+そのクラスは <code>float</code> と <code>double</code> のビット表現について学ぶためのクラスで、
+以下の機能を持たせたい。</p>
+
+<ul>
+<li><code>float</code> と <code>double</code> に対応するクラスがある。</li>
+<li><code>float</code> と <code>double</code> の値を受け取るコンストラクタがある。</li>
+<li>指数部、仮数部の長さを返す関数がある。</li>
+<li>格納されている値をビット列として返す関数がある。</li>
+<li>格納されている値の指数部をビット列として返す関数がある。</li>
+<li>格納されている値の仮数部をビット列として返す関数がある。</li>
+<li>上の3つの関数の返り値として <code>std::bitset&lt;N&gt;</code> を使う。</li>
+</ul>
+
+<p>この機能を持たせるには <code>float</code> と <code>double</code> に対応するクラスで
+違う長さの <code>std::bitset&lt;N&gt;</code> をメンバ変数として持つ必要がある。
+クラスを2つ作ることも可能だが、長さ以外の部分がほぼ同じになるので無駄になる。</p>
+
+<h3 id="実装">実装</h3>
+
+<p>テンプレートと <code>constexpr</code> を使うといい感じにこの要求を満たすクラスを作れる。</p>
+
+<p><div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 1:</span>
+  floating_point.hpp
+</div></p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&lt;bitset&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="c1">// 浮動小数点数を格納するためのクラス
+</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span>            <span class="c1">// 格納される値の型 (floatかdouble)
+</span><span class="c1"></span>          <span class="kt">unsigned</span> <span class="n">wExponent</span><span class="p">,</span>    <span class="c1">// 指数部の長さ
+</span><span class="c1"></span>          <span class="kt">unsigned</span> <span class="n">wSignificand</span><span class="o">&gt;</span> <span class="c1">// 仮数部の長さ
+</span><span class="c1"></span><span class="k">class</span> <span class="nc">FloatingPoint</span> <span class="p">{</span>
+ <span class="k">public</span><span class="o">:</span>
+  <span class="c1">// 浮動小数点数の各部分の長さを返す
+</span><span class="c1"></span>  <span class="c1">// constexprなのがミソ
+</span><span class="c1"></span>  <span class="c1">// コンパイル時に他の変数の宣言に使うのでクラスの先頭に書く
+</span><span class="c1"></span>  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="n">w_exp</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">wExponent</span><span class="p">;</span> <span class="p">};</span>
+  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="nf">w_sig</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">wSignificand</span><span class="p">;</span> <span class="p">};</span>
+  <span class="k">constexpr</span> <span class="k">static</span> <span class="kt">unsigned</span> <span class="nf">w_all</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">wExponent</span> <span class="o">+</span> <span class="n">wSignificand</span><span class="p">;</span> <span class="p">};</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="n">T</span> <span class="n">m_val</span><span class="p">;</span>
+  <span class="c1">// 浮動小数点数の各部分のビット列を保持する
+</span><span class="c1"></span>  <span class="c1">// 各部分の長さを取得する関数がconstexprなのでここでテンプレート引数として使える
+</span><span class="c1"></span>  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">w_all</span><span class="p">()</span><span class="o">&gt;</span> <span class="n">m_bits_all</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">w_exp</span><span class="p">()</span><span class="o">&gt;</span> <span class="n">m_bits_exp</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">w_sig</span><span class="p">()</span><span class="o">&gt;</span> <span class="n">m_bits_sig</span><span class="p">;</span>
+
+  <span class="c1">// 指数部、仮数部の第iビットが全体の第何ビットかを返す
+</span><span class="c1"></span>  <span class="k">static</span> <span class="kt">unsigned</span> <span class="nf">index_exp</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">w_sig</span><span class="p">()</span> <span class="o">+</span> <span class="n">i</span><span class="p">;</span> <span class="p">}</span>
+  <span class="k">static</span> <span class="kt">unsigned</span> <span class="nf">index_sig</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">i</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="c1">// m_bits_allが初期化された状態から、m_bits_expとm_bits_sigを初期化する
+</span><span class="c1"></span>  <span class="kt">void</span> <span class="nf">init_bits</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">w_exp</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">m_bits_exp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_bits_all</span><span class="p">[</span><span class="n">index_exp</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">w_sig</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">m_bits_sig</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_bits_all</span><span class="p">[</span><span class="n">index_sig</span><span class="p">(</span><span class="n">i</span><span class="p">)];</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+ <span class="k">public</span><span class="o">:</span>
+  <span class="k">explicit</span> <span class="n">FloatingPoint</span><span class="p">(</span><span class="n">T</span> <span class="n">val</span><span class="p">);</span>
+  <span class="c1">// ビット列を取り出す
+</span><span class="c1"></span>  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">w_all</span><span class="p">()</span><span class="o">&gt;</span> <span class="n">bits_all</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_bits_all</span><span class="p">;</span> <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">w_exp</span><span class="p">()</span><span class="o">&gt;</span> <span class="n">bits_exp</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_bits_exp</span><span class="p">;</span> <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">w_sig</span><span class="p">()</span><span class="o">&gt;</span> <span class="n">bits_sig</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">m_bits_sig</span><span class="p">;</span> <span class="p">}</span>
+  <span class="kt">bool</span> <span class="n">bit_sign</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="p">{</span><span class="n">m_bits_all</span><span class="p">[</span><span class="n">w_all</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]};</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// IEEE-754に従うように型を定義
+</span><span class="c1"></span><span class="k">using</span> <span class="n">Single</span> <span class="o">=</span> <span class="n">FloatingPoint</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">23</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">Double</span> <span class="o">=</span> <span class="n">FloatingPoint</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">52</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="c1">// コンストラクタだけは特殊に定義する
+</span><span class="c1"></span><span class="k">template</span> <span class="o">&lt;&gt;</span>
+<span class="n">Single</span><span class="o">::</span><span class="n">FloatingPoint</span><span class="p">(</span><span class="kt">float</span> <span class="n">val</span><span class="p">)</span>
+    <span class="o">:</span> <span class="n">m_val</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">m_bits_all</span><span class="p">(</span><span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">int32_t</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">val</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">init_bits</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">template</span> <span class="o">&lt;&gt;</span>
+<span class="n">Double</span><span class="o">::</span><span class="n">FloatingPoint</span><span class="p">(</span><span class="kt">double</span> <span class="n">val</span><span class="p">)</span>
+    <span class="o">:</span> <span class="n">m_val</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">m_bits_all</span><span class="p">(</span><span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">int64_t</span> <span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">val</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">init_bits</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>テンプレートを使ってクラスを定義し、それを <code>float</code> と <code>double</code> 用に特殊化することでコードの重複を防いだ。
+やろうと思えば、 <code>float</code> や <code>double</code> でない 浮動小数点数の表現にも対応することができる。</p>
+
+<p>以下のように使う。</p>
+<div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="cp">#include</span> <span class="cpf">&#34;floating_point.hpp&#34;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// 実数に対応するビット列は適当に求める
+</span><span class="c1"></span>  <span class="n">Single</span> <span class="n">f</span><span class="p">(</span><span class="mf">1234.567</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bit_sign</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
+  <span class="c1">// to_string()をしてから比較をしてもいいが、Single::w_all()などを使うためにあえてそのまま比較する
+</span><span class="c1"></span>  <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_all</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_all</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&#34;01000100100110100101001000100101&#34;</span><span class="p">));</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_exp</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_exp</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&#34;10001001&#34;</span><span class="p">));</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">bits_sig</span><span class="p">()</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Single</span><span class="o">::</span><span class="n">w_sig</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&#34;00110100101001000100101&#34;</span><span class="p">));</span>
+
+  <span class="n">Double</span> <span class="n">d</span><span class="p">(</span><span class="o">-</span><span class="mf">12345678.90123456</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">bit_sign</span><span class="p">()</span> <span class="o">==</span> <span class="nb">true</span><span class="p">);</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">bits_all</span><span class="p">()</span> <span class="o">==</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">w_all</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&#34;1100000101100111100011000010100111011100110101101110100111011100&#34;</span><span class="p">));</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">bits_exp</span><span class="p">()</span> <span class="o">==</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">w_exp</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&#34;10000010110&#34;</span><span class="p">));</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">bits_sig</span><span class="p">()</span> <span class="o">==</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">::</span><span class="n">w_sig</span><span class="p">()</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&#34;0111100011000010100111011100110101101110100111011100&#34;</span><span class="p">));</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;OK&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-C++" data-lang="C++"><span class="n">OK</span>
+</code></pre></div>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/ubuntu_bluetooth/">
       Ubuntu 17.10 で MDR-1000X を使う
     </a>
@@ -825,64 +1045,6 @@
 
 <p>追記:
 gnome-tweak-tool からもできた。</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/delete_old_files/">
-      古いファイルを削除してファイルの数を一定にする
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-01-09
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/shell">
-          shell
-        </a>
-        
-          &nbsp;&#47;
-        
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/%E3%83%A1%E3%83%A2">
-          メモ
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p>ログの整理で使った。</p>
-
-<p></p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 古いファイルを削除してファイルの数を一定にする
-</span><span class="c1"></span><span class="nv">n</span><span class="o">=</span><span class="sb">`</span>ls -l <span class="p">|</span> wc -l<span class="sb">`</span>
-<span class="nv">m</span><span class="o">=</span><span class="k">$((</span>n-100<span class="k">))</span> <span class="c1"># 100個残す
-</span><span class="c1"></span><span class="k">if</span> <span class="o">[</span> <span class="nv">$m</span> -gt <span class="m">0</span> <span class="o">]</span> <span class="p">;</span>
-    <span class="k">then</span> ls -rt <span class="p">|</span> head -n <span class="nv">$m</span> <span class="p">|</span> xargs rm<span class="p">;</span> <span class="c1"># 古い方から消す
-</span><span class="c1"></span>    <span class="k">else</span> true<span class="p">;</span> <span class="c1"># 何もしない
-</span><span class="c1"></span><span class="k">fi</span></code></pre></div>
-<p>ワンライナーでは無理かな?</p>
 
 </article>
 

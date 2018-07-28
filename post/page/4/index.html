@@ -250,6 +250,502 @@
   
     <article>
   <h2>
+    <a href="https://yuki67.github.io/post/org-reveal/">
+      org-reveal の概要
+    </a>
+  </h2>
+  <div class="post-meta">
+  <span>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>
+      
+        2018-04-02
+      
+    </time>
+  </span>
+  &nbsp;&nbsp;&nbsp;
+  
+  
+    
+    
+      <span>
+      <i class="fa fa-tags fa-fw"></i>
+      
+        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/about">
+          about
+        </a>
+        
+      
+    </span>
+    
+  
+</div>
+
+
+  <p><style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://yuki67.github.io/reveal.js/css/reveal.css"/></p>
+
+<p><link rel="stylesheet" href="https://yuki67.github.io/reveal.js/css/theme/white.css" id="theme"/></p>
+
+<p><link rel="stylesheet" href="css/extra.css"/></p>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<div class="reveal" style="padding-bottom: 100%">
+<div class="slides">
+<section>
+<section id="slide-org9e8e115">
+<h2 id="org9e8e115">Org-reveal</h2>
+<p>
+org-mode でスライドがかける
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgaacf8f4">
+<h3 id="orgaacf8f4">基本</h3>
+<p>
+org-mode の 1サブツリー = 1ページ
+</p>
+
+<p>
+サブツリーを多めにして書けばそのまま読めるスライドになる
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org4fc0614">
+<h3 id="org4fc0614">基本的な機能</h3>
+<p>
+試す
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org5d1c2cb">
+<h3 id="org5d1c2cb">遅延表示</h3>
+<p class="fragment">
+こんな
+</p>
+
+<p class="fragment">
+ふうに
+</p>
+
+<p class="fragment">
+一つづつ
+</p>
+
+<p class="fragment">
+出せる
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org5a44b7b">
+<h3 id="org5a44b7b">リンク</h3>
+<p>
+<a href="https://www.google.co.jp/">Google</a>
+</p>
+
+<p class="fragment">
+org-mode のものがそのまま使える
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgc600d58">
+<h3 id="orgc600d58">箇条書き</h3>
+<ul>
+<li>普通に</li>
+<li>使える</li>
+<li class="fragment">遅延表示にも対応</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org3389581">
+<h3 id="org3389581">ソースコード</h3>
+<p>
+htmlize.el によって emacs と同じハイライトになる。
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-C++"><span style="color: #d18aff;">#include</span> <span style="color: #dd0000; font-weight: bold;">&lt;</span><span style="color: #ff4ea3;">iostream</span><span style="color: #dd0000; font-weight: bold;">&gt;</span>
+
+<span style="color: #00d7af;">int</span> <span style="color: #ffd700;">main</span><span style="color: #dd0000; font-weight: bold;">()</span> <span style="color: #dd0000; font-weight: bold;">{</span>
+  <span style="color: #5fafd7;">std</span>::cout &lt;&lt; <span style="color: #ff4ea3;">"hello world"</span> &lt;&lt; <span style="color: #5fafd7;">std</span>::endl;
+  <span style="color: #a1db00;">return</span> 0;
+<span style="color: #dd0000; font-weight: bold;">}</span>
+</pre>
+</div>
+
+<p class="fragment">
+(かなり嬉しい)
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgfe09436">
+<h3 id="orgfe09436">数式</h3>
+<p>
+MathJax が使える
+</p>
+
+<div data-fragment-index="1" class="fragment">
+\begin{align*}
+\sin^{2} x + \cos^{2}  x = 1
+\end{align*}
+
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgbdddbd0" data-background="#123456" data-background-transition="slide">
+<h3 id="orgbdddbd0">背景画像の変更</h3>
+<p>
+ここでは色を指定
+</p>
+
+<p class="fragment">
+(画像も指定できるけど、いい画像がなかった。)
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org3c49637">
+<h3 id="org3c49637">Hack</h3>
+<p>
+スライドを埋め込めるようにする
+</p>
+
+<p class="fragment">
+org-reveal.el をちょっといじれば OK
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org0e16e9b">
+<h3 id="org0e16e9b">Hack</h3>
+<p>
+埋め込んだスライドをフルスクリーンに切り替える
+</p>
+
+<p data-fragment-index="1" class="fragment">
+左下のボタンから
+</p>
+
+<p data-fragment-index="2" class="fragment">
+ちょっと javasctipt をかけば OK
+</p>
+
+<p data-fragment-index="2" class="fragment">
+本文にソースあり
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="https://yuki67.github.io/reveal.js/lib/js/head.min.js"></script>
+<script src="https://yuki67.github.io/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: false,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+
+overview: true,
+width: "100%",
+height: "100%",
+margin: 0,
+minScale: 1,
+maxScale: 1,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: '/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: '/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: '/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: '/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: '/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+
+<script src="https://yuki67.github.io/js/slide.js"></script>
+
+<p><input id="fullScreenFlag" type=checkbox> full screen</p>
+
+<p><a href="https://github.com/yjwen/org-reveal">org-reveal</a> を使うと org-mode でスライドを書くことができる。</p>
+
+<p>埋め込んだスライドのフルスクリーンを切り替えるためのjavascript</p>
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span>
+    <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nb">document</span><span class="p">,</span> <span class="nx">Reveal</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="kd">function</span> <span class="nx">save</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">elem</span><span class="p">.</span><span class="nx">oldCssText</span> <span class="o">=</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">cssText</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="kd">function</span> <span class="nx">hide</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&#34;none&#34;</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="kd">function</span> <span class="nx">adjust</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">padding</span> <span class="o">=</span> <span class="s2">&#34;0px&#34;</span><span class="p">;</span>
+                <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">margin</span> <span class="o">=</span> <span class="s2">&#34;0px&#34;</span><span class="p">;</span>
+                <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">maxWidth</span> <span class="o">=</span> <span class="s2">&#34;none&#34;</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="kd">function</span> <span class="nx">restore</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">cssText</span> <span class="o">=</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">oldCssText</span><span class="p">;</span>
+                <span class="k">delete</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">oldCssText</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="kd">function</span> <span class="nx">forEach</span><span class="p">(</span><span class="nx">collection</span><span class="p">,</span> <span class="nx">f</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">collection</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">f</span><span class="p">(</span><span class="nx">collection</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+            <span class="c1">// to delete
+</span><span class="c1"></span>            <span class="kd">var</span> <span class="nx">header</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s2">&#34;header&#34;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">post_meta</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s2">&#34;post-meta&#34;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">prev_next_post</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s2">&#34;prev-next-post&#34;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">content</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s2">&#34;content&#34;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">menu</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;menu&#34;</span><span class="p">);</span>
+
+            <span class="c1">// to adjust
+</span><span class="c1"></span>            <span class="kd">var</span> <span class="nx">reveal</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s2">&#34;reveal&#34;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+            <span class="kd">var</span> <span class="nx">main</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;main&#34;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">layout</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;layout&#34;</span><span class="p">);</span>
+
+            <span class="c1">// save current css texts. (ugly, but works.)
+</span><span class="c1"></span>            <span class="nx">forEach</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="nx">save</span><span class="p">);</span>
+            <span class="nx">forEach</span><span class="p">(</span><span class="nx">post_meta</span><span class="p">,</span> <span class="nx">save</span><span class="p">);</span>
+            <span class="nx">forEach</span><span class="p">(</span><span class="nx">prev_next_post</span><span class="p">,</span> <span class="nx">save</span><span class="p">);</span>
+            <span class="nx">forEach</span><span class="p">(</span><span class="nx">content</span><span class="p">,</span> <span class="nx">save</span><span class="p">);</span>
+            <span class="nx">save</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
+            <span class="nx">save</span><span class="p">(</span><span class="nx">main</span><span class="p">);</span>
+            <span class="nx">save</span><span class="p">(</span><span class="nx">reveal</span><span class="p">);</span>
+            <span class="nx">save</span><span class="p">(</span><span class="nx">layout</span><span class="p">);</span>
+
+            <span class="c1">// this checkbox will be provided in posts.
+</span><span class="c1"></span>            <span class="c1">// for example &#34;&lt;input id=&#34;fullScreenFlag&#34;&gt; full screen&#34;
+</span><span class="c1"></span>            <span class="kd">var</span> <span class="nx">checkbox</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;fullScreenFlag&#34;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">to_fullscreen</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="nx">forEach</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="nx">hide</span><span class="p">);</span>
+                <span class="nx">forEach</span><span class="p">(</span><span class="nx">post_meta</span><span class="p">,</span> <span class="nx">hide</span><span class="p">);</span>
+                <span class="nx">forEach</span><span class="p">(</span><span class="nx">prev_next_post</span><span class="p">,</span> <span class="nx">hide</span><span class="p">);</span>
+                <span class="nx">forEach</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="nx">adjust</span><span class="p">);</span>
+                <span class="nx">forEach</span><span class="p">(</span><span class="nx">post_meta</span><span class="p">,</span> <span class="nx">adjust</span><span class="p">);</span>
+                <span class="nx">forEach</span><span class="p">(</span><span class="nx">prev_next_post</span><span class="p">,</span> <span class="nx">adjust</span><span class="p">);</span>
+                <span class="nx">forEach</span><span class="p">(</span><span class="nx">content</span><span class="p">,</span> <span class="nx">adjust</span><span class="p">);</span>
+                <span class="nx">hide</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
+                <span class="nx">adjust</span><span class="p">(</span><span class="nx">main</span><span class="p">);</span>
+                <span class="nx">adjust</span><span class="p">(</span><span class="nx">layout</span><span class="p">);</span>
+                <span class="nx">reveal</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">cssText</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+                <span class="nx">reveal</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="s2">&#34;100vh&#34;</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="kd">var</span> <span class="nx">to_windowed</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="nx">forEach</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="nx">restore</span><span class="p">);</span>
+                <span class="nx">forEach</span><span class="p">(</span><span class="nx">post_meta</span><span class="p">,</span> <span class="nx">restore</span><span class="p">);</span>
+                <span class="nx">forEach</span><span class="p">(</span><span class="nx">prev_next_post</span><span class="p">,</span> <span class="nx">restore</span><span class="p">);</span>
+                <span class="nx">forEach</span><span class="p">(</span><span class="nx">content</span><span class="p">,</span> <span class="nx">restore</span><span class="p">);</span>
+                <span class="nx">restore</span><span class="p">(</span><span class="nx">menu</span><span class="p">);</span>
+                <span class="nx">restore</span><span class="p">(</span><span class="nx">main</span><span class="p">);</span>
+                <span class="nx">restore</span><span class="p">(</span><span class="nx">reveal</span><span class="p">);</span>
+                <span class="nx">restore</span><span class="p">(</span><span class="nx">layout</span><span class="p">);</span>
+                <span class="nx">Reveal</span><span class="p">.</span><span class="nx">layout</span><span class="p">();</span>
+            <span class="p">}</span>
+            <span class="nx">checkbox</span><span class="p">.</span><span class="nx">onchange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">checkbox</span><span class="p">.</span><span class="nx">checked</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">to_fullscreen</span><span class="p">();</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="nx">to_windowed</span><span class="p">();</span>
+                <span class="p">}</span>
+            <span class="p">};</span>
+        <span class="p">}</span>
+    <span class="p">})(</span><span class="nb">document</span><span class="p">,</span> <span class="nx">Reveal</span><span class="p">);</span>
+</code></pre></div>
+<p>このスライドのもとになった org-mode ソース</p>
+<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">org-mode でスライドがかける
+
+** 基本
+
+org-mode の 1サブツリー = 1ページ
+
+サブツリーを多めにして書けばそのまま読めるスライドになる
+
+** 基本的な機能
+
+試す
+
+** 遅延表示
+
+#+ATTR_REVEAL: :frag t
+こんな
+
+#+ATTR_REVEAL: :frag t
+ふうに
+
+#+ATTR_REVEAL: :frag t
+一つづつ
+
+#+ATTR_REVEAL: :frag t
+出せる
+
+** リンク
+
+[[https://www.google.co.jp/][Google]]
+
+#+ATTR_REVEAL: :frag t
+org-mode のものがそのまま使える
+
+** 箇条書き
+
+#+ATTR_REVEAL: :frag (none none t)
+- 普通に
+- 使える
+- 遅延表示にも対応
+
+** 表
+
+| 名前 | スコア |
+|------+--------|
+| 田中 |     10 |
+| 佐藤 |     15 |
+| 斎藤 |      5 |
+
+#+ATTR_REVEAL: :frag t :frag_idx 1
+アラインには追加の css が必要
+
+#+ATTR_REVEAL: :frag t :frag_idx 1
+#+BEGIN_SRC css
+.reveal .org-left {
+    text-align: left;
+}
+
+.reveal .org-right {
+    text-align: right;
+}
+#+END_SRC
+
+** ソースコード
+
+htmlize.el によって emacs と同じハイライトになる。
+
+#+BEGIN_SRC C++
+#include &lt;iostream&gt;
+
+int main() {
+  std::cout &lt;&lt; &#34;hello world&#34; &lt;&lt; std::endl;
+  return 0;
+}
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+(かなり嬉しい)
+
+** 数式
+
+MathJax が使える
+
+#+ATTR_REVEAL: :frag t :frag_idx 1
+\begin{align*}
+\sin^{2} x + \cos^{2}  x = 1
+\end{align*}
+
+** 画像
+
+例: ditaa
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC ditaa :file org-reveal/org-reveal-example.png :exports result :eval no-export
++--------------------------------+
+| /--------\ process  /--------\ |
+| | data A +---------&gt;| data B | |
+| \--------/          \--------/ |
++--------------------------------+
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+#+RESULTS:
+[[file:/org-reveal/org-reveal-example.png]]
+
+** 背景画像の変更
+:PROPERTIES:
+:REVEAL_BACKGROUND: #123456
+:REVEAL_BACKGROUND_TRANS: slide
+:END:
+
+ここでは色を指定
+
+#+ATTR_REVEAL: :frag t
+(画像も指定できるけど、いい画像がなかった。)
+
+** Hack
+
+スライドを埋め込めるようにする
+
+#+ATTR_REVEAL: :frag t
+org-reveal.el をちょっといじれば OK
+
+** Hack
+
+埋め込んだスライドをフルスクリーンに切り替える
+
+#+ATTR_REVEAL: :frag t :frag_idx 1
+左下のボタンから
+
+#+ATTR_REVEAL: :frag t :frag_idx 2
+ちょっと javasctipt をかけば OK
+
+#+ATTR_REVEAL: :frag t :frag_idx 2
+本文にソースあり</code></pre></div>
+
+</article>
+
+    <br>
+    <br>
+  
+    <article>
+  <h2>
     <a href="https://yuki67.github.io/post/ox-hugo/">
       ox-hugo の概要
     </a>
@@ -631,244 +1127,6 @@ print(fact(6))
 <p>となる。</p>
 
 <p>org-babel は python の他にも<a href="https://orgmode.org/manual/Languages.html">様々な言語</a>に対応しているので、コードを含んだ文章を書くのが楽になる。</p>
-
-</article>
-
-    <br>
-    <br>
-  
-    <article>
-  <h2>
-    <a href="https://yuki67.github.io/post/org-mode/">
-      org-mode の概要
-    </a>
-  </h2>
-  <div class="post-meta">
-  <span>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>
-      
-        2018-03-08
-      
-    </time>
-  </span>
-  &nbsp;&nbsp;&nbsp;
-  
-  
-    
-    
-      <span>
-      <i class="fa fa-tags fa-fw"></i>
-      
-        <a class="post-taxonomy-tag" href="https://yuki67.github.io/tags/about">
-          about
-        </a>
-        
-      
-    </span>
-    
-  
-</div>
-
-
-  <p><a href="https://orgmode.org/">org-mode</a> とは emacs 付属の軽量マークアップ言語で、 markdown や ReStructuredText の親戚にあたる。</p>
-
-<p>このページには org-mode の基本的な機能をまとめた。</p>
-
-<p></p>
-
-<h2 id="リンク">リンク</h2>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">これは [[https://www.google.co.jp/][リンク]] です</code></pre></div>
-<p>と書くと</p>
-
-<div class="exa">
-  <div></div>
-
-<p>これは <a href="https://www.google.co.jp/">リンク</a> です。</p>
-
-<p></div></p>
-
-<p>となる。</p>
-
-<p>リンクを挿入するコマンドとして <code>C-c C-l</code> (<code>org-insert-link</code>) がある。</p>
-
-<p>ウェブのリンクだけではなく画像のリンクなども同じように貼れる</p>
-
-<h2 id="表">表</h2>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">| x |  y |
-|--------|
-| 1 |  1 |
-| 2 |  4 |
-| 3 |  9 |</code></pre></div>
-<p>と書くと</p>
-
-<div class="exa">
-  <div></div>
-
-<table>
-<thead>
-<tr>
-<th>x</th>
-<th>y</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>1</td>
-<td>1</td>
-</tr>
-
-<tr>
-<td>2</td>
-<td>4</td>
-</tr>
-
-<tr>
-<td>3</td>
-<td>9</td>
-</tr>
-</tbody>
-</table>
-
-<p></div></p>
-
-<p>となる。</p>
-
-<p>emacs の org-mode エディタには表を編集する機能があり、 &ldquo;|&rdquo; を書いてから <code>Tab</code> でいい感じに表をアラインできる。</p>
-
-<h2 id="文字の装飾">文字の装飾</h2>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">通常のテキスト \\
-+打ち消し線+ \\
-_下線_ \\
-*太字* \\
-/斜体/ \\
-~source code~ \\</code></pre></div>
-<p>と書くと</p>
-
-<div class="exa">
-  <div></div>
-
-<p>通常のテキスト <br />
-<del>打ち消し線</del> <br />
-<span class="underline">下線</span> <br />
-<strong>太字</strong> <br />
-<em>斜体</em> <br />
-<code>source code</code> <br /></p>
-
-<p></div></p>
-
-<p>となる。</p>
-
-<h2 id="latex">LaTeX</h2>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">数式 \(e = mc^{2}\) を含んだ文章</code></pre></div>
-<p>とかくと</p>
-
-<div class="exa">
-  <div></div>
-
-<p>数式 \(e = mc^{2}\) を含んだ文章</p>
-
-<p></div></p>
-
-<p>となる。</p>
-
-<p>中央寄せするには</p>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">\[ y = f(x) \]</code></pre></div>
-<p>とすれば</p>
-
-<div class="exa">
-  <div></div>
-
-<p>\[ y = f(x) \]</p>
-
-<p></div></p>
-
-<p>となる。</p>
-
-<p>この他に align, array, matrix などの LaTeX の環境も使える。
-この場合は <code>\[ ... \]</code> で環境を囲む必要はなく、
-テキスト中に <code>begin{env} ... end{env}</code> といきなり書いても LaTeX のコードだと認識される。</p>
-
-<p>文章中の LaTeX コードは <code>C-c C-x C-l</code> (<code>org-toggle-latex-fragment</code>) で画像に変換できる。</p>
-
-
-<figure>
-    
-        <img src="https://yuki67.github.io/ox-hugo/latex_example.png" alt="Figure 1: org-toggle-latex-fragment を実行した後のエディタ" />
-    
-    
-    <figcaption>
-        <p>
-        Figure 1: org-toggle-latex-fragment を実行した後のエディタ
-        
-            
-        
-        </p> 
-    </figcaption>
-    
-</figure>
-
-
-<h2 id="箇条書き">箇条書き</h2>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">- 項目1
-
-  項目1の説明
-
-- 項目2
-
-  項目3の説明
-
-- 項目3
-
-  項目3の説明</code></pre></div>
-<p>と書くと</p>
-
-<div class="exa">
-  <div></div>
-
-<ul>
-<li><p>項目1</p>
-
-<p>項目1の説明</p></li>
-
-<li><p>項目2</p>
-
-<p>項目3の説明</p></li>
-
-<li><p>項目3</p>
-
-<p>項目3の説明</p></li>
-</ul>
-
-<p></div></p>
-
-<p>となる。</p>
-
-<h2 id="ソースコード">ソースコード</h2>
-<div class="highlight"><pre class="chroma"><code class="language-org" data-lang="org">#+BEGIN_SRC python
-def fact(n):
-    if n == 0:
-        return 1
-    else:
-        return n * fact(n - 1)
-
-# 6! を出力する
-print(fact(6))
-#+END_SRC</code></pre></div>
-<p>と書くと</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">fact</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fact</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># 6! を出力する</span>
-<span class="k">print</span><span class="p">(</span><span class="n">fact</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span></code></pre></div>
-<p>となる。</p>
-
-<p><code>org-src-fontify-natively</code> を <code>t</code> にすればエディタ上でもシンタックスハイライトが行われる。
-また <code>C-c '</code> (<code>org-edit-special</code>) で言語にあったメジャーモードを使ってソースコードを編集できる。</p>
 
 </article>
 
